@@ -1,0 +1,13 @@
+{
+  "name": "artanrecords",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "sync": "node tools/sync-foundation.mjs",
+    "build": "node tools/build-site.mjs",
+    "check": "node tools/check-site.mjs",
+    "dev": "node tools/serve.mjs"
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "navigationLabel": "Main navigation",
+  "musicBack": {
+    "label": "Back to Music",
+    "icon": "back",
+    "href": "index.html#music"
+  },
+  "menuLabel": "Site menu",
+  "menuToggle": {
+    "open": "Open site menu",
+    "close": "Close site menu"
+  },
+  "skipLabel": "Skip to content",
+  "theme": {
+    "dark": "Dark appearance",
+    "light": "Light appearance"
+  },
+  "sections": [
+    {
+      "id": "artist",
+      "label": "Artist"
+    },
+    {
+      "id": "music",
+      "label": "Music"
+    },
+    {
+      "id": "gallery",
+      "label": "Art & Gallery"
+    },
+    {
+      "id": "hub",
+      "label": "Hub"
+    }
+  ],
+  "artistDescription": "Music · Art",
+  "hubLabel": "Public hub",
+  "musicCategories": [
+    {
+      "id": "albums",
+      "label": "Albums"
+    },
+    {
+      "id": "singles",
+      "label": "Singles"
+    },
+    {
+      "id": "eps",
+      "label": "EPs"
+    },
+    {
+      "id": "tracks",
+      "label": "Tracks"
+    }
+  ],
+  "musicStatusFilters": [
+    {
+      "id": "all",
+      "label": "All"
+    },
+    {
+      "id": "released",
+      "label": "Released"
+    },
+    {
+      "id": "upcoming",
+      "label": "Upcoming"
+    }
+  ],
+  "musicReadMoreLabel": "Read more",
+  "musicTrackListLabel": "Tracks",
+  "musicDurationPending": "—",
+  "musicDetailsPending": "Details to follow.",
+  "musicFieldLabels": {
+    "format": "Format",
+    "genre": "Genre",
+    "duration": "Duration",
+    "isrc": "ISRC"
+  },
+  "musicArchiveTabs": [
+    {
+      "id": "music-sheet",
+      "label": "Music sheet",
+      "assets": []
+    },
+    {
+      "id": "working-notes",
+      "label": "Working notes",
+      "assets": []
+    },
+    {
+      "id": "related-work",
+      "label": "Related work",
+      "assets": []
+    }
+  ],
+  "musicDetailPage": "music/release/",
+  "musicDetailIcon": "chevron-right",
+  "musicReaderCloseLabel": "Close release details",
+  "musicStoryFields": [
+    {
+      "key": "story",
+      "label": "Story"
+    },
+    {
+      "key": "productionProcess",
+      "label": "Production"
+    },
+    {
+      "key": "key",
+      "label": "Key"
+    },
+    {
+      "key": "notes",
+      "label": "Notes"
+    }
+  ],
+  "musicReaderFields": [
+    {
+      "key": "story",
+      "label": "Story"
+    },
+    {
+      "key": "credits",
+      "label": "Credits"
+    },
+    {
+      "key": "musicalDetails",
+      "label": "Musical details"
+    },
+    {
+      "key": "productionProcess",
+      "label": "Production"
+    },
+    {
+      "key": "archive",
+      "label": "Archive"
+    },
+    {
+      "key": "releaseInformation",
+      "label": "Release information"
+    }
+  ],
+  "musicDetails": [
+    {
+      "key": "releaseDate",
+      "label": "Release Date"
+    },
+    {
+      "key": "duration",
+      "label": "Duration"
+    },
+    {
+      "key": "trackCount",
+      "label": "Tracks"
+    },
+    {
+      "key": "status",
+      "label": "Status",
+      "when": "Upcoming"
+    }
+  ],
+  "musicSectionDetails": {
+    "musicalDetails": [
+      {
+        "key": "format",
+        "label": "Format"
+      },
+      {
+        "key": "genre",
+        "label": "Genre"
+      },
+      {
+        "key": "key",
+        "label": "Key"
+      },
+      {
+        "key": "tempo",
+        "label": "Tempo"
+      }
+    ],
+    "releaseInformation": [
+      {
+        "key": "label",
+        "label": "Label"
+      }
+    ]
+  },
+  "musicArchiveAssetDetails": [
+    {
+      "key": "instrument",
+      "label": "Instrument"
+    },
+    {
+      "key": "arrangement",
+      "label": "Arrangement"
+    },
+    {
+      "key": "version",
+      "label": "Version"
+    }
+  ],
+  "empty": {
+    "music": "No releases listed yet.",
+    "gallery": "No artwork listed yet."
+  },
+  "error": "This section could not load. Please reload the page or try again later."
+}

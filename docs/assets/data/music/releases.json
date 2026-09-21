@@ -1,0 +1,1053 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "salim",
+      "title": "Salim",
+      "artist": "Artan Davoodi",
+      "type": "Album",
+      "category": "albums",
+      "cover": {
+        "src": "assets/media/music/albums/salim/cover/salim-cover.webp",
+        "alt": "Salim album artwork with the name Salim in Persian lettering",
+        "width": 3000,
+        "height": 3000
+      },
+      "releaseDate": "2026-09-10",
+      "duration": "26:26",
+      "status": "Released",
+      "format": "Instrumental and vocal",
+      "genre": "Alternative",
+      "label": "Artan Records",
+      "upc": "700971142326",
+      "description": "Salim was my father. This album carries his name.",
+      "story": "Salim was my father. This album carries his name.\n\nHe played the benju, sang, wrote poetry and recorded music. Through Ferdows, he preserved the voices of others. Here, I give his memory a place in my own work.\n\nBut this is not a biography set to music. It is about my father, my mother and what their lives mean to mine.\n\nNari\n\nMy mother's name is Narges. My father called her Nari.\n\nHe described her as the love of his life. I kept that name as a track title because it belongs here, within an album that carries his name. His story includes hers. Mine includes them both.\n\nVahed\n\nVahed comes from his full name, Salim Vahed Davoodi. It opens the album with another part of the name I knew.\n\nSalim\n\nMy father died in 2025. His music remains, alongside the memories that belong to us as a family.\n\nThis album is my response to those memories. Not everything needs to be explained. Some of it stays in the music.",
+      "credits": "",
+      "musicalDetails": "",
+      "productionProcess": "",
+      "releaseInformation": "Released September 10, 2026 through Artan Records.",
+      "links": [
+        {
+          "label": "Apple Music",
+          "platform": "appleMusic",
+          "order": 1,
+          "icon": "apple-music",
+          "url": "https://music.apple.com/us/album/salim/6811134139"
+        },
+        {
+          "label": "Spotify",
+          "platform": "spotify",
+          "order": 2,
+          "icon": "spotify",
+          "url": "https://open.spotify.com/album/6QDgMlckLRqTBRqIECVF3A?si=s8B0pnQxQRuNbc4JbLdlqw"
+        },
+        {
+          "label": "YouTube Music",
+          "platform": "youtubeMusic",
+          "order": 3,
+          "icon": "youtube-music",
+          "url": "https://music.youtube.com/playlist?list=OLAK5uy_lJmTsM5_G1qXowYF9dE3lGdJgoeSFwGJw&si=-1EUThkzvHGts0wH"
+        },
+        {
+          "label": "Amazon Music",
+          "platform": "amazonMusic",
+          "order": 4,
+          "icon": "amazon-music",
+          "url": "https://music.amazon.de/albums/B0HJJGKSV2?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_A3aHucFdVaJur3Ub3j8JTWv53"
+        },
+        {
+          "label": "Deezer",
+          "platform": "deezer",
+          "order": 5,
+          "icon": "deezer",
+          "url": "https://link.deezer.com/s/34oSdYx8TSzGvdd792MMr"
+        },
+        {
+          "label": "TIDAL",
+          "platform": "tidal",
+          "order": 6,
+          "icon": "tidal",
+          "url": "https://tidal.com/album/560404527/u"
+        }
+      ],
+      "tracks": [
+        {
+          "id": "vahed",
+          "title": "Vahed",
+          "duration": "4:09",
+          "format": "Instrumental",
+          "isrc": "QT9XG2650665",
+          "story": "Vahed comes from his full name, Salim Vahed Davoodi.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/vahed/6811134380"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/3qOiKX6GAvZ7YQKeeXJhzB?si=baa86e19ef654276"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=rYnlxZL0xxI&si=v3E1Zbt5qDCzVpb4"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/tracks/B0HJJM6MJR?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_tsD81sLCB5atjdDMvuIFelztX"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34pWAv2PM2Q1UNyfge3pV"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/560404528/u"
+            }
+          ]
+        },
+        {
+          "id": "river",
+          "title": "River",
+          "duration": "2:55",
+          "format": "Instrumental",
+          "isrc": "QT9XG2650666",
+          "story": "",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/river/6811134381"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/1lk7Ehf5P6qWdqOXQxmuaz?si=0b3c0d6658ba40c8"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=fE3QZ5NJ0kk&si=qthS7F-AmoMBVN_r"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/tracks/B0HJJJSGX2?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_r0bs9u4zZivQS9940lVx17NOJ"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34pWASbxOceDYQ3WhYP76"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/560404529/u"
+            }
+          ]
+        },
+        {
+          "id": "nari",
+          "title": "Nari",
+          "duration": "5:35",
+          "format": "Spoken word and singing",
+          "isrc": "QT9XG2650667",
+          "story": "Nari was my father's name for my mother, Narges, the love of his life and the subject of much of his poetry.\n\nThe track brings together his spoken poetry and singing in Baluchi, drawn from interviews and recordings he sent me while I was studying music in 2024. In these words, he calls her to come to him, to hold her in his eyes.",
+          "credits": "Spoken voice and singing: Salim Vahed Davoodi.",
+          "musicalDetails": "Nari features my father speaking and singing.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/nari/6811134382"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/5QEM4LTI17iHJU0WNdsgIA?si=cf58aa896ac345a0"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=-CsXy-3szfQ&si=eo9Mrn294VzCDNuQ"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/tracks/B0HJJNCXFC?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_zu26A42mpQQNF7L4AYqIhj7w5"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34pWBbqpzyATncjICxQhD"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/560404530/u"
+            }
+          ]
+        },
+        {
+          "id": "steady",
+          "title": "Steady",
+          "duration": "2:58",
+          "format": "Instrumental",
+          "isrc": "QT9XG2650668",
+          "story": "",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/steady/6811134384"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/5PTW1SPLxyakeDGf6TBkVO?si=5baeab1d188946af"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=f7HsTu7CLJM&si=aTa_ajOYYa3-24xh"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/tracks/B0HJJX655W?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_PVLh8cUUasadJES1nelOR7P4z"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34pWBsYzTE8pbp9FO23jj"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/560404531/u"
+            }
+          ]
+        },
+        {
+          "id": "house",
+          "title": "House",
+          "duration": "3:56",
+          "format": "Instrumental",
+          "isrc": "QT9XG2650669",
+          "story": "",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/house/6811134385"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/3uHo0DfkR57BVMiobQEoqJ?si=2cfbd3199fed423a"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=wnylJbyFf6c&si=wmcU1h9zaCyMBj3U"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/tracks/B0HJJMLW3V?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_WXz4nrMNNq66974bk3YccLP5z"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34pWBRAkSJaAanuraioFK"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/560404532/u"
+            }
+          ]
+        },
+        {
+          "id": "silent",
+          "title": "Silent",
+          "duration": "4:50",
+          "format": "Instrumental",
+          "isrc": "QT9XG2650670",
+          "story": "",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/silent/6811134386"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/6A0kduWkHqRYpKoMkr408Q?si=d1b2c3fe73a14ab0"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=cfdSSVtS19s&si=bXNQJFZgrE_NzbeS"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/tracks/B0HJJD8N2R?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_QzIahx2pUKqPR6Yfsio068lmu"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34pWCbOq4Y7VyyFYLEm5B"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/560404533/u"
+            }
+          ]
+        },
+        {
+          "id": "return",
+          "title": "Return",
+          "duration": "2:03",
+          "format": "Instrumental",
+          "isrc": "QT9XG2650671",
+          "story": "",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/return/6811134387"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/56AuCM7zOuTv68ye3r71NJ?si=e0e5926745f94317"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=fPC-Rho808I&si=3ZhaDQ12r2drKL-E"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/tracks/B0HJJR656Q?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_9TA4EIz48rtTyBXZakH9PorvY"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34pWCrWX92bn5fmGYMV1w"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/560404534/u"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "solum",
+      "title": "Solum",
+      "artist": "Artan Davoodi",
+      "type": "Album",
+      "category": "albums",
+      "cover": {
+        "src": "assets/media/music/albums/solum/cover/solum-cover.webp",
+        "alt": "Solum album artwork: sunlight through clouds with the album title",
+        "width": 1280,
+        "height": 1280
+      },
+      "releaseDate": "2026-09-05",
+      "duration": "49:58",
+      "status": "Released",
+      "format": "Instrumental",
+      "genre": "Alternative, Classical, New Age",
+      "label": "Artan Records",
+      "upc": "700989238578",
+      "description": "Nine instrumental tracks by Artan Davoodi, released through Artan Records.",
+      "story": "Solum grew after MONAD was made public, during a period of solitude, self-authorship, and a deeper examination of consciousness. Its nine instrumental works move through ideas of origin, presence, and inner formation. The title carries the weight of soul, solitude, and being deeply with oneself, shaped during the period following his father's death.",
+      "credits": "Production, piano and composition: Artan Davoodi.",
+      "musicalDetails": "Tempo follows the feeling of each passage rather than a fixed pulse throughout.",
+      "productionProcess": "Production, mixing and mastering in Logic Pro.",
+      "releaseInformation": "Released September 5, 2026 through Artan Records.",
+      "links": [
+        {
+          "label": "Apple Music",
+          "platform": "appleMusic",
+          "order": 1,
+          "icon": "apple-music",
+          "url": "https://music.apple.com/us/album/solum/6809233155"
+        },
+        {
+          "label": "Spotify",
+          "platform": "spotify",
+          "order": 2,
+          "icon": "spotify",
+          "url": "https://open.spotify.com/album/39WyOGvXWtsoRBRI8Jtzp8?si=Q4ch1qQXQfKyq4r6QSFV8Q"
+        },
+        {
+          "label": "YouTube Music",
+          "platform": "youtubeMusic",
+          "order": 3,
+          "icon": "youtube-music",
+          "url": "https://music.youtube.com/playlist?list=OLAK5uy_nokZmP-Xgpk8VLaiGPxmdNvf8jI-990fU&si=_YeE7tjy-wZBnJeJ"
+        },
+        {
+          "label": "Amazon Music",
+          "platform": "amazonMusic",
+          "order": 4,
+          "icon": "amazon-music",
+          "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_53wfQXtJYztDPmT0y5SideS4R"
+        },
+        {
+          "label": "Deezer",
+          "platform": "deezer",
+          "order": 5,
+          "icon": "deezer",
+          "url": "https://link.deezer.com/s/34o3W5AFmW05SsUq3CL8w"
+        },
+        {
+          "label": "TIDAL",
+          "platform": "tidal",
+          "order": 6,
+          "icon": "tidal",
+          "url": "https://tidal.com/album/558942171/u"
+        }
+      ],
+      "tracks": [
+        {
+          "id": "genesis",
+          "title": "Genesis",
+          "duration": "7:02",
+          "isrc": "QT6J42635081",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/genesis/6809233156"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/35NIAB9P8TRHyLcZ6U9JAy"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=-mgbUiRMQYY"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ13SS4X"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4gp9lvg7mQneoDAus1"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942172/u"
+            }
+          ]
+        },
+        {
+          "id": "origin",
+          "title": "Origin",
+          "duration": "5:39",
+          "isrc": "QT6J42635082",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/origin/6809233157"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/0RxxHOjzMRai7wpI3t2SPJ"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=tAEHlhPNj4k"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ14G6FD"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4jyWfCbjmy0eBZ4WT2"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942173/u"
+            }
+          ]
+        },
+        {
+          "id": "source",
+          "title": "Source",
+          "duration": "7:14",
+          "isrc": "QT6J42635083",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/source/6809233158"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/5Zx9bFVbKxBUaVvgXlp57A"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=iD8Ny0jNgl8"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ14BWWS"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4mIEtzOvzfnS5GxJMf"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942174/u"
+            }
+          ]
+        },
+        {
+          "id": "astra",
+          "title": "Astra",
+          "duration": "8:51",
+          "isrc": "QT6J42635084",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/astra/6809233159"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/2wRA2634YXJXlxzZpKEefc"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=-yOjLGeBUjE"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ1BG5YJ"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4pfWbRpfh9JJjC6OdH"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942175/u"
+            }
+          ]
+        },
+        {
+          "id": "prima",
+          "title": "Prima",
+          "duration": "3:33",
+          "isrc": "QT6J42635085",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/prima/6809233160"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/5LLRHkC7MZTr3gJJY7orkL"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=37Pgp1x-ZQY"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ1BF341"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4s31c7lDMpR08y14Xz"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942176/u"
+            }
+          ]
+        },
+        {
+          "id": "arca",
+          "title": "Arca",
+          "duration": "3:39",
+          "isrc": "QT6J42635086",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/arca/6809233161"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/5RBav45c4yExQBiWDSjzvq"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=P0EvUN-pw1Q"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ1BFSD4"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4uGX3c9tHTuXoHRRUI"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942177/u"
+            }
+          ]
+        },
+        {
+          "id": "numa",
+          "title": "Numa",
+          "duration": "4:29",
+          "isrc": "QT6J42635087",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/numa/6809233162"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/6s7e3Nn61qdMclXQvrHmjM"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=D5JARxqdqDU"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ148Q4B"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4x2TWgg8lZW5isoRCC"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942178/u"
+            }
+          ]
+        },
+        {
+          "id": "era",
+          "title": "Era",
+          "duration": "4:40",
+          "isrc": "QT6J42635088",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/era/6809233163"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/7l6jb7C3bUqesfrRJpQNy6"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=sqbzte_ia5U"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ1857D8"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4z99tXFGWzWARepWH0"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942179/u"
+            }
+          ]
+        },
+        {
+          "id": "aeon",
+          "title": "Aeon",
+          "duration": "4:51",
+          "isrc": "QT6J42635089",
+          "credits": "Production, piano and composition: Artan Davoodi.",
+          "productionProcess": "Production, mixing and mastering in Logic Pro.",
+          "links": [
+            {
+              "label": "Apple Music",
+              "platform": "appleMusic",
+              "order": 1,
+              "icon": "apple-music",
+              "url": "https://music.apple.com/us/song/aeon/6809233164"
+            },
+            {
+              "label": "Spotify",
+              "platform": "spotify",
+              "order": 2,
+              "icon": "spotify",
+              "url": "https://open.spotify.com/track/5pU9KiznYodL5qMMQ4qeO6"
+            },
+            {
+              "label": "YouTube Music",
+              "platform": "youtubeMusic",
+              "order": 3,
+              "icon": "youtube-music",
+              "url": "https://music.youtube.com/watch?v=Fr4m8Bg3oNk"
+            },
+            {
+              "label": "Amazon Music",
+              "platform": "amazonMusic",
+              "order": 4,
+              "icon": "amazon-music",
+              "url": "https://music.amazon.de/albums/B0HJ1BBWH9?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&trackAsin=B0HJ142XSX"
+            },
+            {
+              "label": "Deezer",
+              "platform": "deezer",
+              "order": 5,
+              "icon": "deezer",
+              "url": "https://link.deezer.com/s/34o4Bc3ogKIzmBNt59dfS"
+            },
+            {
+              "label": "TIDAL",
+              "platform": "tidal",
+              "order": 6,
+              "icon": "tidal",
+              "url": "https://tidal.com/track/558942180/u"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gone",
+      "title": "Gone",
+      "artist": "Artan Davoodi",
+      "type": "Single",
+      "category": "singles",
+      "cover": {
+        "src": "assets/media/music/singles/gone/cover/gone-cover.webp",
+        "alt": "Gone cover artwork",
+        "width": 3000,
+        "height": 3000
+      },
+      "releaseDate": "2025-11-23",
+      "duration": "4:50",
+      "status": "Released",
+      "format": "Instrumental",
+      "genre": "Alternative",
+      "label": "Artan Records",
+      "upc": "199951439059",
+      "isrc": "QT6F42509673",
+      "description": "Instrumental single released by Artan through Artan Records.",
+      "credits": "Piano and production: Artan Davoodi.",
+      "musicalDetails": "Instrumental recording with piano at the center.",
+      "productionProcess": "Produced by Artan Davoodi.",
+      "releaseInformation": "Released as a single through Artan Records on 23 November 2025.",
+      "links": [
+        {
+          "label": "Apple Music",
+          "platform": "appleMusic",
+          "order": 1,
+          "icon": "apple-music",
+          "url": "https://music.apple.com/us/album/gone-demo/1855881454?i=1855881455"
+        },
+        {
+          "label": "Spotify",
+          "platform": "spotify",
+          "order": 2,
+          "icon": "spotify",
+          "url": "https://open.spotify.com/track/7a3WsP9uzMd3CcSmsiBaql?si=e845dd1a8fd143a9"
+        },
+        {
+          "label": "YouTube Music",
+          "platform": "youtubeMusic",
+          "order": 3,
+          "icon": "youtube-music",
+          "url": "https://music.youtube.com/watch?v=GeOzp6ELKqI&si=o0JJTzu2wFa4xi5o"
+        },
+        {
+          "label": "Amazon Music",
+          "platform": "amazonMusic",
+          "order": 4,
+          "icon": "amazon-music",
+          "url": "https://music.amazon.de/albums/B0G3L4DN14?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_pPJOXTDJiaNfIGgyleoDKjJGB"
+        },
+        {
+          "label": "Deezer",
+          "platform": "deezer",
+          "order": 5,
+          "icon": "deezer",
+          "url": "https://link.deezer.com/s/34nLWo35LsZ61SRupMd2Q"
+        },
+        {
+          "label": "TIDAL",
+          "platform": "tidal",
+          "order": 6,
+          "icon": "tidal",
+          "url": "https://tidal.com/track/476096359/u"
+        }
+      ]
+    }
+  ]
+}

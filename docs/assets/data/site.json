@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "name": "Artan Records",
+  "domain": "https://artanrecords.com",
+  "description": "An independent label and artistic infrastructure for Artan Davoodi.",
+  "artistWebsite": "https://artandavoodi.com/",
+  "publicHub": "https://artan.live/",
+  "contact": [
+    { "label": "Contact", "url": "mailto:contact@artanrecords.com", "icon": "email" },
+    { "label": "Collaborations", "url": "mailto:collaborate@artanrecords.com", "icon": "email" }
+  ],
+  "navigation": [
+    { "label": "Home", "path": "/", "fragment": "home" },
+    { "label": "Releases", "path": "/releases/", "fragment": "releases" },
+    { "label": "Artists", "path": "/artists/", "fragment": "artists" },
+    { "label": "About", "path": "/about/", "fragment": "about" },
+    { "label": "Contact", "path": "/contact/", "fragment": "contact" }
+  ],
+  "about": "Artan Records is the independent home, label, archive, and digital infrastructure surrounding the music and artistic work of Artan Davoodi.",
+  "principle": "Build the infrastructure around the art without allowing the infrastructure to dictate the art.",
+  "labels": {
+    "skip": "Skip to content", "menuOpen": "Open site menu", "menuClose": "Close site menu",
+    "dark": "Dark appearance", "light": "Light appearance", "back": "Back to releases",
+    "tracks": "Tracks", "artistWebsite": "Artist website", "publicHub": "Public hub",
+    "notFound": "Page not found", "returnHome": "Return home"
+  }
+}

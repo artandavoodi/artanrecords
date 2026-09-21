@@ -1,0 +1,94 @@
+{
+  "sourceRepository": "artandavoodi/artandavoodi",
+  "sourceCommit": "fb538f409c800a3eeb7b5f5af4304326fcacc9e6",
+  "files": [
+    {
+      "file": "docs/assets/css/core/01-tokens/00-tokens-all.css",
+      "sha256": "2a07b4f91cf30109d826d7e2914aeda36f75c2998b879dd77fb9517a7a269953"
+    },
+    {
+      "file": "docs/assets/css/core/01-tokens/source/control-center.tokens.css",
+      "sha256": "7f6e7027ce87c0d8cdb0a37d1649a5cbe21535f71404831fb852b2f1f569bdcc"
+    },
+    {
+      "file": "docs/assets/css/core/01-tokens/source/neuroartan.tokens.css",
+      "sha256": "2e0ec3c975d273ea73c29d9144f288e6813a551519738ba729e3e3e970281e76"
+    },
+    {
+      "file": "docs/assets/css/core/01-tokens/site.aliases.css",
+      "sha256": "54008a24b04cb165b707451fd8b89172d56f399f5104c4e4e0bb7723fa937c6a"
+    },
+    {
+      "file": "docs/assets/css/core/01-tokens/typography.tokens.css",
+      "sha256": "64a7e98a6a9234b3614eb77e334a0af383cb28a71c756f53e05709f45c5eaafc"
+    },
+    {
+      "file": "docs/assets/css/core/02-foundation/themes.css",
+      "sha256": "23d80888ad0ec02cfb99da6e9faae1b924ad5f206e421f21d17bd5c2eafdcb98"
+    },
+    {
+      "file": "docs/assets/css/core/02-foundation/foundation.css",
+      "sha256": "6d75f07b8dc8c930dd64367ed732d9c29845fd1899e5b5d5b5aebd85f2ebfb88"
+    },
+    {
+      "file": "docs/assets/css/layers/site/site.css",
+      "sha256": "15987b8d3e2d604e021a06a38f95c28a37d4c1c5e092e4c94db1eb249eb9a5d2"
+    },
+    {
+      "file": "docs/assets/css/layers/site/navigation.css",
+      "sha256": "7a2c378f7516e20606f1fd0acc352279ef1df6df23f21bf14613f9143ec7d78d"
+    },
+    {
+      "file": "docs/assets/icons/navigation/back.svg",
+      "sha256": "78d015c37800e318e22b1afbafdc0f0d5a561e90646ad55d9475898f08cb43d6"
+    },
+    {
+      "file": "docs/assets/icons/navigation/chevron-right.svg",
+      "sha256": "106303fa2bd5611f1082ff4149083307a7ead325911770effad6c9470f6341fe"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/email.svg",
+      "sha256": "cf2c19b26e0f7313cc851db282bbf6c08c115a41854c7fe9f0a910809f9e161c"
+    },
+    {
+      "file": "docs/assets/icons/navigation/globe.svg",
+      "sha256": "b4693a9829c4d5915df2546696c3fd0afffe41717b913651970e5fe758036b94"
+    },
+    {
+      "file": "docs/assets/icons/commerce/platforms/amazon/amazon.svg",
+      "sha256": "08e5de4782296c6e724a6e8caf655a2d66998e70a8c75f548fcdc2c96ac487d9"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/apple-music.svg",
+      "sha256": "365264bcf032a1acb6f18554cf7d34b1b2a75f7e571848629173bbfd0e1cadbb"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/spotify.svg",
+      "sha256": "bd1ca6cb3af69550651f91f674dfcfc381edf9e9f636b86378cbfe5793c33033"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/youtube-music.svg",
+      "sha256": "f96c8a67f93717df8f9f57b0e96638b19e8fd80a165ddf83598592b5342612f5"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/deezer.svg",
+      "sha256": "4b8809e689e9ed3b9393b244c08ef6bb95f8cc398082a4506777a752cfca269a"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/tidal.svg",
+      "sha256": "e857cb228d1eaf91f6f624a25c2f12291e9af9008b60c37b2426c50ea1b57637"
+    },
+    {
+      "file": "docs/assets/media/music/albums/salim/cover/salim-cover.webp",
+      "sha256": "198164a572ab8e3bd9b5a06de628c1b85f2e59f11e0e027767e27535fb6a96aa"
+    },
+    {
+      "file": "docs/assets/media/music/albums/solum/cover/solum-cover.webp",
+      "sha256": "bd3cdcf2af6036083ea46daa9bf14c532d8529b5419c47f31d7a228758340af5"
+    },
+    {
+      "file": "docs/assets/media/music/singles/gone/cover/gone-cover.webp",
+      "sha256": "97bf759b49b5190f1e137db6f430f7a1a39aa206908df16ffa3d5fa66b232ae8"
+    }
+  ]
+}

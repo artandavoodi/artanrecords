@@ -1,5 +1,15 @@
 # Artan Records
 
+## Implementation reference
+
+The modular foundation and local commands are documented in
+[planning/architecture.md](planning/architecture.md).
+Confirmed domain roles: artandavoodi.com is the artistic website; artan.live is
+the broader public hub. Confirmed catalogue data takes precedence over the
+historical working track names below; Salim includes Nari, Steady and House.
+Public pages are generated from registered fragments and JSON, not hand-authored
+individually. DNS and GitHub Pages configuration remain a separate launch step.
+
 > **Official website and digital infrastructure for Artan Records — releases, catalog, artists, archives, and label operations.**
 
 **Domain:** `artanrecords.com`  
