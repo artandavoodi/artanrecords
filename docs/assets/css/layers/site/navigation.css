@@ -1,4 +1,12 @@
 /* ARTANDAVOODI · Navigation and artistic full-screen menu system. */
+[data-fragment="navigation"] {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header-controls);
+  background: var(--cv-page-bg);
+  padding-block-start: env(safe-area-inset-top, 0px);
+}
+html { scroll-padding-block-start: var(--site-header-height); }
 .site-navigation {
   position: relative;
   z-index: var(--z-header-controls);
@@ -61,6 +69,18 @@ html[data-menu-open] .site-menu-toggle__line:last-child { transform: rotate(-45d
   color: var(--cv-text-primary);
 }
 body[data-menu-locked] { overflow: hidden; overscroll-behavior: none; }
+html[data-menu-ready] .site-menu {
+  opacity: var(--cv-opacity-none);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-standard), visibility var(--duration-base) step-end;
+}
+html[data-menu-ready][data-menu-open] .site-menu {
+  opacity: var(--cv-opacity-full);
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity var(--duration-base) var(--ease-standard), visibility var(--duration-base) step-start;
+}
 .site-menu__surface {
   display: grid;
   align-content: center;
@@ -95,6 +115,7 @@ html[data-menu-open] .site-menu__links a { opacity: 1; transform: translateY(0);
 }
 @media (prefers-reduced-motion: reduce) {
   .site-navigation,
+  html[data-menu-ready] .site-menu,
   .site-theme-toggle,
   .site-menu-toggle,
   .site-menu-toggle__line,

@@ -29,6 +29,9 @@ build. All pages use native routes; no client-only routing is required.
 Run `npm run sync -- /absolute/path/to/artandavoodi` deliberately when the approved
 artist catalogue or design foundation changes. The source is read-only.
 The import copies exact token/theme/navigation files and only registered icons
+and the shared core menu controller from the artist site. Menu motion is owned
+by the same CSS on both sites; label routing remains native document navigation.
+It copies only the registered icons
 needed by this site. SHA-256 checksums record imported files. No numbered icon
 duplicates or external icon services are created.
 Public release data is allowlisted; draft fields and legal-name records are

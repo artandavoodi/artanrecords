@@ -3,7 +3,7 @@
 .reading { max-inline-size: var(--cv-reading-width); }
 .catalogue { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); }
 .release-card { display: grid; align-content: start; gap: var(--spacing-md); }
-.release-card a { text-decoration: none; }
+.release-card a { display: grid; align-content: start; gap: var(--spacing-sm); text-decoration: none; }
 .release-card img { inline-size: var(--featured-card-width); aspect-ratio: 1; object-fit: cover; }
 .release > figure { inline-size: min(100%, var(--featured-card-width)); justify-self: center; }
 .release > header { text-align: center; }
