@@ -4,12 +4,12 @@ const docs=new URL('../docs/',import.meta.url);
 const read=p=>readFile(new URL(p,docs),'utf8');
 const json=async p=>JSON.parse(await read(p));
 const [site,registry,catalogue,artists,icons,ui]=await Promise.all(['site','fragments','music/releases','artists/items','icons','music/interface'].map(p=>json('assets/data/'+p+'.json')));
-const shell=await readFile(new URL('site/shell.html',import.meta.url),'utf8');
+const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
 const navigation=await fragment('navigation',{...escaped(site.labels),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
 const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear())});
-const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',description:site.description,founder:{'@id':site.artistWebsite+'#artist'}};
+const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logo,description:site.description,founder:{'@id':site.artistWebsite+'#artist'}};
 const person={'@type':'Person','@id':site.artistWebsite+'#artist',name:artists.items[0].name,url:site.artistWebsite,sameAs:[site.publicHub]};
 const paths=[];
 async function output(file,value){await mkdir(new URL('./',new URL(file,docs)),{recursive:true});await writeFile(new URL(file,docs),value);}

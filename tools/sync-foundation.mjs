@@ -22,6 +22,8 @@ async function json(file,value) {
 for(const file of ['core/01-tokens/00-tokens-all.css','core/01-tokens/source/control-center.tokens.css','core/01-tokens/source/neuroartan.tokens.css','core/01-tokens/site.aliases.css','core/01-tokens/typography.tokens.css','core/02-foundation/themes.css','core/02-foundation/foundation.css','layers/site/site.css','layers/site/navigation.css']) await copy('docs/assets/css/'+file);
 const catalogue=await read('assets/data/music/releases.json');
 await copy('docs/assets/js/core/menu.js');
+const site=JSON.parse(await readFile(path.join(root,'docs/assets/data/site.json'),'utf8'));
+await copy('docs/'+site.logo);
 const allowed=['id','title','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','credits','musicalDetails','productionProcess','releaseInformation','links'];
 function publicRecord(record) {
   const result=Object.fromEntries(allowed.filter(key=>record[key]!==undefined && record.editorial?.[key]!=='draft').map(key=>[key,record[key]]));

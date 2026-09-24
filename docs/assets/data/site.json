@@ -2,7 +2,8 @@
   "schemaVersion": 1,
   "name": "Artan Records",
   "domain": "https://artanrecords.com",
-  "description": "An independent label and artistic infrastructure for Artan Davoodi.",
+  "description": "The independent record label of Artan Davoodi.",
+  "logo": "assets/brand/logo/symbol-artan.svg",
   "artistWebsite": "https://artandavoodi.com/",
   "publicHub": "https://artan.live/",
   "contact": [
@@ -16,8 +17,8 @@
     { "label": "About", "path": "/about/", "fragment": "about" },
     { "label": "Contact", "path": "/contact/", "fragment": "contact" }
   ],
-  "about": "Artan Records is the independent home, label, archive, and digital infrastructure surrounding the music and artistic work of Artan Davoodi.",
-  "principle": "Build the infrastructure around the art without allowing the infrastructure to dictate the art.",
+  "about": "Artan Records publishes the music of Artan Davoodi, with a catalogue that includes Gone, Solum, and Salim.",
+  "principle": "The recordings live here; their stories, scores, and working notes belong to the artist's website.",
   "labels": {
     "skip": "Skip to content", "menuOpen": "Open site menu", "menuClose": "Close site menu",
     "dark": "Dark appearance", "light": "Light appearance", "back": "Back to releases",

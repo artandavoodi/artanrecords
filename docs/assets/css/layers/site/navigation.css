@@ -3,8 +3,35 @@
   position: sticky;
   top: 0;
   z-index: var(--z-header-controls);
-  background: var(--cv-page-bg);
   padding-block-start: env(safe-area-inset-top, 0px);
+}
+/* Neuroartan local-navigation surface; filtering this surface rather than the
+   mount preserves the full-screen menu's viewport containing block. */
+[data-fragment="navigation"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--cv-page-bg);
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-fragment="navigation"]::before {
+    background: var(--nav-glass-surface-bg);
+    -webkit-backdrop-filter: blur(var(--nav-glass-surface-blur)) saturate(var(--nav-glass-surface-saturate));
+    backdrop-filter: blur(var(--nav-glass-surface-blur)) saturate(var(--nav-glass-surface-saturate));
+  }
+  html[data-theme-effective="light"] [data-fragment="navigation"]::before {
+    background: var(--nav-glass-surface-bg-light);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  html [data-fragment="navigation"]::before,
+  html[data-theme-effective="light"] [data-fragment="navigation"]::before {
+    background: var(--cv-page-bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 html { scroll-padding-block-start: var(--site-header-height); }
 .site-navigation {
