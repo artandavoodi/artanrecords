@@ -4,7 +4,85 @@
     {
       "id": "artan-davoodi",
       "name": "Artan Davoodi",
-      "biography": "Artan Davoodi is a musician, songwriter, and producer whose main instrument is the piano. His work spans music and visual art, with an interest in the stories each can tell."
+      "biography": "Artan Davoodi is a musician, songwriter, and producer whose main instrument is the piano. His work spans music and visual art, with an interest in the stories each can tell.",
+      "portrait": {
+        "src": "assets/media/portrait/artist-home.jpeg",
+        "alt": "Portrait of Artan Davoodi",
+        "width": 2848,
+        "height": 4288
+      },
+      "links": [
+        {
+          "label": "Apple Music",
+          "category": "streaming",
+          "order": 1,
+          "icon": "apple-music",
+          "url": "https://music.apple.com/us/artist/artan-davoodi/1850542780"
+        },
+        {
+          "label": "Spotify",
+          "category": "streaming",
+          "order": 2,
+          "icon": "spotify",
+          "url": "https://open.spotify.com/artist/7zUiATkwf1InOGR2J1NG7t?si=Ox_6ucU-S0SW_JYuGr0xsw"
+        },
+        {
+          "label": "YouTube Music",
+          "category": "streaming",
+          "order": 3,
+          "icon": "youtube-music",
+          "url": "https://music.youtube.com/@artandavoodi?si=oul2TF4i8U4HxXxV"
+        },
+        {
+          "label": "Amazon Music",
+          "category": "streaming",
+          "order": 4,
+          "icon": "amazon-music",
+          "url": "https://music.amazon.de/artists/B0GPS7DL9V/artan-davoodi?marketplaceId=A1PA6795UKMFR9&musicTerritory=DE&ref=dm_sh_zZQ7xXzWSGFM6nZ9TShoqyKuv"
+        },
+        {
+          "label": "Deezer",
+          "category": "streaming",
+          "order": 5,
+          "icon": "deezer",
+          "url": "https://link.deezer.com/s/34nKznaDieZyRWyyAkDAE"
+        },
+        {
+          "label": "TIDAL",
+          "category": "streaming",
+          "order": 6,
+          "icon": "tidal",
+          "url": "https://tidal.com/artist/74922399/u"
+        },
+        {
+          "label": "X / Twitter",
+          "category": "social",
+          "order": 7,
+          "icon": "x",
+          "url": "https://x.com/artandavoodi"
+        },
+        {
+          "label": "contact@artandavoodi.com",
+          "category": "email",
+          "order": 8,
+          "icon": "email",
+          "url": "mailto:contact@artandavoodi.com"
+        },
+        {
+          "label": "Artist website",
+          "url": "https://artandavoodi.com/",
+          "icon": "globe",
+          "category": "website",
+          "order": 9
+        },
+        {
+          "label": "Public hub",
+          "url": "https://artan.live/",
+          "icon": "globe",
+          "category": "website",
+          "order": 10
+        }
+      ]
     }
   ]
 }

@@ -47,12 +47,20 @@
       "sha256": "d730f712acc93a04e590917fdecde93c5b8d9fcdde5a8e02c073184504d5597b"
     },
     {
+      "file": "docs/assets/media/portrait/artist-home.jpeg",
+      "sha256": "96edb5fb7366b9e9ed2a7c3d07ac233b9ec262627d064d8c140d2f73cc4dd85e"
+    },
+    {
       "file": "docs/assets/icons/navigation/back.svg",
       "sha256": "78d015c37800e318e22b1afbafdc0f0d5a561e90646ad55d9475898f08cb43d6"
     },
     {
       "file": "docs/assets/icons/navigation/chevron-right.svg",
       "sha256": "106303fa2bd5611f1082ff4149083307a7ead325911770effad6c9470f6341fe"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/x.svg",
+      "sha256": "ed85ee2736e27b70222d13216facc668fc545fb962d01468a460d8c2248ffba5"
     },
     {
       "file": "docs/assets/icons/social/platforms/email.svg",

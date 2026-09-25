@@ -38,10 +38,47 @@ Public release data is allowlisted; draft fields and legal-name records are
 excluded. Until migration is approved, the artist repository remains catalogue
 authority; do not manually edit imported releases, artist or music-interface JSON.
 Label copy belongs to site.json. Do not sync during ordinary builds or CI;
+The owner-approved founder identity also belongs to site.json: the public name
+is displayed normally; the legal name is emitted only as Person.alternateName in
+JSON-LD. This metadata is public, not confidential, and is not an indexing guarantee.
 the checked-in snapshots make deployment independent of adjacent repositories.
 Future transfer of catalogue ownership must be explicit, not a two-way sync.
 
 ## Local workflow
+
+## Artist applications and public profiles
+
+The owner reviews applications; only approved profiles are published by the owner.
+There are no artist accounts or automatic publication. `/for-artists/` provides
+three email introductions: artist applications, listening links and collaborations.
+`docs/assets/data/artists/intake.json` owns the inbox, prompts and explanatory copy.
+These are mailto links, not server submissions: delivery depends on the sender's
+mail client and the configured collaboration inbox. Do not claim receipt or acceptance.
+
+`docs/assets/data/artists/items.json` remains an imported public artist snapshot.
+`docs/assets/data/artists/roster.json` owns additional approved label artists.
+Each entry requires a unique slug `id`, `name`, `biography`, and `approved: true`.
+Optional `portrait` uses `src`, `alt`, `width`, `height`; optional `links` uses
+`label`, `category`, `url`, registered `icon`, `order`. Categories are streaming,
+social, email and website; email requires mailto, other links require HTTPS.
+Optional `yearsActive` uses an integer `start` and optional `end` (omitted means
+present). Unconfirmed years must be omitted, not guessed. The imported artist's
+years are owned by the source artist profile JSON and survive synchronization.
+The same artist card renderer is used on the homepage and roster, with circular
+portraits. Link-group labels and their order belong to roster.json.
+Optional `portfolio` uses
+`title`, HTTPS `url`, `description`. Only publish consented, public information.
+Never store applications, rejection notes or private contact information in this
+public JSON repository, even behind an unpublished flag.
+
+The shared artist fragment generates `/artists/{id}/`, metadata and sitemap
+entries. Catalogue entries match the registered artist name. New label-owned
+release imports require an explicit catalogue ownership decision; no second
+release database has been introduced. To add approved artists, edit roster JSON,
+place approved media in `docs/assets/media/artists/{id}/`, run sync if registered
+icons change, then build and check. Review locally before publishing.
+
+## Local commands
 
 Node 22 or later, no external runtime dependencies and no secrets required.
 Run npm run build, npm run check, then npm run dev (127.0.0.1:8912).

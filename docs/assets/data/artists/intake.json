@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "title": "For artists",
+  "introduction": "Share your music. Tell us what you want to make next.",
+  "notice": "Every introduction is reviewed by Artan Records. Artist profiles are published only after approval. These links open your email app; nothing is sent until you send the email. Sending work does not create an account or an offer of representation.",
+  "channels": [
+    { "title": "Artist introduction", "description": "Your artist name, a short biography, and links to your music and portfolio.", "label": "Introduce yourself", "email": "collaborate@artanrecords.com", "subject": "Artist introduction", "body": "Artist name:\nShort biography:\nMusic and portfolio links:\nWhat you are looking for:" },
+    { "title": "Send your work", "description": "Send listening links and a few words about the project, its credits, and its release plans. No masters or project files are needed at this stage.", "label": "Share listening links", "email": "collaborate@artanrecords.com", "subject": "Music submission", "body": "Artist name:\nProject title:\nListening links:\nAbout the project:\nCredits and collaborators:\nRelease plans:" },
+    { "title": "Collaborate", "description": "A recording, a visual project, or an idea to develop together. Tell us your role and what you have in mind.", "label": "Propose a collaboration", "email": "collaborate@artanrecords.com", "subject": "Collaboration proposal", "body": "Name and role:\nPortfolio links:\nThe idea:\nProposed timeline:" }
+  ]
+}

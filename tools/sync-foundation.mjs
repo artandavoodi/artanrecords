@@ -33,8 +33,13 @@ function publicRecord(record) {
 const items=catalogue.items.map(publicRecord);
 const artist=await read('assets/data/artist/profile.json');
 await json('docs/assets/data/music/releases.json',{schemaVersion:1,items});
-await json('docs/assets/data/artists/items.json',{schemaVersion:1,items:[{id:'artan-davoodi',name:artist.name,biography:artist.biography}]});
+const hub=await read('assets/data/hub.json');
+const artistLinks=[...hub.links.filter(l=>l.url&&['streaming','social','email'].includes(l.category)),{label:site.labels.artistWebsite,url:site.artistWebsite,icon:'globe',category:'website'},{label:site.labels.publicHub,url:site.publicHub,icon:'globe',category:'website'},...(artist.links||[])].map((link,index)=>({...link,order:index+1}));
+await json('docs/assets/data/artists/items.json',{schemaVersion:1,items:[{id:'artan-davoodi',name:artist.name,biography:artist.biography,portrait:artist.portrait,...(artist.yearsActive?{yearsActive:artist.yearsActive}:{}),links:artistLinks}]});
+if(artist.portrait) await copy('docs/'+artist.portrait.src);
 const ids=new Set(['back','chevron-right','email','globe',...items.flatMap(r=>[...(r.links||[]),...(r.tracks||[]).flatMap(t=>t.links||[])].map(l=>l.icon))]);
+const roster=JSON.parse(await readFile(path.join(root,'docs/assets/data/artists/roster.json'),'utf8'));
+for(const link of [...artistLinks,...roster.items.flatMap(a=>a.links||[])]) ids.add(link.icon);
 const icons=await read('assets/data/icons.json');
 const used=icons.items.filter(i=>ids.has(i.id));
 if(used.length!==ids.size) throw new Error('Missing registered icon');

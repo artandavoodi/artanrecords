@@ -2,7 +2,12 @@
   "schemaVersion": 1,
   "name": "Artan Records",
   "domain": "https://artanrecords.com",
-  "description": "The independent record label of Artan Davoodi.",
+  "description": "Artan Records is an independent record label for music and collaboration, welcoming artists with a voice of their own.",
+  "founder": {
+    "artistId": "artan-davoodi",
+    "name": "Artan Davoodi",
+    "alternateName": "Saeed Davoodi"
+  },
   "logo": "assets/brand/logo/symbol-artan.svg",
   "artistWebsite": "https://artandavoodi.com/",
   "publicHub": "https://artan.live/",
@@ -14,11 +19,13 @@
     { "label": "Home", "path": "/", "fragment": "home" },
     { "label": "Releases", "path": "/releases/", "fragment": "releases" },
     { "label": "Artists", "path": "/artists/", "fragment": "artists" },
+    { "label": "For artists", "path": "/for-artists/", "fragment": "for-artists" },
     { "label": "About", "path": "/about/", "fragment": "about" },
     { "label": "Contact", "path": "/contact/", "fragment": "contact" }
   ],
-  "about": "Artan Records publishes the music of Artan Davoodi, with a catalogue that includes Gone, Solum, and Salim.",
-  "principle": "The recordings live here; their stories, scores, and working notes belong to the artist's website.",
+  "about": "Artan Records is an independent record label built around music and collaboration. A place for artists to develop their work, share ideas, and release music in their own voice.",
+  "principle": "We welcome new artists and collaborations across sound and visual work. Each project starts with a conversation: the music, the artist behind it, and what we can create together.",
+  "history": "Founded by Artan Davoodi, the label's catalogue began with Gone, Solum, and Salim. It is a starting point, not a boundary.",
   "labels": {
     "skip": "Skip to content", "menuOpen": "Open site menu", "menuClose": "Close site menu",
     "dark": "Dark appearance", "light": "Light appearance", "back": "Back to releases",

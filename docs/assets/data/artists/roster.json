@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "items": [],
+  "labels": { "artists": "Artists", "yearsActive": "Years active", "present": "present", "releases": "Releases", "portfolio": "Selected work" },
+  "linkGroups": [
+    { "id": "streaming", "label": "Streaming" },
+    { "id": "social", "label": "Social" },
+    { "id": "email", "label": "Email" },
+    { "id": "website", "label": "Websites" }
+  ]
+}

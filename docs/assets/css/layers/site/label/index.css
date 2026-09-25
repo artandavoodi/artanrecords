@@ -1,6 +1,18 @@
 /* Label composition consumes the shared source tokens, not a parallel scale. */
 .label-introduction { min-block-size: var(--section-min-height-stable); align-content: center; }
 .reading { max-inline-size: var(--cv-reading-width); }
+.artist-intake { display: grid; gap: var(--spacing-xl); }
+.artist-intake__channel { display: grid; gap: var(--spacing-md); }
+[data-fragment="artist"] > article > figure { inline-size: min(100%, var(--featured-card-width)); }
+.artist-card, .artist-link-groups, .artist-link-group { display: grid; gap: var(--spacing-md); }
+.artist-card a { display: flex; align-items: center; gap: var(--spacing-md); text-decoration: none; }
+.artist-card figure { flex: 0 0 var(--control-height-xl); inline-size: var(--control-height-xl); }
+.artist-card img, .artist-profile > figure img { aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-circle); }
+.artist-card h3 { min-inline-size: 0; overflow-wrap: anywhere; }
+.artist-facts div { display: flex; flex-wrap: wrap; gap: var(--spacing-sm); }
+.artist-facts dd { margin: 0; }
+.artist-facts dt, .artist-link-group h2 { font-size: var(--site-type-caption-size); }
+.artist-link-groups { gap: var(--spacing-xl); }
 .catalogue { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); }
 .release-card { display: grid; align-content: start; gap: var(--spacing-md); }
 .release-card a { display: grid; align-content: start; gap: var(--spacing-sm); text-decoration: none; }
