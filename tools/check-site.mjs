@@ -16,11 +16,10 @@ for(const file of Object.values(registry))await stat(path.join(docs,file));
 const icons=JSON.parse(await read('docs/assets/data/icons.json'));
 const intake=JSON.parse(await read('docs/assets/data/artists/intake.json'));
 const intakePage=await read('docs/for-artists/index.html');
-assert.equal((intakePage.match(/href="mailto:/g)||[]).length,intake.channels.length);
-for(const channel of intake.channels) {
-  assert.ok(intakePage.includes(encodeURIComponent(channel.subject)),'Missing email subject');
-  assert.ok(intakePage.includes(encodeURIComponent(channel.body)),'Missing application prompt');
-}
+assert.ok(intakePage.includes(`action="${intake.form.action}" method="post"`));
+assert.equal((intakePage.match(/type="submit"/g)||[]).length,1);
+for(const field of intake.form.fields) assert.ok(intakePage.includes(`name="${field.name}"`),'Missing application field');
+assert.ok(intakePage.includes('name="processing_acknowledgement" value="yes" required'));
 const artists=[...JSON.parse(await read('docs/assets/data/artists/items.json')).items,...JSON.parse(await read('docs/assets/data/artists/roster.json')).items];
 const roster=JSON.parse(await read('docs/assets/data/artists/roster.json'));
 assert.equal(artistYears({},roster.labels),'');

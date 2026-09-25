@@ -1,6 +1,6 @@
 {
   "sourceRepository": "artandavoodi/artandavoodi",
-  "sourceCommit": "ecda209fdbfdab34bbc5197e82d41d08f7e5eb72",
+  "sourceCommit": "5c226d9606a9e2b19312781351ca40122c5b964d",
   "files": [
     {
       "file": "docs/assets/css/core/01-tokens/00-tokens-all.css",
@@ -41,6 +41,10 @@
     {
       "file": "docs/assets/js/core/menu.js",
       "sha256": "980b609670e712cf69d3133fa3d55c509de0556255827584506b42d24e9f24c3"
+    },
+    {
+      "file": "docs/assets/css/layers/site/hub/index.css",
+      "sha256": "a8ae8772816532f4fc4dd42e556b44c760c303f1d41ceef36411b6065835a18e"
     },
     {
       "file": "docs/assets/brand/logo/symbol-artan.svg",

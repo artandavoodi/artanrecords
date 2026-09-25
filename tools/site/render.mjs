@@ -11,7 +11,7 @@ export function icon(id,icons) {
   return `<img src="/${escape(item.src)}" alt=""${item.monochrome?' data-monochrome="true"':''}>`;
 }
 export function links(items,icons) {
-  return `<div class="streaming">${[...(items||[])].sort((a,b)=>a.order-b.order).map(l=>`<a class="icon-link" href="${escape(l.url)}" aria-label="${escape(l.label)}" target="_blank" rel="noopener noreferrer">${icon(l.icon,icons)}<span aria-hidden="true">${escape(l.label)}</span></a>`).join('')}</div>`;
+  return `<div class="streaming">${[...(items||[])].sort((a,b)=>a.order-b.order).map(l=>`<a class="hub__link" href="${escape(l.url)}" aria-label="${escape(l.label)}"${l.url.startsWith('mailto:')?'':' target="_blank" rel="noopener noreferrer"'}>${icon(l.icon,icons)}<span class="hub__tooltip" aria-hidden="true">${escape(l.label)}</span></a>`).join('')}</div>`;
 }
 export const cards=items=>items.map(r=>`<article class="release-card"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · ${escape(r.artist)}</p></article>`).join('');
 export function artistYears(artist,labels) {

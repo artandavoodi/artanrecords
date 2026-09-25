@@ -1,4 +1,5 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {intakeForm} from './site/intake.mjs';
 import {escape as e,fill,image,icon,links,cards,sections,metadata,artistCards,artistYears,artistLinks} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 const read=p=>readFile(new URL(p,docs),'utf8');
@@ -42,8 +43,8 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
   if(nav.fragment==='home') values.title=e(site.navigation.find(n=>n.fragment==='releases').label);
-  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p><a href="${e('mailto:'+c.email+'?subject='+encodeURIComponent(c.subject)+'&body='+encodeURIComponent(c.body))}">${e(c.label)}</a></section>`).join('')});
-  if(nav.fragment==='contact') values.links=site.contact.map(l=>`<a href="${e(l.url)}">${icon(l.icon,icons)}<span>${e(l.label)}</span></a>`).join('');
+  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{form:intakeForm(intake.form),channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p></section>`).join('')});
+  if(nav.fragment==='contact') values.links=links(site.contact,icons);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
 }
 for(const artist of artists.items) {
