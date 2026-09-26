@@ -1,10 +1,18 @@
 /* Label composition consumes the shared source tokens, not a parallel scale. */
-.label-introduction { min-block-size: var(--section-min-height-stable); align-content: center; }
+.label-introduction { align-content: start; }
+.label-introduction > div { display: grid; gap: var(--spacing-md); }
+.discovery-feature a { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); gap: var(--spacing-xl); align-items: center; text-decoration: none; padding: var(--spacing-lg); border-radius: var(--shape-card-radius); background: var(--control-bg-hover); }
+.discovery-feature img { aspect-ratio: 1; object-fit: cover; border-radius: var(--shape-card-radius); }
+.discovery-feature a > div { display: grid; gap: var(--spacing-md); }
 .reading { max-inline-size: var(--cv-reading-width); }
 .artist-intake { display: grid; gap: var(--spacing-xl); }
 .artist-intake__channel { display: grid; gap: var(--spacing-md); }
 .artist-enquiry { max-inline-size: var(--cv-reading-width); }
-.artist-enquiry summary { cursor: pointer; padding-block: var(--spacing-md); }
+.artist-enquiry summary { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-md); cursor: pointer; padding-block: var(--spacing-md); list-style: none; }
+.artist-enquiry summary::-webkit-details-marker { display: none; }
+.artist-enquiry summary > img { inline-size: var(--icon-size-md); transition: transform var(--duration-base) var(--ease-standard); }
+.artist-enquiry[open] > summary > img { transform: rotate(90deg); }
+.artist-enquiry__information { display: grid; justify-items: start; gap: var(--spacing-sm); overflow-wrap: anywhere; }
 .artist-enquiry form, .artist-enquiry__field { display: grid; gap: var(--spacing-sm); }
 .artist-enquiry form { gap: var(--spacing-lg); padding-block: var(--spacing-lg); }
 .artist-enquiry input:not([type="checkbox"]), .artist-enquiry textarea, .artist-enquiry select { inline-size: 100%; min-inline-size: 0; box-sizing: border-box; padding: var(--spacing-sm); border: var(--border-width-hairline) solid var(--cv-border); border-radius: var(--radius-md); background: var(--cv-page-bg); color: var(--cv-text-primary); font: inherit; }
@@ -22,7 +30,8 @@
 .artist-facts dt, .artist-link-group h2 { font-size: var(--site-type-caption-size); }
 .artist-link-groups { gap: var(--spacing-xl); }
 .catalogue { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); }
-.release-card { display: grid; align-content: start; gap: var(--spacing-md); }
+.release-card { display: grid; align-content: start; gap: var(--spacing-md); max-inline-size: var(--featured-card-width); padding: var(--spacing-sm); border-radius: var(--shape-card-radius); transition: background var(--duration-base) var(--ease-standard); }
+.release-card:hover, .release-card:focus-within { background: var(--control-bg-hover); }
 .release-card a { display: grid; align-content: start; gap: var(--spacing-sm); text-decoration: none; }
 .release-card img { inline-size: var(--featured-card-width); aspect-ratio: 1; object-fit: cover; }
 .release > figure { inline-size: min(100%, var(--featured-card-width)); justify-self: center; }

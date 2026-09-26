@@ -7,6 +7,7 @@
     "action": "https://formsubmit.co/collaborate@artanrecords.com",
     "subject": "Artan Records artist enquiry",
     "startLabel": "Start a conversation",
+    "disclosureIcon": "chevron-right",
     "submitLabel": "Send enquiry",
     "email": "collaborate@artanrecords.com",
     "fallbackLabel": "Prefer email?",

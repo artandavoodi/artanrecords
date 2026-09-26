@@ -1,6 +1,6 @@
 {
   "sourceRepository": "artandavoodi/artandavoodi",
-  "sourceCommit": "5c226d9606a9e2b19312781351ca40122c5b964d",
+  "sourceCommit": "81b297a1e4cb30a3a913c490878e4ea5c90749e6",
   "files": [
     {
       "file": "docs/assets/css/core/01-tokens/00-tokens-all.css",
@@ -16,7 +16,7 @@
     },
     {
       "file": "docs/assets/css/core/01-tokens/site.aliases.css",
-      "sha256": "c251a99cdd3f8be262653eac1102766ebaadf7a1abfb8348686f5c85c8323e18"
+      "sha256": "6a19560eda2846921a08ba9b8dade3fde7e98cbc899f8e2586a1daa9510b5213"
     },
     {
       "file": "docs/assets/css/core/01-tokens/typography.tokens.css",
@@ -36,11 +36,11 @@
     },
     {
       "file": "docs/assets/css/layers/site/navigation.css",
-      "sha256": "c7a0e8edf3ee2cdd459a56d8b08923d60885717b031eb549cdc4e3c9f5b90fbd"
+      "sha256": "74458871b0e3002ec76b062f7746444ec0b1a2dbad642c00724ac7c77f677bc1"
     },
     {
       "file": "docs/assets/js/core/menu.js",
-      "sha256": "980b609670e712cf69d3133fa3d55c509de0556255827584506b42d24e9f24c3"
+      "sha256": "9d0567b9a7985665a2d18663110355749a7dcf11da35373bca354115b36e01ea"
     },
     {
       "file": "docs/assets/css/layers/site/hub/index.css",

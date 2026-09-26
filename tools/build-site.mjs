@@ -7,6 +7,7 @@ const json=async p=>JSON.parse(await read(p));
 const [site,registry,catalogue,artists,icons,ui]=await Promise.all(['site','fragments','music/releases','artists/items','icons','music/interface'].map(p=>json('assets/data/'+p+'.json')));
 const roster=await json('assets/data/artists/roster.json');
 const intake=await json('assets/data/artists/intake.json');
+const discovery=await json('assets/data/discovery.json');
 for(const artist of roster.items) {
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(artist.id)||!artist.name||!artist.biography||artist.approved!==true) throw new Error('Roster must contain only approved, complete public profiles');
   if(artists.items.some(a=>a.id===artist.id)) throw new Error('Duplicate artist: '+artist.id);
@@ -42,8 +43,16 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 }
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
-  if(nav.fragment==='home') values.title=e(site.navigation.find(n=>n.fragment==='releases').label);
-  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{form:intakeForm(intake.form),channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p></section>`).join('')});
+  if(nav.fragment==='home') {
+    const featured=catalogue.items.find(r=>r.id===discovery.featuredRelease);
+    if(!featured) throw new Error('Unregistered featured release');
+    values.featured=`<article class="discovery-feature"><a href="/releases/${e(featured.id)}/">${image(featured.cover)}<div><p class="eyebrow">${e(discovery.featuredLabel)}</p><h2>${e(featured.title)}</h2><p>${e(featured.artist)}</p><p>${e(featured.description)}</p><span>${e(discovery.openLabel)}</span></div></a></article>`;
+    values.releaseRows=discovery.rows.map(row=>{
+      const items=catalogue.items.filter(r=>r.category===row.category);
+      return items.length?`<section class="site-section"><h2>${e(row.title)}</h2><div class="catalogue">${cards(items)}</div></section>`:'';
+    }).join('');
+  }
+  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{form:intakeForm(intake.form,icons),channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p></section>`).join('')});
   if(nav.fragment==='contact') values.links=links(site.contact,icons);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
 }

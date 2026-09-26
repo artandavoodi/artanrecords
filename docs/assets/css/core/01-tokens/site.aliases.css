@@ -12,6 +12,10 @@
   --site-menu-button-size: 1.1rem;
   --site-menu-line-size: 1rem;
   --site-menu-line-offset: 0.18rem;
+  --site-header-motion-duration: 420ms;
+  --site-header-motion-offset: 0.5rem;
+  --site-menu-motion-duration: 560ms;
+  --site-menu-motion-offset: 0.35rem;
   --site-header-height: calc(var(--spacing-lg) * 2 + var(--site-menu-button-size) + env(safe-area-inset-top, 0px));
   --site-menu-type-size: min(5rem, max(2.2rem, 7vw));
   --site-menu-type-tracking: -0.04em;

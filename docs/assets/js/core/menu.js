@@ -5,8 +5,32 @@ export function bindMenu({ openLabel, closeLabel }) {
   if (!toggle || !menu) return;
   const background = [...document.querySelectorAll('main, [data-fragment="footer"], [data-theme-toggle]')];
   let isOpen = false;
+  const root = document.documentElement;
+  const navigation = document.querySelector('[data-site-navigation], .site-navigation');
+  let previousY = Math.max(0, window.scrollY);
+  let pending = false;
+  const revealHeader = () => root.removeAttribute('data-header-hidden');
+  navigation?.addEventListener('focusin', revealHeader);
+  window.addEventListener('scroll', () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      const y = Math.max(0, window.scrollY);
+      if (isOpen || y <= 8 || navigation?.querySelector(':focus-visible')) {
+        revealHeader();
+        previousY = y;
+      } else if (Math.abs(y - previousY) > 8) {
+        root.toggleAttribute('data-header-hidden', y > previousY);
+        previousY = y;
+      }
+    });
+  }, { passive: true });
+  window.addEventListener('pageshow', () => { previousY = Math.max(0, window.scrollY); revealHeader(); });
   const setOpen = value => {
     isOpen = value;
+    revealHeader();
+    previousY = Math.max(0, window.scrollY);
     menu.inert = !value;
     menu.setAttribute('aria-hidden', String(!value));
     toggle.setAttribute('aria-expanded', String(value));

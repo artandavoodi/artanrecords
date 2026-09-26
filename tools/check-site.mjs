@@ -19,6 +19,7 @@ const intakePage=await read('docs/for-artists/index.html');
 assert.ok(intakePage.includes(`action="${intake.form.action}" method="post"`));
 assert.equal((intakePage.match(/type="submit"/g)||[]).length,1);
 for(const field of intake.form.fields) assert.ok(intakePage.includes(`name="${field.name}"`),'Missing application field');
+assert.ok(intakePage.includes('name="email" required'));
 assert.ok(intakePage.includes('name="processing_acknowledgement" value="yes" required'));
 const artists=[...JSON.parse(await read('docs/assets/data/artists/items.json')).items,...JSON.parse(await read('docs/assets/data/artists/roster.json')).items];
 const roster=JSON.parse(await read('docs/assets/data/artists/roster.json'));

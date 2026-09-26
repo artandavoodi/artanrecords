@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "featuredRelease": "salim",
+  "featuredLabel": "Featured release",
+  "openLabel": "Explore the release",
+  "rows": [
+    { "category": "albums", "title": "Albums" },
+    { "category": "singles", "title": "Singles" }
+  ]
+}
