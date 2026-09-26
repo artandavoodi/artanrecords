@@ -1,5 +1,7 @@
 import {initializeTheme,bindTheme} from './theme.js';
 import {bindNavigation} from '../layers/site/navigation.js';
+import {bindIntake} from '../layers/site/intake.js';
+bindIntake().catch(console.error);
 initializeTheme();
 try {
   const response=await fetch('/assets/data/site.json');

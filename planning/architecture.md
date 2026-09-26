@@ -52,14 +52,19 @@ The owner reviews applications; only approved profiles are published by the owne
 There are no artist accounts or automatic publication. `/for-artists/` provides
 one form for artist applications, listening links and collaborations.
 `docs/assets/data/artists/intake.json` owns the inbox, prompts and explanatory copy.
-The native HTML form posts to FormSubmit, which forwards enquiries to the
-collaboration inbox after its owner activates the endpoint. CAPTCHA stays enabled.
-The form discloses the external processor and requires acknowledgement; submissions
-are not stored in this repository. Listening links only, no uploads or private masters.
-Direct email remains the fallback. Before considering delivery verified, the owner
-must activate the endpoint from the confirmation email and confirm a test arrives.
-Do not treat a provider response as proof of inbox delivery. Provider terms and
-privacy suitability must be reviewed by the owner before accepting real applications.
+The native HTML form posts to the public Google Apps Script deployment configured
+in intake.json. `tools/site/enquiries.gs` validates fields, acknowledgement and
+Google reCAPTCHA on the server, then stores accepted enquiries in a private Google
+Sheet and sends a notification to the collaboration inbox. CAPTCHA loads only when
+the form opens. Script Properties own RECAPTCHA_SECRET, SPREADSHEET_ID and
+INTAKE_CONFIG; never commit secrets or submissions. Listening links only, no uploads
+or private masters. Direct email remains the fallback.
+Deploy backend changes as a new version of the existing web app, executing as its
+owner with access set to Anyone. Run `node tools/test-enquiries.mjs` for validation
+tests. Before considering delivery verified, complete a real CAPTCHA submission,
+confirm the private sheet row and confirm receipt in the collaboration inbox.
+A successful email API call is not proof of inbox delivery. Google service quotas
+apply; failed email notifications are marked in the sheet for manual review.
 
 `docs/assets/data/artists/items.json` remains an imported public artist snapshot.
 `docs/assets/data/artists/roster.json` owns additional approved label artists.
