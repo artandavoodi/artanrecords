@@ -1,10 +1,14 @@
 {
   "sourceRepository": "artandavoodi/artandavoodi",
-  "sourceCommit": "81b297a1e4cb30a3a913c490878e4ea5c90749e6",
+  "sourceCommit": "bf439c7dbdf47d088df380f9b3b56a45d8f243f5",
   "files": [
     {
       "file": "docs/assets/css/core/01-tokens/00-tokens-all.css",
-      "sha256": "e3553af511b13b480209c968ef04e1a5128606b15ac1ddaf9430a9002e877c1c"
+      "sha256": "449b594674fb4ace373549539a069eef38e1f3b4155575ea4d1319c033fa7b1d"
+    },
+    {
+      "file": "docs/assets/css/core/01-tokens/navigation.tokens.css",
+      "sha256": "3306b99052c2af5415b65561586a7dc596bbe08a3fd556115abd986805ddd574"
     },
     {
       "file": "docs/assets/css/core/01-tokens/source/control-center.tokens.css",
@@ -16,7 +20,7 @@
     },
     {
       "file": "docs/assets/css/core/01-tokens/site.aliases.css",
-      "sha256": "6a19560eda2846921a08ba9b8dade3fde7e98cbc899f8e2586a1daa9510b5213"
+      "sha256": "c251a99cdd3f8be262653eac1102766ebaadf7a1abfb8348686f5c85c8323e18"
     },
     {
       "file": "docs/assets/css/core/01-tokens/typography.tokens.css",
@@ -36,11 +40,11 @@
     },
     {
       "file": "docs/assets/css/layers/site/navigation.css",
-      "sha256": "74458871b0e3002ec76b062f7746444ec0b1a2dbad642c00724ac7c77f677bc1"
+      "sha256": "b93be75b7d311a733a42b9d22cffea537b9ac10cb8f06c1deb952f7b797c391b"
     },
     {
       "file": "docs/assets/js/core/menu.js",
-      "sha256": "9d0567b9a7985665a2d18663110355749a7dcf11da35373bca354115b36e01ea"
+      "sha256": "23355dcdc588f4f8163d895fbbc4f4e6d85ee85203f36f5802801189e3141c87"
     },
     {
       "file": "docs/assets/css/layers/site/hub/index.css",
@@ -53,6 +57,10 @@
     {
       "file": "docs/assets/media/portrait/artist-home.jpeg",
       "sha256": "96edb5fb7366b9e9ed2a7c3d07ac233b9ec262627d064d8c140d2f73cc4dd85e"
+    },
+    {
+      "file": "docs/assets/icons/navigation/home.svg",
+      "sha256": "5abaf339b91ac798b78d8da01b696f0a2b398d5247eee307c1d63b53c30cc3bb"
     },
     {
       "file": "docs/assets/icons/navigation/back.svg",

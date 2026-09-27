@@ -1,6 +1,13 @@
 /* Label composition consumes the shared source tokens, not a parallel scale. */
 .label-introduction { align-content: start; }
 .label-introduction > div { display: grid; gap: var(--spacing-md); }
+html:has(main[data-fragment="home"]) { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+main[data-fragment="home"] > .site-section { min-block-size: calc(var(--section-min-height-stable) - var(--site-header-height)); align-content: center; scroll-snap-align: start; scroll-snap-stop: always; }
+html:has(main[data-fragment="home"]) [data-fragment="footer"] { scroll-snap-align: end; }
+@media (max-width: 860px), (prefers-reduced-motion: reduce) {
+  html:has(main[data-fragment="home"]) { scroll-snap-type: none; }
+  main[data-fragment="home"] > .site-section { scroll-snap-align: none; scroll-snap-stop: normal; }
+}
 .discovery-feature a { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); gap: var(--spacing-xl); align-items: center; text-decoration: none; padding: var(--spacing-lg); border-radius: var(--shape-card-radius); background: var(--control-bg-hover); }
 .discovery-feature img { aspect-ratio: 1; object-fit: cover; border-radius: var(--shape-card-radius); }
 .discovery-feature a > div { display: grid; gap: var(--spacing-md); }
@@ -25,7 +32,7 @@
 .artist-card figure { flex: 0 0 var(--control-height-xl); inline-size: var(--control-height-xl); }
 .artist-card img, .artist-profile > figure img { aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-circle); }
 .artist-card h3 { min-inline-size: 0; overflow-wrap: anywhere; }
-.artist-facts div { display: flex; flex-wrap: wrap; gap: var(--spacing-sm); }
+.artist-facts div { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-sm); }
 .artist-facts dd { margin: 0; }
 .artist-facts dt, .artist-link-group h2 { font-size: var(--site-type-caption-size); }
 .artist-link-groups { gap: var(--spacing-xl); }

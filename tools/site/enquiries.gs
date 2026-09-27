@@ -32,9 +32,12 @@ function digest_(text) {
   return Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, text));
 }
 
-function response_(message) {
+function response_(message, appearance) {
   // No applicant content is echoed into the response document.
-  return HtmlService.createHtmlOutput('<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Artan Records</title></head><body><main><h1>Artan Records</h1><p>' + message + '</p><a target="_top" href="https://artanrecords.com/for-artists/">Return to Artan Records</a></main></body></html>');
+  const template = HtmlService.createTemplateFromFile('Response');
+  template.message = message;
+  template.theme = appearance === 'dark' ? 'dark' : 'light';
+  return template.evaluate().setTitle('Artan Records');
 }
 
 function doGet() {
@@ -93,9 +96,9 @@ function doPost(event) {
     } catch (error) {
       sheet.getRange(row, notificationColumn).setValue('Failed - review spreadsheet');
     }
-    return response_('Your enquiry has been received. Thank you for sharing your work.');
+    return response_('Your enquiry has been received. Thank you for sharing your work.', event.parameter.appearance);
   } catch (error) {
-    return response_(saved ? 'Your enquiry has been saved. Please do not submit it again.' : 'Your enquiry was not saved. Please return to the form and check your details and CAPTCHA, or contact collaborate@artanrecords.com.');
+    return response_(saved ? 'Your enquiry has been saved. Please do not submit it again.' : 'Your enquiry was not saved. Please return to the form and check your details and CAPTCHA, or contact collaborate@artanrecords.com.', event && event.parameter && event.parameter.appearance);
   } finally {
     if (lock && lock.hasLock()) lock.releaseLock();
   }

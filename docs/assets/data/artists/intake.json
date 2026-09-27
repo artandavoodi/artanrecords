@@ -16,11 +16,9 @@
     "submitLabel": "Send enquiry",
     "email": "collaborate@artanrecords.com",
     "fallbackLabel": "Prefer email?",
-    "privacy": "Artan Records uses the details you submit to review your work and respond to your enquiry. Submissions are stored in a private Google Sheet and emailed to our collaboration inbox using Google Apps Script. Opening this form loads Google reCAPTCHA for spam protection. Share listening links, not private masters or sensitive documents. To request access to or deletion of your enquiry, email collaborate@artanrecords.com.",
-    "privacyUrl": "https://policies.google.com/privacy",
-    "privacyLabel": "Google privacy policy",
-    "captchaTermsUrl": "https://policies.google.com/terms",
-    "captchaTermsLabel": "Google terms of service",
+    "privacy": "Artan Records uses the details you submit to review your work and respond to your enquiry.",
+    "privacyUrl": "/submission-privacy/",
+    "privacyLabel": "Submission privacy",
     "acknowledgement": "I understand that Artan Records will review my enquiry and contact me about it.",
     "fields": [
       { "name": "name", "label": "Your name", "type": "text", "required": true, "autocomplete": "name", "maxLength": 150 },
@@ -32,6 +30,24 @@
       { "name": "listening", "label": "Listening or sample link (optional)", "type": "url", "maxLength": 2000 },
       { "name": "message", "label": "Tell us about your work", "type": "textarea", "required": true, "maxLength": 5000 }
     ]
+  },
+  "submissionPrivacy": {
+    "title": "Submission privacy",
+    "description": "How Artan Records handles artist enquiries and submitted work.",
+    "sections": [
+      { "title": "Your enquiry", "text": "Artan Records uses your name, contact details, introduction and submitted links to review your work and respond. Sending an enquiry does not publish a profile or create an offer of representation." },
+      { "title": "Processing and storage", "text": "The form uses Google Apps Script to store submissions in a private Google Sheet and send a notification to our collaboration inbox, hosted by iCloud. Applications are not added to this website's public repository." },
+      { "title": "Verification", "text": "Opening the form loads Google reCAPTCHA to help prevent spam and abuse. It processes browser and interaction information and uses a necessary verification cookie. Verification is required before an enquiry can be accepted." },
+      { "title": "What to share", "text": "Share listening links, not private masters, project files or sensitive documents. Include only work and information you have permission to share." },
+      { "title": "Contact", "text": "To ask about your enquiry or request access, correction or deletion, contact collaborate@artanrecords.com." }
+    ]
+  },
+  "response": {
+    "logo": "assets/brand/logo/artan-records-wordmark.svg",
+    "logoAlt": "Artan Records",
+    "returnLabel": "Return to Artan Records",
+    "returnUrl": "https://artanrecords.com/",
+    "returnIcon": "home"
   },
   "channels": [
     { "title": "Artist introduction", "description": "Your artist name, a short biography, and links to your music and portfolio." },

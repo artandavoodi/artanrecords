@@ -2,6 +2,12 @@
   "schemaVersion": 1,
   "items": [
     {
+      "id": "home",
+      "src": "assets/icons/navigation/home.svg",
+      "alt": "",
+      "monochrome": true
+    },
+    {
       "id": "back",
       "src": "assets/icons/navigation/back.svg",
       "alt": "",

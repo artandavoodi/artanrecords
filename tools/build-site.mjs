@@ -7,6 +7,13 @@ const json=async p=>JSON.parse(await read(p));
 const [site,registry,catalogue,artists,icons,ui]=await Promise.all(['site','fragments','music/releases','artists/items','icons','music/interface'].map(p=>json('assets/data/'+p+'.json')));
 const roster=await json('assets/data/artists/roster.json');
 const intake=await json('assets/data/artists/intake.json');
+const responseShell=await readFile(new URL('site/enquiry-response.shell.html',import.meta.url),'utf8');
+const responseIcon=icons.items.find(item=>item.id===intake.response.returnIcon);
+if(!responseIcon) throw new Error('Unregistered enquiry response icon');
+await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(responseShell,{
+  name:e(site.name),domain:e(site.domain),logo:e(site.domain+'/'+intake.response.logo),logoAlt:e(intake.response.logoAlt),
+  returnUrl:e(intake.response.returnUrl),returnLabel:e(intake.response.returnLabel),returnIcon:e(site.domain+'/'+responseIcon.src)
+}));
 const discovery=await json('assets/data/discovery.json');
 for(const artist of roster.items) {
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(artist.id)||!artist.name||!artist.biography||artist.approved!==true) throw new Error('Roster must contain only approved, complete public profiles');
@@ -56,6 +63,10 @@ for(const nav of site.navigation) {
   if(nav.fragment==='contact') values.links=links(site.contact,icons);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
 }
+await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{
+  title:e(intake.submissionPrivacy.title),
+  sections:intake.submissionPrivacy.sections.map(s=>`<section class="artist-intake__channel"><h2>${e(s.title)}</h2><p>${e(s.text)}</p></section>`).join('')
+});
 for(const artist of artists.items) {
   const releases=catalogue.items.filter(r=>r.artist===artist.name);
   await page(`/artists/${artist.id}/`,artist.name,artist.biography,'artist',{...escaped(artist),yearsActive:artistYears(artist,roster.labels),portrait:artist.portrait?image(artist.portrait):'',releases:releases.length?`<section><h2>${e(roster.labels.releases)}</h2><div class="catalogue">${cards(releases)}</div></section>`:'',portfolio:artist.portfolio?.length?`<section><h2>${e(roster.labels.portfolio)}</h2>${artist.portfolio.map(p=>`<article><h3><a href="${e(p.url)}">${e(p.title)}</a></h3><p>${e(p.description)}</p></article>`).join('')}</section>`:'',links:artistLinks(artist,roster.linkGroups,icons)},{'@type':'ProfilePage',mainEntity:{'@id':personFor(artist)['@id']}});

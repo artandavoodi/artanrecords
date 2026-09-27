@@ -17,7 +17,7 @@ export async function bindIntake() {
     window.artanEnquiryCaptchaReady=()=>{
       window.grecaptcha.render(form.querySelector('[data-enquiry-captcha]'),{
         sitekey:config.captchaSiteKey,
-        theme:document.documentElement.dataset.theme==='dark'?'dark':'light',
+        theme:document.documentElement.dataset.themeEffective==='dark'?'dark':'light',
         size:'compact',
         callback:()=>{verified=true;button.disabled=false;status.textContent='';},
         'expired-callback':invalidate,
@@ -34,6 +34,7 @@ export async function bindIntake() {
   load();
   form.addEventListener('submit',event=>{
     if(!verified){event.preventDefault();status.textContent=config.captchaRequired;return;}
+    form.elements.appearance.value=document.documentElement.dataset.themeEffective==='dark'?'dark':'light';
     button.disabled=true;
     status.textContent=config.sendingLabel;
   });

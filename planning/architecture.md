@@ -65,6 +65,15 @@ tests. Before considering delivery verified, complete a real CAPTCHA submission,
 confirm the private sheet row and confirm receipt in the collaboration inbox.
 A successful email API call is not proof of inbox delivery. Google service quotas
 apply; failed email notifications are marked in the sheet for manual review.
+The confirmation markup is generated from `tools/site/enquiry-response.shell.html`
+and intake.json into `tools/site/enquiry-response.html`. Copy this generated file
+into the Apps Script HTML file named `Response`, alongside enquiries.gs in Code.gs,
+before publishing a new deployment version. Its stylesheet stays website-owned;
+only the server-confirmed message is displayed. The appearance field accepts only
+light or dark. The editable label wordmark is a separate copy at
+`docs/assets/brand/logo/artan-records-wordmark.svg`; it does not alter Neuroartan's source.
+Detailed processing information lives at `/submission-privacy/`; the form retains
+a short notice, acknowledgement and the visible reCAPTCHA widget.
 
 `docs/assets/data/artists/items.json` remains an imported public artist snapshot.
 `docs/assets/data/artists/roster.json` owns additional approved label artists.

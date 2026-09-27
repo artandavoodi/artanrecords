@@ -1,36 +1,29 @@
 /* Shared menu lifecycle. CSS owns motion; native links retain their destinations. */
-export function bindMenu({ openLabel, closeLabel }) {
-  const toggle = document.querySelector('[data-menu-toggle]');
-  const menu = document.querySelector('[data-menu]');
+export function bindMenu({ openLabel, closeLabel, selectors = {} }) {
+  const toggle = document.querySelector(selectors.toggle || '[data-menu-toggle]');
+  const menu = document.querySelector(selectors.menu || '[data-menu]');
   if (!toggle || !menu) return;
-  const background = [...document.querySelectorAll('main, [data-fragment="footer"], [data-theme-toggle]')];
+  const background = [...document.querySelectorAll(selectors.background || 'main, [data-fragment="footer"], [data-theme-toggle]')];
   let isOpen = false;
   const root = document.documentElement;
-  const navigation = document.querySelector('[data-site-navigation], .site-navigation');
-  let previousY = Math.max(0, window.scrollY);
+  const navigation = document.querySelector(selectors.navigation || '[data-site-navigation], .site-navigation');
   let pending = false;
   const revealHeader = () => root.removeAttribute('data-header-hidden');
+  const updateHeader = () => root.toggleAttribute('data-header-hidden', !isOpen && window.scrollY > 8 && !navigation?.querySelector(':focus-visible'));
   navigation?.addEventListener('focusin', revealHeader);
   window.addEventListener('scroll', () => {
     if (pending) return;
     pending = true;
     requestAnimationFrame(() => {
       pending = false;
-      const y = Math.max(0, window.scrollY);
-      if (isOpen || y <= 8 || navigation?.querySelector(':focus-visible')) {
-        revealHeader();
-        previousY = y;
-      } else if (Math.abs(y - previousY) > 8) {
-        root.toggleAttribute('data-header-hidden', y > previousY);
-        previousY = y;
-      }
+      updateHeader();
     });
   }, { passive: true });
-  window.addEventListener('pageshow', () => { previousY = Math.max(0, window.scrollY); revealHeader(); });
+  window.addEventListener('pageshow', updateHeader);
+  navigation?.addEventListener('focusout', () => requestAnimationFrame(updateHeader));
   const setOpen = value => {
     isOpen = value;
-    revealHeader();
-    previousY = Math.max(0, window.scrollY);
+    updateHeader();
     menu.inert = !value;
     menu.setAttribute('aria-hidden', String(!value));
     toggle.setAttribute('aria-expanded', String(value));
@@ -39,6 +32,8 @@ export function bindMenu({ openLabel, closeLabel }) {
     document.body.toggleAttribute('data-menu-locked', value);
     background.forEach(element => { element.inert = value; });
   };
+  const links = [...menu.querySelectorAll('a[href]:not([hidden])')];
+  links.forEach((link, index) => link.style.setProperty('--site-menu-item-index', index));
   setOpen(false);
   document.documentElement.setAttribute('data-menu-ready', '');
   menu.hidden = false;
@@ -51,7 +46,7 @@ export function bindMenu({ openLabel, closeLabel }) {
     if (!isOpen) return;
     if (event.key === 'Escape') { setOpen(false); toggle.focus(); }
     if (event.key === 'Tab') {
-      const targets = [toggle, ...menu.querySelectorAll('a[href]')];
+      const targets = [toggle, ...links];
       const index = targets.indexOf(document.activeElement);
       if (event.shiftKey && index <= 0) { event.preventDefault(); targets.at(-1).focus(); }
       else if (!event.shiftKey && (index === targets.length - 1 || index < 0)) { event.preventDefault(); toggle.focus(); }
