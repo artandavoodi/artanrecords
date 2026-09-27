@@ -1,6 +1,9 @@
 {
   "schemaVersion": 1,
   "name": "Artan Records",
+  "foundingDate": "2025",
+  "foundingLabel": "Founded",
+  "logoAlt": "Artan Records logo",
   "domain": "https://artanrecords.com",
   "description": "Artan Records is an independent record label for music and collaboration, welcoming artists with a voice of their own.",
   "founder": {
@@ -8,7 +11,14 @@
     "name": "Artan Davoodi",
     "alternateName": "Saeed Davoodi"
   },
-  "logo": "assets/brand/logo/symbol-artan.svg",
+  "logo": "assets/brand/logo/artan-records-symbol-black.svg",
+  "logoAssets": {
+    "wordmark": "assets/brand/logo/artan-records-wordmark.svg",
+    "wordmarkBlack": "assets/brand/logo/artan-records-wordmark-black.svg",
+    "wordmarkWhite": "assets/brand/logo/artan-records-wordmark-white.svg",
+    "wordmarkPng": "assets/brand/logo/artan-records-wordmark.png",
+    "symbolWhite": "assets/brand/logo/artan-records-symbol-white.svg"
+  },
   "artistWebsite": "https://artandavoodi.com/",
   "publicHub": "https://artan.live/",
   "contact": [

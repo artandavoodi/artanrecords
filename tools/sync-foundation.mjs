@@ -24,7 +24,7 @@ const catalogue=await read('assets/data/music/releases.json');
 await copy('docs/assets/js/core/menu.js');
 await copy('docs/assets/css/layers/site/hub/index.css');
 const site=JSON.parse(await readFile(path.join(root,'docs/assets/data/site.json'),'utf8'));
-await copy('docs/'+site.logo);
+// Label identity is locally owned; foundation sync must not replace it.
 const allowed=['id','title','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','credits','musicalDetails','productionProcess','releaseInformation','links'];
 function publicRecord(record) {
   const result=Object.fromEntries(allowed.filter(key=>record[key]!==undefined && record.editorial?.[key]!=='draft').map(key=>[key,record[key]]));

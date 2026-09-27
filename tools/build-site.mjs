@@ -37,7 +37,7 @@ const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregist
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
 const navigation=await fragment('navigation',{...escaped(site.labels),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
 const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear())});
-const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logo,description:site.description,founder:{'@id':personFor(founder)['@id']}};
+const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
 const paths=[];
 async function output(file,value){await mkdir(new URL('./',new URL(file,docs)),{recursive:true});await writeFile(new URL(file,docs),value);}
@@ -61,6 +61,7 @@ for(const nav of site.navigation) {
   }
   if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{form:intakeForm(intake.form,icons),channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p></section>`).join('')});
   if(nav.fragment==='contact') values.links=links(site.contact,icons);
+  if(nav.fragment==='about') values.wordmark=e(site.logoAssets.wordmark);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
 }
 await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{
@@ -83,6 +84,7 @@ await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns=
   const images=catalogue.items.filter(r=>p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artist===a.name)||p===`/releases/${r.id}/`).map(r=>r.cover.src);
   const portrait=artists.items.find(a=>p===`/artists/${a.id}/`)?.portrait;
   if(portrait) images.push(portrait.src);
+  if(p==='/about/') images.push(site.logoAssets.wordmark);
   if(p==='/'||p==='/artists/') images.push(...artists.items.filter(a=>a.portrait).map(a=>a.portrait.src));
   return `<url><loc>${site.domain}${p}</loc>${[...new Set(images)].map(src=>`<image:image><image:loc>${e(site.domain+'/'+src)}</image:loc></image:image>`).join('')}</url>`;
 }).join('')}</urlset>`);

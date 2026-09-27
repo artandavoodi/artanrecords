@@ -70,8 +70,11 @@ and intake.json into `tools/site/enquiry-response.html`. Copy this generated fil
 into the Apps Script HTML file named `Response`, alongside enquiries.gs in Code.gs,
 before publishing a new deployment version. Its stylesheet stays website-owned;
 only the server-confirmed message is displayed. The appearance field accepts only
-light or dark. The editable label wordmark is a separate copy at
-`docs/assets/brand/logo/artan-records-wordmark.svg`; it does not alter Neuroartan's source.
+light or dark. The label's own wordmark is at
+`docs/assets/brand/logo/artan-records-wordmark.svg`. Approved SVG variants and the
+transparent PNG are registered in site.json under logoAssets; logo owns the
+public favicon and organization identity. These assets are copied from the
+Artan Records design exports and are never overwritten by foundation sync.
 Detailed processing information lives at `/submission-privacy/`; the form retains
 a short notice, acknowledgement and the visible reCAPTCHA widget.
 
