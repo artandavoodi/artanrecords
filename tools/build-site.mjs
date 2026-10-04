@@ -55,7 +55,6 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 }
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
-  if(nav.fragment==='artists') values.social=links(site.social,icons,'streaming','icons-only');
   if(nav.fragment==='home') {
     values.wordmarkLight=e(site.logoAssets.wordmarkBlack);
     values.wordmarkDark=e(site.logoAssets.wordmarkWhite);
