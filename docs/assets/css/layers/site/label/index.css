@@ -12,6 +12,10 @@ html:has(main[data-fragment="home"]) [data-fragment="footer"] { scroll-snap-alig
 .discovery-feature img { aspect-ratio: 1; object-fit: cover; border-radius: var(--shape-card-radius); }
 .discovery-feature a > div { display: grid; gap: var(--spacing-md); }
 .reading { max-inline-size: var(--cv-reading-width); }
+.information-links { display: flex; flex-wrap: wrap; gap: var(--spacing-md) var(--spacing-lg); }
+.information-page header, .information-page section { display: grid; gap: var(--spacing-md); max-inline-size: var(--cv-reading-width); }
+.information-page section { scroll-margin-block-start: var(--site-header-height); }
+.information-page { overflow-wrap: anywhere; }
 .artist-intake { display: grid; gap: var(--spacing-xl); }
 .artist-intake__channel { display: grid; gap: var(--spacing-md); }
 .artist-enquiry { max-inline-size: var(--cv-reading-width); }

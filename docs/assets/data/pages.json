@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "homeLinks": [{"label":"Explore releases","url":"/releases/"},{"label":"Submit your music","url":"/submit/"}],
+  "footerLinks": [{"label":"Services","url":"/services/"},{"label":"Collaborate","url":"/collaborate/"},{"label":"Questions","url":"/faq/"},{"label":"Legal information","url":"/legal/"},{"label":"Submission privacy","url":"/submission-privacy/"}],
+  "items": [
+    {
+      "path":"/privacy/", "title":"Privacy policy", "description":"Draft privacy policy for Artan Records. Not approved for publication.", "publish":false,
+      "sections":[
+        {"id":"operator","title":"Who operates Artan Records","text":"Artan Records is currently operated by Saeed Davoodi, known professionally as Artan Davoodi. Artan Records is not currently a registered company. Privacy enquiries can be sent to contact@artanrecords.com."},
+        {"id":"information","title":"Information you provide","text":"The enquiry form collects your name, artist or project name, reply email, purpose, optional website, social and listening links, and your message. It records your acknowledgement, a submission reference and the time of receipt."},
+        {"id":"purpose","title":"Why it is used","text":"Information is used to review your work, respond to your enquiry and protect the form from abuse. Sending an enquiry does not subscribe you to marketing or create an artist account."},
+        {"id":"providers","title":"Services involved","text":"The website is hosted on GitHub Pages. Enquiries are processed through Google Apps Script, stored in a private Google Sheet and notified to an iCloud-hosted inbox. Opening the form loads Google reCAPTCHA. These providers may process technical information under their own terms."},
+        {"id":"preferences","title":"Browser preferences and links","text":"The website stores your appearance preference in browser storage. Following an external listening or social link takes you to another service, whose privacy policy applies there."},
+        {"id":"retention","title":"Proposed retention rule","text":"Proposed for implementation: remove unsuccessful enquiries from the active enquiry sheet and collaboration mailbox within 30 days after a recorded decline or closure. Active conversations require a separate review date. This rule is not yet represented as an operating deletion guarantee."},
+        {"id":"requests","title":"Your requests","text":"Contact contact@artanrecords.com to ask about access, correction or deletion of information you submitted. Applicable rights, exceptions and the appropriate supervisory authority must be confirmed before this draft becomes the published policy."},
+        {"id":"review","title":"Publication review required","text":"Before publication, confirm the operator contact address, applicable processing grounds, provider transfer arrangements, retention implementation, rights procedure and any legally required disclosures. This draft is not a legal compliance certification."}
+      ], "links":[]
+    },
+    {
+      "path":"/services/", "title":"Around the music", "description":"Release preparation, catalog presentation and collaboration at Artan Records.",
+      "sections":[
+        {"id":"releases","title":"Release preparation","text":"Music, artwork, credits and metadata belong together. We work with selected projects to prepare a coherent release. The scope of each engagement is agreed individually."},
+        {"id":"catalog","title":"A lasting home","text":"Our public catalog brings recordings, artists, credits and listening links together in one place. Each approved artist and release has a dedicated page."},
+        {"id":"creative","title":"Creative collaboration","text":"Sound and visual work can develop together. Bring a recording, an image or an idea. Creative support is discussed for each project, not promised as a standard package."},
+        {"id":"scope","title":"Clear scope","text":"An enquiry is not an agreement. Distribution arrangements, responsibilities and any commercial terms must be confirmed before work begins. We do not guarantee promotion, playlist placement or commercial results."}
+      ],
+      "links":[{"label":"Submit your music","url":"/submit/"},{"label":"Propose a collaboration","url":"/collaborate/"}]
+    },
+    {
+      "path":"/submit/", "title":"Submit your music", "description":"Share your music with Artan Records for human review.", "form":true,
+      "sections":[
+        {"id":"share","title":"Let us hear the work","text":"Send a listening link, your artist name and a short introduction. Tell us whether it is a single, EP or album, who contributed, and what you hope to release."},
+        {"id":"review","title":"A considered review","text":"Artan Records reviews enquiries individually. Sending music does not guarantee acceptance, representation or a release. If there is a fit, we can discuss the project and next steps."},
+        {"id":"prepare","title":"Keep it simple","text":"Use the Music submission option in the form. Share links you have permission to share. Do not send private masters, identity documents, bank details or tax information."}
+      ], "links":[{"label":"How enquiries are handled","url":"/submission-privacy/"}]
+    },
+    {
+      "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artan Records about sound, visual work and creative collaboration.", "form":true,
+      "sections":[
+        {"id":"idea","title":"Start with an idea","text":"For musicians, producers, composers, filmmakers, photographers, designers and aligned organisations. Tell us what you do, what you have in mind and where we can see or hear your work."},
+        {"id":"conversation","title":"A direct conversation","text":"Choose Collaboration in the form below. A concise introduction and a relevant portfolio link are enough to begin. Scope, responsibilities and terms are discussed individually."}
+      ], "links":[{"label":"Email collaborations","url":"mailto:collaborate@artanrecords.com"}]
+    },
+    {
+      "path":"/faq/", "title":"Before you send", "description":"Practical answers for artists contacting Artan Records.",
+      "sections":[
+        {"id":"who","title":"Who can get in touch?","text":"Artists and people authorised to represent their work can send an introduction. Creative collaborators can use the collaboration page."},
+        {"id":"files","title":"Do I need to send audio files?","text":"A listening link is enough for an initial enquiry. The public form does not accept file uploads. Keep masters and project files private."},
+        {"id":"acceptance","title":"Does a submission mean acceptance?","text":"No. Every enquiry is reviewed. Any offer of representation or release arrangement must be agreed separately."},
+        {"id":"promotion","title":"Is promotion included?","text":"Do not assume it is. Creative or promotional support, where offered, is agreed for the individual project. There are no guarantees of streams, placement or coverage."},
+        {"id":"account","title":"Does sending work create an artist account?","text":"No. The current process is a reviewed enquiry, not self-service registration. Artist profiles are published only after approval."},
+        {"id":"terms","title":"Where are commercial terms explained?","text":"Commercial terms must be discussed and agreed before an engagement. There is no universal royalty percentage or payout schedule published on this website."}
+      ], "links":[{"label":"Submit your music","url":"/submit/"}]
+    },
+    {
+      "path":"/legal/", "title":"Legal information", "description":"The scope of public information and enquiries at Artan Records.",
+      "sections":[
+        {"id":"enquiries","title":"Enquiries, not agreements","text":"The public form is a way to introduce your work. Submitting an enquiry does not create an artist account, an offer of representation or a distribution agreement."},
+        {"id":"rights","title":"Respect the work","text":"Only share material and information you are authorised to share. Questions about a recording, credit or rights concern can be sent to contact@artanrecords.com. Include the relevant release link and a clear explanation."},
+        {"id":"terms","title":"Project terms","text":"Rights, responsibilities and commercial terms belong in the agreement for the specific engagement. This website is not a substitute for that agreement."},
+        {"id":"privacy","title":"Personal information","text":"Our submission privacy notice explains the current enquiry form and how it processes the information you send."}
+      ], "links":[{"label":"Submission privacy","url":"/submission-privacy/"},{"label":"Contact Artan Records","url":"mailto:contact@artanrecords.com"}]
+    }
+  ]
+}

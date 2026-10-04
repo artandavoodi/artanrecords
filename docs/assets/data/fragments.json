@@ -2,6 +2,7 @@
   "navigation": "assets/fragments/navigation/index.html",
   "footer": "assets/fragments/footer/index.html",
   "home": "assets/fragments/home/index.html",
+  "information": "assets/fragments/information/index.html",
   "releases": "assets/fragments/releases/index.html",
   "release": "assets/fragments/releases/detail/index.html",
   "artists": "assets/fragments/artists/index.html",

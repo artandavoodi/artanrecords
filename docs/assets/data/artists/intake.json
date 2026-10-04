@@ -50,8 +50,8 @@
     "returnIcon": "home"
   },
   "channels": [
-    { "title": "Artist introduction", "description": "Your artist name, a short biography, and links to your music and portfolio." },
-    { "title": "Send your work", "description": "Send listening links and a few words about the project, its credits, and its release plans. No masters or project files are needed at this stage." },
-    { "title": "Collaborate", "description": "A recording, a visual project, or an idea to develop together. Tell us your role and what you have in mind." }
+    { "title": "Your work, considered", "description": "Send your artist name, a short introduction and a listening link. We review enquiries individually. This is a conversation, not automatic distribution." },
+    { "title": "A clear next step", "description": "If there is a fit, we discuss the project, its credits and its release plans. Scope and terms must be agreed before an engagement begins." },
+    { "title": "Across sound and image", "description": "We also welcome creative collaborators. A portfolio link and a clear idea are enough to start." }
   ]
 }

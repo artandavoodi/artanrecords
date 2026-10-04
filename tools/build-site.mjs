@@ -15,6 +15,11 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
   returnUrl:e(intake.response.returnUrl),returnLabel:e(intake.response.returnLabel),returnIcon:e(site.domain+'/'+responseIcon.src)
 }));
 const discovery=await json('assets/data/discovery.json');
+const information=await json('assets/data/pages.json');
+const textLinks=items=>(items||[]).map(item=>{
+  if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');
+  return `<a href="${e(item.url)}">${e(item.label)}</a>`;
+}).join('');
 for(const artist of roster.items) {
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(artist.id)||!artist.name||!artist.biography||artist.approved!==true) throw new Error('Roster must contain only approved, complete public profiles');
   if(artists.items.some(a=>a.id===artist.id)) throw new Error('Duplicate artist: '+artist.id);
@@ -36,7 +41,7 @@ const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
 const navigation=await fragment('navigation',{...escaped(site.labels),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
-const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear())});
+const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),links:textLinks(information.footerLinks)});
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
 const paths=[];
@@ -49,8 +54,9 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer,fragment:fragmentName,content}));paths.push(path);
 }
 for(const nav of site.navigation) {
-  const values={...escaped(site),title:e(nav.label),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
+  const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
   if(nav.fragment==='home') {
+    values.homeLinks=textLinks(information.homeLinks);
     const featured=catalogue.items.find(r=>r.id===discovery.featuredRelease);
     if(!featured) throw new Error('Unregistered featured release');
     values.featured=`<article class="discovery-feature"><a href="/releases/${e(featured.id)}/">${image(featured.cover)}<div><p class="eyebrow">${e(discovery.featuredLabel)}</p><h2>${e(featured.title)}</h2><p>${e(featured.artist)}</p><p>${e(featured.description)}</p><span>${e(discovery.openLabel)}</span></div></a></article>`;
@@ -63,6 +69,21 @@ for(const nav of site.navigation) {
   if(nav.fragment==='contact') values.links=links(site.contact,icons);
   if(nav.fragment==='about') values.wordmark=e(site.logoAssets.wordmark);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
+}
+for(const item of information.items) {
+  if(item.publish===false) continue;
+  if(!/^\/[a-z0-9-]+\/$/.test(item.path)||paths.includes(item.path)) throw new Error('Invalid or duplicate information route');
+  const ids=new Set();
+  for(const section of item.sections) {
+    if(!/^[a-z0-9-]+$/.test(section.id)||ids.has(section.id)) throw new Error('Invalid or duplicate section identifier');
+    ids.add(section.id);
+  }
+  await page(item.path,item.title,item.description,'information',{
+    title:e(item.title),description:e(item.description),
+    contents:item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join(''),
+    sections:item.sections.map(section=>`<section id="${e(section.id)}"><h2>${e(section.title)}</h2><p>${e(section.text)}</p></section>`).join(''),
+    links:textLinks(item.links),form:item.form?intakeForm(intake.form,icons):''
+  });
 }
 await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{
   title:e(intake.submissionPrivacy.title),
