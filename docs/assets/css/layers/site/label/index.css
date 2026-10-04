@@ -78,11 +78,12 @@ html:has(main[data-fragment="home"]) [data-fragment="footer"] { scroll-snap-alig
 .artist-latest-release { display: grid; align-content: center; gap: var(--spacing-lg); }
 .artist-latest-release > a { inline-size: min(100%, var(--featured-card-width)); }
 html:has(main[data-fragment="artist"]) body { isolation: isolate; }
-html:has(main[data-fragment="artist"]) { scroll-snap-type: y mandatory; scroll-behavior: smooth; overscroll-behavior-y: none; background: var(--cv-page-bg); }
-.artist-profile > section { display: grid; align-content: center; gap: var(--spacing-xl); min-block-size: var(--section-min-height-stable); box-sizing: border-box; padding-block: var(--cv-page-padding-block); scroll-snap-align: start; scroll-snap-stop: always; }
-html:has(main[data-fragment="artist"]) [data-fragment="footer"] { scroll-snap-align: end; }
-@media (max-width: 860px) {
-  html:has(main[data-fragment="artist"]) { scroll-snap-type: y proximity; }
+html:has(main[data-fragment="artist"]) { scroll-snap-type: none; scroll-behavior: auto; overscroll-behavior-y: none; background: var(--cv-page-bg); }
+.artist-profile > section { display: grid; align-content: center; gap: var(--spacing-xl); box-sizing: border-box; padding-block: var(--cv-page-padding-block); }
+@media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+  html:has(main[data-fragment="artist"]) { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  .artist-profile > section { min-block-size: var(--section-min-height-stable); scroll-snap-align: start; scroll-snap-stop: always; }
+  html:has(main[data-fragment="artist"]) [data-fragment="footer"] { scroll-snap-align: end; }
 }
 @media (prefers-reduced-motion: reduce) {
   html:has(main[data-fragment="artist"]) { scroll-snap-type: none; scroll-behavior: auto; }
