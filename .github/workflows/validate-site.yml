@@ -1,15 +1,25 @@
 name: Validate site
-on: [push, pull_request]
+
+on:
+  push:
+  pull_request:
+
 permissions:
   contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm run build
-      - run: npm run check
-      - run: git diff --exit-code -- docs
+
+      - run: npm run build:all
+
+      - run: npm run check:all
+
+      - run: git diff --exit-code -- docs documentation studio shared
