@@ -89,10 +89,22 @@ html:has(main[data-fragment="artist"]) { scroll-snap-type: none; scroll-behavior
   html:has(main[data-fragment="artist"]) { scroll-snap-type: none; scroll-behavior: auto; }
   .artist-profile > section { scroll-snap-align: none; scroll-snap-stop: normal; }
 }
-html:has(main[data-fragment="artist"]) body::before,
-html:has(main[data-fragment="artist"]) body::after { content: ''; position: fixed; inset: 0; min-block-size: 100vh; min-block-size: 100lvh; z-index: -1; pointer-events: none; }
-html:has(main[data-fragment="artist"]) body::before { inset: calc(0px - var(--panel-blur-unified)); background-image: var(--artist-cover, none); background-size: cover; background-position: center; filter: blur(var(--panel-blur-unified)); }
-html:has(main[data-fragment="artist"]) body::after { background: var(--cv-page-bg); opacity: var(--opacity-muted); }
+/* One composited surface keeps artwork and matte on identical viewport bounds. */
+html:has(main[data-fragment="artist"]) body::before {
+  --artist-matte: color-mix(in srgb, var(--cv-page-bg) calc(var(--opacity-muted) * 100%), transparent);
+  content: '';
+  position: fixed;
+  inset: calc(0px - var(--panel-blur-unified));
+  min-block-size: calc(100vh + var(--panel-blur-unified) * 2);
+  min-block-size: calc(100lvh + var(--panel-blur-unified) * 2);
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--cv-page-bg);
+  background-image: linear-gradient(var(--artist-matte), var(--artist-matte)), var(--artist-cover, none);
+  background-size: cover;
+  background-position: center;
+  filter: blur(var(--panel-blur-unified));
+}
 html:has(main[data-fragment="artist"]) .site-footer { color: var(--cv-text-primary); }
 html:has(main[data-fragment="artist"]) .site-footer .information-links { display: none; }
 .label-wordmark { display: block; inline-size: min(100%, var(--featured-card-width)); block-size: auto; }
