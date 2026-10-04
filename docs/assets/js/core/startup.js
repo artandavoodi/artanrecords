@@ -1,4 +1,4 @@
-/* Pre-paint theme and bounded loading lifecycle; static HTML remains the fallback. */
+/* Pre-paint theme; readiness ends loading immediately, with native load as fallback. */
 (() => {
   const root = document.documentElement;
   try {
@@ -9,9 +9,8 @@
   root.dataset.loading = 'true';
   const finish = () => {
     delete root.dataset.loading;
-    clearTimeout(timeout);
   };
-  const timeout = setTimeout(finish, 8000);
   window.addEventListener('site:ready', finish, {once: true});
+  window.addEventListener('load', finish, {once: true});
   window.addEventListener('pageshow', event => { if (event.persisted) finish(); });
 })();
