@@ -30,11 +30,14 @@ html:has(main[data-fragment="home"]) [data-fragment="footer"] { scroll-snap-alig
 .artist-enquiry textarea { resize: vertical; }
 .artist-enquiry__consent { display: flex; align-items: baseline; gap: var(--spacing-sm); }
 .artist-enquiry button { justify-self: start; padding: var(--spacing-sm) var(--spacing-lg); border: 0; border-radius: var(--radius-md); background: var(--cv-text-primary); color: var(--cv-page-bg); font: inherit; cursor: pointer; }
-[data-fragment="artist"] > article > section > figure { inline-size: min(100%, var(--featured-card-width)); }
+.artist-biography > figure { inline-size: min(100%, var(--featured-card-width)); }
 .artist-card, .artist-link-groups, .artist-link-group { display: grid; gap: var(--spacing-md); }
 .artist-card a { display: flex; align-items: center; gap: var(--spacing-md); text-decoration: none; }
 .artist-card figure { flex: 0 0 var(--control-height-xl); inline-size: var(--control-height-xl); }
-.artist-card img, .artist-profile > section > figure img { aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-circle); }
+.artist-card img, .artist-biography > figure img { aspect-ratio: 1; object-fit: cover; border-radius: var(--radius-circle); }
+.artist-biography { justify-items: center; text-align: center; }
+.artist-biography .artist-facts div { justify-content: center; }
+.artist-biography .artist-facts dt { position: absolute; inline-size: 1px; block-size: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .artist-card h3 { min-inline-size: 0; overflow-wrap: anywhere; }
 .artist-facts div { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-sm); }
 .artist-facts dd { margin: 0; }
@@ -45,6 +48,7 @@ html:has(main[data-fragment="home"]) [data-fragment="footer"] { scroll-snap-alig
 .release-card:hover, .release-card:focus-within { background: var(--control-bg-hover); }
 .release-card a { display: grid; align-content: start; gap: var(--spacing-sm); text-decoration: none; }
 .release-card img { inline-size: var(--featured-card-width); aspect-ratio: 1; object-fit: cover; }
+.release-card img, .artist-latest-release > a img { border-radius: var(--shape-card-radius); }
 .release > figure { inline-size: min(100%, var(--featured-card-width)); justify-self: center; }
 .release > header { text-align: center; }
 .release { min-inline-size: 0; grid-template-columns: minmax(0, 1fr); }
@@ -74,9 +78,9 @@ html:has(main[data-fragment="artist"]) [data-fragment="footer"] { scroll-snap-al
   .artist-profile > section { scroll-snap-align: none; scroll-snap-stop: normal; }
 }
 .artist-profile::before,
-.artist-profile::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; }
-.artist-profile::before { background-image: var(--artist-cover, none); background-size: cover; background-position: center; filter: blur(var(--panel-blur-unified)); }
-.artist-profile::after { background: var(--cv-page-bg); opacity: var(--opacity-muted); -webkit-backdrop-filter: blur(var(--panel-blur-unified)); backdrop-filter: blur(var(--panel-blur-unified)); }
+.artist-profile::after { content: ''; position: fixed; inset: 0; min-block-size: 100vh; min-block-size: 100lvh; z-index: -1; pointer-events: none; }
+.artist-profile::before { inset: calc(0px - var(--panel-blur-unified)); background-image: var(--artist-cover, none); background-size: cover; background-position: center; filter: blur(var(--panel-blur-unified)); }
+.artist-profile::after { background: var(--cv-page-bg); opacity: var(--opacity-muted); }
 .label-wordmark { display: block; inline-size: min(100%, var(--featured-card-width)); block-size: auto; }
 .contact-links img { inline-size: var(--icon-size-md); block-size: var(--icon-size-md); }
 .contact-links { display: grid; gap: var(--spacing-lg); }
