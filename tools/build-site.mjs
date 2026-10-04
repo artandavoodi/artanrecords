@@ -51,7 +51,7 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   const cover=fragmentName==='release'?catalogue.items.find(r=>path===`/releases/${r.id}/`).cover:artists.items.find(a=>path===`/artists/${a.id}/`)?.portrait;
   const graph=[organization,...people,{'@type':'WebSite','@id':site.domain+'/#website',name:site.name,url:site.domain+'/'},{'@type':'WebPage','@id':site.domain+path,url:site.domain+path,name:title,description,isPartOf:{'@id':site.domain+'/#website'},...(cover?{primaryImageOfPage:{'@type':'ImageObject',contentUrl:site.domain+'/'+cover.src}}:{}),...entity}];
   const head=`<title>${e(title)} · ${e(site.name)}</title><meta name="description" content="${e(description)}"><link rel="canonical" href="${site.domain}${path}"><meta property="og:title" content="${e(title)}"><meta property="og:description" content="${e(description)}"><meta property="og:type" content="website"><meta property="og:url" content="${site.domain}${path}"><meta name="twitter:card" content="${cover?'summary_large_image':'summary'}">${cover?`<meta property="og:image" content="${site.domain}/${e(cover.src)}"><meta name="twitter:image" content="${site.domain}/${e(cover.src)}">`:''}<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':graph}).replace(/</g,'\\u003c')}</script>`;
-  await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer,fragment:fragmentName,content}));paths.push(path);
+  await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || ''}));paths.push(path);
 }
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
@@ -114,5 +114,5 @@ await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns=
   return `<url><loc>${site.domain}${p}</loc>${[...new Set(images)].map(src=>`<image:image><image:loc>${e(site.domain+'/'+src)}</image:loc></image:image>`).join('')}</url>`;
 }).join('')}</urlset>`);
 await output('robots.txt',`User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
-await output('404.html',fill(shell,{head:`<title>${e(site.labels.notFound)}</title><meta name="robots" content="noindex">`,navigation,footer,fragment:'home',content:`<section class="site-section"><h1>${e(site.labels.notFound)}</h1><a href="/">${e(site.labels.returnHome)}</a></section>`}));
+await output('404.html',fill(shell,{head:`<title>${e(site.labels.notFound)}</title><meta name="robots" content="noindex">`,navigation,footer,fragment:'home',backgroundStyle:'',content:`<section class="site-section"><h1>${e(site.labels.notFound)}</h1><a href="/">${e(site.labels.returnHome)}</a></section>`}));
 console.log(`Generated ${paths.length} public documents, 404, sitemap and robots.`);
