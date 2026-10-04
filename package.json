@@ -3,11 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "sync": "node tools/sync-foundation.mjs",
     "build": "node tools/build-site.mjs",
     "check": "node tools/check-site.mjs",
-    "dev": "node tools/serve.mjs"
+    "dev": "node tools/serve.mjs",
+    "build:web": "node tools/build-site.mjs",
+    "check:web": "node tools/check-site.mjs",
+    "dev:web": "node tools/serve.mjs",
+    "build:documentation": "echo \"Documentation build not implemented yet\"",
+    "check:documentation": "echo \"Documentation checks not implemented yet\"",
+    "dev:documentation": "echo \"Documentation dev server not implemented yet\"",
+    "build:studio": "echo \"Studio build not implemented yet\"",
+    "check:studio": "echo \"Studio checks not implemented yet\"",
+    "dev:studio": "echo \"Studio dev server not implemented yet\"",
+    "build:all": "npm run build:web && npm run build:documentation && npm run build:studio",
+    "check:all": "npm run check:web && npm run check:documentation && npm run check:studio"
   }
 }
