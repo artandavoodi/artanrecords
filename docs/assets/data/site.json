@@ -21,6 +21,10 @@
   },
   "artistWebsite": "https://artandavoodi.com/",
   "publicHub": "https://artan.live/",
+  "social": [
+    { "label": "Instagram", "url": "https://www.instagram.com/artanrecords", "icon": "instagram", "order": 1 },
+    { "label": "X", "url": "https://x.com/artanrecords", "icon": "x", "order": 2 }
+  ],
   "contact": [
     { "label": "Contact", "url": "mailto:contact@artanrecords.com", "icon": "email" },
     { "label": "Collaborations", "url": "mailto:collaborate@artanrecords.com", "icon": "email" }

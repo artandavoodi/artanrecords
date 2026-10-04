@@ -22,6 +22,7 @@ async function json(file,value) {
 for(const file of ['core/01-tokens/00-tokens-all.css','core/01-tokens/navigation.tokens.css','core/01-tokens/source/control-center.tokens.css','core/01-tokens/source/neuroartan.tokens.css','core/01-tokens/site.aliases.css','core/01-tokens/typography.tokens.css','core/02-foundation/themes.css','core/02-foundation/foundation.css','layers/site/site.css','layers/site/navigation.css']) await copy('docs/assets/css/'+file);
 const catalogue=await read('assets/data/music/releases.json');
 await copy('docs/assets/js/core/menu.js');
+await copy('docs/assets/css/core/04-systems/startup.css');
 await copy('docs/assets/css/layers/site/hub/index.css');
 const site=JSON.parse(await readFile(path.join(root,'docs/assets/data/site.json'),'utf8'));
 // Label identity is locally owned; foundation sync must not replace it.
@@ -40,6 +41,7 @@ const artistLinks=[...hub.links.filter(l=>l.url&&['streaming','social','email'].
 await json('docs/assets/data/artists/items.json',{schemaVersion:1,items:[{id:'artan-davoodi',name:artist.name,biography:artist.biography,portrait:artist.portrait,...(artist.yearsActive?{yearsActive:artist.yearsActive}:{}),links:artistLinks}]});
 if(artist.portrait) await copy('docs/'+artist.portrait.src);
 const ids=new Set(['home','back','chevron-right','email','globe',...items.flatMap(r=>[...(r.links||[]),...(r.tracks||[]).flatMap(t=>t.links||[])].map(l=>l.icon))]);
+for(const link of site.social||[]) ids.add(link.icon);
 const roster=JSON.parse(await readFile(path.join(root,'docs/assets/data/artists/roster.json'),'utf8'));
 for(const link of [...artistLinks,...roster.items.flatMap(a=>a.links||[])]) ids.add(link.icon);
 const icons=await read('assets/data/icons.json');

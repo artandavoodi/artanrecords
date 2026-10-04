@@ -19,7 +19,7 @@ export function artistYears(artist,labels) {
   if(!artist.yearsActive) return '';
   return `<dl class="artist-facts"><div><dt>${escape(labels.yearsActive)}</dt><dd>${escape(artist.yearsActive.start)}–${escape(artist.yearsActive.end??labels.present)}</dd></div></dl>`;
 }
-export const artistCards=(artists,labels)=>artists.map(a=>`<article class="artist-card"><a href="/artists/${escape(a.id)}/">${a.portrait?image(a.portrait,true):''}<h3>${escape(a.name)}</h3></a>${artistYears(a,labels)}</article>`).join('');
+export const artistCards=(artists,labels)=>artists.map(a=>`<article class="artist-card"><a href="/artists/${escape(a.id)}/">${a.portrait?image(a.portrait,true):''}<h3>${escape(a.name)}</h3></a></article>`).join('');
 export function artistLinks(artist,groups,icons) {
   return `<div class="artist-link-groups">${groups.map(group=>{
     const items=(artist.links||[]).filter(link=>link.category===group.id);

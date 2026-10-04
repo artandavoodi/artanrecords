@@ -1,7 +1,11 @@
 import {initializeTheme,bindTheme} from './theme.js';
 import {bindNavigation} from '../layers/site/navigation.js';
 import {bindIntake} from '../layers/site/intake.js';
+import {bindArtistPreview} from '../layers/site/artist-preview.js';
+import {bindArtistGrain} from '../layers/site/artist-grain.js';
 bindIntake().catch(console.error);
+bindArtistPreview().catch(console.error);
+bindArtistGrain().catch(console.error);
 initializeTheme();
 try {
   const response=await fetch('/assets/data/site.json');
@@ -18,4 +22,5 @@ function reveal(){
   const details=element.querySelector('details');
   if(details) details.open=true;
 }
-reveal();addEventListener('hashchange',reveal);
+try { reveal();addEventListener('hashchange',reveal); }
+finally { window.dispatchEvent(new Event('site:ready')); }

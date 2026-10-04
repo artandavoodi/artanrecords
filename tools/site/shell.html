@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/assets/js/core/startup.js"></script>
   <meta name="robots" content="max-image-preview:large">
   {{head}}
   <link rel="icon" href="/{{logo}}" type="image/svg+xml">
@@ -11,6 +12,7 @@
   <script type="module" src="/assets/js/core/app.js"></script>
 </head>
 <body style="{{backgroundStyle}}">
+{{atmosphere}}
   <div data-fragment="navigation">{{navigation}}</div>
   <main id="main-content" tabindex="-1" data-fragment="{{fragment}}">{{content}}</main>
   <div data-fragment="footer">{{footer}}</div>

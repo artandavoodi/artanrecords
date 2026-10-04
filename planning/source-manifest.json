@@ -47,6 +47,10 @@
       "sha256": "23355dcdc588f4f8163d895fbbc4f4e6d85ee85203f36f5802801189e3141c87"
     },
     {
+      "file": "docs/assets/css/core/04-systems/startup.css",
+      "sha256": "73f7e032ac2c67869379cee0efcc0c7c87883cd85cef379c256522d95bab31cc"
+    },
+    {
       "file": "docs/assets/css/layers/site/hub/index.css",
       "sha256": "1e56134c5c3aa52017f455a3ed6e281f2e31c9ba8215325dc24f72c519f5a36f"
     },
