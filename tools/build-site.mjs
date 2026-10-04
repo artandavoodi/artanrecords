@@ -41,7 +41,7 @@ const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
 const navigation=await fragment('navigation',{...escaped(site.labels),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
-const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),links:textLinks(information.footerLinks)});
+const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),links:textLinks(information.footerLinks),social:links(site.social,icons,'streaming','icons-only')});
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
 const paths=[];
@@ -55,16 +55,21 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 }
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
-  if(nav.fragment==='artists') values.social=links(site.social,icons);
+  if(nav.fragment==='artists') values.social=links(site.social,icons,'streaming','icons-only');
   if(nav.fragment==='home') {
+    values.wordmarkLight=e(site.logoAssets.wordmarkBlack);
+    values.wordmarkDark=e(site.logoAssets.wordmarkWhite);
+    values.featuredTitle=e(discovery.featuredTitle);
+    values.artistsTitle=e(discovery.featuredArtistsLabel);
+    values.artists=artistCards(discovery.featuredArtists.map(id=>{
+      const artist=artists.items.find(item=>item.id===id);
+      if(!artist) throw new Error('Unregistered featured artist');
+      return artist;
+    }),roster.labels);
     values.homeLinks=textLinks(information.homeLinks);
     const featured=catalogue.items.find(r=>r.id===discovery.featuredRelease);
     if(!featured) throw new Error('Unregistered featured release');
     values.featured=`<article class="discovery-feature"><a href="/releases/${e(featured.id)}/">${image(featured.cover)}<div><p class="eyebrow">${e(discovery.featuredLabel)}</p><h2>${e(featured.title)}</h2><p>${e(featured.artist)}</p><p>${e(featured.description)}</p><span>${e(discovery.openLabel)}</span></div></a></article>`;
-    values.releaseRows=discovery.rows.map(row=>{
-      const items=catalogue.items.filter(r=>r.category===row.category);
-      return items.length?`<section class="site-section"><h2>${e(row.title)}</h2><div class="catalogue">${cards(items)}</div></section>`:'';
-    }).join('');
   }
   if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{form:intakeForm(intake.form,icons),channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p></section>`).join('')});
   if(nav.fragment==='contact') values.links=links(site.contact,icons,'streaming','labels');
