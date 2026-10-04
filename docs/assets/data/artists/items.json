@@ -58,16 +58,44 @@
           "url": "https://tidal.com/artist/74922399/u"
         },
         {
-          "label": "X / Twitter",
+          "label": "X",
           "category": "social",
           "order": 7,
           "icon": "x",
           "url": "https://x.com/artandavoodi"
         },
         {
+          "label": "YouTube",
+          "category": "social",
+          "order": 8,
+          "icon": "youtube",
+          "url": "https://www.youtube.com/@artandavoodi"
+        },
+        {
+          "label": "TikTok",
+          "category": "social",
+          "order": 9,
+          "icon": "tiktok",
+          "url": "https://www.tiktok.com/@artan.davoodi"
+        },
+        {
+          "label": "Facebook",
+          "category": "social",
+          "order": 10,
+          "icon": "facebook",
+          "url": "https://www.facebook.com/artandavoodi"
+        },
+        {
+          "label": "Instagram",
+          "category": "social",
+          "order": 11,
+          "icon": "instagram",
+          "url": "https://www.instagram.com/artandavoodi/"
+        },
+        {
           "label": "contact@artandavoodi.com",
           "category": "email",
-          "order": 8,
+          "order": 12,
           "icon": "email",
           "url": "mailto:contact@artandavoodi.com"
         },
@@ -76,14 +104,14 @@
           "url": "https://artandavoodi.com/",
           "icon": "globe",
           "category": "website",
-          "order": 9
+          "order": 13
         },
         {
           "label": "Public hub",
           "url": "https://artan.live/",
           "icon": "globe",
           "category": "website",
-          "order": 10
+          "order": 14
         }
       ]
     }

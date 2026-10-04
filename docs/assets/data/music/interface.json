@@ -18,24 +18,32 @@
   "sections": [
     {
       "id": "artist",
-      "label": "Artist"
+      "label": "Artist",
+      "path": "/"
     },
     {
       "id": "music",
-      "label": "Music"
+      "label": "Music",
+      "path": "/music/"
     },
     {
       "id": "gallery",
-      "label": "Art & Gallery"
+      "label": "Art & Gallery",
+      "path": "/gallery/"
     },
     {
       "id": "hub",
-      "label": "Hub"
+      "label": "Hub",
+      "path": "/hub/"
     }
   ],
   "artistDescription": "Music · Art",
   "hubLabel": "Public hub",
   "musicCategories": [
+    {
+      "id": "release",
+      "label": "Release"
+    },
     {
       "id": "albums",
       "label": "Albums"
@@ -53,6 +61,7 @@
       "label": "Tracks"
     }
   ],
+  "musicDefaultCategory": "release",
   "musicStatusFilters": [
     {
       "id": "all",
@@ -121,6 +130,14 @@
       "label": "Story"
     },
     {
+      "key": "lyrics",
+      "label": "Lyrics"
+    },
+    {
+      "key": "relatedWork",
+      "label": "Related work"
+    },
+    {
       "key": "credits",
       "label": "Credits"
     },
@@ -177,6 +194,22 @@
       {
         "key": "tempo",
         "label": "Tempo"
+      },
+      {
+        "key": "language",
+        "label": "Language"
+      },
+      {
+        "key": "version",
+        "label": "Version"
+      },
+      {
+        "key": "originalTitle",
+        "label": "Original title"
+      },
+      {
+        "key": "feeling",
+        "label": "Feeling"
       }
     ],
     "releaseInformation": [

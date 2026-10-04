@@ -66,7 +66,7 @@ for(const nav of site.navigation) {
     }).join('');
   }
   if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{form:intakeForm(intake.form,icons),channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p></section>`).join('')});
-  if(nav.fragment==='contact') values.links=links(site.contact,icons);
+  if(nav.fragment==='contact') values.links=links(site.contact,icons,'streaming','labels');
   if(nav.fragment==='about') values.wordmark=e(site.logoAssets.wordmark);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
 }
@@ -91,18 +91,22 @@ await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissi
 });
 for(const artist of artists.items) {
   const releases=catalogue.items.filter(r=>r.artist===artist.name);
-  await page(`/artists/${artist.id}/`,artist.name,artist.biography,'artist',{...escaped(artist),yearsActive:artistYears(artist,roster.labels),portrait:artist.portrait?image(artist.portrait):'',releases:releases.length?`<section><h2>${e(roster.labels.releases)}</h2><div class="catalogue">${cards(releases)}</div></section>`:'',portfolio:artist.portfolio?.length?`<section><h2>${e(roster.labels.portfolio)}</h2>${artist.portfolio.map(p=>`<article><h3><a href="${e(p.url)}">${e(p.title)}</a></h3><p>${e(p.description)}</p></article>`).join('')}</section>`:'',links:artistLinks(artist,roster.linkGroups,icons)},{'@type':'ProfilePage',mainEntity:{'@id':personFor(artist)['@id']}});
+  const latest = releases.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];
+  artist.artistHeading = latest ? 'h2' : 'h1';
+  artist.backgroundStyle = latest?.cover ? `--artist-cover: url('/${latest.cover.src}')` : '';
+  const latestRelease = latest ? `<section class="site-section artist-latest-release" aria-label="${e(roster.labels.latestRelease)}"><h1>${e(latest.title)}</h1><p>${e(artist.name)}</p><a href="/releases/${e(latest.id)}/">${image(latest.cover)}</a><p class="reading">${e(latest.description)}</p><div class="hub__group" data-presentation="icons">${links(latest.links,icons,'hub__group-links')}</div></section>` : '';
+  await page(`/artists/${artist.id}/`,artist.name,artist.biography,'artist',{...escaped(artist),latestRelease,yearsActive:artistYears(artist,roster.labels),portrait:artist.portrait?image(artist.portrait):'',releases:releases.length?`<section><h2>${e(roster.labels.releases)}</h2><div class="catalogue">${cards(releases)}</div></section>`:'',portfolio:artist.portfolio?.length?`<section><h2>${e(roster.labels.portfolio)}</h2>${artist.portfolio.map(p=>`<article><h3><a href="${e(p.url)}">${e(p.title)}</a></h3><p>${e(p.description)}</p></article>`).join('')}</section>`:'',links:artistLinks(artist,roster.linkGroups,icons)},{'@type':'ProfilePage',mainEntity:{'@id':personFor(artist)['@id']}});
 }
 for(const r of catalogue.items) {
   const artist=artists.items.find(a=>a.name===r.artist);
   if(!artist) throw new Error('Release has no registered artist: '+r.id);
   const person=personFor(artist);
-  const recordings=(r.tracks||[]).map(t=>({'@type':'MusicRecording',name:t.title,isrcCode:t.isrc,url:site.domain+`/releases/${r.id}/#track-${t.id}`,byArtist:{'@id':person['@id']},duration:'PT'+t.duration.replace(':','M')+'S'}));
-  const entity={'@type':r.type==='Single'?'MusicRecording':'MusicAlbum',name:r.title,byArtist:{'@id':person['@id']},datePublished:r.releaseDate,image:site.domain+'/'+r.cover.src,...(recordings.length?{track:recordings,numTracks:recordings.length}:{isrcCode:r.isrc})};
+  const recordings=(r.tracks||[]).map(t=>({'@type':'MusicRecording',name:t.title,isrcCode:t.isrc,url:site.domain+`/releases/${r.id}/#track-${t.id}`,byArtist:{'@id':person['@id']},duration:t.duration?'PT'+t.duration.replace(':','M')+'S':undefined}));
+  const entity={'@type':r.type==='Single'?'MusicRecording':'MusicAlbum',name:r.title,byArtist:{'@id':person['@id']},datePublished:r.releaseDate,creativeWorkStatus:r.status,image:r.cover?site.domain+'/'+r.cover.src:undefined,...(recordings.length?{track:recordings,numTracks:recordings.length}:{isrcCode:r.isrc})};
   await page(`/releases/${r.id}/`,r.title,r.description,'release',{...escaped(r),back:e(site.labels.back),backIcon:icon('back',icons),cover:image(r.cover),metadata:metadata(r,ui),links:links(r.links,icons),sections:sections(r,ui,icons),tracks:recordings.length?`<section><h2>${e(site.labels.tracks)}</h2><ol>${r.tracks.map(t=>`<li id="track-${e(t.id)}"><details><summary>${e(t.title)} <span>${e(t.duration)}</span>${icon('chevron-right',icons)}</summary>${sections(t,ui,icons)}${links(t.links,icons)}</details></li>`).join('')}</ol></section>`:''},{mainEntity:entity});
 }
 await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${paths.map(p=>{
-  const images=catalogue.items.filter(r=>p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artist===a.name)||p===`/releases/${r.id}/`).map(r=>r.cover.src);
+  const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artist===a.name)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
   const portrait=artists.items.find(a=>p===`/artists/${a.id}/`)?.portrait;
   if(portrait) images.push(portrait.src);
   if(p==='/about/') images.push(site.logoAssets.wordmark);

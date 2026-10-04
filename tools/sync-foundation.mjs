@@ -31,7 +31,8 @@ function publicRecord(record) {
   if(record.tracks) result.tracks=record.tracks.map(publicRecord);
   return result;
 }
-const items=catalogue.items.map(publicRecord);
+// The public label catalogue includes published recordings only.
+const items=catalogue.items.filter(record=>record.status==='Released').map(publicRecord);
 const artist=await read('assets/data/artist/profile.json');
 await json('docs/assets/data/music/releases.json',{schemaVersion:1,items});
 const hub=await read('assets/data/hub.json');
@@ -45,7 +46,7 @@ const icons=await read('assets/data/icons.json');
 const used=icons.items.filter(i=>ids.has(i.id));
 if(used.length!==ids.size) throw new Error('Missing registered icon');
 for(const icon of used) await copy('docs/'+icon.src);
-for(const release of items) await copy('docs/'+release.cover.src);
+for(const release of items) if(release.cover) await copy('docs/'+release.cover.src);
 await json('docs/assets/data/icons.json',{schemaVersion:1,items:used});
 await json('docs/assets/data/music/interface.json',await read('assets/data/interface.json'));
 await json('planning/source-manifest.json',{sourceRepository:'artandavoodi/artandavoodi',sourceCommit:execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),files:records});

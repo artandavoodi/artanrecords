@@ -1,6 +1,6 @@
 {
   "sourceRepository": "artandavoodi/artandavoodi",
-  "sourceCommit": "bf439c7dbdf47d088df380f9b3b56a45d8f243f5",
+  "sourceCommit": "8e7be2a536f155a1cd078a01789c8feb44a13aa5",
   "files": [
     {
       "file": "docs/assets/css/core/01-tokens/00-tokens-all.css",
@@ -36,7 +36,7 @@
     },
     {
       "file": "docs/assets/css/layers/site/site.css",
-      "sha256": "15987b8d3e2d604e021a06a38f95c28a37d4c1c5e092e4c94db1eb249eb9a5d2"
+      "sha256": "f5475abd1a387f5116ecc129bb31f4b3f205addc643086d902033e127eb71ccc"
     },
     {
       "file": "docs/assets/css/layers/site/navigation.css",
@@ -48,11 +48,23 @@
     },
     {
       "file": "docs/assets/css/layers/site/hub/index.css",
-      "sha256": "a8ae8772816532f4fc4dd42e556b44c760c303f1d41ceef36411b6065835a18e"
+      "sha256": "1e56134c5c3aa52017f455a3ed6e281f2e31c9ba8215325dc24f72c519f5a36f"
     },
     {
       "file": "docs/assets/media/portrait/artist-home.jpeg",
       "sha256": "96edb5fb7366b9e9ed2a7c3d07ac233b9ec262627d064d8c140d2f73cc4dd85e"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/youtube.svg",
+      "sha256": "94f7062f3106f4379a3ab1de21e71afc2900792e0f7eb68b8d877eb799c8bd3b"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/tiktok.svg",
+      "sha256": "6b0add3deed8bd8e774bb84c39d837e5f761136eca83a927cd49a5da37d46edb"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/facebook.svg",
+      "sha256": "4299ed3adc9014ed27b6f9b49a47a5de9af0f46d12aad9d9e483951204f33c90"
     },
     {
       "file": "docs/assets/icons/navigation/home.svg",
@@ -65,6 +77,10 @@
     {
       "file": "docs/assets/icons/navigation/chevron-right.svg",
       "sha256": "106303fa2bd5611f1082ff4149083307a7ead325911770effad6c9470f6341fe"
+    },
+    {
+      "file": "docs/assets/icons/social/platforms/instagram.svg",
+      "sha256": "7e4b0ad497c7afdbec799228d72ea8e32f851adf56d04598bf93cfa333cec0c7"
     },
     {
       "file": "docs/assets/icons/social/platforms/x.svg",
@@ -101,6 +117,14 @@
     {
       "file": "docs/assets/icons/social/platforms/tidal.svg",
       "sha256": "e857cb228d1eaf91f6f624a25c2f12291e9af9008b60c37b2426c50ea1b57637"
+    },
+    {
+      "file": "docs/assets/media/music/singles/still-live-acoustic/cover/still-live-acoustic-cover.jpg",
+      "sha256": "fe541e73759af35a213b7671a186f33d6f586c977a56bab241877ac8e0f16ee1"
+    },
+    {
+      "file": "docs/assets/media/music/singles/dream/cover/dream-cover.jpg",
+      "sha256": "b74e8a662d79f04d9fe06162fda359b50a43b916c840b91bfe3be98575dc99aa"
     },
     {
       "file": "docs/assets/media/music/albums/salim/cover/salim-cover.webp",

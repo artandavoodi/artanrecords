@@ -2,6 +2,141 @@
   "schemaVersion": 1,
   "items": [
     {
+      "id": "still-live-acoustic",
+      "title": "Still (Live Acoustic)",
+      "artist": "Artan Davoodi",
+      "type": "Single",
+      "category": "singles",
+      "cover": {
+        "src": "assets/media/music/singles/still-live-acoustic/cover/still-live-acoustic-cover.jpg",
+        "alt": "Still (Live Acoustic) single cover by Artan Davoodi",
+        "width": 3000,
+        "height": 3000
+      },
+      "releaseDate": "2026-10-01",
+      "duration": "5:14",
+      "status": "Released",
+      "format": "Vocal and acoustic guitar",
+      "genre": "Singer/Songwriter, Alternative",
+      "label": "Artan Records",
+      "upc": "700566509299",
+      "description": "Still (Live Acoustic) captures the song in its most exposed form: voice and acoustic guitar.",
+      "story": "A continuous performance centered on memory, distance and a confession that survives time. Voice and acoustic guitar preserve the song before its later studio interpretation for Remnant.",
+      "productionProcess": "A continuous vocal and acoustic-guitar performance. This live acoustic master is separate from the forthcoming Remnant studio recording.",
+      "releaseInformation": "Released October 1, 2026 through Artan Records.",
+      "links": [
+        {
+          "label": "Apple Music",
+          "platform": "appleMusic",
+          "order": 1,
+          "icon": "apple-music",
+          "url": "https://music.apple.com/us/song/still-live-acoustic/6818434083"
+        },
+        {
+          "label": "Spotify",
+          "platform": "spotify",
+          "order": 2,
+          "icon": "spotify",
+          "url": "https://open.spotify.com/track/59F5ixOni2I8zXrSthNBBm?si=6cd102a3191747d1"
+        },
+        {
+          "label": "YouTube Music",
+          "platform": "youtubeMusic",
+          "order": 3,
+          "icon": "youtube-music",
+          "url": "https://music.youtube.com/playlist?list=OLAK5uy_n-4yKmKTYPlfvIrKv2MolAfxfw47TDHdo&si=OBWBekctZFu46Q-t"
+        },
+        {
+          "label": "Amazon Music",
+          "platform": "amazonMusic",
+          "order": 4,
+          "icon": "amazon-music",
+          "url": "https://music.amazon.de/albums/B0HLR2ZKNY?ref=dm_sh_5XozQgmngJ4scbFues4NzaN68"
+        },
+        {
+          "label": "Deezer",
+          "platform": "deezer",
+          "order": 5,
+          "icon": "deezer",
+          "url": "https://link.deezer.com/s/34AecFLYL9mVLVve6tSy9"
+        },
+        {
+          "label": "TIDAL",
+          "platform": "tidal",
+          "order": 6,
+          "icon": "tidal",
+          "url": "https://tidal.com/track/566370826/u"
+        }
+      ],
+      "tracks": []
+    },
+    {
+      "id": "dream",
+      "title": "Dream?",
+      "artist": "Artan Davoodi",
+      "type": "Single",
+      "category": "singles",
+      "cover": {
+        "src": "assets/media/music/singles/dream/cover/dream-cover.jpg",
+        "alt": "Dream? single cover by Artan Davoodi",
+        "width": 3000,
+        "height": 3000
+      },
+      "releaseDate": "2026-09-20",
+      "duration": "3:36",
+      "status": "Released",
+      "label": "Artan Records",
+      "upc": "700813163311",
+      "description": "An introspective song about identity, concealed emotion and the reflection of inner experience.",
+      "story": "Dream? moves through learned emotional concealment, unsaid words, falling, mirrors and comparison. Its final recognition is that what appears outside may also reflect the self.",
+      "releaseInformation": "Released September 20, 2026 through Artan Records.",
+      "links": [
+        {
+          "label": "Apple Music",
+          "platform": "appleMusic",
+          "order": 1,
+          "icon": "apple-music",
+          "url": "https://music.apple.com/us/song/dream/6813879451"
+        },
+        {
+          "label": "Spotify",
+          "platform": "spotify",
+          "order": 2,
+          "icon": "spotify",
+          "url": "https://open.spotify.com/track/5z82NzexByQm9L1ap9mKpk?si=969951eac02c4361"
+        },
+        {
+          "label": "YouTube Music",
+          "platform": "youtubeMusic",
+          "order": 3,
+          "icon": "youtube-music",
+          "url": "https://music.youtube.com/watch?v=1gwA3cvu1XM&si=x6tkkTwBCm-qTssD"
+        },
+        {
+          "label": "Amazon Music",
+          "platform": "amazonMusic",
+          "order": 4,
+          "icon": "amazon-music",
+          "url": "https://music.amazon.de/albums/B0HKCQH59N?ref=dm_sh_mVHvuQRmf7xzDfDWCN2oBQrts"
+        },
+        {
+          "label": "Deezer",
+          "platform": "deezer",
+          "order": 5,
+          "icon": "deezer",
+          "url": "https://link.deezer.com/s/34Aed8QGkZ5DwSRUSCqjO"
+        },
+        {
+          "label": "TIDAL",
+          "platform": "tidal",
+          "order": 6,
+          "icon": "tidal",
+          "url": "https://tidal.com/track/562476368/u"
+        }
+      ],
+      "tracks": []
+    },
+    {
       "id": "salim",
       "title": "Salim",
       "artist": "Artan Davoodi",
