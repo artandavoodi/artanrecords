@@ -8,3 +8,6 @@ node_modules/
 *.aiff
 *.aif
 
+
+# Internal business strategy
+Business.md
