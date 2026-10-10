@@ -1,5 +1,5 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
-import {intakeForm,intakeJourney} from './site/intake.mjs';
+import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
 import {escape as e,fill,image,icon,links,cards,sections,metadata,artistCards,artistYears,artistLinks} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 const read=p=>readFile(new URL(p,docs),'utf8');
@@ -72,7 +72,11 @@ for(const nav of site.navigation) {
     values.featured=`<article class="discovery-feature"><a href="/releases/${e(featured.id)}/">${image(featured.cover)}<div><p class="eyebrow">${e(discovery.featuredLabel)}</p><h2>${e(featured.title)}</h2><p>${e(featured.artist)}</p><p>${e(featured.description)}</p><span>${e(discovery.openLabel)}</span></div></a></article>`;
   }
   if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{startLabel:e(intake.form.startLabel),form:intakeForm(intake.form,icons),channels:intakeJourney(intake.channels,journeyScenes)});
-  if(nav.fragment==='contact') values.links=links(site.contact,icons,'streaming','labels');
+  if(nav.fragment==='contact') Object.assign(values,escaped(intake.contact),{
+    links:links(site.contact,icons,'streaming','labels'),
+    scene:journeyScene('collaboration',journeyScenes),
+    form:intakeForm({...intake.form,startLabel:intake.contact.startLabel,fields:intake.form.fields.map(field=>({...field,label:field.name==='artist'?intake.contact.artistLabel:field.name==='message'?intake.contact.messageLabel:field.label}))},icons)
+  });
   if(nav.fragment==='about') values.wordmark=e(site.logoAssets.wordmark);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
 }

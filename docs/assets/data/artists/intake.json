@@ -7,6 +7,17 @@
   "conversationDescription": "A listening link. A little context. A conversation about what comes next.",
   "introduction": "Share your music. Tell us what you want to make next.",
   "notice": "Every introduction is reviewed by Artan Records. Profiles are published only after approval. Sending work does not create an account or an offer of representation.",
+  "contact": {
+    "headline": "A good conversation\nstarts here.",
+    "introduction": "Music, an idea, or a question about working together. Tell us what brings you to Artan Records.",
+    "formTitle": "What would you like to discuss?",
+    "formDescription": "Choose artist introduction, music submission or collaboration in the form. Tell us what you are making, what you need and why you would like to work together. For other questions, use our contact email below.",
+    "emailTitle": "Prefer a direct email?",
+    "emailDescription": "Contact for general questions. Collaborations for music, creative proposals and working together.",
+    "startLabel": "Send an enquiry",
+    "artistLabel": "Artist, project or organisation",
+    "messageLabel": "Your enquiry or collaboration proposal"
+  },
   "form": {
     "action": "https://script.google.com/macros/s/AKfycbysSbhhm533YQmv3JEQh2eMiLQIkLRgJzooL0IWEAD7fMz0PevKQwCrxYzg81yZsNLM7g/exec",
     "captchaSiteKey": "6LcG8M4tAAAAAIpqITkQcwnSNApvLZCVDF98JMak",
