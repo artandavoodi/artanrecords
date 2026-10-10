@@ -1,7 +1,9 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
+import {bundleStyles} from './site/styles.mjs';
 import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
 import {escape as e,fill,image,icon,links,cards,sections,metadata,artistCards,artistYears,artistLinks} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
+await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
 const read=p=>readFile(new URL(p,docs),'utf8');
 const json=async p=>JSON.parse(await read(p));
 const [site,registry,catalogue,artists,icons,ui]=await Promise.all(['site','fragments','music/releases','artists/items','icons','music/interface'].map(p=>json('assets/data/'+p+'.json')));
@@ -60,6 +62,9 @@ for(const nav of site.navigation) {
     values.wordmarkLight=e(site.logoAssets.wordmarkBlack);
     values.wordmarkDark=e(site.logoAssets.wordmarkWhite);
     values.featuredTitle=e(discovery.featuredTitle);
+    values.latestTitle=e(discovery.latestTitle);
+    const latest=catalogue.items.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];
+    values.latest=latest?cards([latest]):'';
     values.artistsTitle=e(discovery.featuredArtistsLabel);
     values.artists=artistCards(discovery.featuredArtists.map(id=>{
       const artist=artists.items.find(item=>item.id===id);

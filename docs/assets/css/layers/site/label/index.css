@@ -8,7 +8,10 @@
   --label-artist-name-leading: var(--line-height-heading-tight);
 }
 .label-introduction { align-content: start; }
-.label-introduction > div { display: grid; gap: var(--spacing-md); }
+.label-introduction > div { display: grid; gap: var(--spacing-xl); min-inline-size: 0; }
+.label-home-logo { inline-size: min(100%, var(--cv-reading-width)); }
+.label-home-logo .label-wordmark { inline-size: 100%; }
+main[data-fragment="home"] > .site-section > h2 { font-weight: var(--font-weight-bold); }
 html:has(main[data-fragment="home"]) { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
 main[data-fragment="home"] > .site-section { min-block-size: calc(var(--section-min-height-stable) - var(--site-header-height)); align-content: center; scroll-snap-align: start; scroll-snap-stop: always; }
 html:has(main[data-fragment="home"]) [data-fragment="footer"] { scroll-snap-align: end; }
@@ -18,7 +21,8 @@ html:has(main[data-fragment="home"]) [data-fragment="footer"] { scroll-snap-alig
 }
 .discovery-feature a { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); gap: var(--spacing-xl); align-items: center; text-decoration: none; }
 .label-home-actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
-.label-home-actions a { display: inline-flex; align-items: center; justify-content: center; min-block-size: var(--control-height-sm); padding: var(--spacing-sm) var(--spacing-lg); border: var(--border-width-hairline) solid var(--cv-border); border-radius: var(--radius-md); text-decoration: none; }
+.label-home-actions a { display: inline-flex; align-items: center; justify-content: center; min-block-size: var(--control-height-md); padding: var(--spacing-sm) var(--spacing-lg); border: var(--border-width-hairline) solid var(--cv-border); border-radius: var(--radius-md); text-decoration: none; font-weight: var(--font-weight-semibold); transition: border-color var(--duration-base) var(--ease-standard); }
+.label-home-actions a:hover, .label-home-actions a:focus-visible { border-color: var(--cv-text-primary); }
 .label-home-actions a:first-child { background: var(--cv-text-primary); color: var(--cv-page-bg); }
 .label-home-logo .label-wordmark--dark { display: none; }
 html[data-theme-effective="dark"] .label-wordmark--light { display: none; }
