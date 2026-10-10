@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "scenes": [
     {
-      "id":"contact","colorToken":"--color-primary9","accentToken":"--color-primary7","duration":12000,
-      "elements":[{"shape":"ring"},{"shape":"ring"},{"shape":"ring"}],
+      "id":"contact","presentation":"ambient","colorToken":"--color-primary9","accentToken":"--color-primary1","duration":12000,
+      "elements":[{"shape":"glow"},{"shape":"glow"},{"shape":"glow"}],
       "keyframes":[{"transform":"translateY(0) scale(0.96)"},{"transform":"translateY(-6%) scale(1.03)"},{"transform":"translateY(0) scale(0.96)"}]
     },
     {

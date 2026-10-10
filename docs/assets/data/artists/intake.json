@@ -11,7 +11,7 @@
     "headline": "A good conversation\nstarts here.",
     "introduction": "Music, an idea, or a question about working together. Tell us what brings you to Artan Records.",
     "formTitle": "What would you like to discuss?",
-    "formDescription": "Tell us what your enquiry is about and whether you would like a reply. Required fields are marked. To submit music, use For artists.",
+    "formDescription": "Tell us what your enquiry is about and whether you would like a reply. Fields marked * are required. To submit music, use For artists.",
     "emailTitle": "Prefer a direct email?",
     "emailDescription": "Contact for general questions. Collaborations for music, creative proposals and working together.",
     "startLabel": "Send an enquiry",
@@ -23,7 +23,7 @@
       "pendingLabel": "Online contact enquiries are being updated. Please email contact@artanrecords.com or collaborate@artanrecords.com for now.",
       "subject": "Artan Records contact enquiry",
       "email": "contact@artanrecords.com",
-      "requiredLabel": "(required)",
+      "requiredLabel": "*",
       "fields": [
         {"name":"name","label":"Your name","type":"text","required":true,"autocomplete":"name","maxLength":150},
         {"name":"email","label":"Reply email","type":"email","required":true,"autocomplete":"email","maxLength":254},
