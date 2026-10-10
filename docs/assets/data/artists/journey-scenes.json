@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "scenes": [
+    {
+      "id": "sound", "colorToken": "--color-primary5", "accentToken": "--color-primary9", "duration": 4200,
+      "elements": [
+        {"shape":"bar","size":0.24}, {"shape":"bar","size":0.4}, {"shape":"bar","size":0.65},
+        {"shape":"bar","size":0.85}, {"shape":"bar","size":1}, {"shape":"bar","size":0.75},
+        {"shape":"bar","size":0.5}, {"shape":"bar","size":0.7}, {"shape":"bar","size":0.3}
+      ],
+      "keyframes": [{"transform":"scaleY(0.6)"},{"transform":"scaleY(1)"},{"transform":"scaleY(0.6)"}]
+    },
+    {
+      "id": "release", "colorToken": "--color-primary7", "accentToken": "--color-primary10", "duration": 6000,
+      "elements": [{"shape":"card","label":"Music"},{"shape":"card","label":"Credits"},{"shape":"card","label":"Release"}],
+      "keyframes": [{"transform":"translateY(0)"},{"transform":"translateY(-5%)"},{"transform":"translateY(0)"}]
+    },
+    {
+      "id": "collaboration", "colorToken": "--color-primary5", "accentToken": "--color-primary7", "duration": 8000,
+      "elements": [{"shape":"ring"},{"shape":"ring"},{"shape":"ring"}],
+      "keyframes": [{"transform":"scale(0.94)"},{"transform":"scale(1.04)"},{"transform":"scale(0.94)"}]
+    }
+  ]
+}

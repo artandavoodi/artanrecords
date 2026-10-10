@@ -1,6 +1,10 @@
 {
   "schemaVersion": 1,
   "title": "For artists",
+  "headline": "Your work.\nYour next chapter.",
+  "processLabel": "A considered beginning",
+  "conversationTitle": "Let us hear what you are making.",
+  "conversationDescription": "A listening link. A little context. A conversation about what comes next.",
   "introduction": "Share your music. Tell us what you want to make next.",
   "notice": "Every introduction is reviewed by Artan Records. Profiles are published only after approval. Sending work does not create an account or an offer of representation.",
   "form": {
@@ -50,8 +54,8 @@
     "returnIcon": "home"
   },
   "channels": [
-    { "title": "Your work, considered", "description": "Send your artist name, a short introduction and a listening link. We review enquiries individually. This is a conversation, not automatic distribution." },
-    { "title": "A clear next step", "description": "If there is a fit, we discuss the project, its credits and its release plans. Scope and terms must be agreed before an engagement begins." },
-    { "title": "Across sound and image", "description": "We also welcome creative collaborators. A portfolio link and a clear idea are enough to start." }
+    { "title": "The music comes first.", "description": "Send your artist name, a short introduction and a listening link. Singles, EPs and albums can begin here. We listen and review enquiries individually: this is a conversation, not automatic distribution.", "scene": "sound", "detail": "Share links, not private masters or project files." },
+    { "title": "A clear next step. Together.", "description": "If there is a fit, we discuss your project, credits, artwork and release plans. The scope, responsibilities and commercial terms must be agreed before an engagement begins.", "scene": "release", "detail": "Submission is not acceptance. Promotion is not automatically included." },
+    { "title": "Beyond the recording.", "description": "Sound and image belong in the same conversation. We welcome creative collaborators alongside recording artists. Share a portfolio and tell us what you would like to make together.", "scene": "collaboration", "detail": "Artists, musicians and visual collaborators are welcome." }
   ]
 }

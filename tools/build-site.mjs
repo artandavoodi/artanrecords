@@ -1,5 +1,5 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
-import {intakeForm} from './site/intake.mjs';
+import {intakeForm,intakeJourney} from './site/intake.mjs';
 import {escape as e,fill,image,icon,links,cards,sections,metadata,artistCards,artistYears,artistLinks} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 const read=p=>readFile(new URL(p,docs),'utf8');
@@ -7,6 +7,7 @@ const json=async p=>JSON.parse(await read(p));
 const [site,registry,catalogue,artists,icons,ui]=await Promise.all(['site','fragments','music/releases','artists/items','icons','music/interface'].map(p=>json('assets/data/'+p+'.json')));
 const roster=await json('assets/data/artists/roster.json');
 const intake=await json('assets/data/artists/intake.json');
+const journeyScenes=await json('assets/data/artists/journey-scenes.json');
 const responseShell=await readFile(new URL('site/enquiry-response.shell.html',import.meta.url),'utf8');
 const responseIcon=icons.items.find(item=>item.id===intake.response.returnIcon);
 if(!responseIcon) throw new Error('Unregistered enquiry response icon');
@@ -70,7 +71,7 @@ for(const nav of site.navigation) {
     if(!featured) throw new Error('Unregistered featured release');
     values.featured=`<article class="discovery-feature"><a href="/releases/${e(featured.id)}/">${image(featured.cover)}<div><p class="eyebrow">${e(discovery.featuredLabel)}</p><h2>${e(featured.title)}</h2><p>${e(featured.artist)}</p><p>${e(featured.description)}</p><span>${e(discovery.openLabel)}</span></div></a></article>`;
   }
-  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{form:intakeForm(intake.form,icons),channels:intake.channels.map(c=>`<section class="artist-intake__channel"><h2>${e(c.title)}</h2><p class="reading">${e(c.description)}</p></section>`).join('')});
+  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{startLabel:e(intake.form.startLabel),form:intakeForm(intake.form,icons),channels:intakeJourney(intake.channels,journeyScenes)});
   if(nav.fragment==='contact') values.links=links(site.contact,icons,'streaming','labels');
   if(nav.fragment==='about') values.wordmark=e(site.logoAssets.wordmark);
   await page(nav.path,nav.label,site.description,nav.fragment,values);

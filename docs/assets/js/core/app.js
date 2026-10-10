@@ -3,6 +3,7 @@ import {bindNavigation} from '../layers/site/navigation.js';
 import {bindIntake} from '../layers/site/intake.js';
 import {bindArtistPreview} from '../layers/site/artist-preview.js';
 import {bindArtistGrain} from '../layers/site/artist-grain.js';
+import {bindArtistJourney,bindJourneyScenes} from '../layers/site/artist-journey.js';
 initializeTheme();
 try {
   const theme=document.querySelector('[data-theme-toggle]');
@@ -15,6 +16,8 @@ finally { window.dispatchEvent(new Event('site:ready')); }
 bindIntake().catch(console.error);
 bindArtistPreview().catch(console.error);
 bindArtistGrain().catch(console.error);
+bindArtistJourney();
+bindJourneyScenes().catch(console.error);
 function reveal(){
   const element=document.getElementById(decodeURIComponent(location.hash.slice(1)));
   if(!element) return;
