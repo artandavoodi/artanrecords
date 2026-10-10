@@ -6,6 +6,11 @@
   "logoAlt": "Artan Records logo",
   "domain": "https://artanrecords.com",
   "description": "An independent record label for artists, recordings and creative collaboration. Music first. A lasting home for the work.",
+  "introduction": [
+    "Music first.",
+    "An independent record label for artists, recordings and creative collaboration.",
+    "A lasting home for the work."
+  ],
   "founder": {
     "artistId": "artan-davoodi",
     "name": "Artan Davoodi",

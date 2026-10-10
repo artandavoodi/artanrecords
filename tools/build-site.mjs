@@ -43,7 +43,7 @@ if(!founder||founder.name!==site.founder.name) throw new Error('Founder must mat
 const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
-const navigation=await fragment('navigation',{...escaped(site.labels),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
+const navigation=await fragment('navigation',{...escaped(site.labels),name:e(site.name),homeLinks:textLinks(information.homeLinks),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
 const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),links:textLinks(information.footerLinks),social:links(site.social,icons,'streaming','icons-only')});
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
@@ -59,8 +59,7 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
   if(nav.fragment==='home') {
-    values.wordmarkLight=e(site.logoAssets.wordmarkBlack);
-    values.wordmarkDark=e(site.logoAssets.wordmarkWhite);
+    values.introduction=site.introduction.map(line=>`<p>${e(line)}</p>`).join('');
     values.featuredTitle=e(discovery.featuredTitle);
     values.latestTitle=e(discovery.latestTitle);
     const latest=catalogue.items.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];

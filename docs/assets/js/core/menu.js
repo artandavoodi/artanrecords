@@ -4,12 +4,19 @@ export function bindMenu({ openLabel, closeLabel, selectors = {} }) {
   const menu = document.querySelector(selectors.menu || '[data-menu]');
   if (!toggle || !menu) return;
   const background = [...document.querySelectorAll(selectors.background || 'main, [data-fragment="footer"], [data-theme-toggle]')];
+  const menuControls = selectors.menuControls ? [...document.querySelectorAll(selectors.menuControls)] : [];
   let isOpen = false;
   const root = document.documentElement;
   const navigation = document.querySelector(selectors.navigation || '[data-site-navigation], .site-navigation');
+  const headerSection = selectors.headerSection ? document.querySelector(selectors.headerSection) : null;
   let pending = false;
   const revealHeader = () => root.removeAttribute('data-header-hidden');
-  const updateHeader = () => root.toggleAttribute('data-header-hidden', !isOpen && window.scrollY > 8 && !navigation?.querySelector(':focus-visible'));
+  const updateHeader = () => {
+    const pastIntroduction = headerSection
+      ? headerSection.getBoundingClientRect().bottom <= (navigation?.getBoundingClientRect().height || 0)
+      : window.scrollY > 8;
+    root.toggleAttribute('data-header-hidden', !isOpen && pastIntroduction && !navigation?.querySelector(':focus-visible'));
+  };
   navigation?.addEventListener('focusin', revealHeader);
   window.addEventListener('scroll', () => {
     if (pending) return;
@@ -31,6 +38,7 @@ export function bindMenu({ openLabel, closeLabel, selectors = {} }) {
     document.documentElement.toggleAttribute('data-menu-open', value);
     document.body.toggleAttribute('data-menu-locked', value);
     background.forEach(element => { element.inert = value; });
+    menuControls.forEach(element => { element.hidden = false; element.inert = !value; });
   };
   const links = [...menu.querySelectorAll('a[href]:not([hidden])')];
   links.forEach((link, index) => link.style.setProperty('--site-menu-item-index', index));
@@ -46,7 +54,7 @@ export function bindMenu({ openLabel, closeLabel, selectors = {} }) {
     if (!isOpen) return;
     if (event.key === 'Escape') { setOpen(false); toggle.focus(); }
     if (event.key === 'Tab') {
-      const targets = [toggle, ...links];
+      const targets = [toggle, ...menuControls, ...menu.querySelectorAll('a[href]:not([hidden]), button:not([hidden])')];
       const index = targets.indexOf(document.activeElement);
       if (event.shiftKey && index <= 0) { event.preventDefault(); targets.at(-1).focus(); }
       else if (!event.shiftKey && (index === targets.length - 1 || index < 0)) { event.preventDefault(); toggle.focus(); }
