@@ -1,7 +1,7 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
 import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
-import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks} from './site/render.mjs';
+import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
 const read=p=>readFile(new URL(p,docs),'utf8');
@@ -112,8 +112,11 @@ for(const item of information.items) {
   }
   await page(item.path,item.title,item.description,'information',{
     title:e(item.title),description:e(item.description),
-    contents:item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join(''),
-    sections:item.sections.map(section=>`<section id="${e(section.id)}"><h2>${e(section.title)}</h2><p>${e(section.text)}</p></section>`).join(''),
+    tabs:item.presentation==='tabs'?'data-information-tabs':'',
+    contents:['accordion','flow'].includes(item.presentation)?'':`<nav class="information-links" aria-label="${e(item.title)}">${item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join('')}</nav>`,
+    sections:item.sections.map(section=>item.presentation==='accordion'
+      ?`<details class="information-accordion" id="${e(section.id)}"><summary><span>${e(section.title)}</span>${icon('chevron-right',icons)}</summary>${paragraphs(section.text)}</details>`
+      :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}</section>`).join(''),
     links:textLinks(item.links),form:item.form?intakeForm(intake.form,icons):''
   });
 }

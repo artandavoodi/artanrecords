@@ -17,7 +17,7 @@
       ], "links":[]
     },
     {
-      "path":"/services/", "title":"Around the music", "description":"Release preparation, catalog presentation and collaboration at Artan Records.",
+      "path":"/services/", "title":"Around the music", "description":"Release preparation, catalog presentation and collaboration at Artan Records.", "presentation":"tabs",
       "sections":[
         {"id":"releases","title":"Release preparation","text":"Music, artwork, credits and metadata belong together. We work with selected projects to prepare a coherent release. The scope of each engagement is agreed individually."},
         {"id":"catalog","title":"A lasting home","text":"Our public catalog brings recordings, artists, credits and listening links together in one place. Each approved artist and release has a dedicated page."},
@@ -35,14 +35,14 @@
       ], "links":[{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
     },
     {
-      "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artan Records about sound, visual work and creative collaboration.", "form":true,
+      "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artan Records about sound, visual work and creative collaboration.", "form":true, "presentation":"flow",
       "sections":[
         {"id":"idea","title":"Start with an idea","text":"For musicians, producers, composers, filmmakers, photographers, designers and aligned organisations. Tell us what you do, what you have in mind and where we can see or hear your work."},
         {"id":"conversation","title":"A direct conversation","text":"Choose Collaboration in the form below. A concise introduction and a relevant portfolio link are enough to begin. Scope, responsibilities and terms are discussed individually."}
       ], "links":[{"label":"Submitting a recording instead?","url":"/submit/"},{"label":"Artist process and support","url":"/for-artists/"},{"label":"Email collaborations","url":"mailto:collaborate@artanrecords.com"}]
     },
     {
-      "path":"/faq/", "title":"Before you send", "description":"Practical answers for artists contacting Artan Records.",
+      "path":"/faq/", "title":"Before you send", "description":"Practical answers for artists contacting Artan Records.", "presentation":"accordion",
       "sections":[
         {"id":"who","title":"Who can get in touch?","text":"Artists and people authorised to represent their work can send an introduction. Creative collaborators can use the collaboration page."},
         {"id":"files","title":"Do I need to send audio files?","text":"A listening link is enough for an initial enquiry. The public form does not accept file uploads. Keep masters and project files private."},
@@ -53,12 +53,12 @@
       ], "links":[{"label":"Submit your music","url":"/submit/"}]
     },
     {
-      "path":"/legal/", "title":"Legal information", "description":"The scope of public information and enquiries at Artan Records.",
+      "path":"/legal/", "title":"Legal information", "description":"The scope of public information and enquiries at Artan Records.", "presentation":"tabs",
       "sections":[
-        {"id":"enquiries","title":"Enquiries, not agreements","text":"The public form is a way to introduce your work. Submitting an enquiry does not create an artist account, an offer of representation or a distribution agreement."},
-        {"id":"rights","title":"Respect the work","text":"Only share material and information you are authorised to share. Questions about a recording, credit or rights concern can be sent to contact@artanrecords.com. Include the relevant release link and a clear explanation."},
-        {"id":"terms","title":"Project terms","text":"Rights, responsibilities and commercial terms belong in the agreement for the specific engagement. This website is not a substitute for that agreement."},
-        {"id":"privacy","title":"Personal information","text":"Our submission privacy notice explains the current enquiry form and how it processes the information you send."}
+        {"id":"enquiries","title":"Enquiries, not agreements","text":"The public form is an introduction to Artan Records: a way to share a recording, describe a project or propose a collaboration. It begins a review and a possible conversation, not a contractual relationship.\n\nSubmitting an enquiry does not create an artist account, an offer of representation, a distribution agreement or an approved artist profile. A receipt confirmation means your enquiry was received; it does not mean your work has been accepted.\n\nTell us who you are, what you are sharing and what you would like to discuss. Use listening or portfolio links rather than private masters or sensitive documents. If you represent someone else, explain your role and share only information you are authorised to provide.\n\nAny proposed engagement needs its own discussion and agreement before work begins. Do not assume that a submission includes distribution, promotion, playlist placement or commercial results."},
+        {"id":"rights","title":"Respect the work","text":"Share only recordings, images, lyrics, credits and other material you are authorised to share. A publicly accessible link does not by itself establish permission to use or release the material.\n\nIdentify collaborators and any known third-party contributions, including samples, cover compositions, photographs and artwork. Explain any permissions that still need to be resolved rather than presenting them as confirmed. Do not submit confidential material belonging to another person.\n\nThe public catalogue presents approved release information and links to listening services. Access to an image or recording through this website is not a statement that it is free to reuse, redistribute or adapt. For permission questions, contact the relevant rights holder or ask Artan Records to help identify the appropriate contact.\n\nFor a credit correction or rights concern, email contact@artanrecords.com with the release link, the material concerned, your relationship to it and a clear explanation. Avoid sending identity documents or unrelated personal information in the initial message."},
+        {"id":"terms","title":"Project terms","text":"Each engagement needs a clear scope suited to the project. This website describes the label and its enquiry process; it is not the agreement governing a release or collaboration.\n\nBefore work begins, the parties should clarify the services involved, responsibilities, deliverables, approvals and any proposed timetable. Rights ownership and any permission to distribute or use recordings, compositions, artwork or an artist identity must be addressed expressly.\n\nWhere relevant, the project discussion should also cover costs, revenue allocation, reporting, payment arrangements, duration and how the engagement may end. These are subjects for a project-specific agreement, not standard terms promised by this page.\n\nArtan Records does not publish a universal royalty percentage, payout schedule or promotion guarantee here. Ask for clarification of anything you do not understand before accepting an agreement, and seek independent legal or accounting advice where appropriate."},
+        {"id":"privacy","title":"Personal information","text":"Artist enquiries ask for contact details and project information so Artan Records can review the work and respond. Provide only what is relevant to that conversation, and obtain permission before including another person's private information.\n\nDo not use the public enquiry form to send identity documents, bank details, tax information, private contracts or confidential masters. Secure onboarding for sensitive information is not provided by this public website.\n\nThe submission privacy notice explains the current form process, including the services used to handle enquiries and verification. External streaming and social links take you to other services, where their own notices and settings apply.\n\nFor a question about information you submitted, or to request a correction or deletion, contact contact@artanrecords.com and describe the enquiry using information you already shared. Do not send additional sensitive documents unless an appropriate process has been agreed. This overview does not replace the submission privacy notice or a project-specific agreement."}
       ], "links":[{"label":"Submission privacy","url":"/submission-privacy/"},{"label":"Contact Artan Records","url":"mailto:contact@artanrecords.com"}]
     }
   ]
