@@ -18,8 +18,10 @@ jobs:
         with:
           node-version: '22'
 
-      - run: npm run build:all
+      - run: npm run build
 
-      - run: npm run check:all
+      - run: npm run check
 
-      - run: git diff --exit-code -- docs documentation studio shared
+      - run: node tools/test-enquiries.mjs
+
+      - run: git diff --exit-code -- docs

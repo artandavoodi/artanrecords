@@ -4,6 +4,7 @@
   "foundingDate": "2025",
   "foundingLabel": "Founded",
   "logoAlt": "Artan Records logo",
+  "shareImage": {"src":"assets/brand/logo/artan-records-wordmark.png","alt":"Artan Records — independent record label"},
   "domain": "https://artanrecords.com",
   "description": "An independent record label for artists, recordings and creative collaboration. Music first. A lasting home for the work.",
   "introduction": [

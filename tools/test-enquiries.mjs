@@ -16,4 +16,13 @@ for(const changes of [{email:''},{email:'a@b.com\r\nBcc:x@y.com'},{message:'x'.r
 }
 for(const value of ['=IMPORTXML("url")','+1','-1','@SUM(1)','  =1']) assert.equal(context.safeCell_(value),"'"+value);
 assert.equal(context.safeCell_('Artist'),'Artist');
+const retentionRows=[
+  {status:'Closed',closedAt:'2026-08-01'},
+  {status:'Declined',closedAt:'2026-10-01'},
+  {status:'New',closedAt:'2026-08-01'},
+  {status:'Closed',closedAt:''}
+];
+assert.equal(context.retentionCandidates_(retentionRows,new Date('2026-10-10'),30).length,1);
+assert.equal(retentionRows.length,4);
+assert.throws(()=>context.retentionCandidates_(retentionRows,new Date(),0));
 console.log('Enquiry validation and spreadsheet safety checks passed.');

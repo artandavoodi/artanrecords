@@ -28,6 +28,16 @@ function safeCell_(value) {
   return /^[\s]*[=+@-]/.test(text) ? "'" + text : text;
 }
 
+/** Read-only retention review. Never deletes rows or mailbox notifications. */
+function retentionCandidates_(rows, now, days) {
+  if (!Number.isInteger(days) || days < 1) throw new Error('Retention period required');
+  return rows.filter(function(row) {
+    const closed = new Date(row.closedAt).getTime();
+    return ['Declined', 'Closed'].includes(row.status) && Number.isFinite(closed)
+      && closed <= now.getTime() - days * 24 * 60 * 60 * 1000;
+  });
+}
+
 function digest_(text) {
   return Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, text));
 }

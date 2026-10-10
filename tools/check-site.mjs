@@ -49,6 +49,10 @@ for(const file of await walk(docs)){
   if(!file.endsWith('.html')||file.includes('/fragments/'))continue;
   assert.ok(!text.includes('{{'),'Unresolved template');
   assert.equal((text.match(/<h1\b/g)||[]).length,1,file);
+  if(!file.endsWith('/404.html')) {
+    assert.ok(text.includes('property="og:image"'),'Missing sharing image: '+file);
+    assert.ok(text.includes('rel="canonical"'),'Missing canonical URL: '+file);
+  }
   for(const [,name]of text.matchAll(/data-fragment="([^"]+)"/g))assert.ok(registry[name]);
   for(const [,target]of text.matchAll(/(?:href|src)="(\/[^"?#]*)(?:[?#][^"]*)?"/g)){
     const local=path.join(docs,target);const info=await stat(local);if(info.isDirectory())await stat(path.join(local,'index.html'));
