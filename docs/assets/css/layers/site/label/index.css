@@ -9,16 +9,18 @@
   --label-logo-collapse-duration: calc(var(--duration-slow) * 2);
   --label-theme-breathe-scale: 1.35;
   --label-introduction-light-duration: calc(var(--duration-slow) * 40);
-  --label-introduction-light-color: color-mix(in srgb, var(--color-primary5) 18%, transparent);
-  --label-introduction-light-accent: color-mix(in srgb, var(--color-primary3) 14%, transparent);
+  --label-introduction-light-color: color-mix(in srgb, var(--color-primary9) 38%, transparent);
+  --label-introduction-light-accent: color-mix(in srgb, var(--color-primary8) 30%, transparent);
+  --label-introduction-light-warm: color-mix(in srgb, var(--color-primary10) 32%, transparent);
+  --label-introduction-light-earth: color-mix(in srgb, var(--color-primary1) 40%, transparent);
 }
-.label-introduction { align-content: start; background-image: radial-gradient(ellipse at center, var(--label-introduction-light-color), transparent 68%), radial-gradient(ellipse at center, var(--label-introduction-light-accent), transparent 68%); background-size: 85% 85%, 75% 80%; background-position: 100% 15%, 0% 90%; background-repeat: no-repeat; }
+.label-introduction { align-content: start; background-image: radial-gradient(ellipse at center, var(--label-introduction-light-color), transparent 68%), radial-gradient(ellipse at center, var(--label-introduction-light-accent), transparent 68%), radial-gradient(ellipse at center, var(--label-introduction-light-warm), transparent 68%), radial-gradient(ellipse at center, var(--label-introduction-light-earth), transparent 68%); background-size: 85% 85%, 75% 80%, 70% 75%, 65% 70%; background-position: 100% 15%, 0% 90%, 50% 100%, 10% 15%; background-repeat: no-repeat; }
 @media (prefers-reduced-motion: no-preference) {
   .label-introduction { animation: label-introduction-light var(--label-introduction-light-duration) ease-in-out infinite alternate; }
 }
 @keyframes label-introduction-light {
-  from { background-position: 100% 15%, 0% 90%; background-size: 85% 85%, 75% 80%; }
-  to { background-position: 65% 40%, 20% 70%; background-size: 100% 100%, 90% 95%; }
+  from { background-position: 100% 15%, 0% 90%, 50% 100%, 10% 15%; background-size: 85% 85%, 75% 80%, 70% 75%, 65% 70%; }
+  to { background-position: 45% 55%, 40% 30%, 85% 60%, 80% 80%; background-size: 110% 110%, 100% 100%, 90% 95%, 100% 105%; }
 }
 .label-introduction > div { display: grid; gap: var(--spacing-xl); min-inline-size: 0; }
 .label-accessible-title { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
