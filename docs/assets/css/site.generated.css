@@ -6986,7 +6986,7 @@ html[data-menu-open] .label-menu-theme { visibility: visible; opacity: 1; transf
   to { opacity: 1; transform: scale(1); }
 }
 .label-header-actions { grid-area: 1 / 2; transform-origin: right center; transition: opacity var(--label-logo-collapse-duration) var(--ease-standard), transform var(--label-logo-collapse-duration) var(--ease-standard), visibility var(--label-logo-collapse-duration); }
-html[data-menu-open] .label-header-actions { visibility: hidden; opacity: 0; }
+html[data-menu-open] .label-header-actions { visibility: hidden; opacity: 0; transform: translateX(var(--spacing-xl)) scale(0); }
 html[data-header-drawer]:not([data-menu-open]) .label-header-logo { visibility: hidden; opacity: 0; transform: translateX(var(--menu-drawer-distance)) scale(0); }
 html[data-header-drawer] .label-header-actions { visibility: hidden; opacity: 0; transform: translateX(var(--spacing-xl)) scale(0); }
 html[data-header-drawer][data-menu-open] .label-header-logo { animation: none; }
@@ -7031,8 +7031,11 @@ html:has(main[data-fragment="artist"]) .site-footer > .hub { display: none; }
 .reading { max-inline-size: var(--cv-reading-width); }
 .release-discovery, .release-discovery > section { display: grid; gap: var(--spacing-xl); }
 .release-spotlight > article { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--spacing-xl); align-items: center; }
-.release-spotlight img { inline-size: min(100%, var(--featured-card-width)); border-radius: var(--shape-card-radius); }
-.release-spotlight a { text-decoration: none; }
+.release-spotlight > article > a { display: grid; align-content: start; gap: var(--spacing-md); min-inline-size: 0; }
+.release-spotlight figure { inline-size: min(100%, var(--featured-card-width)); }
+.release-spotlight figure img { inline-size: 100%; border-radius: var(--shape-card-radius); }
+.release-spotlight a, .release-spotlight a:hover, .release-spotlight a:focus-visible { text-decoration: none; }
+.release-spotlight h3 { margin: 0; overflow-wrap: anywhere; }
 .release-spotlight > article > div { display: grid; gap: var(--spacing-lg); }
 .release-filters { display: grid; grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)); gap: var(--spacing-md); }
 .release-filters label { display: grid; gap: var(--spacing-sm); }
@@ -7096,7 +7099,10 @@ main[data-fragment="artists"] > .site-section { padding-block-start: 0; gap: 0; 
 .artist-link-groups { gap: var(--spacing-xl); }
 .catalogue { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); }
 .release-card { display: grid; align-content: start; gap: var(--spacing-md); max-inline-size: var(--featured-card-width); padding: var(--spacing-sm); border-radius: var(--shape-card-radius); }
-.release-card > a { display: grid; align-content: start; gap: var(--spacing-sm); text-decoration: none; }
+.release-card > a { display: grid; align-content: start; gap: var(--spacing-md); min-inline-size: 0; text-decoration: none; }
+.release-card > a:hover, .release-card > a:focus-visible { text-decoration: none; }
+.release-card > p > a { display: inline-block; white-space: nowrap; text-decoration: none; }
+.release-card > p > a:hover, .release-card > p > a:focus-visible { text-decoration: none; }
 .release-card figure img { inline-size: var(--featured-card-width); aspect-ratio: 1; object-fit: cover; }
 .release-card figure img, .artist-latest-release > a img { border-radius: var(--shape-card-radius); }
 .release-card figure, .discovery-feature figure, .artist-latest-release > a > figure, .release > figure { overflow: hidden; border-radius: var(--shape-card-radius); }
