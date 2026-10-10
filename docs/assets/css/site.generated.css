@@ -7040,7 +7040,7 @@ html:has(main[data-fragment="artist"]) .site-footer > .hub { display: none; }
 .release-filters select { appearance: auto; }
 .release-catalogue { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); gap: var(--spacing-xl); }
 .release-catalogue .release-card > a { inline-size: 100%; }
-.release-catalogue img { inline-size: 100%; }
+.release-catalogue figure img { inline-size: 100%; }
 .release-catalogue .hub { min-inline-size: 0; }
 .release-catalogue .hub__group-links { flex-wrap: wrap; }
 .release-card[hidden], .release-filters[hidden], [data-release-empty][hidden] { display: none; }
@@ -7096,9 +7096,9 @@ main[data-fragment="artists"] > .site-section { padding-block-start: 0; gap: 0; 
 .artist-link-groups { gap: var(--spacing-xl); }
 .catalogue { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); }
 .release-card { display: grid; align-content: start; gap: var(--spacing-md); max-inline-size: var(--featured-card-width); padding: var(--spacing-sm); border-radius: var(--shape-card-radius); }
-.release-card a { display: grid; align-content: start; gap: var(--spacing-sm); text-decoration: none; }
-.release-card img { inline-size: var(--featured-card-width); aspect-ratio: 1; object-fit: cover; }
-.release-card img, .artist-latest-release > a img { border-radius: var(--shape-card-radius); }
+.release-card > a { display: grid; align-content: start; gap: var(--spacing-sm); text-decoration: none; }
+.release-card figure img { inline-size: var(--featured-card-width); aspect-ratio: 1; object-fit: cover; }
+.release-card figure img, .artist-latest-release > a img { border-radius: var(--shape-card-radius); }
 .release-card figure, .discovery-feature figure, .artist-latest-release > a > figure, .release > figure { overflow: hidden; border-radius: var(--shape-card-radius); }
 .release-card figure img, .discovery-feature figure img, .artist-latest-release > a > figure img, .release > figure img, .artist-card figure img { transition: transform var(--label-artwork-motion-duration) var(--label-artwork-motion-ease); transform-origin: center; }
 @media (hover: hover) and (pointer: fine) {
