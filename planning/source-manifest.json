@@ -1,6 +1,6 @@
 {
   "sourceRepository": "artandavoodi/artandavoodi",
-  "sourceCommit": "f8b5d50404fa9ffd862b51c94a4fb21e8d5ba7d2",
+  "sourceCommit": "520970688553e389ee0d4e267e058e9a28f2d720",
   "files": [
     {
       "file": "docs/assets/css/core/01-tokens/00-tokens-all.css",
@@ -44,7 +44,7 @@
     },
     {
       "file": "docs/assets/js/core/menu.js",
-      "sha256": "cfa94063b80ec7568d5bd3f6d8d5fca45548cd8d1be2f9015424e30055863957"
+      "sha256": "28411eaee89f5d102e58245426d72ca23c4eb573548226869993e14bf8da4036"
     },
     {
       "file": "docs/assets/css/core/04-systems/startup.css",
