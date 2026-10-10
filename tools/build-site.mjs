@@ -52,6 +52,12 @@ const paths=[];
 async function output(file,value){await mkdir(new URL('./',new URL(file,docs)),{recursive:true});await writeFile(new URL(file,docs),value);}
 async function page(path,title,description,fragmentName,values,entity={}) {
   const navigation=await navigationFor(path);
+  if(fragmentName==='artist') values.contextLinks=textLinks([{label:site.labels.allArtists,url:'/artists/'},{label:site.labels.allReleases,url:'/releases/'}]);
+  if(fragmentName==='release') {
+    const release=catalogue.items.find(r=>path===`/releases/${r.id}/`);
+    const artist=artists.items.find(a=>a.name===release.artist);
+    values.contextLinks=textLinks([{label:site.labels.artistProfile,url:`/artists/${artist.id}/`},{label:site.labels.allReleases,url:'/releases/'}]);
+  }
   const content=await fragment(fragmentName,values);
   const cover=fragmentName==='release'?catalogue.items.find(r=>path===`/releases/${r.id}/`).cover:artists.items.find(a=>path===`/artists/${a.id}/`)?.portrait;
   const graph=[organization,...people,{'@type':'WebSite','@id':site.domain+'/#website',name:site.name,url:site.domain+'/'},{'@type':'WebPage','@id':site.domain+path,url:site.domain+path,name:title,description,isPartOf:{'@id':site.domain+'/#website'},...(cover?{primaryImageOfPage:{'@type':'ImageObject',contentUrl:site.domain+'/'+cover.src}}:{}),...entity}];
@@ -87,13 +93,13 @@ for(const nav of site.navigation) {
       releases:discoveryCards(released,artists.items,icons),
       filters:`<label>${e(labels.search)}<input type="search" name="query" autocomplete="off"></label><label>${e(labels.type)}<select name="category"><option value="">${e(labels.allTypes)}</option>${labels.types.map(t=>`<option value="${e(t.value)}">${e(t.label)}</option>`).join('')}</select></label><label>${e(labels.artist)}<select name="artist"><option value="">${e(labels.allArtists)}</option>${releaseArtists.map(a=>`<option value="${e(a.id)}">${e(a.name)}</option>`).join('')}</select></label>`});
   }
-  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{startLabel:e(intake.form.startLabel),form:intakeForm(intake.form,icons),channels:intakeJourney(intake.channels,journeyScenes)});
+  if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{journeyLinks:textLinks(intake.journeyLinks),startLabel:e(intake.form.startLabel),form:intakeForm(intake.form,icons),channels:intakeJourney(intake.channels,journeyScenes)});
   if(nav.fragment==='contact') Object.assign(values,escaped(intake.contact),{
     links:links(site.contact.map(item=>({...item,label:item.url?.replace('mailto:','')||item.label})),icons,'streaming','labels'),
     scene:journeyScene('contact',journeyScenes),
     form:intakeForm({...intake.form,...intake.contact.form,startLabel:intake.contact.startLabel},icons)
   });
-  if(nav.fragment==='about') values.wordmark=e(site.logoAssets.wordmark);
+  if(nav.fragment==='about') Object.assign(values,{wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite)});
   await page(nav.path,nav.label,site.description,nav.fragment,values);
 }
 for(const item of information.items) {

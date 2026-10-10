@@ -1,6 +1,7 @@
 /* Preview entries never become public artists, profile routes or structured data. */
 export async function bindArtistPreview() {
   if (!['localhost', '127.0.0.1', '::1'].includes(location.hostname)) return;
+  if (new URLSearchParams(location.search).get('preview') !== 'artist-grid') return;
   const roster = document.querySelector('main[data-fragment="artists"] .artist-roster');
   if (!roster) return;
   const response = await fetch('/assets/data/artists/roster.json');

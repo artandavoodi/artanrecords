@@ -32,14 +32,14 @@
         {"id":"share","title":"Let us hear the work","text":"Send a listening link, your artist name and a short introduction. Tell us whether it is a single, EP or album, who contributed, and what you hope to release."},
         {"id":"review","title":"A considered review","text":"Artan Records reviews enquiries individually. Sending music does not guarantee acceptance, representation or a release. If there is a fit, we can discuss the project and next steps."},
         {"id":"prepare","title":"Keep it simple","text":"Use the Music submission option in the form. Share links you have permission to share. Do not send private masters, identity documents, bank details or tax information."}
-      ], "links":[{"label":"How enquiries are handled","url":"/submission-privacy/"}]
+      ], "links":[{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
     },
     {
       "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artan Records about sound, visual work and creative collaboration.", "form":true,
       "sections":[
         {"id":"idea","title":"Start with an idea","text":"For musicians, producers, composers, filmmakers, photographers, designers and aligned organisations. Tell us what you do, what you have in mind and where we can see or hear your work."},
         {"id":"conversation","title":"A direct conversation","text":"Choose Collaboration in the form below. A concise introduction and a relevant portfolio link are enough to begin. Scope, responsibilities and terms are discussed individually."}
-      ], "links":[{"label":"Email collaborations","url":"mailto:collaborate@artanrecords.com"}]
+      ], "links":[{"label":"Submitting a recording instead?","url":"/submit/"},{"label":"Artist process and support","url":"/for-artists/"},{"label":"Email collaborations","url":"mailto:collaborate@artanrecords.com"}]
     },
     {
       "path":"/faq/", "title":"Before you send", "description":"Practical answers for artists contacting Artan Records.",

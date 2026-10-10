@@ -6,6 +6,11 @@
   "conversationTitle": "Let us hear what you are making.",
   "conversationDescription": "A listening link. A little context. A conversation about what comes next.",
   "introduction": "Share your music. Tell us what you want to make next.",
+  "journeyLinks": [
+    {"label":"Submit a recording","url":"/submit/"},
+    {"label":"Propose a creative collaboration","url":"/collaborate/"},
+    {"label":"Read submission guidance","url":"/faq/"}
+  ],
   "notice": "Every introduction is reviewed by Artan Records. Profiles are published only after approval. Sending work does not create an account or an offer of representation.",
   "contact": {
     "headline": "A good conversation\nstarts here.",

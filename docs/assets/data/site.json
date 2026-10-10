@@ -49,6 +49,7 @@
     "skip": "Skip to content", "menuOpen": "Open site menu", "menuClose": "Close site menu",
     "dark": "Dark appearance", "light": "Light appearance", "back": "Back to releases",
     "tracks": "Tracks", "artistWebsite": "Artist website", "publicHub": "Public hub",
-    "notFound": "Page not found", "returnHome": "Return home"
+    "notFound": "Page not found", "returnHome": "Return home",
+    "allArtists": "All artists", "artistProfile": "Artist profile", "allReleases": "All releases"
   }
 }
