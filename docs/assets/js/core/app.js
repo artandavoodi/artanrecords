@@ -4,6 +4,7 @@ import {bindIntake} from '../layers/site/intake.js';
 import {bindArtistPreview} from '../layers/site/artist-preview.js';
 import {bindArtistGrain} from '../layers/site/artist-grain.js';
 import {bindArtistJourney,bindJourneyScenes} from '../layers/site/artist-journey.js';
+import {bindReleaseDiscovery} from '../layers/site/releases.js';
 initializeTheme();
 try {
   const theme=document.querySelector('[data-theme-toggle]');
@@ -17,6 +18,7 @@ bindIntake().catch(console.error);
 bindArtistPreview().catch(console.error);
 bindArtistGrain().catch(console.error);
 bindArtistJourney();
+bindReleaseDiscovery();
 bindJourneyScenes().catch(console.error);
 function reveal(){
   const element=document.getElementById(decodeURIComponent(location.hash.slice(1)));

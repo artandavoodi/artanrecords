@@ -1,7 +1,7 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
 import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
-import {escape as e,fill,image,icon,links,cards,sections,metadata,artistCards,artistYears,artistLinks} from './site/render.mjs';
+import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
 const read=p=>readFile(new URL(p,docs),'utf8');
@@ -43,13 +43,15 @@ if(!founder||founder.name!==site.founder.name) throw new Error('Founder must mat
 const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
-const navigation=await fragment('navigation',{...escaped(site.labels),name:e(site.name),homeLinks:textLinks(information.homeLinks),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
+const navigationFor=path=>fragment('navigation',{...escaped(site.labels),name:e(site.name),homeLinks:textLinks(information.homeLinks.filter(item=>item.url!==path)),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
 const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),links:textLinks(information.footerLinks),social:links(site.social,icons,'streaming','icons-only')});
+const navigation=await navigationFor('/404.html');
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
 const paths=[];
 async function output(file,value){await mkdir(new URL('./',new URL(file,docs)),{recursive:true});await writeFile(new URL(file,docs),value);}
 async function page(path,title,description,fragmentName,values,entity={}) {
+  const navigation=await navigationFor(path);
   const content=await fragment(fragmentName,values);
   const cover=fragmentName==='release'?catalogue.items.find(r=>path===`/releases/${r.id}/`).cover:artists.items.find(a=>path===`/artists/${a.id}/`)?.portrait;
   const graph=[organization,...people,{'@type':'WebSite','@id':site.domain+'/#website',name:site.name,url:site.domain+'/'},{'@type':'WebPage','@id':site.domain+path,url:site.domain+path,name:title,description,isPartOf:{'@id':site.domain+'/#website'},...(cover?{primaryImageOfPage:{'@type':'ImageObject',contentUrl:site.domain+'/'+cover.src}}:{}),...entity}];
@@ -74,6 +76,16 @@ for(const nav of site.navigation) {
     const featured=catalogue.items.find(r=>r.id===discovery.featuredRelease);
     if(!featured) throw new Error('Unregistered featured release');
     values.featured=`<article class="discovery-feature"><a href="/releases/${e(featured.id)}/">${image(featured.cover)}<div><p class="eyebrow">${e(discovery.featuredLabel)}</p><h2>${e(featured.title)}</h2><p>${e(featured.artist)}</p><p>${e(featured.description)}</p><span>${e(discovery.openLabel)}</span></div></a></article>`;
+  }
+  if(nav.fragment==='releases') {
+    const released=catalogue.items.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate));
+    const latest=released[0];
+    const labels=discovery.catalogue;
+    const releaseArtists=artists.items.filter(a=>released.some(r=>r.artist===a.name));
+    Object.assign(values,{latestTitle:e(discovery.latestTitle),catalogueTitle:e(labels.title),empty:e(labels.empty),
+      latest:latest?`<article><a href="/releases/${e(latest.id)}/">${image(latest.cover)}<h3>${e(latest.title)}</h3></a><div><p>${e(latest.description)}</p>${links(latest.links,icons)}<a href="/releases/${e(latest.id)}/">${e(discovery.openLabel)}</a></div></article>`:'',
+      releases:discoveryCards(released,artists.items,icons),
+      filters:`<label>${e(labels.search)}<input type="search" name="query" autocomplete="off"></label><label>${e(labels.type)}<select name="category"><option value="">${e(labels.allTypes)}</option>${labels.types.map(t=>`<option value="${e(t.value)}">${e(t.label)}</option>`).join('')}</select></label><label>${e(labels.artist)}<select name="artist"><option value="">${e(labels.allArtists)}</option>${releaseArtists.map(a=>`<option value="${e(a.id)}">${e(a.name)}</option>`).join('')}</select></label>`});
   }
   if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{startLabel:e(intake.form.startLabel),form:intakeForm(intake.form,icons),channels:intakeJourney(intake.channels,journeyScenes)});
   if(nav.fragment==='contact') Object.assign(values,escaped(intake.contact),{

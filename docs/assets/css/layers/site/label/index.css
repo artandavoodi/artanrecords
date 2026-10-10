@@ -83,6 +83,24 @@ html:has(main[data-fragment="artist"]) .site-footer > .hub { display: none; }
 .discovery-feature img { aspect-ratio: 1; object-fit: cover; border-radius: var(--shape-card-radius); }
 .discovery-feature a > div { display: grid; gap: var(--spacing-md); }
 .reading { max-inline-size: var(--cv-reading-width); }
+.release-discovery, .release-discovery > section { display: grid; gap: var(--spacing-xl); }
+.release-spotlight > article { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--spacing-xl); align-items: center; }
+.release-spotlight img { inline-size: min(100%, var(--featured-card-width)); border-radius: var(--shape-card-radius); }
+.release-spotlight a { text-decoration: none; }
+.release-spotlight > article > div { display: grid; gap: var(--spacing-lg); }
+.release-filters { display: grid; grid-template-columns: minmax(0, 2fr) repeat(2, minmax(0, 1fr)); gap: var(--spacing-md); }
+.release-filters label { display: grid; gap: var(--spacing-sm); }
+.release-filters input, .release-filters select { inline-size: 100%; min-inline-size: 0; padding: var(--spacing-md); border: var(--border-width-hairline) solid var(--cv-border); border-radius: var(--radius-md); background: var(--cv-page-bg); color: var(--cv-text-primary); font: inherit; }
+.release-filters select { appearance: auto; }
+.release-catalogue { grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--featured-card-width)), 1fr)); gap: var(--spacing-xl); }
+.release-catalogue .release-card > a { inline-size: 100%; }
+.release-catalogue img { inline-size: 100%; }
+.release-catalogue .hub { min-inline-size: 0; }
+.release-catalogue .hub__group-links { flex-wrap: wrap; }
+.release-card[hidden], .release-filters[hidden], [data-release-empty][hidden] { display: none; }
+@media (max-width: 860px) {
+  .release-spotlight > article, .release-filters { grid-template-columns: minmax(0, 1fr); }
+}
 .information-links { display: flex; flex-wrap: wrap; gap: var(--spacing-md) var(--spacing-lg); }
 .information-page header, .information-page section { display: grid; gap: var(--spacing-md); max-inline-size: var(--cv-reading-width); }
 .information-page section { scroll-margin-block-start: var(--site-header-height); }

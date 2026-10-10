@@ -7,5 +7,15 @@
   "latestTitle": "Latest release",
   "featuredLabel": "Featured release",
   "openLabel": "Explore the release",
+  "catalogue": {
+    "title": "All releases",
+    "search": "Search releases or artists",
+    "type": "Release type",
+    "artist": "Artist",
+    "allTypes": "All releases",
+    "allArtists": "All artists",
+    "empty": "No releases match your search.",
+    "types": [{"value":"albums","label":"Albums"},{"value":"singles","label":"Singles"},{"value":"eps","label":"EPs"}]
+  },
   "rows": []
 }

@@ -15,6 +15,13 @@ export function links(items,icons,className='streaming',presentation='icons') {
   return className==='streaming' ? `<div class="hub hub__group" data-presentation="${escape(presentation)}">${content}</div>` : content;
 }
 export const cards=items=>items.map(r=>`<article class="release-card"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · ${escape(r.artist)}</p></article>`).join('');
+export function discoveryCards(items, artists, icons) {
+  return items.map(r=>{
+    const artist=artists.find(a=>a.name===r.artist);
+    if(!artist) throw new Error(`Unregistered release artist: ${r.artist}`);
+    return `<article class="release-card" data-release-category="${escape(r.category)}" data-release-artist="${escape(artist.id)}" data-release-search="${escape(r.title+' '+r.artist)}"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · <time datetime="${escape(r.releaseDate)}">${escape(r.releaseDate.slice(0,4))}</time> · <a href="/artists/${escape(artist.id)}/">${escape(r.artist)}</a></p>${links(r.links,icons)}</article>`;
+  }).join('');
+}
 export function artistYears(artist,labels) {
   if(!artist.yearsActive) return '';
   return `<dl class="artist-facts"><div><dt>${escape(labels.yearsActive)}</dt><dd>${escape(artist.yearsActive.start)}–${escape(artist.yearsActive.end??labels.present)}</dd></div></dl>`;
