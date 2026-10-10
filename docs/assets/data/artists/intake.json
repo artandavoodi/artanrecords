@@ -11,12 +11,29 @@
     "headline": "A good conversation\nstarts here.",
     "introduction": "Music, an idea, or a question about working together. Tell us what brings you to Artan Records.",
     "formTitle": "What would you like to discuss?",
-    "formDescription": "Choose artist introduction, music submission or collaboration in the form. Tell us what you are making, what you need and why you would like to work together. For other questions, use our contact email below.",
+    "formDescription": "Tell us what your enquiry is about and whether you would like a reply. Required fields are marked. To submit music, use For artists.",
     "emailTitle": "Prefer a direct email?",
     "emailDescription": "Contact for general questions. Collaborations for music, creative proposals and working together.",
     "startLabel": "Send an enquiry",
     "artistLabel": "Artist, project or organisation",
-    "messageLabel": "Your enquiry or collaboration proposal"
+    "messageLabel": "Your enquiry or collaboration proposal",
+    "form": {
+      "formType": "contact",
+      "deploymentPending": true,
+      "pendingLabel": "Online contact enquiries are being updated. Please email contact@artanrecords.com or collaborate@artanrecords.com for now.",
+      "subject": "Artan Records contact enquiry",
+      "email": "contact@artanrecords.com",
+      "requiredLabel": "(required)",
+      "fields": [
+        {"name":"name","label":"Your name","type":"text","required":true,"autocomplete":"name","maxLength":150},
+        {"name":"email","label":"Reply email","type":"email","required":true,"autocomplete":"email","maxLength":254},
+        {"name":"artist","label":"Artist, project or organisation (optional)","type":"text","maxLength":150},
+        {"name":"purpose","label":"What is your enquiry about?","type":"select","required":true,"options":["General enquiry","Creative collaboration","Press or media","Release or catalogue question"]},
+        {"name":"reply","label":"Would you like us to get in touch?","type":"select","required":true,"options":["Yes, please reply by email","No reply needed"]},
+        {"name":"website","label":"Relevant website or link (optional)","type":"url","maxLength":2000},
+        {"name":"message","label":"Your message","type":"textarea","required":true,"maxLength":5000}
+      ]
+    }
   },
   "form": {
     "action": "https://script.google.com/macros/s/AKfycbysSbhhm533YQmv3JEQh2eMiLQIkLRgJzooL0IWEAD7fMz0PevKQwCrxYzg81yZsNLM7g/exec",

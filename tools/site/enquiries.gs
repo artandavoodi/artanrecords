@@ -50,6 +50,13 @@ function doPost(event) {
   try {
     if (!event || event.contentLength > 40000 || !event.parameter) throw new Error('Invalid request');
     const config = config_();
+    if (event.parameter.formtype === 'contact') {
+      const contact = JSON.parse(PropertiesService.getScriptProperties().getProperty('CONTACT_CONFIG') || '{}');
+      if (!contact.fields || !contact.email || !contact.subject) throw new Error('Contact service not configured');
+      config.fields = contact.fields;
+      config.email = contact.email;
+      config.subject = contact.subject;
+    } else if (event.parameter.formtype) throw new Error('Invalid form');
     const data = validate_(event.parameter, config.fields);
     const token = event.parameter['g-recaptcha-response'];
     if (!token || token.length > 10000) throw new Error('CAPTCHA required');
@@ -62,9 +69,10 @@ function doPost(event) {
     lock = LockService.getScriptLock();
     if (!lock.tryLock(10000)) throw new Error('Service busy');
     const book = SpreadsheetApp.openById(config.spreadsheet);
-    let sheet = book.getSheetByName('Enquiries');
+    const sheetName = event.parameter.formtype === 'contact' ? 'Contact enquiries' : 'Enquiries';
+    let sheet = book.getSheetByName(sheetName);
     if (!sheet) {
-      sheet = book.insertSheet('Enquiries');
+      sheet = book.insertSheet(sheetName);
       sheet.appendRow(['Received UTC', 'Reference', ...config.fields.map(f => f.label), 'Acknowledged', 'Review status', 'Notification']);
       sheet.setFrozenRows(1);
     }

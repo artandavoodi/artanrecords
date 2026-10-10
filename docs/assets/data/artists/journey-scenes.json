@@ -2,6 +2,11 @@
   "schemaVersion": 1,
   "scenes": [
     {
+      "id":"contact","colorToken":"--color-primary9","accentToken":"--color-primary7","duration":12000,
+      "elements":[{"shape":"ring"},{"shape":"ring"},{"shape":"ring"}],
+      "keyframes":[{"transform":"translateY(0) scale(0.96)"},{"transform":"translateY(-6%) scale(1.03)"},{"transform":"translateY(0) scale(0.96)"}]
+    },
+    {
       "id": "sound", "colorToken": "--color-primary5", "accentToken": "--color-primary9", "duration": 4200,
       "elements": [
         {"shape":"bar","size":0.24}, {"shape":"bar","size":0.4}, {"shape":"bar","size":0.65},

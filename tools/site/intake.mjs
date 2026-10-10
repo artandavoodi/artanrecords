@@ -17,9 +17,14 @@ export function journeyScene(id,scenes) {
 }
 
 export function intakeForm(config,icons) {
+  if(config.deploymentPending) {
+    const preview=intakeForm({...config,deploymentPending:false},icons).replace('data-enquiry>','data-enquiry-pending>');
+    return `<p role="status" class="reading">${e(config.pendingLabel)}</p>${preview}`;
+  }
   if(!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(config.action)) throw new Error('Unapproved form endpoint');
   if(!/^[\w-]+$/.test(config.captchaSiteKey)) throw new Error('Missing CAPTCHA site key');
-  const fields=config.fields.map(field=>{
+  if(config.formType && config.formType!=='contact') throw new Error('Unsupported form type');
+  const fields=(config.formType?`<input type="hidden" name="formtype" value="${e(config.formType)}">`:'')+config.fields.map(field=>{
     if(!/^[a-z]+$/.test(field.name)) throw new Error('Invalid form field name');
     const attributes=`id="enquiry-${field.name}" name="${field.name}"${field.required?' required':''}${field.maxLength?` maxlength="${Number(field.maxLength)}"`:''}${field.autocomplete?` autocomplete="${e(field.autocomplete)}"`:''}`;
     let control;
@@ -29,7 +34,7 @@ export function intakeForm(config,icons) {
       if(!['text','email','url'].includes(field.type)) throw new Error('Unsupported form field type');
       control=`<input type="${field.type}" ${attributes}>`;
     }
-    return `<div class="artist-enquiry__field"><label for="enquiry-${field.name}">${e(field.label)}</label>${control}</div>`;
+    return `<div class="artist-enquiry__field"><label for="enquiry-${field.name}">${e(field.label)}${field.required&&config.requiredLabel?' '+e(config.requiredLabel):''}</label>${control}</div>`;
   }).join('');
   return `<details class="artist-enquiry" data-enquiry><summary><span>${e(config.startLabel)}</span>${icon(config.disclosureIcon,icons)}</summary><form action="${e(config.action)}" method="post" aria-describedby="enquiry-privacy"><input type="hidden" name="appearance" value="light">${fields}<div class="artist-enquiry__information"><p id="enquiry-privacy">${e(config.privacy)}</p><a href="${e(config.privacyUrl)}">${e(config.privacyLabel)}</a></div><label class="artist-enquiry__consent"><input type="checkbox" name="processing_acknowledgement" value="yes" required><span>${e(config.acknowledgement)}</span></label><div data-enquiry-captcha data-sitekey="${e(config.captchaSiteKey)}"></div><p data-enquiry-status role="status" aria-live="polite"></p><button type="submit" disabled>${e(config.submitLabel)}</button><div class="artist-enquiry__information"><p>${e(config.fallbackLabel)}</p><a href="mailto:${e(config.email)}">${e(config.email)}</a></div></form></details>`;
 }

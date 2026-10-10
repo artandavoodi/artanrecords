@@ -5,7 +5,10 @@ import assert from 'node:assert/strict';
 const source=readFileSync(new URL('./site/enquiries.gs',import.meta.url),'utf8');
 const context=vm.createContext({});
 vm.runInContext(source,context);
-const {form}=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/intake.json',import.meta.url),'utf8'));
+const {form,contact}=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/intake.json',import.meta.url),'utf8'));
+const contactValid={name:'Test',email:'test@example.com',purpose:'General enquiry',reply:'No reply needed',message:'A question',processing_acknowledgement:'yes'};
+assert.equal(context.validate_(contactValid,contact.form.fields).artist,'');
+for(const changes of [{name:''},{email:''},{purpose:'Music submission'},{reply:'unknown'},{message:''}]) assert.throws(()=>context.validate_({...contactValid,...changes},contact.form.fields));
 const valid={name:'Test Artist',artist:'Test',email:'test@example.com',purpose:'Collaboration',message:'Test enquiry',processing_acknowledgement:'yes'};
 assert.equal(context.validate_(valid,form.fields).email,valid.email);
 for(const changes of [{email:''},{email:'a@b.com\r\nBcc:x@y.com'},{message:'x'.repeat(5001)},{purpose:'other'},{processing_acknowledgement:'no'},{website:'javascript:alert(1)'}]) {

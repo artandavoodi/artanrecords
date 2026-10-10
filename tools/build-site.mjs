@@ -73,9 +73,9 @@ for(const nav of site.navigation) {
   }
   if(nav.fragment==='for-artists') Object.assign(values,escaped(intake),{startLabel:e(intake.form.startLabel),form:intakeForm(intake.form,icons),channels:intakeJourney(intake.channels,journeyScenes)});
   if(nav.fragment==='contact') Object.assign(values,escaped(intake.contact),{
-    links:links(site.contact,icons,'streaming','labels'),
-    scene:journeyScene('collaboration',journeyScenes),
-    form:intakeForm({...intake.form,startLabel:intake.contact.startLabel,fields:intake.form.fields.map(field=>({...field,label:field.name==='artist'?intake.contact.artistLabel:field.name==='message'?intake.contact.messageLabel:field.label}))},icons)
+    links:links(site.contact.map(item=>({...item,label:item.url?.replace('mailto:','')||item.label})),icons,'streaming','labels'),
+    scene:journeyScene('contact',journeyScenes),
+    form:intakeForm({...intake.form,...intake.contact.form,startLabel:intake.contact.startLabel},icons)
   });
   if(nav.fragment==='about') values.wordmark=e(site.logoAssets.wordmark);
   await page(nav.path,nav.label,site.description,nav.fragment,values);
