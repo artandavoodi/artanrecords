@@ -19,7 +19,7 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
     if(key==='records')await expect(page.locator('.label-header-logo img:visible')).toHaveCount(1);
   });
   test('menu opens and closes with Escape',async({page})=>{
-    await page.goto('/');
+    await page.goto(site.menuRoute||'/');
     const toggle=page.getByRole('button',{name:site.menuName,exact:true});
     await page.locator(site.menuSelector).waitFor({state:'attached'});
     if(key==='neuro'&&!(await toggle.isVisible())) {
