@@ -23,6 +23,7 @@ export async function bindIntake() {
         'expired-callback':invalidate,
         'error-callback':()=>{invalidate();status.textContent=config.captchaUnavailable;}
       });
+      status.textContent=config.captchaRequired;
     };
     const script=document.createElement('script');
     script.src='https://www.google.com/recaptcha/api.js?onload=artanEnquiryCaptchaReady&render=explicit';
