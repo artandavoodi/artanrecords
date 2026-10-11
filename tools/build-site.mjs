@@ -99,8 +99,22 @@ for(const nav of site.navigation) {
     scene:journeyScene('contact',journeyScenes),
     form:intakeForm({...intake.form,...intake.contact.form,startLabel:intake.contact.startLabel},icons)
   });
-  if(nav.fragment==='about') Object.assign(values,{wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite)});
-  await page(nav.path,nav.label,site.description,nav.fragment,values);
+  if(nav.fragment==='about') {
+    const ids=new Set();
+    const leaders=site.aboutPage.leadership.map(leader=>{
+      if(ids.has(leader.id)) throw new Error('Duplicate leadership identity');
+      ids.add(leader.id);
+      const identity=leader.artistId?artists.items.find(a=>a.id===leader.artistId):leader;
+      if(!identity?.name||!leader.role||!leader.biography) throw new Error('Incomplete leadership identity');
+      return `<article class="leadership-card">${identity.portrait?image(identity.portrait):''}<h3>${e(identity.name)}</h3><p>${e(leader.role)}</p>${paragraphs(leader.biography)}</article>`;
+    }).join('');
+    const content={about:`${paragraphs(site.about)}${paragraphs(site.history)}<dl class="artist-facts"><div><dt>${e(site.foundingLabel)}</dt><dd>${e(site.foundingDate)}</dd></div></dl>${paragraphs(site.aboutPage.aboutDetails)}`,mission:paragraphs(site.principle)+paragraphs(site.aboutPage.missionDetails),leadership:paragraphs(site.aboutPage.leadershipIntroduction)+leaders};
+    Object.assign(values,{tabs:site.aboutPage.tabs.map(t=>`<a href="#${e(t.id)}">${e(t.label)}</a>`).join(''),panels:site.aboutPage.tabs.map(t=>{
+      if(!Object.hasOwn(content,t.id))throw new Error('Unknown About panel');
+      return `<section id="${e(t.id)}"><h2>${e(t.label)}</h2>${content[t.id]}</section>`;
+    }).join('')});
+  }
+  await page(nav.path,nav.label,nav.fragment==='about'?site.aboutPage.description:site.description,nav.fragment,values,nav.fragment==='about'?{'@type':'AboutPage',mainEntity:{'@id':organization['@id']}}:{});
 }
 for(const item of information.items) {
   if(item.publish===false) continue;
@@ -144,7 +158,7 @@ await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns=
   const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artist===a.name)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
   const portrait=artists.items.find(a=>p===`/artists/${a.id}/`)?.portrait;
   if(portrait) images.push(portrait.src);
-  if(p==='/about/') images.push(site.logoAssets.wordmark);
+  if(p==='/about/') images.push(...site.aboutPage.leadership.map(l=>(l.artistId?artists.items.find(a=>a.id===l.artistId):l)?.portrait?.src).filter(Boolean));
   if(p==='/'||p==='/artists/') images.push(...artists.items.filter(a=>a.portrait).map(a=>a.portrait.src));
   return `<url><loc>${site.domain}${p}</loc>${[...new Set(images)].map(src=>`<image:image><image:loc>${e(site.domain+'/'+src)}</image:loc></image:image>`).join('')}</url>`;
 }).join('')}</urlset>`);
