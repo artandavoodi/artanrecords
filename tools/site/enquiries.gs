@@ -46,7 +46,7 @@ function retentionConfig_() {
 }
 
 /** An installable edit trigger records actual closure; undated legacy rows are never expired. */
-function recordReviewClosure(event) {
+function recordReviewClosure_(event) {
   if (!event || !event.range) return;
   const config = retentionConfig_();
   const sheet = event.range.getSheet();
@@ -69,7 +69,7 @@ function recordReviewClosure(event) {
 }
 
 /** Remove only expired closed rows from the active sheet, not provider history or email copies. */
-function removeExpiredClosedEnquiries() {
+function removeExpiredClosedEnquiries_() {
   const config = retentionConfig_();
   const book = SpreadsheetApp.openById(config_().spreadsheet);
   const lock = LockService.getScriptLock();
@@ -99,11 +99,17 @@ function removeExpiredClosedEnquiries() {
 
 /** Owner-run setup only. No trigger is installed by a public enquiry or a normal deployment. */
 function installRetentionTriggers() {
+  const owner = PropertiesService.getScriptProperties().getProperty('RETENTION_OWNER_EMAIL');
+  const actor = Session.getActiveUser().getEmail();
+  if (!owner || !actor || actor.toLowerCase() !== owner.toLowerCase()) throw new Error('Owner authorization required');
   retentionConfig_();
   const spreadsheet = config_().spreadsheet;
+  for (const trigger of ScriptApp.getProjectTriggers()) {
+    if (['recordReviewClosure', 'removeExpiredClosedEnquiries'].includes(trigger.getHandlerFunction())) ScriptApp.deleteTrigger(trigger);
+  }
   const existing = ScriptApp.getProjectTriggers().map(trigger => trigger.getHandlerFunction());
-  if (!existing.includes('recordReviewClosure')) ScriptApp.newTrigger('recordReviewClosure').forSpreadsheet(spreadsheet).onEdit().create();
-  if (!existing.includes('removeExpiredClosedEnquiries')) ScriptApp.newTrigger('removeExpiredClosedEnquiries').timeBased().everyDays(1).atHour(3).create();
+  if (!existing.includes('recordReviewClosure_')) ScriptApp.newTrigger('recordReviewClosure_').forSpreadsheet(spreadsheet).onEdit().create();
+  if (!existing.includes('removeExpiredClosedEnquiries_')) ScriptApp.newTrigger('removeExpiredClosedEnquiries_').timeBased().everyDays(1).atHour(3).create();
   console.log('Retention triggers installed; active and undated enquiries remain untouched.');
 }
 
