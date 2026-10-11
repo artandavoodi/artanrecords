@@ -7,10 +7,6 @@
       "sha256": "449b594674fb4ace373549539a069eef38e1f3b4155575ea4d1319c033fa7b1d"
     },
     {
-      "file": "docs/assets/css/core/01-tokens/navigation.tokens.css",
-      "sha256": "3306b99052c2af5415b65561586a7dc596bbe08a3fd556115abd986805ddd574"
-    },
-    {
       "file": "docs/assets/css/core/01-tokens/source/control-center.tokens.css",
       "sha256": "7f6e7027ce87c0d8cdb0a37d1649a5cbe21535f71404831fb852b2f1f569bdcc"
     },
@@ -53,10 +49,6 @@
     {
       "file": "docs/assets/css/layers/site/hub/index.css",
       "sha256": "1e56134c5c3aa52017f455a3ed6e281f2e31c9ba8215325dc24f72c519f5a36f"
-    },
-    {
-      "file": "docs/assets/media/portrait/artist-home.jpeg",
-      "sha256": "96edb5fb7366b9e9ed2a7c3d07ac233b9ec262627d064d8c140d2f73cc4dd85e"
     },
     {
       "file": "docs/assets/icons/social/platforms/youtube.svg",
@@ -123,24 +115,106 @@
       "sha256": "e857cb228d1eaf91f6f624a25c2f12291e9af9008b60c37b2426c50ea1b57637"
     },
     {
+      "file": "docs/assets/css/core/01-tokens/navigation.tokens.css",
+      "sha256": "b4df8cdebf16c361642e2dda36c32f16e63952aca83a6ad897a81fcc17ac6e2b"
+    },
+    {
+      "file": "docs/assets/css/layers/site/theme-menu.css",
+      "sha256": "9570198870280d8ab0843cbcbd95c0b5e13ab74cffa3088ea9df3a3067cc7d43"
+    },
+    {
       "file": "docs/assets/media/music/singles/still-live-acoustic/cover/still-live-acoustic-cover.jpg",
       "sha256": "fe541e73759af35a213b7671a186f33d6f586c977a56bab241877ac8e0f16ee1"
+    },
+    {
+      "file": "docs/assets/media/music/singles/still-live-acoustic/cover/responsive/still-live-acoustic-cover-w320.jpg",
+      "sha256": "07390b146d1aa8e6c261b3ad541ce161a5d81c2d8e6eaa3db47bf205ed343ce2"
+    },
+    {
+      "file": "docs/assets/media/music/singles/still-live-acoustic/cover/responsive/still-live-acoustic-cover-w640.jpg",
+      "sha256": "6370ec64edc4d7387c04e1624370931cfe2b9bddf1091f63d6fa7545848487ac"
+    },
+    {
+      "file": "docs/assets/media/music/singles/still-live-acoustic/cover/responsive/still-live-acoustic-cover-w1280.jpg",
+      "sha256": "dbb20ecbde8bf2a243ce6a4a3afb02249762590983dd19f24c74f8f330534939"
     },
     {
       "file": "docs/assets/media/music/singles/dream/cover/dream-cover.jpg",
       "sha256": "b74e8a662d79f04d9fe06162fda359b50a43b916c840b91bfe3be98575dc99aa"
     },
     {
+      "file": "docs/assets/media/music/singles/dream/cover/responsive/dream-cover-w320.jpg",
+      "sha256": "0a3b38a333c1700c06a1c2750149eff68b7a6a26ede743aac6632266dd68b8fa"
+    },
+    {
+      "file": "docs/assets/media/music/singles/dream/cover/responsive/dream-cover-w640.jpg",
+      "sha256": "22f132588c9ea76e8fce19d99116e29ca1c8dbda9b44e85b7b420117b2dfac0e"
+    },
+    {
+      "file": "docs/assets/media/music/singles/dream/cover/responsive/dream-cover-w1280.jpg",
+      "sha256": "81d9588592715972f12decffd63b9d435a305ba86f3382f66915e861c4e117eb"
+    },
+    {
       "file": "docs/assets/media/music/albums/salim/cover/salim-cover.webp",
       "sha256": "198164a572ab8e3bd9b5a06de628c1b85f2e59f11e0e027767e27535fb6a96aa"
+    },
+    {
+      "file": "docs/assets/media/music/albums/salim/cover/responsive/salim-cover-w320.jpg",
+      "sha256": "c76747a4deb0f8b4254121e14654e53586c2872f0044549f50fc16d9bc929a3c"
+    },
+    {
+      "file": "docs/assets/media/music/albums/salim/cover/responsive/salim-cover-w640.jpg",
+      "sha256": "c860b433cc4f4b08eb5c1363d56efe615e19d56a23636c19cbaedf6c6b393b52"
+    },
+    {
+      "file": "docs/assets/media/music/albums/salim/cover/responsive/salim-cover-w1280.jpg",
+      "sha256": "0ae1042aa4344936d3c67783a9c61148087e228639090b0154339b6bc0e88f60"
     },
     {
       "file": "docs/assets/media/music/albums/solum/cover/solum-cover.webp",
       "sha256": "bd3cdcf2af6036083ea46daa9bf14c532d8529b5419c47f31d7a228758340af5"
     },
     {
+      "file": "docs/assets/media/music/albums/solum/cover/responsive/solum-cover-w320.jpg",
+      "sha256": "40be401996cc6c33d4f598920200060cfc2301e7a31877f7c8faab7e70f067a2"
+    },
+    {
+      "file": "docs/assets/media/music/albums/solum/cover/responsive/solum-cover-w640.jpg",
+      "sha256": "1c600c9f45c353af9750dd1cc28c51fcba0e005ce871394e4710884d170b1d7b"
+    },
+    {
       "file": "docs/assets/media/music/singles/gone/cover/gone-cover.webp",
       "sha256": "97bf759b49b5190f1e137db6f430f7a1a39aa206908df16ffa3d5fa66b232ae8"
+    },
+    {
+      "file": "docs/assets/media/music/singles/gone/cover/responsive/gone-cover-w320.jpg",
+      "sha256": "4f17eac57c359746079f4f6df43072a4d87ce37d4fea768321c74207beb83c42"
+    },
+    {
+      "file": "docs/assets/media/music/singles/gone/cover/responsive/gone-cover-w640.jpg",
+      "sha256": "384c3c415aef4f33de6d10a012bbb71099f0118762d478ff77ddcb6b23f4f81f"
+    },
+    {
+      "file": "docs/assets/media/music/singles/gone/cover/responsive/gone-cover-w1280.jpg",
+      "sha256": "15f61c1b88c33f1ce6b0f88e8ab18e17ad8f66bbc29abc3483d5120f0fd657cb"
+    },
+    {
+      "file": "docs/assets/media/portrait/artist-home.jpeg",
+      "sha256": "96edb5fb7366b9e9ed2a7c3d07ac233b9ec262627d064d8c140d2f73cc4dd85e"
+    },
+    {
+      "file": "docs/assets/media/portrait/responsive/artist-home-w320.jpg",
+      "sha256": "dd0cc54d10cd9a2b8fadf3ec4d0d803e6b84e480e342a75bdda74301a8c15b97"
+    },
+    {
+      "file": "docs/assets/media/portrait/responsive/artist-home-w640.jpg",
+      "sha256": "fea87626d5b5bdaa79ebdd668bac6c262cd52483786e1c0a03e7cd39a4df10ef"
+    },
+    {
+      "file": "docs/assets/media/portrait/responsive/artist-home-w1280.jpg",
+      "sha256": "22b1c599833af292c199b68bb05a4ce274a8f619afaf4eb7ac55ea2e56c06df6"
     }
-  ]
+  ],
+  "controlsSourceCommit": "e7ff5445a0eb41447553f965f20196360c16607e",
+  "mediaSourceCommit": "e7ff5445a0eb41447553f965f20196360c16607e"
 }

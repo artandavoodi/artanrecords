@@ -1,0 +1,48 @@
+name: Public browser regression
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      site:
+        type: string
+        default: records
+      suite_ref:
+        type: string
+        default: ''
+permissions:
+  contents: read
+jobs:
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: browser-target
+      - uses: actions/checkout@v4
+        with:
+          repository: artandavoodi/artanrecords
+          ref: ${{ inputs.suite_ref || github.sha }}
+          path: browser-suite
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: browser-suite/package-lock.json
+      - run: npm ci
+        working-directory: browser-suite
+      - run: npx playwright install --with-deps chromium webkit
+        working-directory: browser-suite
+      - run: npm run test:browser
+        working-directory: browser-suite
+        env:
+          BROWSER_SITE_KEY: ${{ inputs.site || 'records' }}
+          BROWSER_TARGET_ROOT: ${{ github.workspace }}/browser-target/docs
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: browser-failure-${{ inputs.site || 'records' }}
+          path: browser-suite/test-results
+          retention-days: 3

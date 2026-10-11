@@ -10,6 +10,7 @@
     "sync": "node tools/sync-foundation.mjs",
     "build": "node tools/build-site.mjs",
     "check": "node tools/check-site.mjs",
+    "test:browser": "playwright test --config tools/browser-tests/playwright.config.mjs",
     "dev": "node tools/serve.mjs",
     "build:web": "node tools/build-site.mjs",
     "check:web": "node tools/check-site.mjs",
@@ -22,5 +23,8 @@
     "dev:studio": "echo \"Studio dev server not implemented yet\"",
     "build:all": "npm run build:web && npm run build:documentation && npm run build:studio",
     "check:all": "npm run check:web && npm run check:documentation && npm run check:studio"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0"
   }
 }

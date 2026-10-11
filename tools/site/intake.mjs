@@ -30,7 +30,11 @@ export function intakeForm(config,icons) {
     const attributes=`id="enquiry-${field.name}" name="${field.name}"${field.required?' required':''}${field.maxLength?` maxlength="${Number(field.maxLength)}"`:''}${field.autocomplete?` autocomplete="${e(field.autocomplete)}"`:''}`;
     let control;
     if(field.type==='textarea') control=`<textarea ${attributes} rows="6"></textarea>`;
-    else if(field.type==='select') control=`<select ${attributes}>${field.options.map(option=>`<option>${e(option)}</option>`).join('')}</select>`;
+    else if(field.type==='select') {
+      const selected=config.defaults?.[field.name];
+      if(selected!==undefined&&!field.options.includes(selected)) throw new Error('Invalid default selection');
+      control=`<select ${attributes}>${field.options.map(option=>`<option${option===selected?' selected':''}>${e(option)}</option>`).join('')}</select>`;
+    }
     else {
       if(!['text','email','url'].includes(field.type)) throw new Error('Unsupported form field type');
       control=`<input type="${field.type}" ${attributes}>`;

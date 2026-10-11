@@ -4,7 +4,7 @@ export const fill=(template,values)=>template.replace(/\{\{(\w+)\}\}/g,(_,key)=>
   return values[key];
 });
 export const paragraphs=value=>String(value||'').split(/\n\n+/).filter(Boolean).map(text=>`<p>${escape(text)}</p>`).join('');
-export const image=(cover,lazy=false)=>cover?`<figure><img src="/${escape(cover.src)}" alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" decoding="async"${lazy?' loading="lazy"':''}></figure>`:'';
+export const image=(cover,lazy=false)=>cover?`<figure><img src="/${escape(cover.src)}"${cover.variants?.length?` srcset="${cover.variants.map(v=>`/${escape(v.src)} ${v.width}w`).join(', ')}" sizes="${escape(cover.sizes)}"`:''} alt="${escape(cover.alt)}" width="${cover.width}" height="${cover.height}" decoding="async"${lazy?' loading="lazy"':''}></figure>`:'';
 export function icon(id,icons) {
   const item=icons.items.find(i=>i.id===id);
   if(!item) throw new Error(`Unregistered icon: ${id}`);

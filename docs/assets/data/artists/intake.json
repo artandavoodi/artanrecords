@@ -12,6 +12,7 @@
     {"label":"Read submission guidance","url":"/faq/"}
   ],
   "notice": "Every introduction is reviewed by Artan Records. Profiles are published only after approval. Sending work does not create an account or an offer of representation.",
+  "retention": {"daysAfterClosure":30,"closedStatuses":["Declined","Closed"],"sheetNames":["Enquiries","Contact enquiries"]},
   "contact": {
     "headline": "A good conversation\nstarts here.",
     "introduction": "Music, an idea, or a question about working together. Tell us what brings you to Artan Records.",
@@ -76,8 +77,9 @@
       { "title": "Processing and storage", "text": "The form uses Google Apps Script to store submissions in a private Google Sheet and send a notification to our collaboration inbox, hosted by iCloud. Applications are not added to this website's public repository." },
       { "title": "Verification", "text": "Opening the form loads Google reCAPTCHA to help prevent spam and abuse. It processes browser and interaction information and uses a necessary verification cookie. Verification is required before an enquiry can be accepted." },
       { "title": "What to share", "text": "Share listening links, not private masters, project files or sensitive documents. Include only work and information you have permission to share." },
-      { "title": "Retention and requests", "text": "Enquiries remain private while they are reviewed or discussed. A routine deletion schedule is not yet active. You can request access, correction or deletion by contacting collaborate@artanrecords.com. Do not send additional sensitive documents with your request." },
-      { "title": "External services", "text": "Google processes verification and form data, and iCloud hosts the notification inbox. Their own privacy notices apply to their services. This notice describes the current enquiry process; project-specific data handling is agreed separately." },
+      { "title": "Retention and requests", "text": "The approved retention rule is 30 days after an enquiry is marked Declined or Closed. The automated active-sheet cleanup is pending activation. Active conversations and legacy rows without a recorded closure date are not eligible. Notification emails and provider-held history require separate review; this is not a promise of automatic deletion from every provider. You can request access, correction or deletion by contacting collaborate@artanrecords.com. Do not send additional sensitive documents with your request." },
+      { "title": "External services", "text": "Google processes verification and form data, and iCloud hosts the notification inbox. Their own privacy notices apply to their services. This notice describes the current enquiry process; project-specific data handling is agreed separately.", "links":[{"label":"Google privacy notice","url":"https://policies.google.com/privacy"},{"label":"Apple privacy notice","url":"https://www.apple.com/legal/privacy/"}] },
+      { "title": "Your choices", "text": "You can contact Artan Records by email instead of using the form. Sending an enquiry does not subscribe you to marketing or create an artist account. Include only information relevant to the work and obtain permission before sharing another person's private details. Requests about previously submitted information are reviewed individually." },
       { "title": "Contact", "text": "Artan Records is an independent label founded by Artan Davoodi and is not currently a registered company. For enquiry privacy questions, contact collaborate@artanrecords.com." }
     ]
   },

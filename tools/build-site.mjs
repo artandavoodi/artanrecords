@@ -137,14 +137,14 @@ for(const item of information.items) {
     tabs:item.presentation==='tabs'?'data-information-tabs':'',
     contents:['accordion','flow'].includes(item.presentation)?'':`<nav class="information-links" aria-label="${e(item.title)}">${item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join('')}</nav>`,
     sections:item.sections.map(section=>item.presentation==='accordion'
-      ?`<details class="information-accordion" id="${e(section.id)}"><summary><span>${e(section.title)}</span>${icon('chevron-right',icons)}</summary>${paragraphs(section.text)}</details>`
+      ?`<details class="information-accordion" id="${e(section.id)}"><summary><span>${e(section.title)}</span>${icon('chevron-right',icons)}</summary>${paragraphs(section.text)}${section.links?.length?`<div class="information-links label-actions">${textLinks(section.links)}</div>`:''}</details>`
       :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}</section>`).join(''),
-    links:textLinks(item.links),form:item.form?intakeForm(intake.form,icons):''
+    links:textLinks(item.links),form:item.form?intakeForm({...intake.form,defaults:item.formPurpose?{purpose:item.formPurpose}:undefined},icons):''
   });
 }
 await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{
   title:e(intake.submissionPrivacy.title),
-  sections:intake.submissionPrivacy.sections.map(s=>`<section class="artist-intake__channel"><h2>${e(s.title)}</h2><p>${e(s.text)}</p></section>`).join('')
+  sections:intake.submissionPrivacy.sections.map(s=>`<section class="artist-intake__channel"><h2>${e(s.title)}</h2><p>${e(s.text)}</p>${s.links?.length?`<div class="information-links label-actions">${textLinks(s.links)}</div>`:''}</section>`).join('')
 });
 for(const artist of artists.items) {
   const releases=catalogue.items.filter(r=>r.artist===artist.name);

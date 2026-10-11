@@ -8,8 +8,27 @@
       "portrait": {
         "src": "assets/media/portrait/artist-home.jpeg",
         "alt": "Portrait of Artan Davoodi",
-        "width": 2848,
-        "height": 4288
+        "width": 2797,
+        "height": 2797,
+        "variants": [
+          {
+            "src": "assets/media/portrait/responsive/artist-home-w320.jpg",
+            "width": 320
+          },
+          {
+            "src": "assets/media/portrait/responsive/artist-home-w640.jpg",
+            "width": 640
+          },
+          {
+            "src": "assets/media/portrait/responsive/artist-home-w1280.jpg",
+            "width": 1280
+          },
+          {
+            "src": "assets/media/portrait/artist-home.jpeg",
+            "width": 2797
+          }
+        ],
+        "sizes": "(max-width: 860px) 100vw, 50vw"
       },
       "yearsActive": {
         "start": 2024

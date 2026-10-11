@@ -27,7 +27,7 @@
       "links":[{"label":"Submit your music","url":"/submit/"},{"label":"Propose a collaboration","url":"/collaborate/"}]
     },
     {
-      "path":"/submit/", "title":"Submit your music", "description":"Share your music with Artan Records for human review.", "form":true, "presentation":"flow",
+      "path":"/submit/", "title":"Submit your music", "description":"Share your music with Artan Records for human review.", "form":true, "formPurpose":"Music submission", "presentation":"flow",
       "sections":[
         {"id":"share","title":"Let us hear the work","text":"Send a listening link, your artist name and a short introduction. Tell us whether it is a single, EP or album, who contributed, and what you hope to release."},
         {"id":"review","title":"A considered review","text":"Artan Records reviews enquiries individually. Sending music does not guarantee acceptance, representation or a release. If there is a fit, we can discuss the project and next steps."},
@@ -35,7 +35,7 @@
       ], "links":[{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
     },
     {
-      "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artan Records about sound, visual work and creative collaboration.", "form":true, "presentation":"flow",
+      "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artan Records about sound, visual work and creative collaboration.", "form":true, "formPurpose":"Collaboration", "presentation":"flow",
       "sections":[
         {"id":"idea","title":"Start with an idea","text":"For musicians, producers, composers, filmmakers, photographers, designers and aligned organisations. Tell us what you do, what you have in mind and where we can see or hear your work."},
         {"id":"conversation","title":"A direct conversation","text":"Choose Collaboration in the form below. A concise introduction and a relevant portfolio link are enough to begin. Scope, responsibilities and terms are discussed individually."}
@@ -49,7 +49,10 @@
         {"id":"acceptance","title":"Does a submission mean acceptance?","text":"No. Every enquiry is reviewed. Any offer of representation or release arrangement must be agreed separately."},
         {"id":"promotion","title":"Is promotion included?","text":"Do not assume it is. Creative or promotional support, where offered, is agreed for the individual project. There are no guarantees of streams, placement or coverage."},
         {"id":"account","title":"Does sending work create an artist account?","text":"No. The current process is a reviewed enquiry, not self-service registration. Artist profiles are published only after approval."},
-        {"id":"terms","title":"Where are commercial terms explained?","text":"Commercial terms must be discussed and agreed before an engagement. There is no universal royalty percentage or payout schedule published on this website."}
+        {"id":"terms","title":"Where are commercial terms explained?","text":"Commercial terms must be discussed and agreed before an engagement. There is no universal royalty percentage or payout schedule published on this website.","links":[{"label":"Agreement guidance","url":"https://docs.artanrecords.com/agreements/"}]},
+        {"id":"follow-up","title":"What happens after I send an enquiry?","text":"The confirmation tells you whether your enquiry was received. Artan Records reviews introductions individually and may contact you about the work and possible next steps. There is no published guaranteed response time. A receipt is not acceptance or a release commitment."},
+        {"id":"corrections","title":"How do I correct something I submitted?","text":"Email the collaboration inbox with your enquiry reference, if available, and explain the correction. You do not need to submit the whole enquiry again. Do not include private masters, identity documents or payment details.","links":[{"label":"Email a correction","url":"mailto:collaborate@artanrecords.com"}]},
+        {"id":"guidance","title":"Where can I read the release guidance?","text":"Our documentation explains the current enquiry process, release workflow and preparation of audio, artwork and metadata. Project-specific delivery requirements and agreements take precedence over general guidance.","links":[{"label":"Artist guidance","url":"https://docs.artanrecords.com/getting-started/"},{"label":"Release workflow","url":"https://docs.artanrecords.com/release-workflow/"}]}
       ], "links":[{"label":"Submit your music","url":"/submit/"}]
     },
     {

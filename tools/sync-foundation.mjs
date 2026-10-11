@@ -5,7 +5,8 @@ import {execFileSync} from 'node:child_process';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
-const source=path.resolve(process.argv[2] || path.join(root,'../artandavoodi'));
+const args=process.argv.slice(2);
+const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
 const read=async p=>JSON.parse(await readFile(path.join(source,'docs',p),'utf8'));
 const records=[];
 async function copy(file) {
@@ -18,6 +19,47 @@ async function copy(file) {
 async function json(file,value) {
   await mkdir(path.dirname(path.join(root,file)),{recursive:true});
   await writeFile(path.join(root,file),JSON.stringify(value,null,2)+'\n');
+}
+// Refresh registered image metadata and variants without replacing label-owned content or controls.
+if(args.includes('--media-only')) {
+  const catalogue=await read('assets/data/music/releases.json');
+  const current=JSON.parse(await readFile(path.join(root,'docs/assets/data/music/releases.json'),'utf8'));
+  async function media(image) {
+    if(!image)return;
+    for(const src of new Set([image.src,...(image.variants||[]).map(v=>v.src)]))await copy('docs/'+src.replace(/^\.\//,''));
+  }
+  for(const release of current.items) {
+    const approved=catalogue.items.find(item=>item.id===release.id&&item.status==='Released');
+    if(!approved)throw Error('Missing approved source release');
+    release.cover=approved.cover;
+    await media(release.cover);
+  }
+  await json('docs/assets/data/music/releases.json',current);
+  const artist=await read('assets/data/artist/profile.json');
+  const artists=JSON.parse(await readFile(path.join(root,'docs/assets/data/artists/items.json'),'utf8'));
+  const identity=artists.items.find(item=>item.id==='artan-davoodi');
+  if(!identity||identity.name!==artist.name)throw Error('Artist identity mismatch');
+  identity.portrait=artist.portrait;
+  await media(identity.portrait);
+  await json('docs/assets/data/artists/items.json',artists);
+  const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
+  const replaced=new Set(records.map(record=>record.file));
+  manifest.files=[...manifest.files.filter(record=>!replaced.has(record.file)),...records];
+  manifest.mediaSourceCommit=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  await json('planning/source-manifest.json',manifest);
+  console.log('Synchronized approved media only; catalogue copy and label behavior preserved.');
+  process.exit(0);
+}
+// Refresh selected shared controls without replacing label-owned navigation behavior.
+if(args.includes('--controls-only')) {
+  for(const file of ['docs/assets/css/core/01-tokens/navigation.tokens.css','docs/assets/css/layers/site/theme-menu.css'])await copy(file);
+  const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
+  const replaced=new Set(records.map(record=>record.file));
+  manifest.files=[...manifest.files.filter(record=>!replaced.has(record.file)),...records];
+  manifest.controlsSourceCommit=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  await json('planning/source-manifest.json',manifest);
+  console.log('Synchronized shared control tokens and presentation; label controller preserved.');
+  process.exit(0);
 }
 for(const file of ['core/01-tokens/00-tokens-all.css','core/01-tokens/navigation.tokens.css','core/01-tokens/source/control-center.tokens.css','core/01-tokens/source/neuroartan.tokens.css','core/01-tokens/site.aliases.css','core/01-tokens/typography.tokens.css','core/02-foundation/themes.css','core/02-foundation/foundation.css','layers/site/site.css','layers/site/navigation.css']) await copy('docs/assets/css/'+file);
 const catalogue=await read('assets/data/music/releases.json');

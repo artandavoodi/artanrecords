@@ -25,4 +25,31 @@ const retentionRows=[
 assert.equal(context.retentionCandidates_(retentionRows,new Date('2026-10-10'),30).length,1);
 assert.equal(retentionRows.length,4);
 assert.throws(()=>context.retentionCandidates_(retentionRows,new Date(),0));
+const sheetRows=[
+  ['Reference','Review status','Closed UTC'],
+  ['closed-old','Closed','2020-01-01'],
+  ['active-old','New','2020-01-01'],
+  ['legacy','Declined',''],
+  ['closed-future','Closed','2099-01-01']
+];
+const removed=[];
+const sheet={
+  getLastRow:()=>sheetRows.length,getLastColumn:()=>3,
+  getDataRange:()=>({getValues:()=>sheetRows.map(row=>[...row])}),
+  getRange:row=>({getValues:()=>[[...sheetRows[row-1]]]}),
+  deleteRow:row=>{removed.push(sheetRows[row-1][0]);sheetRows.splice(row-1,1);}
+};
+context.PropertiesService={getScriptProperties:()=>({getProperty:key=>({
+  RETENTION_CONFIG:JSON.stringify({daysAfterClosure:30,sheetNames:['Enquiries']}),
+  INTAKE_CONFIG:JSON.stringify({fields:[],email:'test@example.com'}),
+  RECAPTCHA_SECRET:'test-only',SPREADSHEET_ID:'test-sheet'
+}[key])})};
+context.SpreadsheetApp={openById:()=>({getSheetByName:()=>sheet})};
+let released=false;
+context.LockService={getScriptLock:()=>({tryLock:()=>true,releaseLock:()=>{released=true;}})};
+context.console={log:()=>{}};
+context.removeExpiredClosedEnquiries();
+assert.deepEqual(removed,['closed-old']);
+assert.ok(released);
+assert.deepEqual(sheetRows.slice(1).map(row=>row[0]),['active-old','legacy','closed-future']);
 console.log('Enquiry validation and spreadsheet safety checks passed.');

@@ -38,6 +38,75 @@ function retentionCandidates_(rows, now, days) {
   });
 }
 
+function retentionConfig_() {
+  const config = JSON.parse(PropertiesService.getScriptProperties().getProperty('RETENTION_CONFIG') || '{}');
+  if (!Number.isInteger(config.daysAfterClosure) || config.daysAfterClosure < 1
+      || !Array.isArray(config.sheetNames) || config.sheetNames.some(name => !['Enquiries', 'Contact enquiries'].includes(name))) throw new Error('Approved retention configuration required');
+  return config;
+}
+
+/** An installable edit trigger records actual closure; undated legacy rows are never expired. */
+function recordReviewClosure(event) {
+  if (!event || !event.range) return;
+  const config = retentionConfig_();
+  const sheet = event.range.getSheet();
+  if (!config.sheetNames.includes(sheet.getName()) || event.range.getRow() < 2) return;
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const statusColumn = headers.indexOf('Review status') + 1;
+  if (!statusColumn || statusColumn < event.range.getColumn() || statusColumn > event.range.getLastColumn()) return;
+  let closedColumn = headers.indexOf('Closed UTC') + 1;
+  if (!closedColumn) {
+    closedColumn = headers.length + 1;
+    sheet.getRange(1, closedColumn).setValue('Closed UTC');
+  }
+  for (let row = event.range.getRow(); row <= event.range.getLastRow(); row++) {
+    const status = sheet.getRange(row, statusColumn).getValue();
+    const closed = sheet.getRange(row, closedColumn);
+    if (['Declined', 'Closed'].includes(status)) {
+      if (!closed.getValue()) closed.setValue(new Date().toISOString());
+    } else closed.clearContent();
+  }
+}
+
+/** Remove only expired closed rows from the active sheet, not provider history or email copies. */
+function removeExpiredClosedEnquiries() {
+  const config = retentionConfig_();
+  const book = SpreadsheetApp.openById(config_().spreadsheet);
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) throw new Error('Enquiry service busy');
+  let removed = 0;
+  try {
+    for (const name of config.sheetNames) {
+      const sheet = book.getSheetByName(name);
+      if (!sheet || sheet.getLastRow() < 2) continue;
+      const values = sheet.getDataRange().getValues();
+      const headers = values.shift();
+      const status = headers.indexOf('Review status'), closed = headers.indexOf('Closed UTC'), reference = headers.indexOf('Reference');
+      if ([status, closed, reference].some(index => index < 0)) continue;
+      const rows = values.map((row, index) => ({row:index + 2, status:row[status], closedAt:row[closed], reference:row[reference]}));
+      const candidates = retentionCandidates_(rows, new Date(), config.daysAfterClosure).reverse();
+      for (const item of candidates) {
+        const current = sheet.getRange(item.row, 1, 1, sheet.getLastColumn()).getValues()[0];
+        if (current[reference] !== item.reference || !item.reference) continue;
+        if (!retentionCandidates_([{status:current[status], closedAt:current[closed]}], new Date(), config.daysAfterClosure).length) continue;
+        sheet.deleteRow(item.row);
+        removed++;
+      }
+    }
+  } finally { lock.releaseLock(); }
+  console.log('Removed expired closed enquiry rows: ' + removed);
+}
+
+/** Owner-run setup only. No trigger is installed by a public enquiry or a normal deployment. */
+function installRetentionTriggers() {
+  retentionConfig_();
+  const spreadsheet = config_().spreadsheet;
+  const existing = ScriptApp.getProjectTriggers().map(trigger => trigger.getHandlerFunction());
+  if (!existing.includes('recordReviewClosure')) ScriptApp.newTrigger('recordReviewClosure').forSpreadsheet(spreadsheet).onEdit().create();
+  if (!existing.includes('removeExpiredClosedEnquiries')) ScriptApp.newTrigger('removeExpiredClosedEnquiries').timeBased().everyDays(1).atHour(3).create();
+  console.log('Retention triggers installed; active and undated enquiries remain untouched.');
+}
+
 function digest_(text) {
   return Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, text));
 }

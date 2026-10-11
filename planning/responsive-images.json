@@ -1,0 +1,5 @@
+{
+  "widths": [320, 640, 1280],
+  "jpegQuality": 82,
+  "sizes": "(max-width: 860px) 100vw, 50vw"
+}
