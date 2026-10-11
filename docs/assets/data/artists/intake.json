@@ -7,7 +7,7 @@
   "conversationDescription": "A listening link. A little context. A conversation about what comes next.",
   "introduction": "Share your music. Tell us what you want to make next.",
   "journeyLinks": [
-    {"label":"Submit a recording","url":"/submit/"},
+    {"label":"Submit a recording","url":"/submit/","emphasis":"primary"},
     {"label":"Propose a creative collaboration","url":"/collaborate/"},
     {"label":"Read submission guidance","url":"/faq/"}
   ],

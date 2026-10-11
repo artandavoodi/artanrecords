@@ -20,6 +20,14 @@ const aboutPage=await read('docs/about/index.html');
 for(const tab of site.aboutPage.tabs) assert.ok(aboutPage.includes(`id="${tab.id}"`),'Missing generated About topic');
 assert.ok(aboutPage.includes(escape(site.aboutPage.leadership[0].biography)),'Leadership must exist in initial HTML');
 assert.ok(!(await read('docs/assets/fragments/about/index.html')).includes('wordmark'),'About must not duplicate the header wordmark');
+for(const leader of site.aboutPage.leadership) {
+  if(!leader.portrait) continue;
+  await stat(path.join(docs,leader.portrait.src));
+  assert.ok(aboutPage.includes(leader.portrait.src),'Leadership portrait missing from HTML');
+  assert.ok((await read('docs/sitemap.xml')).includes(leader.portrait.src),'Leadership portrait missing from image sitemap');
+}
+assert.ok((await read('docs/for-artists/index.html')).includes('class="information-links label-actions"'),'Journey redirects must use the shared action group');
+assert.ok(labelStyles.includes('a[data-emphasis="primary"]'),'Action emphasis must be explicit, not positional');
 assert.ok(labelStyles.indexOf('.label-wordmark {')<labelStyles.indexOf('.label-wordmark--dark {'),'Base logo styling must precede theme variants');
 const contactPage=await read('docs/contact/index.html');
 assert.ok(contactPage.includes('name="formtype" value="contact"'),'Missing dedicated contact routing');

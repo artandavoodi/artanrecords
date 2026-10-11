@@ -21,7 +21,8 @@ const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
 const textLinks=items=>(items||[]).map(item=>{
   if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');
-  return `<a href="${e(item.url)}">${e(item.label)}</a>`;
+  if(item.emphasis && item.emphasis!=='primary') throw new Error('Invalid action emphasis');
+  return `<a href="${e(item.url)}"${item.emphasis?' data-emphasis="primary"':''}>${e(item.label)}</a>`;
 }).join('');
 for(const artist of roster.items) {
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(artist.id)||!artist.name||!artist.biography||artist.approved!==true) throw new Error('Roster must contain only approved, complete public profiles');
@@ -48,6 +49,7 @@ const footer=await fragment('footer',{name:e(site.name),year:String(new Date().g
 const navigation=await navigationFor('/404.html');
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
+const leadershipPortrait=leader=>leader.portrait||(leader.artistId?artists.items.find(a=>a.id===leader.artistId)?.portrait:undefined);
 const paths=[];
 async function output(file,value){await mkdir(new URL('./',new URL(file,docs)),{recursive:true});await writeFile(new URL(file,docs),value);}
 async function page(path,title,description,fragmentName,values,entity={}) {
@@ -60,7 +62,12 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   }
   const content=await fragment(fragmentName,values);
   const cover=(fragmentName==='release'?catalogue.items.find(r=>path===`/releases/${r.id}/`).cover:artists.items.find(a=>path===`/artists/${a.id}/`)?.portrait)||site.shareImage;
-  const graph=[organization,...people,{'@type':'WebSite','@id':site.domain+'/#website',name:site.name,url:site.domain+'/'},{'@type':'WebPage','@id':site.domain+path,url:site.domain+path,name:title,description,isPartOf:{'@id':site.domain+'/#website'},...(cover?{primaryImageOfPage:{'@type':'ImageObject',contentUrl:site.domain+'/'+cover.src}}:{}),...entity}];
+  const pagePeople=people.map(person=>{
+    const leader=fragmentName==='about'?site.aboutPage.leadership.find(l=>l.artistId&&person['@id']===site.domain+`/artists/${l.artistId}/#artist`):undefined;
+    const portrait=leader&&leadershipPortrait(leader);
+    return leader?{...person,jobTitle:leader.role,...(portrait?{image:{'@type':'ImageObject',contentUrl:site.domain+'/'+portrait.src,width:portrait.width,height:portrait.height,caption:portrait.alt}}:{})}:person;
+  });
+  const graph=[organization,...pagePeople,{'@type':'WebSite','@id':site.domain+'/#website',name:site.name,url:site.domain+'/'},{'@type':'WebPage','@id':site.domain+path,url:site.domain+path,name:title,description,isPartOf:{'@id':site.domain+'/#website'},...(cover?{primaryImageOfPage:{'@type':'ImageObject',contentUrl:site.domain+'/'+cover.src}}:{}),...entity}];
   const head=`<title>${e(title)} · ${e(site.name)}</title><meta name="description" content="${e(description)}"><link rel="canonical" href="${site.domain}${path}"><meta property="og:title" content="${e(title)}"><meta property="og:description" content="${e(description)}"><meta property="og:type" content="website"><meta property="og:url" content="${site.domain}${path}"><meta name="twitter:card" content="${cover?'summary_large_image':'summary'}">${cover?`<meta property="og:image" content="${site.domain}/${e(cover.src)}"><meta name="twitter:image" content="${site.domain}/${e(cover.src)}">`:''}<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':graph}).replace(/</g,'\\u003c')}</script>`;
   await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || '',atmosphere:fragmentName==='artists'?'<canvas class="artist-directory-grain" aria-hidden="true"></canvas>':''}));paths.push(path);
 }
@@ -106,7 +113,8 @@ for(const nav of site.navigation) {
       ids.add(leader.id);
       const identity=leader.artistId?artists.items.find(a=>a.id===leader.artistId):leader;
       if(!identity?.name||!leader.role||!leader.biography) throw new Error('Incomplete leadership identity');
-      return `<article class="leadership-card">${identity.portrait?image(identity.portrait):''}<h3>${e(identity.name)}</h3><p>${e(leader.role)}</p>${paragraphs(leader.biography)}</article>`;
+      const portrait=leadershipPortrait(leader);
+      return `<article class="leadership-card">${portrait?image(portrait):''}<h3>${e(identity.name)}</h3><p>${e(leader.role)}</p>${paragraphs(leader.biography)}</article>`;
     }).join('');
     const content={about:`${paragraphs(site.about)}${paragraphs(site.history)}<dl class="artist-facts"><div><dt>${e(site.foundingLabel)}</dt><dd>${e(site.foundingDate)}</dd></div></dl>${paragraphs(site.aboutPage.aboutDetails)}`,mission:paragraphs(site.principle)+paragraphs(site.aboutPage.missionDetails),leadership:paragraphs(site.aboutPage.leadershipIntroduction)+leaders};
     Object.assign(values,{tabs:site.aboutPage.tabs.map(t=>`<a href="#${e(t.id)}">${e(t.label)}</a>`).join(''),panels:site.aboutPage.tabs.map(t=>{
@@ -158,7 +166,7 @@ await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns=
   const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artist===a.name)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
   const portrait=artists.items.find(a=>p===`/artists/${a.id}/`)?.portrait;
   if(portrait) images.push(portrait.src);
-  if(p==='/about/') images.push(...site.aboutPage.leadership.map(l=>(l.artistId?artists.items.find(a=>a.id===l.artistId):l)?.portrait?.src).filter(Boolean));
+  if(p==='/about/') images.push(...site.aboutPage.leadership.map(l=>leadershipPortrait(l)?.src).filter(Boolean));
   if(p==='/'||p==='/artists/') images.push(...artists.items.filter(a=>a.portrait).map(a=>a.portrait.src));
   return `<url><loc>${site.domain}${p}</loc>${[...new Set(images)].map(src=>`<image:image><image:loc>${e(site.domain+'/'+src)}</image:loc></image:image>`).join('')}</url>`;
 }).join('')}</urlset>`);
