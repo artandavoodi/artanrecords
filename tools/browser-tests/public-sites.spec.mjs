@@ -26,7 +26,8 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
       return;
     }
     await toggle.click();
-    await expect(toggle).toHaveAttribute('aria-expanded','true');
+    const menuToggle=page.locator('[data-menu-toggle]');
+    await expect(menuToggle).toHaveAttribute('aria-expanded','true');
     const themeControl=page.locator('[data-menu-theme]');
     if(await themeControl.count()) {
       await expect(themeControl).toBeVisible();
@@ -35,7 +36,7 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
       expect(box.height).toBeGreaterThanOrEqual(24);
     }
     await page.keyboard.press('Escape');
-    await expect(toggle).toHaveAttribute('aria-expanded','false');
+    await expect(menuToggle).toHaveAttribute('aria-expanded','false');
     if(await themeControl.count())await expect(themeControl).toBeHidden();
   });
 });
