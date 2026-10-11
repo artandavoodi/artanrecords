@@ -34,7 +34,7 @@ export function artistLinks(artist,groups,icons) {
   }).join('')}</div>`;
 }
 export function sections(record,ui,icons) {
-  return ui.musicReaderFields.filter(f=>typeof record[f.key]==='string'&&record[f.key]).map(f=>`<details id="${escape(record.id)}-${escape(f.key)}"><summary>${escape(f.label)}${icon('chevron-right',icons)}</summary>${paragraphs(record[f.key])}</details>`).join('');
+  return ui.musicReaderFields.filter(f=>record.editorial?.[f.key]!=='draft'&&typeof record[f.key]==='string'&&record[f.key]).map(f=>`<details id="${escape(record.id)}-${escape(f.key)}"><summary>${escape(f.label)}${icon('chevron-right',icons)}</summary>${paragraphs(record[f.key])}</details>`).join('');
 }
 export function metadata(record,ui) {
   return `<dl>${ui.musicDetails.map(f=>({f,value:f.key==='trackCount'?record.tracks?.length:record[f.key]})).filter(({f,value})=>value&&(!f.when||f.when===value)).map(({f,value})=>`<div><dt>${escape(f.label)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>`;

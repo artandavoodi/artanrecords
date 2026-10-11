@@ -2,7 +2,7 @@ import {readFile,readdir,stat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-import {artistYears,artistLinks,escape} from './site/render.mjs';
+import {artistYears,artistLinks,escape,sections} from './site/render.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url)),docs=path.join(root,'docs');
@@ -14,6 +14,17 @@ const registry=JSON.parse(await read('docs/assets/data/fragments.json'));
 const site=JSON.parse(await read('docs/assets/data/site.json'));
 for(const file of Object.values(registry))await stat(path.join(docs,file));
 const icons=JSON.parse(await read('docs/assets/data/icons.json'));
+const ui=JSON.parse(await read('docs/assets/data/music/interface.json'));
+const releases=JSON.parse(await read('docs/assets/data/music/releases.json'));
+for(const release of releases.items) {
+  const html=await read(`docs/releases/${release.id}/index.html`);
+  for(const record of [release,...(release.tracks||[])]) {
+    if(!record.lyrics) continue;
+    assert.ok(html.includes(`id="${record.id}-lyrics"`),'Approved lyrics missing from release');
+    for(const line of record.lyrics.split('\n').filter(Boolean))assert.ok(html.includes(escape(line)),'Lyric line missing');
+  }
+}
+assert.equal(sections({id:'draft',lyrics:'Private draft',editorial:{lyrics:'draft'}},ui,icons),'');
 const intake=JSON.parse(await read('docs/assets/data/artists/intake.json'));
 const labelStyles=await read('docs/assets/css/layers/site/label/index.css');
 const aboutPage=await read('docs/about/index.html');

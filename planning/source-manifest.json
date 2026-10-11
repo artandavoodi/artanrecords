@@ -216,5 +216,6 @@
     }
   ],
   "controlsSourceCommit": "e7ff5445a0eb41447553f965f20196360c16607e",
-  "mediaSourceCommit": "e7ff5445a0eb41447553f965f20196360c16607e"
+  "mediaSourceCommit": "e7ff5445a0eb41447553f965f20196360c16607e",
+  "catalogueSourceCommit": "0a72765849f071c570a27eba90b69393a2274fc4"
 }

@@ -9,6 +9,12 @@ const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
 const read=async p=>JSON.parse(await readFile(path.join(source,'docs',p),'utf8'));
 const records=[];
+const allowed=['id','title','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','lyrics','credits','musicalDetails','productionProcess','releaseInformation','links'];
+function publicRecord(record) {
+  const result=Object.fromEntries(allowed.filter(key=>record[key]!==undefined && record.editorial?.[key]!=='draft').map(key=>[key,record[key]]));
+  if(record.tracks) result.tracks=record.tracks.map(publicRecord);
+  return result;
+}
 async function copy(file) {
   if(records.some(r=>r.file===file)) return;
   const bytes=await readFile(path.join(source,file));
@@ -20,7 +26,21 @@ async function json(file,value) {
   await mkdir(path.dirname(path.join(root,file)),{recursive:true});
   await writeFile(path.join(root,file),JSON.stringify(value,null,2)+'\n');
 }
-// Refresh registered image metadata and variants without replacing label-owned content or controls.
+// Refresh approved catalogue fields without replacing label-owned controls or assets.
+if(args.includes('--catalogue-only')) {
+  const catalogue=await read('assets/data/music/releases.json');
+  const current=JSON.parse(await readFile(path.join(root,'docs/assets/data/music/releases.json'),'utf8'));
+  const approved=catalogue.items.filter(record=>record.status==='Released').map(publicRecord);
+  if(approved.some(record=>!current.items.some(item=>item.id===record.id)))throw Error('New release assets require a full approved import');
+  await json('docs/assets/data/music/releases.json',{schemaVersion:1,items:approved});
+  const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
+  manifest.catalogueSourceCommit=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  await json('planning/source-manifest.json',manifest);
+  console.log('Synchronized approved catalogue fields only; foundation and label behavior preserved.');
+  process.exit(0);
+}
+
+// Refresh registered image metadata and variants without replacing label-owned copy.
 if(args.includes('--media-only')) {
   const catalogue=await read('assets/data/music/releases.json');
   const current=JSON.parse(await readFile(path.join(root,'docs/assets/data/music/releases.json'),'utf8'));
@@ -68,12 +88,6 @@ await copy('docs/assets/css/core/04-systems/startup.css');
 await copy('docs/assets/css/layers/site/hub/index.css');
 const site=JSON.parse(await readFile(path.join(root,'docs/assets/data/site.json'),'utf8'));
 // Label identity is locally owned; foundation sync must not replace it.
-const allowed=['id','title','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','credits','musicalDetails','productionProcess','releaseInformation','links'];
-function publicRecord(record) {
-  const result=Object.fromEntries(allowed.filter(key=>record[key]!==undefined && record.editorial?.[key]!=='draft').map(key=>[key,record[key]]));
-  if(record.tracks) result.tracks=record.tracks.map(publicRecord);
-  return result;
-}
 // The public label catalogue includes published recordings only.
 const items=catalogue.items.filter(record=>record.status==='Released').map(publicRecord);
 const artist=await read('assets/data/artist/profile.json');

@@ -48,6 +48,12 @@ if(key==='records')test('submission routes have intentional defaults; no enquiry
   }
 });
 if(key==='artist')test('upcoming durations are labelled Unreleased',async({page})=>{
+  await page.goto('/music/');
+  await page.getByRole('button',{name:'Tracks',exact:true}).click();
+  await page.getByRole('button',{name:'Upcoming',exact:true}).click();
+  await expect(page.locator('.music-track-directory__duration')).toHaveText(Array(8).fill('Unreleased'));
+  await expect(page.locator('[data-music-context] details')).toHaveCount(0);
+  await expect(page.locator('.music-context__brand')).toHaveAttribute('href','https://artanrecords.com/');
   await page.goto('/music/remnant/');
   await expect(page.locator('.release-document__tracks summary span')).toHaveText(Array(8).fill('Unreleased'));
 });
