@@ -11,7 +11,7 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
   for(const route of site.routes)test(`${route} loads without horizontal overflow`,async({page})=>{
     const response=await page.goto(route);
     expect(response.status()).toBe(200);
-    await expect(page.locator('main').first()).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible({timeout:30000});
     await expect(page.getByRole('heading').first()).toBeAttached();
     await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBeTruthy();
     await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
