@@ -26,7 +26,7 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
       return;
     }
     await toggle.click();
-    const menuToggle=page.locator('[data-menu-toggle]');
+    const menuToggle=page.locator(key==='neuro'?'[data-institutional-menu-mobile-trigger]':'[data-menu-toggle]');
     await expect(menuToggle).toHaveAttribute('aria-expanded','true');
     const themeControl=page.locator('[data-menu-theme]');
     if(await themeControl.count()) {

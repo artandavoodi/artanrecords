@@ -1,5 +1,5 @@
 {
-  "records": {"themeKey":"artandavoodi-theme","menuName":"Open site menu","routes":["/","/releases/","/artists/","/for-artists/","/about/","/contact/","/services/","/submit/","/collaborate/","/faq/","/legal/","/submission-privacy/","/artists/artan-davoodi/"]},
+  "records": {"themeKey":"artanrecords-theme","menuName":"Open site menu","routes":["/","/releases/","/artists/","/for-artists/","/about/","/contact/","/services/","/submit/","/collaborate/","/faq/","/legal/","/submission-privacy/","/artists/artan-davoodi/"]},
   "artist": {"themeKey":"artandavoodi-theme","menuName":"Open site menu","routes":["/","/music/","/music/remnant/","/gallery/","/hub/"]},
   "hub": {"themeKey":"artan-live-theme","menuName":"Open site menu","routes":["/","/about/","/projects/","/publications/"]},
   "neuro": {"themeKey":"neuroartan-theme","menuName":"Open institutional menu","routes":["/","/pages/products/index.html","/pages/products/workflows/index.html","/pages/legal/privacy/index.html"]}
