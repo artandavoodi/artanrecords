@@ -15,6 +15,11 @@ const site=JSON.parse(await read('docs/assets/data/site.json'));
 for(const file of Object.values(registry))await stat(path.join(docs,file));
 const icons=JSON.parse(await read('docs/assets/data/icons.json'));
 const intake=JSON.parse(await read('docs/assets/data/artists/intake.json'));
+const labelStyles=await read('docs/assets/css/layers/site/label/index.css');
+assert.ok(labelStyles.indexOf('.label-wordmark {')<labelStyles.indexOf('.label-wordmark--dark {'),'Base logo styling must precede theme variants');
+const contactPage=await read('docs/contact/index.html');
+assert.ok(contactPage.includes('name="formtype" value="contact"'),'Missing dedicated contact routing');
+assert.equal(contactPage.includes('data-enquiry-pending'),intake.contact.form.deploymentPending,'Contact availability differs from configuration');
 const intakePage=await read('docs/for-artists/index.html');
 assert.ok(intakePage.includes(`action="${intake.form.action}" method="post"`));
 assert.equal((intakePage.match(/type="submit"/g)||[]).length,1);
@@ -49,6 +54,7 @@ for(const file of await walk(docs)){
   if(!file.endsWith('.html')||file.includes('/fragments/'))continue;
   assert.ok(!text.includes('{{'),'Unresolved template');
   assert.equal((text.match(/<h1\b/g)||[]).length,1,file);
+  assert.equal((text.match(/class="label-header-logo"/g)||[]).length,1,'Each page must use one shared label header: '+file);
   if(!file.endsWith('/404.html')) {
     assert.ok(text.includes('property="og:image"'),'Missing sharing image: '+file);
     assert.ok(text.includes('rel="canonical"'),'Missing canonical URL: '+file);

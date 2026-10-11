@@ -24,7 +24,7 @@
     "messageLabel": "Your enquiry or collaboration proposal",
     "form": {
       "formType": "contact",
-      "deploymentPending": true,
+      "deploymentPending": false,
       "pendingLabel": "Online contact enquiries are being updated. Please email contact@artanrecords.com or collaborate@artanrecords.com for now.",
       "subject": "Artan Records contact enquiry",
       "email": "contact@artanrecords.com",
