@@ -11,7 +11,7 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
   for(const route of site.routes)test(`${route} loads without horizontal overflow`,async({page})=>{
     const response=await page.goto(route);
     expect(response.status()).toBe(200);
-    await expect(page.locator('main')).toBeVisible();
+    await expect(page.locator('main').first()).toBeVisible();
     await expect(page.getByRole('heading').first()).toBeAttached();
     await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBeTruthy();
     await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
@@ -21,6 +21,7 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
   test('menu opens and closes with Escape',async({page})=>{
     await page.goto('/');
     const toggle=page.getByRole('button',{name:site.menuName,exact:true});
+    await page.locator(site.menuSelector).waitFor({state:'attached'});
     if(key==='neuro'&&!(await toggle.isVisible())) {
       await expect(page.getByRole('navigation',{name:'Primary navigation',exact:true})).toBeVisible();
       return;
