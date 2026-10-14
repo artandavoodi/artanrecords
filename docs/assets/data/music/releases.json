@@ -4,6 +4,7 @@
     {
       "id": "still-live-acoustic",
       "title": "Still (Live Acoustic)",
+      "artistId": "artan-davoodi",
       "artist": "Artan Davoodi",
       "type": "Single",
       "category": "singles",
@@ -93,6 +94,7 @@
     {
       "id": "dream",
       "title": "Dream?",
+      "artistId": "artan-davoodi",
       "artist": "Artan Davoodi",
       "type": "Single",
       "category": "singles",
@@ -179,6 +181,7 @@
     {
       "id": "salim",
       "title": "Salim",
+      "artistId": "artan-davoodi",
       "artist": "Artan Davoodi",
       "type": "Album",
       "category": "albums",
@@ -636,6 +639,7 @@
     {
       "id": "solum",
       "title": "Solum",
+      "artistId": "artan-davoodi",
       "artist": "Artan Davoodi",
       "type": "Album",
       "category": "albums",
@@ -1191,6 +1195,7 @@
     {
       "id": "gone",
       "title": "Gone",
+      "artistId": "artan-davoodi",
       "artist": "Artan Davoodi",
       "type": "Single",
       "category": "singles",

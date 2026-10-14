@@ -1,7 +1,7 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
 import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
-import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs} from './site/render.mjs';
+import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
 const read=p=>readFile(new URL(p,docs),'utf8');
@@ -57,7 +57,7 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   if(fragmentName==='artist') values.contextLinks=textLinks([{label:site.labels.allArtists,url:'/artists/'},{label:site.labels.allReleases,url:'/releases/'}]);
   if(fragmentName==='release') {
     const release=catalogue.items.find(r=>path===`/releases/${r.id}/`);
-    const artist=artists.items.find(a=>a.name===release.artist);
+    const artist=releaseArtist(release,artists.items);
     values.contextLinks=textLinks([{label:site.labels.artistProfile,url:`/artists/${artist.id}/`},{label:site.labels.allReleases,url:'/releases/'}]);
   }
   const content=await fragment(fragmentName,values);
@@ -94,7 +94,7 @@ for(const nav of site.navigation) {
     const released=catalogue.items.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate));
     const latest=released[0];
     const labels=discovery.catalogue;
-    const releaseArtists=artists.items.filter(a=>released.some(r=>r.artist===a.name));
+    const releaseArtists=artists.items.filter(a=>released.some(r=>r.artistId===a.id));
     Object.assign(values,{latestTitle:e(discovery.latestTitle),catalogueTitle:e(labels.title),empty:e(labels.empty),
       latest:latest?`<article><a href="/releases/${e(latest.id)}/">${image(latest.cover)}<h3>${e(latest.title)}</h3></a><div><p>${e(latest.description)}</p>${links(latest.links,icons)}<a href="/releases/${e(latest.id)}/">${e(discovery.openLabel)}</a></div></article>`:'',
       releases:discoveryCards(released,artists.items,icons),
@@ -147,7 +147,7 @@ await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissi
   sections:intake.submissionPrivacy.sections.map(s=>`<section class="artist-intake__channel"><h2>${e(s.title)}</h2><p>${e(s.text)}</p>${s.links?.length?`<div class="information-links label-actions">${textLinks(s.links)}</div>`:''}</section>`).join('')
 });
 for(const artist of artists.items) {
-  const releases=catalogue.items.filter(r=>r.artist===artist.name);
+  const releases=catalogue.items.filter(r=>r.artistId===artist.id);
   const latest = releases.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];
   artist.artistHeading = latest ? 'h2' : 'h1';
   artist.backgroundStyle = latest?.cover ? `--artist-cover: url('/${latest.cover.src}')` : '';
@@ -155,7 +155,7 @@ for(const artist of artists.items) {
   await page(`/artists/${artist.id}/`,artist.name,artist.biography,'artist',{...escaped(artist),latestRelease,yearsActive:artistYears(artist,roster.labels),portrait:artist.portrait?image(artist.portrait):'',releases:releases.length?`<section><h2>${e(roster.labels.releases)}</h2><div class="catalogue">${cards(releases)}</div></section>`:'',portfolio:artist.portfolio?.length?`<section><h2>${e(roster.labels.portfolio)}</h2>${artist.portfolio.map(p=>`<article><h3><a href="${e(p.url)}">${e(p.title)}</a></h3><p>${e(p.description)}</p></article>`).join('')}</section>`:'',links:artistLinks(artist,roster.linkGroups,icons)},{'@type':'ProfilePage',mainEntity:{'@id':personFor(artist)['@id']}});
 }
 for(const r of catalogue.items) {
-  const artist=artists.items.find(a=>a.name===r.artist);
+  const artist=releaseArtist(r,artists.items);
   if(!artist) throw new Error('Release has no registered artist: '+r.id);
   const person=personFor(artist);
   const recordings=(r.tracks||[]).map(t=>({'@type':'MusicRecording',name:t.title,isrcCode:t.isrc,url:site.domain+`/releases/${r.id}/#track-${t.id}`,byArtist:{'@id':person['@id']},duration:t.duration?'PT'+t.duration.replace(':','M')+'S':undefined}));
@@ -163,7 +163,7 @@ for(const r of catalogue.items) {
   await page(`/releases/${r.id}/`,r.title,r.description,'release',{...escaped(r),back:e(site.labels.back),backIcon:icon('back',icons),cover:image(r.cover),metadata:metadata(r,ui),links:links(r.links,icons),sections:sections(r,ui,icons),tracks:recordings.length?`<section><h2>${e(site.labels.tracks)}</h2><ol>${r.tracks.map(t=>`<li id="track-${e(t.id)}"><details><summary>${e(t.title)} <span>${e(t.duration)}</span>${icon('chevron-right',icons)}</summary>${sections(t,ui,icons)}${links(t.links,icons)}</details></li>`).join('')}</ol></section>`:''},{mainEntity:entity});
 }
 await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${paths.map(p=>{
-  const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artist===a.name)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
+  const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artistId===a.id)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
   const portrait=artists.items.find(a=>p===`/artists/${a.id}/`)?.portrait;
   if(portrait) images.push(portrait.src);
   if(p==='/about/') images.push(...site.aboutPage.leadership.map(l=>leadershipPortrait(l)?.src).filter(Boolean));

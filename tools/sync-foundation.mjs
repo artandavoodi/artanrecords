@@ -9,7 +9,7 @@ const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
 const read=async p=>JSON.parse(await readFile(path.join(source,'docs',p),'utf8'));
 const records=[];
-const allowed=['id','title','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','lyrics','credits','musicalDetails','productionProcess','releaseInformation','links'];
+const allowed=['id','title','artistId','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','lyrics','credits','musicalDetails','productionProcess','releaseInformation','links'];
 function publicRecord(record) {
   const result=Object.fromEntries(allowed.filter(key=>record[key]!==undefined && record.editorial?.[key]!=='draft').map(key=>[key,record[key]]));
   if(record.tracks) result.tracks=record.tracks.map(publicRecord);

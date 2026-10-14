@@ -1,4 +1,10 @@
 export const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export function releaseArtist(record,artists) {
+  if(!record.artistId) throw new Error(`Missing stable artist ID: ${record.id}`);
+  const matches=artists.filter(artist=>artist.id===record.artistId);
+  if(matches.length!==1) throw new Error(`Unregistered or duplicate artist ID: ${record.artistId}`);
+  return matches[0];
+}
 export const fill=(template,values)=>template.replace(/\{\{(\w+)\}\}/g,(_,key)=>{
   if(!(key in values)) throw new Error(`Missing template value: ${key}`);
   return values[key];
@@ -17,7 +23,7 @@ export function links(items,icons,className='streaming',presentation='icons') {
 export const cards=items=>items.map(r=>`<article class="release-card"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · ${escape(r.artist)}</p></article>`).join('');
 export function discoveryCards(items, artists, icons) {
   return items.map(r=>{
-    const artist=artists.find(a=>a.name===r.artist);
+    const artist=releaseArtist(r,artists);
     if(!artist) throw new Error(`Unregistered release artist: ${r.artist}`);
     return `<article class="release-card" data-release-category="${escape(r.category)}" data-release-artist="${escape(artist.id)}" data-release-search="${escape(r.title+' '+r.artist)}"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · <time datetime="${escape(r.releaseDate)}">${escape(r.releaseDate.slice(0,4))}</time> · <a href="/artists/${escape(artist.id)}/">${escape(r.artist)}</a></p>${links(r.links,icons)}</article>`;
   }).join('');

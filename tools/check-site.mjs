@@ -2,7 +2,7 @@ import {readFile,readdir,stat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-import {artistYears,artistLinks,escape,sections} from './site/render.mjs';
+import {artistYears,artistLinks,escape,sections,releaseArtist} from './site/render.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url)),docs=path.join(root,'docs');
@@ -16,6 +16,12 @@ for(const file of Object.values(registry))await stat(path.join(docs,file));
 const icons=JSON.parse(await read('docs/assets/data/icons.json'));
 const ui=JSON.parse(await read('docs/assets/data/music/interface.json'));
 const releases=JSON.parse(await read('docs/assets/data/music/releases.json'));
+const catalogueArtists=JSON.parse(await read('docs/assets/data/artists/items.json'));
+for(const record of releases.items) releaseArtist(record,catalogueArtists.items);
+const identityFixture={id:'stable-id',name:'New display name'};
+assert.equal(releaseArtist({id:'fixture',artistId:'stable-id',artist:'Old name'},[identityFixture]),identityFixture);
+assert.throws(()=>releaseArtist({id:'fixture',artistId:'unknown',artist:'New display name'},[identityFixture]));
+assert.throws(()=>releaseArtist({id:'fixture',artistId:'stable-id'},[identityFixture,identityFixture]));
 for(const release of releases.items) {
   const html=await read(`docs/releases/${release.id}/index.html`);
   for(const record of [release,...(release.tracks||[])]) {
