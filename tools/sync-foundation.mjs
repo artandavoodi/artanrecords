@@ -72,7 +72,7 @@ if(args.includes('--media-only')) {
 }
 // Refresh selected shared controls without replacing label-owned navigation behavior.
 if(args.includes('--controls-only')) {
-  for(const file of ['docs/assets/css/core/01-tokens/navigation.tokens.css','docs/assets/css/layers/site/theme-menu.css'])await copy(file);
+  for(const file of ['docs/assets/css/core/01-tokens/navigation.tokens.css','docs/assets/css/layers/site/theme-menu.css','docs/assets/css/core/03-primitives/fields.css'])await copy(file);
   const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
   const replaced=new Set(records.map(record=>record.file));
   manifest.files=[...manifest.files.filter(record=>!replaced.has(record.file)),...records];
