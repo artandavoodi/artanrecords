@@ -4,7 +4,7 @@
     {
       "id": "artan-davoodi",
       "name": "Artan Davoodi",
-      "biography": "Artan Davoodi is a musician, songwriter, and producer whose main instrument is the piano. His work spans music and visual art, with an interest in the stories each can tell.",
+      "biography": "Artan Davoodi is a musician, songwriter and producer whose main instrument is the piano. His work moves between instrumental music and acoustic songs. Memory and personal experience shape his songwriting and musical expression.",
       "portrait": {
         "src": "assets/media/portrait/artist-home.jpeg",
         "alt": "Portrait of Artan Davoodi",
@@ -131,6 +131,13 @@
           "icon": "globe",
           "category": "website",
           "order": 14
+        },
+        {
+          "label": "Concerts",
+          "url": "https://artandavoodi.com/concerts/",
+          "icon": "globe",
+          "category": "website",
+          "order": 15
         }
       ]
     }
