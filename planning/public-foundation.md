@@ -25,12 +25,13 @@ The privacy draft is intentionally not generated. Confirm the operator's public
 contact address, processing grounds, rights procedure, vendor arrangements and
 retention implementation before publication. Do not invent company registration.
 
-The proposed 30-day rule starts at an unsuccessful enquiry's recorded closure,
-not initial receipt. Before making this a public guarantee, implement and verify
-closure dates, expiry review and deletion across the sheet and notification inbox,
-including the treatment of copies, backups and justified retention exceptions.
-No existing submissions have been deleted. Do not confuse a proposed review
-target with a guaranteed reply deadline. No 24-day industry standard was found.
+The configured 30-day cleanup rule starts at an unsuccessful enquiry's recorded
+closure, not initial receipt. Source tests verify that active enquiries and legacy
+rows without a closure date are preserved. Hosted trigger execution and real form
+delivery still require operational verification. Notification emails, provider
+history and justified retention exceptions need separate review; sheet cleanup
+must not be represented as deletion from every provider. Do not confuse a review
+target with a guaranteed reply deadline.
 
 ## Phases
 
