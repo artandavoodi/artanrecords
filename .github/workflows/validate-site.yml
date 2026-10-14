@@ -25,3 +25,28 @@ jobs:
       - run: node tools/test-enquiries.mjs
 
       - run: git diff --exit-code -- docs
+  shared-foundation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: artanrecords
+      - uses: actions/checkout@v4
+        with:
+          repository: artandavoodi/artanrecords-docs
+          path: artanrecords-docs
+      - uses: actions/checkout@v4
+        with:
+          repository: artandavoodi/artanrecords-studio
+          path: artanrecords-studio
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tools/sync-surfaces.mjs ../artanrecords-docs --check
+        working-directory: artanrecords
+      - run: node tools/sync-surfaces.mjs ../artanrecords-studio --check
+        working-directory: artanrecords
+      - run: node foundation/build.mjs && node tools/check.mjs
+        working-directory: artanrecords-docs
+      - run: node foundation/build.mjs && node tools/check.mjs
+        working-directory: artanrecords-studio
