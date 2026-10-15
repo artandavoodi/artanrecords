@@ -27,7 +27,7 @@ export function intakeForm(config,icons) {
   if(config.formType && config.formType!=='contact') throw new Error('Unsupported form type');
   const fields=(config.formType?`<input type="hidden" name="formtype" value="${e(config.formType)}">`:'')+config.fields.map(field=>{
     if(!/^[a-z]+$/.test(field.name)) throw new Error('Invalid form field name');
-    const attributes=`id="enquiry-${field.name}" name="${field.name}"${field.required?' required':''}${field.maxLength?` maxlength="${Number(field.maxLength)}"`:''}${field.autocomplete?` autocomplete="${e(field.autocomplete)}"`:''}`;
+    const attributes=`class="ui-field" id="enquiry-${field.name}" name="${field.name}"${field.required?' required':''}${field.maxLength?` maxlength="${Number(field.maxLength)}"`:''}${field.autocomplete?` autocomplete="${e(field.autocomplete)}"`:''}`;
     let control;
     if(field.type==='textarea') control=`<textarea ${attributes} rows="6"></textarea>`;
     else if(field.type==='select') {
