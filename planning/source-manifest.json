@@ -31,10 +31,6 @@
       "sha256": "bf5f0a8a37bbc60873b4da7542ed3a8bc3a60bfa9d95e1bdfc9ab9b4b067052e"
     },
     {
-      "file": "docs/assets/css/layers/site/site.css",
-      "sha256": "f5475abd1a387f5116ecc129bb31f4b3f205addc643086d902033e127eb71ccc"
-    },
-    {
       "file": "docs/assets/css/layers/site/navigation.css",
       "sha256": "b93be75b7d311a733a42b9d22cffea537b9ac10cb8f06c1deb952f7b797c391b"
     },
@@ -217,9 +213,14 @@
     {
       "file": "docs/assets/css/core/03-primitives/fields.css",
       "sha256": "bd4836b6119acd5f7e7ddae414176cd7592560f42d85175a871fa36c2946480f"
+    },
+    {
+      "file": "docs/assets/css/layers/site/site.css",
+      "sha256": "24c1c51aca13c2aaf6979c3fc11d4c0cef7fe3b6dc283e407a59112c3679d550"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
   "mediaSourceCommit": "e7ff5445a0eb41447553f965f20196360c16607e",
-  "catalogueSourceCommit": "266c52136162cad426acfd78d176de1c5c73f511"
+  "catalogueSourceCommit": "266c52136162cad426acfd78d176de1c5c73f511",
+  "siteStyleSourceCommit": "b355974c66f639342dfc534e2c1913eac1760390"
 }

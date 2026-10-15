@@ -6848,7 +6848,7 @@ h3, h4, h5, h6 { font-size: var(--site-type-heading-size); }
   font-size: var(--site-type-caption-size);
   font-weight: var(--site-type-label-weight);
   letter-spacing: var(--site-type-label-tracking);
-  text-transform: uppercase;
+  text-transform: none;
 }
 .site-navigation nav a { color: var(--cv-text-secondary); }
 .site-navigation nav a:hover, .site-navigation nav a[aria-current] { color: var(--cv-text-primary); }
@@ -7255,7 +7255,7 @@ main[data-fragment="artists"] > .site-section { padding-block-start: 0; gap: 0; 
 .release > p { max-inline-size: var(--cv-reading-width); }
 .release dl { display: flex; flex-wrap: wrap; gap: var(--spacing-xl); }
 .release dd { margin: 0; }
-.release dt { font-size: var(--site-type-caption-size); text-transform: uppercase; }
+.release dt { font-size: var(--site-type-caption-size); text-transform: none; }
 .release summary { display: flex; align-items: center; gap: var(--spacing-md); cursor: pointer; padding-block: var(--spacing-md); list-style: none; }
 .release summary::-webkit-details-marker { display: none; }
 .release summary > img { inline-size: var(--icon-size-md); margin-inline-start: auto; }

@@ -27,6 +27,16 @@ async function json(file,value) {
   await writeFile(path.join(root,file),JSON.stringify(value,null,2)+'\n');
 }
 // Refresh approved catalogue fields without replacing label-owned controls or assets.
+if(args.includes('--site-style-only')) {
+  await copy('docs/assets/css/layers/site/site.css');
+  const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
+  const replaced=new Set(records.map(record=>record.file));
+  manifest.files=[...manifest.files.filter(record=>!replaced.has(record.file)),...records];
+  manifest.siteStyleSourceCommit=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  await json('planning/source-manifest.json',manifest);
+  console.log('Synchronized shared site presentation only.');
+  process.exit(0);
+}
 if(args.includes('--catalogue-only')) {
   const catalogue=await read('assets/data/music/releases.json');
   const current=JSON.parse(await readFile(path.join(root,'docs/assets/data/music/releases.json'),'utf8'));
