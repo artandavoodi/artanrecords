@@ -13,14 +13,14 @@ main[data-fragment="home"] { position:relative; isolation:isolate; }
   overflow:hidden;
 }
 .home-atmosphere path { stroke-width:var(--spacing-lg); vector-effect:non-scaling-stroke; }
-.home-atmosphere__thread { opacity:var(--home-atmosphere-thread-opacity); }
-.home-atmosphere__glint { opacity:var(--home-atmosphere-glint-opacity); stroke-dasharray:0.04 0.96; stroke-dashoffset:calc(1 - var(--home-atmosphere-progress,0.12)); }
+.home-atmosphere__thread { opacity:calc(var(--home-atmosphere-thread-opacity) * var(--home-atmosphere-clarity,1)); }
+.home-atmosphere__glint { opacity:calc(var(--home-atmosphere-glint-opacity) * var(--home-atmosphere-clarity,1)); stroke-dasharray:0.04 0.96; stroke-dashoffset:calc(1 - var(--home-atmosphere-progress,0.12)); }
 @media (prefers-reduced-motion:no-preference) {
   .home-atmosphere__glint { transition:stroke-dashoffset var(--duration-base) var(--ease-standard); animation:home-atmosphere-breathe calc(var(--label-introduction-light-duration) / 2) var(--ease-standard) infinite; animation-play-state:paused; }
   .home-atmosphere__glint:nth-of-type(4) { animation-delay:calc(var(--duration-slow) * -4); }
   .home-atmosphere[data-playing] .home-atmosphere__glint { animation-play-state:running; }
 }
 @keyframes home-atmosphere-breathe {
-  0%,100% { opacity:calc(var(--home-atmosphere-glint-opacity) / 2); }
-  50% { opacity:var(--home-atmosphere-glint-opacity); }
+  0%,100% { opacity:calc(var(--home-atmosphere-glint-opacity) * var(--home-atmosphere-clarity,1) / 2); }
+  50% { opacity:calc(var(--home-atmosphere-glint-opacity) * var(--home-atmosphere-clarity,1)); }
 }
