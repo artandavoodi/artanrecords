@@ -9,7 +9,9 @@
   "description": "An independent record label for artists, recordings and creative collaboration. Music first. A lasting home for the work.",
   "homeAtmosphere": {
     "blur":18,
-    "blurPeak":30,
+    "blurPeak":48,
+    "landingOpacity":0.08,
+    "highlightMix":0.65,
     "softOpacity":0.65,
     "spectrumSpan":0.25,
     "paths":[

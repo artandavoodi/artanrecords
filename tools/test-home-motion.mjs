@@ -1,7 +1,11 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
-import {homeAtmosphereSoftness} from '../docs/assets/js/layers/site/home-atmosphere.js';
+import {homeAtmosphereSoftness,homeAtmospherePresence} from '../docs/assets/js/layers/site/home-atmosphere.js';
+assert.equal(homeAtmospherePresence(0,800,0.08),0.08);
+assert.equal(homeAtmospherePresence(800,800,0.08),1);
+assert.equal(homeAtmospherePresence(1600,800,0.08),1);
+assert.ok(homeAtmospherePresence(400,800,0.08)>0.08);
 assert.deepEqual(homeAtmosphereSoftness(0,18,30,0.65),{blur:18,opacity:1});
 assert.deepEqual(homeAtmosphereSoftness(0.25,18,30,0.65),{blur:30,opacity:0.65});
 assert.deepEqual(homeAtmosphereSoftness(0.5,18,30,0.65),{blur:18,opacity:1});

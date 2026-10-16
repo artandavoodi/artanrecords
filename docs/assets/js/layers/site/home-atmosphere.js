@@ -6,6 +6,10 @@ export function homeAtmosphereSoftness(progress,min,max,softOpacity){
   const phase=Math.sin(Math.max(0,Math.min(1,progress))*Math.PI*2)**2;
   return {blur:Math.round((min+(max-min)*phase)*10)/10,opacity:1-(1-softOpacity)*phase};
 }
+export function homeAtmospherePresence(scroll,releaseTop,landingOpacity){
+  const progress=Math.max(0,Math.min(1,scroll/Math.max(1,releaseTop)));
+  return landingOpacity+(1-landingOpacity)*progress*progress*(3-2*progress);
+}
 export function bindHomeAtmosphere(){
   const home=document.querySelector('main[data-fragment="home"]');
   const atmosphere=home?.querySelector('[data-home-atmosphere]');
@@ -14,14 +18,22 @@ export function bindHomeAtmosphere(){
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const blur=atmosphere.querySelector('feGaussianBlur');
   const min=Number(atmosphere.dataset.blurMin),max=Number(atmosphere.dataset.blurMax),softOpacity=Number(atmosphere.dataset.softOpacity);
+  const landingOpacity=Number(atmosphere.dataset.landingOpacity),highlightMix=Number(atmosphere.dataset.highlightMix);
+  const latest=home.querySelector('.label-latest-release');
   let visible=false,frame=0;
   const update=()=>{
     frame=0;
     const rect=home.getBoundingClientRect();
     const progress=reduced.matches?0.5:homeAtmosphereProgress(rect.top,rect.height,innerHeight);
     const softness=homeAtmosphereSoftness(progress,min,max,softOpacity);
+    const scroll=Math.max(0,scrollY);
+    const releaseTop=latest?latest.getBoundingClientRect().top+scroll:rect.height/4;
+    const presence=reduced.matches?1:homeAtmospherePresence(scroll,releaseTop,landingOpacity);
+    const diffusion=(softness.blur-min)/Math.max(1,max-min);
     atmosphere.style.setProperty('--home-atmosphere-progress',String(progress));
-    atmosphere.style.setProperty('--home-atmosphere-clarity',String(softness.opacity));
+    atmosphere.style.setProperty('--home-atmosphere-presence',String(presence));
+    atmosphere.style.setProperty('--home-atmosphere-clarity',String(softness.opacity+diffusion));
+    atmosphere.style.setProperty('--home-atmosphere-light',`${diffusion*highlightMix*100}%`);
     if(blur&&blur.getAttribute('stdDeviation')!==String(softness.blur))blur.setAttribute('stdDeviation',String(softness.blur));
   };
   const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
