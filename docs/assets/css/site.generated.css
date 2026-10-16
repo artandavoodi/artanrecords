@@ -7325,14 +7325,15 @@ a { text-decoration:none; }
 /* Transparent homepage score; original hero light and typography stay sovereign. */
 main[data-fragment="home"] { position:relative; isolation:isolate; }
 .home-atmosphere {
-  --home-atmosphere-thread-opacity:0.12;
-  --home-atmosphere-glint-opacity:0.36;
-  --home-atmosphere-blur:calc(var(--panel-blur-unified) * 10);
+  --home-atmosphere-thread-opacity:0.08;
+  --home-atmosphere-glint-opacity:0.24;
+  --home-atmosphere-blur:calc(var(--panel-blur-unified) * 2);
   --home-atmosphere-width:calc(var(--home-atmosphere-blur) * 2);
   position:absolute;
-  inset:0;
-  inline-size:100%;
-  block-size:100%;
+  inset-block-start:calc(0px - var(--site-header-height));
+  inset-inline-start:calc(50% - 50vw);
+  inline-size:100vw;
+  block-size:calc(100% + var(--site-header-height));
   z-index:-1;
   pointer-events:none;
   overflow:hidden;
