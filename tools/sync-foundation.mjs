@@ -80,6 +80,15 @@ if(args.includes('--media-only')) {
   console.log('Synchronized approved media only; catalogue copy and label behavior preserved.');
   process.exit(0);
 }
+// Refresh the shared controller without replacing label-owned navigation configuration.
+if(args.includes('--menu-only')) {
+  await copy('docs/assets/js/core/menu.js');
+  const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
+  manifest.files=manifest.files.map(record=>records.find(updated=>updated.file===record.file)||record);
+  await json('planning/source-manifest.json',manifest);
+  console.log('Synchronized shared menu controller only.');
+  process.exit(0);
+}
 // Refresh selected shared controls without replacing label-owned navigation behavior.
 if(args.includes('--controls-only')) {
   for(const file of ['docs/assets/css/core/01-tokens/navigation.tokens.css','docs/assets/css/layers/site/theme-menu.css','docs/assets/css/core/03-primitives/fields.css'])await copy(file);
