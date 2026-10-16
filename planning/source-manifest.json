@@ -217,6 +217,10 @@
     {
       "file": "docs/assets/css/layers/site/site.css",
       "sha256": "24c1c51aca13c2aaf6979c3fc11d4c0cef7fe3b6dc283e407a59112c3679d550"
+    },
+    {
+      "file": "docs/assets/css/core/04-systems/public-information.css",
+      "sha256": "32743cadeb70623bd0e84a4a780041a695a3eee554bf06bf7a2b167ac7445a8a"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
