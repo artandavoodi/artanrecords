@@ -1,7 +1,8 @@
 /* Enhance server-rendered catalogue cards; JSON remains the content authority. */
 export function bindReleaseDiscovery() {
   const section = document.querySelector('[data-release-discovery]');
-  if (!section) return;
+  if (!section||section.hasAttribute('data-release-ready')) return;
+  section.setAttribute('data-release-ready','');
   const form = section.querySelector('form');
   const cards = [...section.querySelectorAll('[data-release-search]')];
   const empty = section.querySelector('[data-release-empty]');
@@ -14,6 +15,7 @@ export function bindReleaseDiscovery() {
         && (!form.elements.category.value || card.dataset.releaseCategory === form.elements.category.value)
         && (!form.elements.artist.value || card.dataset.releaseArtist === form.elements.artist.value);
       card.hidden = !matches;
+      if(!matches)card.removeAttribute('data-release-visible');
       visible += Number(matches);
     }
     empty.hidden = visible > 0;
@@ -23,4 +25,11 @@ export function bindReleaseDiscovery() {
   form.addEventListener('change', filter);
   form.hidden = false;
   filter();
+  if('IntersectionObserver' in window){
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>entry.target.toggleAttribute('data-release-visible',entry.isIntersecting));
+    },{threshold:0.1,rootMargin:'0px 0px -5% 0px'});
+    cards.forEach(card=>observer.observe(card));
+    section.setAttribute('data-release-motion-ready','');
+  }
 }

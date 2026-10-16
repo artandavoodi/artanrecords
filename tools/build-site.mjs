@@ -46,7 +46,7 @@ if(!founder||founder.name!==site.founder.name) throw new Error('Founder must mat
 const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
-const navigationFor=path=>fragment('navigation',{...escaped(site.labels),name:e(site.name),homeLinks:textLinks(information.homeLinks.filter(item=>item.url!==path)),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
+const navigationFor=path=>fragment('navigation',{...escaped(site.labels),name:e(site.name),homeLinks:textLinks(information.homeLinks.filter(item=>item.url!==path&&!item.excludeOn?.includes(path))),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
 const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),links:textLinks(information.footerLinks),social:links(site.social,icons,'streaming','icons-only')});
 const navigation=await navigationFor('/404.html');
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};

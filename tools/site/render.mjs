@@ -25,7 +25,7 @@ export function discoveryCards(items, artists, icons) {
   return items.map(r=>{
     const artist=releaseArtist(r,artists);
     if(!artist) throw new Error(`Unregistered release artist: ${r.artist}`);
-    return `<article class="release-card" data-release-category="${escape(r.category)}" data-release-artist="${escape(artist.id)}" data-release-search="${escape(r.title+' '+r.artist)}"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · <time datetime="${escape(r.releaseDate)}">${escape(r.releaseDate.slice(0,4))}</time> · <a href="/artists/${escape(artist.id)}/">${escape(r.artist)}</a></p>${links(r.links,icons)}</article>`;
+    return `<article class="release-card" data-release-category="${escape(r.category)}" data-release-artist="${escape(artist.id)}" data-release-search="${escape(r.title+' '+r.artist)}"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><div class="release-card__details"><p class="release-card__meta">${escape(r.type)} · <time datetime="${escape(r.releaseDate)}">${escape(r.releaseDate.slice(0,4))}</time></p><p class="release-card__artist"><a href="/artists/${escape(artist.id)}/">${escape(r.artist)}</a></p></div>${links(r.links,icons)}</article>`;
   }).join('');
 }
 export function artistYears(artist,labels) {

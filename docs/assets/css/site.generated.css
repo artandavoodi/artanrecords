@@ -7188,6 +7188,24 @@ html:has(main[data-fragment="artist"]) .site-footer > .hub { display: none; }
 .release-catalogue figure img { inline-size: 100%; }
 .release-catalogue .hub { min-inline-size: 0; }
 .release-catalogue .hub__group-links { flex-wrap: wrap; }
+.release-card__details { display:grid; gap:var(--spacing-xs); }
+.release-card__details p { margin:0; }
+.release-card__artist a, .release-card__artist a:hover, .release-card__artist a:focus-visible { text-decoration:none; }
+@media (min-width:1025px) and (hover:hover) and (pointer:fine) {
+  .catalogue.release-catalogue { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .release-catalogue .release-card { max-inline-size:none; padding:0; }
+  .release-catalogue .release-card figure img { inline-size:100%; }
+  .release-catalogue .release-card h3 { margin:0; min-block-size:calc(var(--line-height-heading-tight) * 2em); font-size:var(--font-size-h3); font-weight:var(--font-weight-semibold); }
+  .release-catalogue .release-card__artist { order:-1; font-weight:var(--font-weight-medium); }
+  .release-catalogue .release-card__meta { font-size:var(--site-type-caption-size); color:var(--cv-text-secondary); }
+  .release-catalogue .hub { justify-items:start; }
+  .release-catalogue .hub__group-links { flex-wrap:nowrap; justify-content:flex-start; gap:var(--spacing-xs); }
+  .release-catalogue .hub__link { flex:0 0 var(--control-height-sm); }
+}
+@media (prefers-reduced-motion:no-preference) {
+  [data-release-motion-ready] .release-card { transition:opacity var(--label-logo-collapse-duration) var(--ease-standard),transform var(--label-logo-collapse-duration) var(--ease-standard); }
+  [data-release-motion-ready] .release-card:not([data-release-visible]) { opacity:0; transform:translateY(var(--spacing-md)); }
+}
 .release-card[hidden], .release-filters[hidden], [data-release-empty][hidden] { display: none; }
 @media (max-width: 860px) {
   .release-spotlight > article, .release-filters { grid-template-columns: minmax(0, 1fr); }
