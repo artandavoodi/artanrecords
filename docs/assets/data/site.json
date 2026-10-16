@@ -8,6 +8,12 @@
   "domain": "https://artanrecords.com",
   "description": "An independent record label for artists, recordings and creative collaboration. Music first. A lasting home for the work.",
   "homeAtmosphere": {
+    "blur":12,
+    "spectrumSpan":0.25,
+    "paths":[
+      "M 110 0 C 100 200 1160 380 1080 720 S 80 1120 120 1440 S 1120 1920 1000 2400",
+      "M 1080 0 C 1100 380 40 460 160 860 S 1140 1360 1020 1680 S 180 2180 220 2400"
+    ],
     "colors":["--color-primary1","--color-secondary1","--color-primary7","--layout-home-featured-functions-card-spectrum-orange","--color-primary5","--color-secondary6","--color-primary10","--color-secondary8"]
   },
   "introduction": [
