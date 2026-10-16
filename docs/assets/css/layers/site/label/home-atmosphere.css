@@ -3,7 +3,7 @@ main[data-fragment="home"] { position:relative; isolation:isolate; }
 .home-atmosphere {
   --home-atmosphere-thread-opacity:0.12;
   --home-atmosphere-glint-opacity:0.36;
-  --home-atmosphere-blur:calc(var(--panel-blur-unified) * 6);
+  --home-atmosphere-blur:calc(var(--panel-blur-unified) * 10);
   --home-atmosphere-width:calc(var(--home-atmosphere-blur) * 2);
   position:absolute;
   inset:0;
