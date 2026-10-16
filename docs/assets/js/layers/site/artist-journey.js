@@ -4,15 +4,15 @@ export function journeyFocusProgress(center,height){
   return progress*progress*(3-2*progress);
 }
 export function bindArtistJourney() {
-  const journey = document.querySelector('.artist-journey');
+  const journey = document.querySelector('.artist-journey, .submission-journey');
   if (!journey || journey.hasAttribute('data-motion-ready') || !('IntersectionObserver' in window)) return;
   const steps = journey.querySelectorAll('[data-journey-step]');
-  const hero=journey.querySelector('.artist-journey__hero');
+  const hero=journey.querySelector('.artist-journey__hero, .submission-journey__hero');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const anchors=new Map();
   const measureFocus=()=>{
     for(const step of steps){
-      const copy=step.querySelector('.artist-journey__copy');
+      const copy=step.querySelector('.artist-journey__copy, .submission-journey__copy');
       const rect=copy.getBoundingClientRect();
       const heading=copy.querySelector('h2');
       anchors.set(step,rect.top+scrollY+heading.offsetTop+heading.offsetHeight/2);

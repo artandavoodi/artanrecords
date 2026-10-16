@@ -1,6 +1,6 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
-import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
+import {intakeForm,intakeJourney,journeyScene,submissionJourneySteps} from './site/intake.mjs';
 import {showcaseRelease,showcaseCarousel} from './site/home-showcase.mjs';
 import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
@@ -141,6 +141,17 @@ for(const item of information.items) {
   for(const section of item.sections) {
     if(!/^[a-z0-9-]+$/.test(section.id)||ids.has(section.id)) throw new Error('Invalid or duplicate section identifier');
     ids.add(section.id);
+  }
+  if(item.presentation==='journey'){
+    if(!item.form||!['headline','processLabel','conversationTitle','conversationDescription','notice'].every(key=>typeof item[key]==='string'&&item[key]))throw Error('Incomplete submission journey');
+    await page(item.path,item.title,item.description,'submission',{
+      ...escaped(item),introduction:e(item.description),
+      startLabel:e(intake.form.startLabel),
+      channels:submissionJourneySteps(item.sections,intake.form.startLabel),
+      journeyLinks:textLinks(item.links),
+      form:intakeForm({...intake.form,defaults:{purpose:item.formPurpose}},icons)
+    });
+    continue;
   }
   await page(item.path,item.title,item.description,'information',{
     title:e(item.title),description:e(item.description),

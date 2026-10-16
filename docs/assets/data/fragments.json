@@ -10,5 +10,6 @@
   "about": "assets/fragments/about/index.html",
   "contact": "assets/fragments/contact/index.html",
   "for-artists": "assets/fragments/for-artists/index.html",
+  "submission": "assets/fragments/submission/index.html",
   "submission-privacy": "assets/fragments/for-artists/privacy.html"
 }

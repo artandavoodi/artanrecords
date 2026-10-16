@@ -28,11 +28,16 @@
       "links":[{"label":"Submit your music","url":"/submit/","emphasis":"primary"},{"label":"Propose a collaboration","url":"/collaborate/"}]
     },
     {
-      "path":"/submit/", "title":"Submit your music", "description":"Share your music with Artan Records for human review.", "form":true, "formPurpose":"Music submission", "presentation":"flow",
+      "path":"/submit/", "title":"Submit your music", "description":"A recording. A little context. A conversation about what comes next.", "form":true, "formPurpose":"Music submission", "presentation":"journey",
+      "headline":"Your music\nLet us hear it",
+      "processLabel":"Three steps to share your work",
+      "conversationTitle":"Share the work",
+      "conversationDescription":"Introduce yourself, add a listening link if you have one, and tell us what you want to make next. Music submission is already selected in the form.",
+      "notice":"We review enquiries individually. Sending work does not guarantee acceptance, representation or a release.",
       "sections":[
-        {"id":"share","title":"Let us hear the work","text":"Send a listening link, your artist name and a short introduction. Tell us whether it is a single, EP or album, who contributed, and what you hope to release."},
-        {"id":"review","title":"A considered review","text":"Artan Records reviews enquiries individually. Sending music does not guarantee acceptance, representation or a release. If there is a fit, we can discuss the project and next steps."},
-        {"id":"prepare","title":"Keep it simple","text":"Use the Music submission option in the form. Share links you have permission to share. Do not send private masters, identity documents, bank details or tax information."}
+        {"id":"share","title":"Let us hear the work","text":"Introduce the artist behind the recording. Share a listening link and tell us whether it is a single, EP or album, who contributed, and what you hope to release.","detail":"A private streaming link is enough. Keep masters and project files with you."},
+        {"id":"review","title":"A considered review","text":"We listen and read the context you share. Each enquiry is considered individually, with the recording and your intentions at the centre of the conversation.","detail":"If there is a fit, we can discuss the project. Submission is not acceptance or a release agreement."},
+        {"id":"prepare","title":"A clear next step","text":"Open the form below, introduce yourself and tell us what you are looking for. Share only work and links you have permission to send.","detail":"No attachments are needed. Do not include identity documents, bank details or tax information."}
       ], "links":[{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
     },
     {

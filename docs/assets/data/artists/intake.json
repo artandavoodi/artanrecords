@@ -29,7 +29,6 @@
       "pendingLabel": "Online contact enquiries are being updated. Please email contact@artanrecords.com or collaborate@artanrecords.com for now.",
       "subject": "Artan Records contact enquiry",
       "email": "contact@artanrecords.com",
-      "requiredLabel": "*",
       "fields": [
         {"name":"name","label":"Your name","type":"text","required":true,"autocomplete":"name","maxLength":150},
         {"name":"email","label":"Reply email","type":"email","required":true,"autocomplete":"email","maxLength":254},
@@ -42,6 +41,8 @@
     }
   },
   "form": {
+    "requiredLabel": "*",
+    "requiredHint": "Fields marked * are required.",
     "action": "https://script.google.com/macros/s/AKfycbysSbhhm533YQmv3JEQh2eMiLQIkLRgJzooL0IWEAD7fMz0PevKQwCrxYzg81yZsNLM7g/exec",
     "captchaSiteKey": "6LcG8M4tAAAAAIpqITkQcwnSNApvLZCVDF98JMak",
     "captchaLoading": "Loading verification...",
@@ -62,7 +63,7 @@
       { "name": "name", "label": "Your name", "type": "text", "required": true, "autocomplete": "name", "maxLength": 150 },
       { "name": "artist", "label": "Artist or project name", "type": "text", "required": true, "maxLength": 150 },
       { "name": "email", "label": "Reply email", "type": "email", "required": true, "autocomplete": "email", "maxLength": 254 },
-      { "name": "purpose", "label": "What brings you here?", "type": "select", "options": ["Artist introduction", "Music submission", "Collaboration"] },
+      { "name": "purpose", "label": "What brings you here?", "type": "select", "required": true, "options": ["Artist introduction", "Music submission", "Collaboration"] },
       { "name": "website", "label": "Website or portfolio (optional)", "type": "url", "maxLength": 2000 },
       { "name": "social", "label": "Social profile (optional)", "type": "url", "maxLength": 2000 },
       { "name": "listening", "label": "Listening or sample link (optional)", "type": "url", "maxLength": 2000 },

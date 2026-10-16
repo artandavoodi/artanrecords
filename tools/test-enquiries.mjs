@@ -1,16 +1,37 @@
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
+import {intakeForm} from './site/intake.mjs';
 
 const source=readFileSync(new URL('./site/enquiries.gs',import.meta.url),'utf8');
 const context=vm.createContext({});
 vm.runInContext(source,context);
 const {form,contact}=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/intake.json',import.meta.url),'utf8'));
+const icons=JSON.parse(readFileSync(new URL('../docs/assets/data/icons.json',import.meta.url),'utf8'));
+for(const config of [form,{...form,...contact.form}]){
+  const markup=intakeForm(config,icons);
+  assert.match(markup,/id="enquiry-required-hint"/);
+  assert.equal((markup.match(/class="artist-enquiry__required"/g)||[]).length,config.fields.filter(field=>field.required).length+1);
+  for(const field of config.fields){
+    const label=markup.match(new RegExp(`<label for="enquiry-${field.name}">([\\s\\S]*?)</label>`))[1];
+    assert.equal(label.includes('artist-enquiry__required'),Boolean(field.required));
+  }
+}
+const submissionPage=readFileSync(new URL('../docs/submit/index.html',import.meta.url),'utf8');
+assert.match(submissionPage,/data-fragment="submission"/);
+assert.doesNotMatch(submissionPage,/data-journey-scene/,'Submission must retain its own composition, not repeat the artist graphics');
+assert.equal((submissionPage.match(/data-journey-step/g)||[]).length,3);
+for(const id of ['share','review','prepare','artist-conversation'])assert.ok(submissionPage.includes(`id="${id}"`));
+assert.match(submissionPage,/<option selected>Music submission<\/option>/);
 const contactValid={name:'Test',email:'test@example.com',purpose:'General enquiry',reply:'No reply needed',message:'A question',processing_acknowledgement:'yes'};
 assert.equal(context.validate_(contactValid,contact.form.fields).artist,'');
 for(const changes of [{name:''},{email:''},{purpose:'Music submission'},{reply:'unknown'},{message:''}]) assert.throws(()=>context.validate_({...contactValid,...changes},contact.form.fields));
 const valid={name:'Test Artist',artist:'Test',email:'test@example.com',purpose:'Collaboration',message:'Test enquiry',processing_acknowledgement:'yes'};
 assert.equal(context.validate_(valid,form.fields).email,valid.email);
+for(const config of [form,contact.form]){
+  const sample=config===form?valid:contactValid;
+  for(const field of config.fields.filter(field=>field.required))assert.throws(()=>context.validate_({...sample,[field.name]:''},config.fields),`Missing ${field.name} must be rejected by the server`);
+}
 for(const changes of [{email:''},{email:'a@b.com\r\nBcc:x@y.com'},{message:'x'.repeat(5001)},{purpose:'other'},{processing_acknowledgement:'no'},{website:'javascript:alert(1)'}]) {
   assert.throws(()=>context.validate_({...valid,...changes},form.fields));
 }
