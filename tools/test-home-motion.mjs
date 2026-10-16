@@ -1,24 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
-import {homeAtmosphereSoftness,homeAtmospherePresence,homeAtmosphereSectionBlur} from '../docs/assets/js/layers/site/home-atmosphere.js';
-assert.equal(homeAtmosphereSectionBlur(400,800,18,48),48);
-assert.equal(homeAtmosphereSectionBlur(1200,800,18,48),18);
-assert.equal(homeAtmosphereSectionBlur(0,800,18,48),33);
-assert.equal(homeAtmosphereSectionBlur(800,800,18,48),33);
-assert.equal(homeAtmospherePresence(0,800,0.08),0.08);
-assert.equal(homeAtmospherePresence(800,800,0.08),1);
-assert.equal(homeAtmospherePresence(1600,800,0.08),1);
-assert.ok(homeAtmospherePresence(400,800,0.08)>0.08);
-assert.deepEqual(homeAtmosphereSoftness(0,18,30,0.65),{blur:18,opacity:1});
-assert.deepEqual(homeAtmosphereSoftness(0.25,18,30,0.65),{blur:30,opacity:0.65});
-assert.deepEqual(homeAtmosphereSoftness(0.5,18,30,0.65),{blur:18,opacity:1});
-assert.deepEqual(homeAtmosphereSoftness(0.75,18,30,0.65),{blur:30,opacity:0.65});
-for(let step=0;step<=100;step++){
-  const {blur,opacity}=homeAtmosphereSoftness(step/100,18,30,0.65);
-  assert.ok(blur>=18&&blur<=30);
-  assert.ok(opacity>=0.65&&opacity<=1);
-}
 const source=await readFile(new URL('../docs/assets/js/layers/site/home-introduction.js',import.meta.url),'utf8');
 let observed=0,callback,progress;
 const attributes=new Set();
@@ -53,3 +35,6 @@ reduced.matches=true;
 vm.runInContext('bindHomeIntroduction()',context);
 assert.equal(progress,0,'Reduced motion must not apply scroll-linked displacement');
 console.log('PASS: homepage motion is bounded, reversible and binds once.');
+
+const homepage=await readFile(new URL('../docs/index.html',import.meta.url),'utf8');
+assert.doesNotMatch(homepage,/home-atmosphere|feGaussianBlur/,'The removed scroll-blur effect must not return');

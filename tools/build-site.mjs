@@ -1,7 +1,6 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
 import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
-import {homeAtmosphere} from './site/home.mjs';
 import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
@@ -76,7 +75,6 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
   if(nav.fragment==='home') {
-    values.atmosphere=homeAtmosphere(site.homeAtmosphere);
     values.introduction=site.introduction.map(line=>{
       if(typeof line==='string')return `<p>${e(line)}</p>`;
       if(!line.prefix||!Array.isArray(line.phrases)||line.phrases.length<2||!line.phrases.every(phrase=>typeof phrase==='string'&&phrase))throw Error('Invalid introduction statement');
