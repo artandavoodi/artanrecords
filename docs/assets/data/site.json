@@ -7,9 +7,16 @@
   "shareImage": {"src":"assets/brand/logo/artan-records-wordmark.png","alt":"Artan Records — independent record label"},
   "domain": "https://artanrecords.com",
   "description": "An independent record label for artists, recordings and creative collaboration. Music first. A lasting home for the work.",
+  "homeAtmosphere": {
+    "colors":["--color-primary1","--color-secondary1","--color-primary5"],
+    "paths":[
+      "M 110 0 C 100 200 1160 380 1080 720 S 80 1120 120 1440 S 1120 1920 1000 2400",
+      "M 1080 0 C 1100 380 40 460 160 860 S 1140 1360 1020 1680 S 180 2180 220 2400"
+    ]
+  },
   "introduction": [
     "Music first",
-    {"prefix":"An independent record label for","phrases":["artists","recordings","creative collaboration"],"motion":{"hold":2200,"type":65,"erase":35}},
+    {"prefix":"A record label for","phrases":["artists","recordings","creative collaboration"],"motion":{"hold":2200,"type":65,"erase":35}},
     "A lasting home for the work"
   ],
   "founder": {
