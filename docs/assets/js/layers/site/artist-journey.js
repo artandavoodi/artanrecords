@@ -1,15 +1,39 @@
 /* Progressive enhancement: the full editorial flow stays visible without JavaScript. */
+export function journeyFocusProgress(top,height){
+  return Math.max(0,Math.min(1,(height*0.82-top)/(height*0.42)));
+}
 export function bindArtistJourney() {
   const journey = document.querySelector('.artist-journey');
   if (!journey || journey.hasAttribute('data-motion-ready') || !('IntersectionObserver' in window)) return;
   const steps = journey.querySelectorAll('[data-journey-step]');
+  const hero=journey.querySelector('.artist-journey__hero');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  let frame=0;
+  const updateFocus=()=>{
+    frame=0;
+    for(const step of steps){
+      const progress=reduced.matches?1:journeyFocusProgress(step.getBoundingClientRect().top,innerHeight);
+      step.style.setProperty('--journey-focus',String(progress));
+    }
+    if(hero){
+      const progress=reduced.matches?0:Math.max(0,Math.min(1,scrollY/hero.getBoundingClientRect().height));
+      hero.style.setProperty('--journey-hero-focus',String(Math.min(1,progress/0.6)));
+      hero.style.setProperty('--journey-hero-exit',String(Math.max(0,Math.min(1,(progress-0.65)/0.2))));
+    }
+  };
+  const scheduleFocus=()=>{if(!frame)frame=requestAnimationFrame(updateFocus);};
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
       entry.target.toggleAttribute('data-visible',entry.isIntersecting);
     }
+    scheduleFocus();
   }, {threshold: 0,rootMargin:'0px 0px -8% 0px'});
   steps.forEach(step => observer.observe(step));
   journey.setAttribute('data-motion-ready', '');
+  addEventListener('scroll',scheduleFocus,{passive:true});
+  addEventListener('resize',scheduleFocus);
+  reduced.addEventListener('change',scheduleFocus);
+  updateFocus();
 }
 
 export async function bindJourneyScenes() {
