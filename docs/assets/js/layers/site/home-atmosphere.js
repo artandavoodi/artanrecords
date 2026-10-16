@@ -10,6 +10,10 @@ export function homeAtmospherePresence(scroll,releaseTop,landingOpacity){
   const progress=Math.max(0,Math.min(1,scroll/Math.max(1,releaseTop)));
   return landingOpacity+(1-landingOpacity)*progress*progress*(3-2*progress);
 }
+export function homeAtmosphereSectionBlur(center,viewport,min,max){
+  const focus=1-Math.min(1,Math.abs(center-viewport/2)/Math.max(1,viewport));
+  return Math.round((min+(max-min)*focus*focus*(3-2*focus))*10)/10;
+}
 export function bindHomeAtmosphere(){
   const home=document.querySelector('main[data-fragment="home"]');
   const atmosphere=home?.querySelector('[data-home-atmosphere]');
@@ -20,12 +24,16 @@ export function bindHomeAtmosphere(){
   const min=Number(atmosphere.dataset.blurMin),max=Number(atmosphere.dataset.blurMax),softOpacity=Number(atmosphere.dataset.softOpacity);
   const landingOpacity=Number(atmosphere.dataset.landingOpacity),highlightMix=Number(atmosphere.dataset.highlightMix);
   const latest=home.querySelector('.label-latest-release');
+  const featured=home.querySelector('.label-featured-releases');
   let visible=false,frame=0;
   const update=()=>{
     frame=0;
     const rect=home.getBoundingClientRect();
     const progress=reduced.matches?0.5:homeAtmosphereProgress(rect.top,rect.height,innerHeight);
     const softness=homeAtmosphereSoftness(progress,min,max,softOpacity);
+    const featuredRect=featured?.getBoundingClientRect();
+    const sectionBlur=!reduced.matches&&featuredRect?homeAtmosphereSectionBlur(featuredRect.top+featuredRect.height/2,innerHeight,min,max):min;
+    const currentBlur=Math.max(softness.blur,sectionBlur);
     const scroll=Math.max(0,scrollY);
     const releaseTop=latest?latest.getBoundingClientRect().top+scroll:rect.height/4;
     const presence=reduced.matches?1:homeAtmospherePresence(scroll,releaseTop,landingOpacity);
@@ -34,7 +42,7 @@ export function bindHomeAtmosphere(){
     atmosphere.style.setProperty('--home-atmosphere-presence',String(presence));
     atmosphere.style.setProperty('--home-atmosphere-clarity',String(softness.opacity+diffusion));
     atmosphere.style.setProperty('--home-atmosphere-light',`${diffusion*highlightMix*100}%`);
-    if(blur&&blur.getAttribute('stdDeviation')!==String(softness.blur))blur.setAttribute('stdDeviation',String(softness.blur));
+    if(blur&&blur.getAttribute('stdDeviation')!==String(currentBlur))blur.setAttribute('stdDeviation',String(currentBlur));
   };
   const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
   const playback=()=>atmosphere.toggleAttribute('data-playing',visible&&!document.hidden&&!reduced.matches);
