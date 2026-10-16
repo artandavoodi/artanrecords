@@ -19,6 +19,7 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
 }));
 const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
+const legalDates=()=>`<p>Effective date: <time datetime="${e(information.legalPublication.effectiveDate)}">${e(information.legalPublication.effectiveDate)}</time> · Last updated: <time datetime="${e(information.legalPublication.lastUpdated)}">${e(information.legalPublication.lastUpdated)}</time></p>`;
 const textLinks=items=>(items||[]).map(item=>{
   if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');
   if(item.emphasis && item.emphasis!=='primary') throw new Error('Invalid action emphasis');
@@ -134,6 +135,7 @@ for(const item of information.items) {
   }
   await page(item.path,item.title,item.description,'information',{
     title:e(item.title),description:e(item.description),
+    dates:['/legal/','/privacy/'].includes(item.path)?legalDates():'',
     tabs:item.presentation==='tabs'?'data-information-tabs':'',
     contents:['accordion','flow'].includes(item.presentation)?'':`<nav class="information-links" aria-label="${e(item.title)}">${item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join('')}</nav>`,
     sections:item.sections.map(section=>item.presentation==='accordion'
@@ -144,6 +146,7 @@ for(const item of information.items) {
 }
 await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{
   title:e(intake.submissionPrivacy.title),
+  dates:legalDates(),
   sections:intake.submissionPrivacy.sections.map(s=>`<section class="artist-intake__channel"><h2>${e(s.title)}</h2><p>${e(s.text)}</p>${s.links?.length?`<div class="information-links label-actions">${textLinks(s.links)}</div>`:''}</section>`).join('')
 });
 for(const artist of artists.items) {

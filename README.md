@@ -193,6 +193,11 @@ Current official Artan Records email architecture:
 
 `davoodi@artanrecords.com`
 
+## Shared interaction rules
+Section snapping is desktop-only: wide viewport, fine pointer and hover.
+Mobile/tablet views use natural scrolling. Public legal notice dates belong to
+`docs/assets/data/pages.json`, not individual generated pages.
+
 Used for direct communication with Artan Davoodi, selected professional relationships, strategic communication, and founder-level correspondence.
 
 ### General Contact

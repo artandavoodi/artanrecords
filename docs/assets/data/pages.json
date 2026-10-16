@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "legalPublication": {"effectiveDate":"2026-10-16","lastUpdated":"2026-10-16"},
   "homeLinks": [{"label":"Explore releases","url":"/releases/"},{"label":"Submit your music","url":"/submit/","emphasis":"primary"}],
   "footerLinks": [{"label":"Services","url":"/services/"},{"label":"Collaborate","url":"/collaborate/"},{"label":"Questions","url":"/faq/"},{"label":"Legal information","url":"/legal/"},{"label":"Submission privacy","url":"/submission-privacy/"}],
   "items": [
