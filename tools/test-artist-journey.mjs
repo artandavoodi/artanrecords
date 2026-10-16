@@ -3,10 +3,10 @@ import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 const source=await readFile(new URL('../docs/assets/js/layers/site/artist-journey.js',import.meta.url),'utf8');
 const attributes=new Set();
-let focus;
+let focus,measurements=0;
 const step={
   toggleAttribute(name,enabled){if(enabled)attributes.add(name);else attributes.delete(name);},
-  getBoundingClientRect(){return {top:820};},
+  querySelector(){return {getBoundingClientRect(){measurements++;return {top:820,height:0};}};},
   style:{setProperty(name,value){focus=Number(value);}}
 };
 let callback,observed=0,frame;
@@ -42,6 +42,9 @@ context.scrollY=600;
 events.scroll();frame();
 assert.equal(heroValues['--journey-hero-focus'],1);
 assert.equal(heroValues['--journey-hero-exit'],0);
+assert.equal(measurements,1,'Scroll must not remeasure typography-dependent focus anchors');
+events.resize();frame();
+assert.equal(measurements,2,'Viewport changes refresh reading anchors');
 context.scrollY=1000;
 events.scroll();frame();
 assert.equal(heroValues['--journey-hero-exit'],1);
@@ -50,8 +53,8 @@ events.scroll();frame();
 assert.equal(heroValues['--journey-hero-focus'],0);
 assert.equal(heroValues['--journey-hero-exit'],0);
 assert.equal(vm.runInContext('journeyFocusProgress(820,1000)',context),0);
-assert.equal(vm.runInContext('journeyFocusProgress(400,1000)',context),1);
-assert.equal(vm.runInContext('journeyFocusProgress(610,1000)',context),0.5);
+assert.equal(vm.runInContext('journeyFocusProgress(500,1000)',context),1);
+assert.equal(vm.runInContext('journeyFocusProgress(660,1000)',context),0.5);
 assert.equal(vm.runInContext('journeyFocusProgress(-100,1000)',context),1);
 for(const visible of [false,true,false,true]){
   callback([{target:step,isIntersecting:visible}]);

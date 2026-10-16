@@ -7,6 +7,8 @@
   --journey-focus-heading-size:var(--font-size-display-2);
   --journey-number-opacity-min:0.4;
   --journey-number-opacity-max:1;
+  --journey-number-focus-scale:2;
+  --journey-heading-entry-scale:0.85;
 }
 .artist-journey__hero, .artist-journey__conversation {
   display: grid;
@@ -29,8 +31,16 @@
 .artist-journey__copy { display: grid; gap: var(--spacing-lg); }
 .artist-journey__number { font-size: var(--font-size-display-1); font-weight: var(--font-weight-bold); color: var(--cv-text-secondary); }
 .artist-journey[data-motion-ready] .artist-journey__step h2 {
-  font-size:calc(var(--journey-section-size) + (var(--journey-focus-heading-size) - var(--journey-section-size)) * var(--journey-focus,0));
+  font-size:var(--journey-focus-heading-size);
   font-weight:calc(var(--font-weight-bold) + (var(--font-weight-light) - var(--font-weight-bold)) * var(--journey-focus,0));
+  scale:calc(var(--journey-heading-entry-scale) + (1 - var(--journey-heading-entry-scale)) * var(--journey-focus,0));
+  transform-origin:left center;
+}
+.artist-journey[data-motion-ready] .artist-journey__number {
+  font-size:calc(var(--font-size-display-1) * var(--journey-number-focus-scale));
+  font-weight:calc(var(--font-weight-bold) + (var(--font-weight-light) - var(--font-weight-bold)) * var(--journey-focus,0));
+  scale:calc((1 + (var(--journey-number-focus-scale) - 1) * var(--journey-focus,0)) / var(--journey-number-focus-scale));
+  transform-origin:left center;
 }
 .artist-journey[data-motion-ready] .artist-journey__step[data-visible] .artist-journey__number {
   color:var(--cv-text-primary);
@@ -69,6 +79,8 @@
   .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .journey-shape--wave path { stroke-dashoffset:1; }
   .artist-journey[data-motion-ready] .artist-journey__copy > *,
   .artist-journey[data-motion-ready] .artist-journey__artwork { transition: opacity var(--journey-motion-duration) var(--journey-motion-ease), transform var(--journey-motion-duration) var(--journey-motion-ease); }
+  .artist-journey[data-motion-ready] .artist-journey__step h2,
+  .artist-journey[data-motion-ready] .artist-journey__step .artist-journey__number { transition:opacity var(--journey-motion-duration) var(--journey-motion-ease),transform var(--journey-motion-duration) var(--journey-motion-ease),scale var(--duration-base) var(--journey-motion-ease),font-weight var(--duration-base) var(--journey-motion-ease); }
   .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .artist-journey__copy > *,
   .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .artist-journey__artwork { opacity:0; transform:translateY(var(--spacing-lg)); }
   .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .artist-journey__number { transform:translateY(var(--spacing-xl)) scale(0.82); }

@@ -1,6 +1,7 @@
 /* Progressive enhancement: the full editorial flow stays visible without JavaScript. */
-export function journeyFocusProgress(top,height){
-  return Math.max(0,Math.min(1,(height*0.82-top)/(height*0.42)));
+export function journeyFocusProgress(center,height){
+  const progress=Math.max(0,Math.min(1,(height*0.82-center)/(height*0.32)));
+  return progress*progress*(3-2*progress);
 }
 export function bindArtistJourney() {
   const journey = document.querySelector('.artist-journey');
@@ -8,11 +9,18 @@ export function bindArtistJourney() {
   const steps = journey.querySelectorAll('[data-journey-step]');
   const hero=journey.querySelector('.artist-journey__hero');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const anchors=new Map();
+  const measureFocus=()=>{
+    for(const step of steps){
+      const rect=step.querySelector('.artist-journey__copy').getBoundingClientRect();
+      anchors.set(step,rect.top+scrollY+rect.height/2);
+    }
+  };
   let frame=0;
   const updateFocus=()=>{
     frame=0;
     for(const step of steps){
-      const progress=reduced.matches?1:journeyFocusProgress(step.getBoundingClientRect().top,innerHeight);
+      const progress=reduced.matches?1:journeyFocusProgress(anchors.get(step)-scrollY,innerHeight);
       step.style.setProperty('--journey-focus',String(progress));
     }
     if(hero){
@@ -31,9 +39,11 @@ export function bindArtistJourney() {
   steps.forEach(step => observer.observe(step));
   journey.setAttribute('data-motion-ready', '');
   addEventListener('scroll',scheduleFocus,{passive:true});
-  addEventListener('resize',scheduleFocus);
+  addEventListener('resize',()=>{measureFocus();scheduleFocus();});
   reduced.addEventListener('change',scheduleFocus);
+  measureFocus();
   updateFocus();
+  document.fonts?.ready.then(()=>{measureFocus();scheduleFocus();});
 }
 
 export async function bindJourneyScenes() {
