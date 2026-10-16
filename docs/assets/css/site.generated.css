@@ -7340,10 +7340,11 @@ main[data-fragment="home"] { position:relative; isolation:isolate; }
   inset-inline:0;
   inset-block-start:var(--atmosphere-position);
   block-size:var(--atmosphere-height);
-  background:radial-gradient(ellipse at 30% 50%,color-mix(in srgb,var(--atmosphere-color) 85%,transparent),color-mix(in srgb,var(--atmosphere-color) 25%,transparent) 35%,transparent 70%);
+  background:radial-gradient(ellipse at 35% 50%,color-mix(in srgb,var(--atmosphere-color) 70%,transparent),color-mix(in srgb,var(--atmosphere-color) 30%,transparent) 35%,transparent 72%);
   opacity:var(--home-atmosphere-opacity);
+  transform:translate3d(0,var(--atmosphere-drift,0px),0);
 }
-.home-atmosphere__field:nth-child(even) { background-position:center; transform:scaleX(-1); }
+.home-atmosphere__field:nth-child(even) { transform:translate3d(0,var(--atmosphere-drift,0px),0) scaleX(-1); }
 @media (prefers-reduced-motion:no-preference) {
   .home-atmosphere__field { animation:home-atmosphere-breathe var(--label-introduction-light-duration) var(--ease-standard) infinite; animation-play-state:paused; }
   .home-atmosphere__field:nth-child(even) { animation-delay:calc(var(--duration-slow) * -4); }
