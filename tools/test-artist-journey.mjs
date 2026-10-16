@@ -6,7 +6,7 @@ const attributes=new Set();
 let focus,measurements=0;
 const step={
   toggleAttribute(name,enabled){if(enabled)attributes.add(name);else attributes.delete(name);},
-  querySelector(){return {getBoundingClientRect(){measurements++;return {top:820,height:0};}};},
+  querySelector(){return {getBoundingClientRect(){measurements++;return {top:700,height:400};},querySelector(){return {offsetTop:100,offsetHeight:40};}};},
   style:{setProperty(name,value){focus=Number(value);}}
 };
 let callback,observed=0,frame;

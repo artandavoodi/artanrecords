@@ -35,7 +35,7 @@
       "colorToken": "--color-primary1",
       "accentToken": "--color-secondary1",
       "detailToken": "--color-primary5",
-      "duration": 7000,
+      "duration": 5200,
       "elements": [
         {
           "shape": "wave",
@@ -44,25 +44,26 @@
       ],
       "keyframes": [
         {
-          "transform": "scaleY(0.65)",
-          "opacity": 0.75
+          "transform": "translateX(-1%) scaleY(0.6)",
+          "opacity": 0.65
         },
         {
-          "transform": "scaleY(1)",
+          "transform": "translateX(1%) scaleY(1.2)",
           "opacity": 1
         },
         {
-          "transform": "scaleY(0.65)",
-          "opacity": 0.75
+          "transform": "translateX(-1%) scaleY(0.6)",
+          "opacity": 0.65
         }
-      ]
+      ],
+      "phase": "distributed"
     },
     {
       "id": "release",
       "colorToken": "--color-primary1",
       "accentToken": "--color-secondary1",
       "detailToken": "--color-primary5",
-      "duration": 9000,
+      "duration": 6400,
       "elements": [
         {
           "shape": "card",
@@ -79,22 +80,26 @@
       ],
       "keyframes": [
         {
-          "transform": "translateY(0)"
+          "transform": "translateX(-6%) scale(0.96)",
+          "opacity": 0.65
         },
         {
-          "transform": "translateY(-5%)"
+          "transform": "translateX(6%) scale(1.06)",
+          "opacity": 1
         },
         {
-          "transform": "translateY(0)"
+          "transform": "translateX(-6%) scale(0.96)",
+          "opacity": 0.65
         }
-      ]
+      ],
+      "phase": "distributed"
     },
     {
       "id": "collaboration",
       "colorToken": "--color-primary1",
       "accentToken": "--color-secondary1",
       "detailToken": "--color-primary5",
-      "duration": 12000,
+      "duration": 8000,
       "elements": [
         {
           "shape": "ring"
@@ -108,15 +113,19 @@
       ],
       "keyframes": [
         {
-          "transform": "scale(0.94)"
+          "transform": "translateY(3%) scale(0.86)",
+          "opacity": 0.6
         },
         {
-          "transform": "scale(1.04)"
+          "transform": "translateY(-3%) scale(1.1)",
+          "opacity": 1
         },
         {
-          "transform": "scale(0.94)"
+          "transform": "translateY(3%) scale(0.86)",
+          "opacity": 0.6
         }
-      ]
+      ],
+      "phase": "distributed"
     }
   ]
 }

@@ -12,8 +12,10 @@ export function bindArtistJourney() {
   const anchors=new Map();
   const measureFocus=()=>{
     for(const step of steps){
-      const rect=step.querySelector('.artist-journey__copy').getBoundingClientRect();
-      anchors.set(step,rect.top+scrollY+rect.height/2);
+      const copy=step.querySelector('.artist-journey__copy');
+      const rect=copy.getBoundingClientRect();
+      const heading=copy.querySelector('h2');
+      anchors.set(step,rect.top+scrollY+heading.offsetTop+heading.offsetHeight/2);
     }
   };
   let frame=0;
@@ -56,7 +58,8 @@ export async function bindJourneyScenes() {
   const states = new Map(elements.map(element => {
     const scene = scenes.find(item => item.id === element.dataset.journeyScene);
     const animations = [...element.children].map((shape, index) => {
-      const animation = shape.animate(scene.keyframes, {duration: scene.duration, delay: index * scene.duration / scene.elements.length, iterations: Infinity, easing: 'ease-in-out'});
+      const delay=(scene.phase==='distributed'?-1:1)*index*scene.duration/scene.elements.length;
+      const animation = shape.animate(scene.keyframes, {duration: scene.duration, delay, iterations: Infinity, easing: 'ease-in-out'});
       animation.pause();
       return animation;
     });
