@@ -7325,10 +7325,7 @@ a { text-decoration:none; }
 /* Transparent homepage score; original hero light and typography stay sovereign. */
 main[data-fragment="home"] { position:relative; isolation:isolate; }
 .home-atmosphere {
-  --home-atmosphere-thread-opacity:0.08;
-  --home-atmosphere-glint-opacity:0.24;
-  --home-atmosphere-blur:calc(var(--panel-blur-unified) * 2);
-  --home-atmosphere-width:calc(var(--home-atmosphere-blur) * 2);
+  --home-atmosphere-opacity:0.2;
   position:absolute;
   inset-block-start:calc(0px - var(--site-header-height));
   inset-inline-start:calc(50% - 50vw);
@@ -7338,17 +7335,23 @@ main[data-fragment="home"] { position:relative; isolation:isolate; }
   pointer-events:none;
   overflow:hidden;
 }
-.home-atmosphere path { stroke-width:var(--home-atmosphere-width); filter:blur(var(--home-atmosphere-blur)); vector-effect:non-scaling-stroke; }
-.home-atmosphere__thread { opacity:var(--home-atmosphere-thread-opacity); }
-.home-atmosphere__glint { opacity:var(--home-atmosphere-glint-opacity); stroke-dasharray:0.04 0.96; stroke-dashoffset:calc(1 - var(--home-atmosphere-progress,0.12)); }
+.home-atmosphere__field {
+  position:absolute;
+  inset-inline:0;
+  inset-block-start:var(--atmosphere-position);
+  block-size:var(--atmosphere-height);
+  background:radial-gradient(ellipse at 30% 50%,color-mix(in srgb,var(--atmosphere-color) 85%,transparent),color-mix(in srgb,var(--atmosphere-color) 25%,transparent) 35%,transparent 70%);
+  opacity:var(--home-atmosphere-opacity);
+}
+.home-atmosphere__field:nth-child(even) { background-position:center; transform:scaleX(-1); }
 @media (prefers-reduced-motion:no-preference) {
-  .home-atmosphere__glint { transition:stroke-dashoffset var(--duration-base) var(--ease-standard); animation:home-atmosphere-breathe calc(var(--label-introduction-light-duration) / 2) var(--ease-standard) infinite; animation-play-state:paused; }
-  .home-atmosphere__glint:nth-of-type(4) { animation-delay:calc(var(--duration-slow) * -4); }
-  .home-atmosphere[data-playing] .home-atmosphere__glint { animation-play-state:running; }
+  .home-atmosphere__field { animation:home-atmosphere-breathe var(--label-introduction-light-duration) var(--ease-standard) infinite; animation-play-state:paused; }
+  .home-atmosphere__field:nth-child(even) { animation-delay:calc(var(--duration-slow) * -4); }
+  .home-atmosphere[data-playing] .home-atmosphere__field { animation-play-state:running; }
 }
 @keyframes home-atmosphere-breathe {
-  0%,100% { opacity:calc(var(--home-atmosphere-glint-opacity) / 2); }
-  50% { opacity:var(--home-atmosphere-glint-opacity); }
+  0%,100% { opacity:calc(var(--home-atmosphere-opacity) / 2); }
+  50% { opacity:var(--home-atmosphere-opacity); }
 }
 
 /* Artist acquisition: editorial rhythm and JSON-bound process scenes. */
