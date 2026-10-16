@@ -69,7 +69,6 @@
 .artist-journey .artist-enquiry summary { font-size: var(--site-type-heading-size); }
 @media (prefers-reduced-motion: no-preference) {
   .artist-journey[data-motion-ready] .artist-journey__hero h1 {
-    font-weight:calc(var(--font-weight-bold) + (var(--font-weight-light) - var(--font-weight-bold)) * var(--journey-hero-focus,0));
     transform-origin:left center;
     transform:translateY(calc(var(--spacing-lg) * -1 * var(--journey-hero-exit,0))) scale(calc(1 - 0.04 * var(--journey-hero-focus,0) - 0.16 * var(--journey-hero-exit,0)));
     opacity:calc(1 - var(--journey-hero-exit,0));

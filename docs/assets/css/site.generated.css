@@ -7090,6 +7090,8 @@ html[data-menu-open] [data-menu-theme] {
   --label-introduction-lead-size:var(--font-size-display-1);
   --label-introduction-statement-size:var(--font-size-display-3);
   --label-introduction-closing-size:var(--font-size-display-2);
+  --label-primary-action-background:var(--color-primary1);
+  --label-primary-action-text:var(--color-white);
 }
 .label-introduction { align-content: start; background-image: radial-gradient(ellipse at center, var(--label-introduction-light-color), transparent 68%), radial-gradient(ellipse at center, var(--label-introduction-light-accent), transparent 68%), radial-gradient(ellipse at center, var(--label-introduction-light-warm), transparent 68%), radial-gradient(ellipse at center, var(--label-introduction-light-earth), transparent 68%); background-size: 85% 85%, 75% 80%, 70% 75%, 65% 70%; background-position: 100% 15%, 0% 90%, 50% 100%, 10% 15%; background-repeat: no-repeat; }
 @media (prefers-reduced-motion: no-preference) {
@@ -7158,7 +7160,7 @@ html[data-home-free-scroll]:has(main[data-fragment="home"]) { scroll-snap-type:n
 .label-home-actions { display: flex; flex-wrap: wrap; gap: var(--spacing-md); }
 .label-home-actions a, .label-actions a { display: inline-flex; align-items: center; justify-content: center; min-block-size: var(--control-height-md); max-inline-size: 100%; box-sizing: border-box; padding: var(--spacing-sm) var(--spacing-lg); border: var(--border-width-hairline) solid var(--cv-border); border-radius: var(--radius-md); background: transparent; color: var(--cv-text-primary); text-decoration: none; text-align: center; font-weight: var(--font-weight-semibold); transition: border-color var(--duration-base) var(--ease-standard); }
 .label-home-actions a:hover, .label-home-actions a:focus-visible, .label-actions a:hover, .label-actions a:focus-visible { border-color: var(--cv-text-primary); text-decoration: none; }
-.label-home-actions a[data-emphasis="primary"], .label-actions a[data-emphasis="primary"] { background: var(--cv-text-primary); color: var(--cv-page-bg); }
+.label-home-actions a[data-emphasis="primary"], .label-actions a[data-emphasis="primary"] { background:var(--label-primary-action-background); color:var(--label-primary-action-text); }
 html[data-theme-effective="dark"] .label-wordmark--light { display: none; }
 html:has(main[data-fragment="artist"]) .site-footer > .hub { display: none; }
 .site-footer a { color: var(--cv-text-primary); opacity: var(--opacity-muted); transition: opacity var(--duration-base) var(--ease-standard); }
@@ -7433,7 +7435,6 @@ main[data-fragment="home"] {
 .artist-journey .artist-enquiry summary { font-size: var(--site-type-heading-size); }
 @media (prefers-reduced-motion: no-preference) {
   .artist-journey[data-motion-ready] .artist-journey__hero h1 {
-    font-weight:calc(var(--font-weight-bold) + (var(--font-weight-light) - var(--font-weight-bold)) * var(--journey-hero-focus,0));
     transform-origin:left center;
     transform:translateY(calc(var(--spacing-lg) * -1 * var(--journey-hero-exit,0))) scale(calc(1 - 0.04 * var(--journey-hero-focus,0) - 0.16 * var(--journey-hero-exit,0)));
     opacity:calc(1 - var(--journey-hero-exit,0));

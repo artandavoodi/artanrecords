@@ -25,7 +25,7 @@
         {"id":"creative","title":"Creative collaboration","text":"Sound and visual work can develop together. Bring a recording, an image or an idea. Creative support is discussed for each project, not promised as a standard package."},
         {"id":"scope","title":"Clear scope","text":"An enquiry is not an agreement. Distribution arrangements, responsibilities and any commercial terms must be confirmed before work begins. We do not guarantee promotion, playlist placement or commercial results."}
       ],
-      "links":[{"label":"Submit your music","url":"/submit/"},{"label":"Propose a collaboration","url":"/collaborate/"}]
+      "links":[{"label":"Submit your music","url":"/submit/","emphasis":"primary"},{"label":"Propose a collaboration","url":"/collaborate/"}]
     },
     {
       "path":"/submit/", "title":"Submit your music", "description":"Share your music with Artan Records for human review.", "form":true, "formPurpose":"Music submission", "presentation":"flow",
@@ -54,7 +54,7 @@
         {"id":"follow-up","title":"What happens after I send an enquiry?","text":"The confirmation tells you whether your enquiry was received. Artan Records reviews introductions individually and may contact you about the work and possible next steps. There is no published guaranteed response time. A receipt is not acceptance or a release commitment."},
         {"id":"corrections","title":"How do I correct something I submitted?","text":"Email the collaboration inbox with your enquiry reference, if available, and explain the correction. You do not need to submit the whole enquiry again. Do not include private masters, identity documents or payment details.","links":[{"label":"Email a correction","url":"mailto:collaborate@artanrecords.com"}]},
         {"id":"guidance","title":"Where can I read the release guidance?","text":"Our documentation explains the current enquiry process, release workflow and preparation of audio, artwork and metadata. Project-specific delivery requirements and agreements take precedence over general guidance.","links":[{"label":"Artist guidance","url":"https://docs.artanrecords.com/getting-started/"},{"label":"Release workflow","url":"https://docs.artanrecords.com/release-workflow/"}]}
-      ], "links":[{"label":"Submit your music","url":"/submit/"}]
+      ], "links":[{"label":"Submit your music","url":"/submit/","emphasis":"primary"}]
     },
     {
       "path":"/legal/", "title":"Legal information", "description":"The scope of public information and enquiries at Artan Records.", "presentation":"tabs",
