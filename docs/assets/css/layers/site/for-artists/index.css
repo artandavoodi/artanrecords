@@ -14,7 +14,7 @@
 }
 .artist-journey__hero {
   min-block-size: calc(var(--section-min-height-stable) - var(--site-header-height));
-  background-image: radial-gradient(ellipse closest-side at center, color-mix(in srgb, var(--color-primary5) 12%, transparent), transparent 100%), radial-gradient(ellipse closest-side at center, color-mix(in srgb, var(--color-primary7) 10%, transparent), transparent 100%);
+  background-image: radial-gradient(ellipse closest-side at center, color-mix(in srgb, var(--color-primary1) 12%, transparent), transparent 100%), radial-gradient(ellipse closest-side at center, color-mix(in srgb, var(--color-secondary1) 10%, transparent), transparent 100%);
   background-size: 85% 90%, 75% 85%;
   background-position: right center, left center;
   background-repeat: no-repeat;
@@ -29,11 +29,16 @@
 .journey-scene { display: flex; align-items: center; justify-content: center; aspect-ratio: 1; gap: var(--spacing-sm); padding: var(--spacing-xl); overflow: hidden; }
 .journey-shape { flex-shrink: 0; color: var(--cv-text-primary); }
 .journey-shape--line { inline-size:100%; block-size:var(--border-width-hairline); background:var(--scene-color); transform-origin:center; }
+.journey-shape--wave { inline-size:100%; block-size:auto; overflow:visible; transform-origin:center; }
+.journey-shape--wave path { stroke-width:var(--border-width-hairline); stroke-linecap:round; }
+.journey-scene--release .journey-shape:nth-child(2) { color:var(--scene-accent); }
+.journey-scene--release .journey-shape:nth-child(3) { color:var(--scene-detail); }
 .journey-shape--bar { inline-size: var(--spacing-md); block-size: calc(var(--featured-card-width) * var(--shape-scale)); border-radius: var(--radius-circle); background: linear-gradient(var(--scene-accent), var(--scene-color)); }
 .journey-scene--release { flex-direction: column; gap: var(--spacing-lg); }
 .journey-shape--card { display: grid; place-items: center; inline-size: 80%; min-block-size: var(--control-height-xl); padding: var(--spacing-md); color:var(--scene-color); font-weight: var(--font-weight-medium); }
 .journey-shape--ring { inline-size: 45%; aspect-ratio: 1; border: var(--border-width-hairline) solid var(--scene-accent); border-radius: var(--radius-circle); }
 .journey-shape--ring + .journey-shape--ring { margin-inline-start: -25%; border-color: var(--scene-color); }
+.journey-shape--ring:nth-child(3) { border-color:var(--scene-detail); }
 .journey-scene--ambient { background: none; }
 .journey-shape--glow { inline-size: 45%; aspect-ratio: 1; border: var(--border-width-hairline) solid var(--scene-color); border-radius: var(--radius-circle); background: radial-gradient(ellipse at center, color-mix(in srgb, var(--scene-color) 24%, transparent), transparent 65%); }
 .journey-shape--glow + .journey-shape--glow { margin-inline-start: -25%; border-color: var(--scene-accent); background: radial-gradient(ellipse at center, color-mix(in srgb, var(--scene-accent) 24%, transparent), transparent 65%); }

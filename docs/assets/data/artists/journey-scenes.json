@@ -2,24 +2,24 @@
   "schemaVersion": 1,
   "scenes": [
     {
-      "id":"contact","presentation":"ambient","colorToken":"--color-primary9","accentToken":"--color-primary1","duration":12000,
+      "id":"contact","presentation":"ambient","colorToken":"--color-primary1","accentToken":"--color-secondary1","duration":12000,
       "elements":[{"shape":"glow"},{"shape":"glow"},{"shape":"glow"}],
       "keyframes":[{"transform":"translateY(0) scale(0.96)"},{"transform":"translateY(-6%) scale(1.03)"},{"transform":"translateY(0) scale(0.96)"}]
     },
     {
-      "id": "sound", "colorToken": "--color-primary5", "accentToken": "--color-primary9", "duration": 8000,
+      "id": "sound", "colorToken": "--color-primary1", "accentToken": "--color-secondary1", "detailToken": "--color-primary5", "duration": 10000,
       "elements": [
-        {"shape":"line"}
+        {"shape":"wave","path":"M 0 80 C 80 80 100 80 140 80 S 180 48 210 80 S 245 108 275 80 S 310 56 340 80 S 375 96 405 80 S 460 80 500 80 S 580 80 640 80"}
       ],
-      "keyframes": [{"transform":"scaleX(0.94)","opacity":0.65},{"transform":"scaleX(1)","opacity":1},{"transform":"scaleX(0.94)","opacity":0.65}]
+      "keyframes": [{"transform":"scaleY(0.72)","opacity":0.75},{"transform":"scaleY(1)","opacity":1},{"transform":"scaleY(0.72)","opacity":0.75}]
     },
     {
-      "id": "release", "colorToken": "--color-primary7", "accentToken": "--color-primary10", "duration": 6000,
+      "id": "release", "colorToken": "--color-primary1", "accentToken": "--color-secondary1", "detailToken": "--color-primary5", "duration": 9000,
       "elements": [{"shape":"card","label":"Music"},{"shape":"card","label":"Credits"},{"shape":"card","label":"Release"}],
       "keyframes": [{"transform":"translateY(0)"},{"transform":"translateY(-5%)"},{"transform":"translateY(0)"}]
     },
     {
-      "id": "collaboration", "colorToken": "--color-primary5", "accentToken": "--color-primary7", "duration": 8000,
+      "id": "collaboration", "colorToken": "--color-primary1", "accentToken": "--color-secondary1", "detailToken": "--color-primary5", "duration": 12000,
       "elements": [{"shape":"ring"},{"shape":"ring"},{"shape":"ring"}],
       "keyframes": [{"transform":"scale(0.94)"},{"transform":"scale(1.04)"},{"transform":"scale(0.94)"}]
     }

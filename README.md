@@ -2,6 +2,13 @@
 
 ## Implementation reference
 
+Palette priority begins with Primary 1 and Secondary 1. Additional registered
+colors are accents, not replacements for that hierarchy. Process illustrations
+remain JSON-owned, transparent and decorative; motion pauses offscreen and
+respects reduced-motion preferences. Article-navigation disclosures start closed
+on mobile/tablet and open on desktop; this does not change enquiry forms or FAQ
+accordions into open-by-default content.
+
 The modular foundation and local commands are documented in
 [planning/architecture.md](planning/architecture.md).
 Confirmed domain roles: artandavoodi.com is the artistic website; artan.live is
