@@ -230,3 +230,4 @@ html:not([data-enhanced]) .site-menu { position: static; }
 html:not([data-enhanced]) .site-menu__surface { min-block-size: auto; padding-block: var(--spacing-lg); }
 html:not([data-enhanced]) .site-menu__links { display: flex; flex-wrap: wrap; }
 html:not([data-enhanced]) .site-menu__links a { font-size: var(--site-type-body-size); }
+a { text-decoration:none; }

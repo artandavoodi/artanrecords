@@ -10,7 +10,7 @@ export function journeyScene(id,scenes) {
     const scene=scenes.scenes.find(item=>item.id===id);
     if(!scene||![scene.colorToken,scene.accentToken].every(token=>/^--color-[a-z0-9]+$/.test(token))) throw new Error('Invalid artist journey scene');
     const shapes=scene.elements.map(element=>{
-      if(!['bar','card','ring','glow'].includes(element.shape)) throw new Error('Invalid journey shape');
+      if(!['bar','line','card','ring','glow'].includes(element.shape)) throw new Error('Invalid journey shape');
       return `<span class="journey-shape journey-shape--${element.shape}" style="--shape-scale:${Number(element.size??1)}">${e(element.label||'')}</span>`;
     }).join('');
     if(scene.presentation && scene.presentation!=='ambient') throw new Error('Invalid scene presentation');

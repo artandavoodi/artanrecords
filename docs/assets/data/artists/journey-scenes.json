@@ -7,13 +7,11 @@
       "keyframes":[{"transform":"translateY(0) scale(0.96)"},{"transform":"translateY(-6%) scale(1.03)"},{"transform":"translateY(0) scale(0.96)"}]
     },
     {
-      "id": "sound", "colorToken": "--color-primary5", "accentToken": "--color-primary9", "duration": 4200,
+      "id": "sound", "colorToken": "--color-primary5", "accentToken": "--color-primary9", "duration": 8000,
       "elements": [
-        {"shape":"bar","size":0.24}, {"shape":"bar","size":0.4}, {"shape":"bar","size":0.65},
-        {"shape":"bar","size":0.85}, {"shape":"bar","size":1}, {"shape":"bar","size":0.75},
-        {"shape":"bar","size":0.5}, {"shape":"bar","size":0.7}, {"shape":"bar","size":0.3}
+        {"shape":"line"}
       ],
-      "keyframes": [{"transform":"scaleY(0.6)"},{"transform":"scaleY(1)"},{"transform":"scaleY(0.6)"}]
+      "keyframes": [{"transform":"scaleX(0.94)","opacity":0.65},{"transform":"scaleX(1)","opacity":1},{"transform":"scaleX(0.94)","opacity":0.65}]
     },
     {
       "id": "release", "colorToken": "--color-primary7", "accentToken": "--color-primary10", "duration": 6000,
