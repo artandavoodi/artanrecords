@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
-  "featuredRelease": "salim",
+  "featuredReleases": ["salim","dream","gone","solum"],
+  "carousel": {"showItem":"Show {title}","position":"{current} of {total}"},
   "featuredArtists": ["artan-davoodi"],
   "featuredArtistsLabel": "Featured artists",
   "featuredTitle": "Featured releases",

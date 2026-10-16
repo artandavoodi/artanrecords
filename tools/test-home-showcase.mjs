@@ -1,0 +1,46 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import vm from 'node:vm';
+import {nearestShowcaseSlide} from '../docs/assets/js/layers/site/home-showcase.js';
+import {showcaseCarousel} from './site/home-showcase.mjs';
+
+assert.equal(nearestShowcaseSlide([0,400,800],390),1);
+assert.equal(nearestShowcaseSlide([0,400,800],810),2);
+const labels={showItem:'Show {title}',position:'{current} of {total}'};
+assert.equal(showcaseCarousel([{title:'Artist',html:'<article>Artist</article>'}],'artist','Artists',labels),'<article>Artist</article>');
+assert.throws(()=>showcaseCarousel([],'release','Releases',labels));
+const markup=showcaseCarousel([{title:'A & B',html:'<article>A</article>'},{title:'C',html:'<article>C</article>'}],'release','Releases',labels);
+assert.match(markup,/Show A &amp; B/);
+assert.match(markup,/data-carousel-dots hidden/);
+assert.match(markup,/aria-controls="release-2"/);
+
+const source=await readFile(new URL('../docs/assets/js/layers/site/home-showcase.js',import.meta.url),'utf8');
+const attributes=new Set(),events={},frames=[];
+const makeDot=()=>({attributes:new Map(),addEventListener(name,callback){this[name]=callback;},setAttribute(name,value){this.attributes.set(name,value);},removeAttribute(name){this.attributes.delete(name);}});
+const dots=[makeDot(),makeDot(),makeDot()];
+const slides=[0,400,800].map((offsetLeft,index)=>({offsetLeft,getAttribute(){return `${index+1} of 3`;}}));
+const track={children:slides,scrollLeft:0,addEventListener(name,callback){events[name]=callback;},scrollTo(options){this.last=options;this.scrollLeft=options.left;events.scroll();}};
+const controls={hidden:true},status={textContent:''};
+const carousel={ready:false,hasAttribute(){return this.ready;},setAttribute(){this.ready=true;},addEventListener(name,callback){events[`carousel-${name}`]=callback;},querySelector(selector){return ({'[data-carousel-track]':track,'[data-carousel-status]':status,'[data-carousel-dots]':controls})[selector];},querySelectorAll(){return dots;}};
+const reveal={toggleAttribute(name,value){this.visible=value;}};
+const home={hasAttribute(name){return attributes.has(name);},setAttribute(name){attributes.add(name);},querySelectorAll(selector){return selector==='[data-home-reveal]'?[reveal]:[carousel];}};
+const reduced={matches:false};
+let intersection;
+const context=vm.createContext({document:{querySelector(){return home;}},window:{IntersectionObserver:true},matchMedia(){return reduced;},addEventListener(){},requestAnimationFrame(callback){frames.push(callback);return frames.length;},IntersectionObserver:class{constructor(callback){intersection=callback;}observe(){}}});
+vm.runInContext(source.replace(/export /g,''),context);
+vm.runInContext('bindHomeShowcase()',context);
+assert.equal(controls.hidden,false);
+dots[1].click();frames.shift()();
+assert.equal(track.last.left,400);
+assert.equal(track.last.behavior,'smooth');
+assert.equal(dots[1].attributes.get('aria-current'),'true');
+assert.equal(dots[0].attributes.has('aria-current'),false);
+assert.equal(status.textContent,'2 of 3');
+reduced.matches=true;
+events['carousel-keydown']({key:'End',preventDefault(){}});frames.shift()();
+assert.equal(track.last.left,800);
+assert.equal(track.last.behavior,'auto');
+events['carousel-keydown']({key:'ArrowRight',preventDefault(){}});frames.shift()();
+assert.equal(track.last.left,800,'Navigation must stop at the last real slide');
+for(const visible of [true,false,true]){intersection([{target:reveal,isIntersecting:visible}]);assert.equal(reveal.visible,visible);}
+console.log('PASS: showcase rendering, native slide selection, dots, keyboard limits, reduced motion and reversible entrances.');

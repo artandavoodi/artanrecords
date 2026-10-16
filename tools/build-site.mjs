@@ -1,6 +1,7 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
 import {intakeForm,intakeJourney,journeyScene} from './site/intake.mjs';
+import {showcaseRelease,showcaseCarousel} from './site/home-showcase.mjs';
 import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
@@ -84,17 +85,20 @@ for(const nav of site.navigation) {
     values.featuredTitle=e(discovery.featuredTitle);
     values.latestTitle=e(discovery.latestTitle);
     const latest=catalogue.items.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];
-    values.latest=latest?cards([latest]):'';
+    values.latest=latest?showcaseRelease(latest,discovery.openLabel):'';
     values.artistsTitle=e(discovery.featuredArtistsLabel);
-    values.artists=artistCards(discovery.featuredArtists.map(id=>{
+    values.artists=showcaseCarousel(discovery.featuredArtists.map(id=>{
       const artist=artists.items.find(item=>item.id===id);
       if(!artist) throw new Error('Unregistered featured artist');
-      return artist;
-    }),roster.labels);
+      return {title:artist.name,html:artistCards([artist],roster.labels)};
+    }),'featured-artist',discovery.featuredArtistsLabel,discovery.carousel);
     values.homeLinks=textLinks(information.homeLinks);
-    const featured=catalogue.items.find(r=>r.id===discovery.featuredRelease);
-    if(!featured) throw new Error('Unregistered featured release');
-    values.featured=`<article class="discovery-feature"><a href="/releases/${e(featured.id)}/">${image(featured.cover)}<div><p class="eyebrow">${e(discovery.featuredLabel)}</p><h2>${e(featured.title)}</h2><p>${e(featured.artist)}</p><p>${e(featured.description)}</p><span>${e(discovery.openLabel)}</span></div></a></article>`;
+    if(!Array.isArray(discovery.featuredReleases)||new Set(discovery.featuredReleases).size!==discovery.featuredReleases.length)throw Error('Invalid featured release selection');
+    values.featured=showcaseCarousel(discovery.featuredReleases.map(id=>{
+      const release=catalogue.items.find(item=>item.id===id);
+      if(!release||release.status!=='Released')throw Error('Unregistered or unreleased featured release');
+      return {title:release.title,html:showcaseRelease(release,discovery.openLabel)};
+    }),'featured-release',discovery.featuredTitle,discovery.carousel);
   }
   if(nav.fragment==='releases') {
     const released=catalogue.items.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate));

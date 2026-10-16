@@ -2,6 +2,9 @@
 export function homeScrollProgress(top,height){
   return Math.max(0,Math.min(1,-top/Math.max(1,height*0.75)));
 }
+export function homeTailIsFree(top,viewport,wasFree=false){
+  return top<=viewport*(wasFree?1:0.75);
+}
 export function phraseFrame(phrases,time,motion){
   const cycle=phrases.reduce((sum,phrase,index)=>sum+motion.hold+phrase.length*motion.erase+phrases[(index+1)%phrases.length].length*motion.type,0);
   let elapsed=time%cycle;
@@ -57,12 +60,19 @@ export function bindHomeIntroduction(){
   const hero=home.querySelector('.label-introduction');
   if(!hero)return;
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const desktop=matchMedia('(min-width:1025px) and (hover:hover) and (pointer:fine)');
+  const tail=home.querySelector('.label-featured-artists');
   const phraseVisibility=bindPhraseStatement(home,reduced);
   let frame=0;
   const update=()=>{
     frame=0;
     const rect=hero.getBoundingClientRect();
     hero.style.setProperty('--home-scroll-progress',String(reduced.matches?0:homeScrollProgress(rect.top,rect.height)));
+    if(tail){
+      const root=document.documentElement;
+      const free=desktop.matches&&homeTailIsFree(tail.getBoundingClientRect().top,innerHeight,root.hasAttribute('data-home-free-scroll'));
+      root.toggleAttribute('data-home-free-scroll',free);
+    }
   };
   const schedule=()=>{if(!frame)frame=requestAnimationFrame(update);};
   const observer=new IntersectionObserver(entries=>{
@@ -71,10 +81,11 @@ export function bindHomeIntroduction(){
       if(entry.target===hero)phraseVisibility(entry.isIntersecting);
     }
   },{threshold:0,rootMargin:'0px 0px -6% 0px'});
-  home.querySelectorAll(':scope > .site-section').forEach(section=>observer.observe(section));
+  observer.observe(hero);
   home.setAttribute('data-home-motion-ready','');
   addEventListener('scroll',schedule,{passive:true});
   addEventListener('resize',schedule);
   reduced.addEventListener('change',schedule);
+  desktop.addEventListener('change',schedule);
   update();
 }
