@@ -8,9 +8,9 @@
   "domain": "https://artanrecords.com",
   "description": "An independent record label for artists, recordings and creative collaboration. Music first. A lasting home for the work.",
   "introduction": [
-    "Music first.",
-    "An independent record label for artists, recordings and creative collaboration.",
-    "A lasting home for the work."
+    "Music first",
+    {"prefix":"An independent record label for","phrases":["artists","recordings","creative collaboration"],"motion":{"hold":2200,"type":65,"erase":35}},
+    "A lasting home for the work"
   ],
   "founder": {
     "artistId": "artan-davoodi",

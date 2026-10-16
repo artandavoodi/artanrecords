@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "title": "For artists",
-  "headline": "Your work.\nYour next chapter.",
+  "headline": "Your work\nYour next chapter",
   "processLabel": "A considered beginning",
-  "conversationTitle": "Let us hear what you are making.",
+  "conversationTitle": "Let us hear what you are making",
   "conversationDescription": "A listening link. A little context. A conversation about what comes next.",
   "introduction": "Share your music. Tell us what you want to make next.",
   "journeyLinks": [
@@ -91,8 +91,8 @@
     "returnIcon": "home"
   },
   "channels": [
-    { "title": "The music comes first.", "description": "Send your artist name, a short introduction and a listening link. Singles, EPs and albums can begin here. We listen and review enquiries individually: this is a conversation, not automatic distribution.", "scene": "sound", "detail": "Share links, not private masters or project files." },
-    { "title": "A clear next step. Together.", "description": "If there is a fit, we discuss your project, credits, artwork and release plans. The scope, responsibilities and commercial terms must be agreed before an engagement begins.", "scene": "release", "detail": "Submission is not acceptance. Promotion is not automatically included." },
-    { "title": "Beyond the recording.", "description": "Sound and image belong in the same conversation. We welcome creative collaborators alongside recording artists. Share a portfolio and tell us what you would like to make together.", "scene": "collaboration", "detail": "Artists, musicians and visual collaborators are welcome." }
+    { "title": "The music comes first", "description": "Send your artist name, a short introduction and a listening link. Singles, EPs and albums can begin here. We listen and review enquiries individually: this is a conversation, not automatic distribution.", "scene": "sound", "detail": "Share links, not private masters or project files." },
+    { "title": "A clear next step, together", "description": "If there is a fit, we discuss your project, credits, artwork and release plans. The scope, responsibilities and commercial terms must be agreed before an engagement begins.", "scene": "release", "detail": "Submission is not acceptance. Promotion is not automatically included." },
+    { "title": "Beyond the recording", "description": "Sound and image belong in the same conversation. We welcome creative collaborators alongside recording artists. Share a portfolio and tell us what you would like to make together.", "scene": "collaboration", "detail": "Artists, musicians and visual collaborators are welcome." }
   ]
 }

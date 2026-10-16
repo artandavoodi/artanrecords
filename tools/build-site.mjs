@@ -75,7 +75,12 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
   if(nav.fragment==='home') {
-    values.introduction=site.introduction.map(line=>`<p>${e(line)}</p>`).join('');
+    values.introduction=site.introduction.map(line=>{
+      if(typeof line==='string')return `<p>${e(line)}</p>`;
+      if(!line.prefix||!Array.isArray(line.phrases)||line.phrases.length<2||!line.phrases.every(phrase=>typeof phrase==='string'&&phrase))throw Error('Invalid introduction statement');
+      const sentence=`${line.prefix} ${line.phrases.slice(0,-1).join(', ')} and ${line.phrases.at(-1)}`;
+      return `<p data-phrase-prefix="${e(line.prefix)}" data-phrases="${e(JSON.stringify(line.phrases))}" data-phrase-motion="${e(JSON.stringify(line.motion))}">${e(sentence)}</p>`;
+    }).join('');
     values.featuredTitle=e(discovery.featuredTitle);
     values.latestTitle=e(discovery.latestTitle);
     const latest=catalogue.items.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];

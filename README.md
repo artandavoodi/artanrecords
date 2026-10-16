@@ -2,6 +2,10 @@
 
 ## Implementation reference
 
+After each completed and verified requested iteration, commit and push the
+website changes to GitHub. Keep unfinished work and hosted verification gates
+open rather than treating a push as proof of end-to-end completion.
+
 Palette priority begins with Primary 1 and Secondary 1. Additional registered
 colors are accents, not replacements for that hierarchy. Process illustrations
 remain JSON-owned, transparent and decorative; motion pauses offscreen and
