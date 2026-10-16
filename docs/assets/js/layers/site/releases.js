@@ -29,7 +29,8 @@ export function bindReleaseDiscovery() {
     const observer=new IntersectionObserver(entries=>{
       entries.forEach(entry=>entry.target.toggleAttribute('data-release-visible',entry.isIntersecting));
     },{threshold:0.1,rootMargin:'0px 0px -5% 0px'});
-    cards.forEach(card=>observer.observe(card));
-    section.setAttribute('data-release-motion-ready','');
+    const root=section.closest('.release-discovery');
+    [...cards,...root.querySelectorAll('h1, h2')].forEach(target=>observer.observe(target));
+    root.setAttribute('data-release-motion-ready','');
   }
 }

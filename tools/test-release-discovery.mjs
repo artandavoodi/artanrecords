@@ -23,7 +23,9 @@ const attributes=new Set(),events={},elements={query:{value:''},category:{value:
 const cards=catalogue.items.map(release=>({dataset:{releaseSearch:`${release.title} ${release.artist}`,releaseCategory:release.category,releaseArtist:release.artistId},removeAttribute(){},toggleAttribute(name,value){this.visible=value;}}));
 const form={elements,hidden:true,addEventListener(name,callback){events[name]=callback;}};
 const empty={hidden:true};
-const section={hasAttribute(name){return attributes.has(name);},setAttribute(name){attributes.add(name);},querySelector(selector){return selector==='form'?form:empty;},querySelectorAll(){return cards;}};
+const headings=[{},{},{}];
+const root={querySelectorAll(){return headings;},setAttribute(name){attributes.add(name);}};
+const section={closest(){return root;},hasAttribute(name){return attributes.has(name);},setAttribute(name){attributes.add(name);},querySelector(selector){return selector==='form'?form:empty;},querySelectorAll(){return cards;}};
 let intersection,observed=0;
 const context=vm.createContext({document:{querySelector(){return section;}},window:{IntersectionObserver:true},IntersectionObserver:class{constructor(callback){intersection=callback;}observe(){observed++;}}});
 const source=await readFile(new URL('../docs/assets/js/layers/site/releases.js',import.meta.url),'utf8');
@@ -40,5 +42,5 @@ assert.equal(empty.hidden,true);
 intersection([{target:cards[0],isIntersecting:true}]);assert.equal(cards[0].visible,true);
 intersection([{target:cards[0],isIntersecting:false}]);assert.equal(cards[0].visible,false);
 vm.runInContext('bindReleaseDiscovery()',context);
-assert.equal(observed,cards.length,'Initialization must not duplicate observers');
+assert.equal(observed,cards.length+headings.length,'Initialization must not duplicate observers');
 console.log('PASS: catalog identities, platform labels, contextual header, combined filters and reversible entrances.');
