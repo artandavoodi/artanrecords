@@ -48,8 +48,16 @@
 .artist-journey > .label-actions { padding-block: var(--spacing-xl); }
 .artist-journey .artist-enquiry summary { font-size: var(--site-type-heading-size); }
 @media (prefers-reduced-motion: no-preference) {
-  .artist-journey[data-motion-ready] .artist-journey__step > * { transition: opacity var(--journey-motion-duration) var(--journey-motion-ease), transform var(--journey-motion-duration) var(--journey-motion-ease); }
-  .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) > * { opacity: 0; transform: translateY(var(--spacing-xl)); }
+  .artist-journey[data-motion-ready] .journey-shape--wave path { stroke-dasharray:1; stroke-dashoffset:0; transition:stroke-dashoffset var(--journey-motion-duration) var(--journey-motion-ease); }
+  .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .journey-shape--wave path { stroke-dashoffset:1; }
+  .artist-journey[data-motion-ready] .artist-journey__copy > *,
+  .artist-journey[data-motion-ready] .artist-journey__artwork { transition: opacity var(--journey-motion-duration) var(--journey-motion-ease), transform var(--journey-motion-duration) var(--journey-motion-ease); }
+  .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .artist-journey__copy > *,
+  .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .artist-journey__artwork { opacity:0; transform:translateY(var(--spacing-lg)); }
+  .artist-journey[data-motion-ready] .artist-journey__step:not([data-visible]) .artist-journey__number { transform:translateY(var(--spacing-xl)) scale(0.82); }
+  .artist-journey[data-motion-ready] .artist-journey__step[data-visible] .artist-journey__copy > :nth-child(2) { transition-delay:calc(var(--duration-base) / 2); }
+  .artist-journey[data-motion-ready] .artist-journey__step[data-visible] .artist-journey__copy > :nth-child(3) { transition-delay:var(--duration-base); }
+  .artist-journey[data-motion-ready] .artist-journey__step[data-visible] .artist-journey__copy > :nth-child(4) { transition-delay:calc(var(--duration-base) * 1.5); }
   .artist-journey[data-motion-ready] .artist-journey__step[data-visible] .artist-journey__artwork { transition-delay: var(--duration-base); }
 }
 @media (max-width: 860px) {

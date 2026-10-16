@@ -1,15 +1,13 @@
 /* Progressive enhancement: the full editorial flow stays visible without JavaScript. */
 export function bindArtistJourney() {
   const journey = document.querySelector('.artist-journey');
-  if (!journey || !('IntersectionObserver' in window)) return;
+  if (!journey || journey.hasAttribute('data-motion-ready') || !('IntersectionObserver' in window)) return;
   const steps = journey.querySelectorAll('[data-journey-step]');
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      entry.target.setAttribute('data-visible', '');
-      observer.unobserve(entry.target);
+      entry.target.toggleAttribute('data-visible',entry.isIntersecting);
     }
-  }, {threshold: 0.1});
+  }, {threshold: 0,rootMargin:'0px 0px -8% 0px'});
   steps.forEach(step => observer.observe(step));
   journey.setAttribute('data-motion-ready', '');
 }

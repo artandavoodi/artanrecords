@@ -12,7 +12,7 @@ export function journeyScene(id,scenes) {
     const shapes=scene.elements.map(element=>{
       if(element.shape==='wave'){
         if(!/^[MmCcSsLlHhVvQqTtZz\d.,\s-]+$/.test(element.path||''))throw new Error('Invalid wave path');
-        return `<svg class="journey-shape journey-shape--wave" viewBox="0 0 640 160" fill="none" aria-hidden="true"><defs><linearGradient id="journey-${e(scene.id)}-spectrum"><stop stop-color="var(--scene-color)"/><stop offset="0.5" stop-color="var(--scene-accent)"/><stop offset="1" stop-color="var(--scene-detail)"/></linearGradient></defs><path d="${e(element.path)}" stroke="url(#journey-${e(scene.id)}-spectrum)" vector-effect="non-scaling-stroke"/></svg>`;
+        return `<svg class="journey-shape journey-shape--wave" viewBox="0 0 640 160" fill="none" aria-hidden="true"><defs><linearGradient id="journey-${e(scene.id)}-spectrum"><stop stop-color="var(--scene-color)"/><stop offset="0.5" stop-color="var(--scene-accent)"/><stop offset="1" stop-color="var(--scene-detail)"/></linearGradient></defs><path pathLength="1" d="${e(element.path)}" stroke="url(#journey-${e(scene.id)}-spectrum)" vector-effect="non-scaling-stroke"/></svg>`;
       }
       if(!['bar','line','card','ring','glow'].includes(element.shape)) throw new Error('Invalid journey shape');
       return `<span class="journey-shape journey-shape--${element.shape}" style="--shape-scale:${Number(element.size??1)}">${e(element.label||'')}</span>`;

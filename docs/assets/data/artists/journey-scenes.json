@@ -2,26 +2,121 @@
   "schemaVersion": 1,
   "scenes": [
     {
-      "id":"contact","presentation":"ambient","colorToken":"--color-primary1","accentToken":"--color-secondary1","duration":12000,
-      "elements":[{"shape":"glow"},{"shape":"glow"},{"shape":"glow"}],
-      "keyframes":[{"transform":"translateY(0) scale(0.96)"},{"transform":"translateY(-6%) scale(1.03)"},{"transform":"translateY(0) scale(0.96)"}]
-    },
-    {
-      "id": "sound", "colorToken": "--color-primary1", "accentToken": "--color-secondary1", "detailToken": "--color-primary5", "duration": 10000,
+      "id": "contact",
+      "presentation": "ambient",
+      "colorToken": "--color-primary1",
+      "accentToken": "--color-secondary1",
+      "duration": 12000,
       "elements": [
-        {"shape":"wave","path":"M 0 80 C 80 80 100 80 140 80 S 180 48 210 80 S 245 108 275 80 S 310 56 340 80 S 375 96 405 80 S 460 80 500 80 S 580 80 640 80"}
+        {
+          "shape": "glow"
+        },
+        {
+          "shape": "glow"
+        },
+        {
+          "shape": "glow"
+        }
       ],
-      "keyframes": [{"transform":"scaleY(0.72)","opacity":0.75},{"transform":"scaleY(1)","opacity":1},{"transform":"scaleY(0.72)","opacity":0.75}]
+      "keyframes": [
+        {
+          "transform": "translateY(0) scale(0.96)"
+        },
+        {
+          "transform": "translateY(-6%) scale(1.03)"
+        },
+        {
+          "transform": "translateY(0) scale(0.96)"
+        }
+      ]
     },
     {
-      "id": "release", "colorToken": "--color-primary1", "accentToken": "--color-secondary1", "detailToken": "--color-primary5", "duration": 9000,
-      "elements": [{"shape":"card","label":"Music"},{"shape":"card","label":"Credits"},{"shape":"card","label":"Release"}],
-      "keyframes": [{"transform":"translateY(0)"},{"transform":"translateY(-5%)"},{"transform":"translateY(0)"}]
+      "id": "sound",
+      "colorToken": "--color-primary1",
+      "accentToken": "--color-secondary1",
+      "detailToken": "--color-primary5",
+      "duration": 7000,
+      "elements": [
+        {
+          "shape": "wave",
+          "path": "M 0 80.00 L 2 80.00 L 4 80.01 L 6 80.03 L 8 80.05 L 10 80.07 L 12 80.06 L 14 80.03 L 16 79.99 L 18 79.94 L 20 79.90 L 22 79.85 L 24 79.80 L 26 79.72 L 28 79.61 L 30 79.50 L 32 79.44 L 34 79.50 L 36 79.74 L 38 80.18 L 40 80.75 L 42 81.34 L 44 81.76 L 46 81.88 L 48 81.59 L 50 80.92 L 52 80.00 L 54 79.06 L 56 78.29 L 58 77.87 L 60 77.82 L 62 78.07 L 64 78.46 L 66 78.83 L 68 79.12 L 70 79.38 L 72 79.75 L 74 80.41 L 76 81.44 L 78 82.76 L 80 84.10 L 82 85.02 L 84 85.10 L 86 84.05 L 88 81.90 L 90 79.00 L 92 75.98 L 94 73.57 L 96 72.36 L 98 72.63 L 100 74.25 L 102 76.75 L 104 79.46 L 106 81.77 L 108 83.32 L 110 84.11 L 112 84.42 L 114 84.65 L 116 85.07 L 118 85.68 L 120 86.11 L 122 85.78 L 124 84.14 L 126 80.96 L 128 76.55 L 130 71.74 L 132 67.73 L 134 65.70 L 136 66.43 L 138 69.99 L 140 75.69 L 142 82.21 L 144 88.06 L 146 91.99 L 148 93.39 L 150 92.39 L 152 89.76 L 154 86.57 L 156 83.71 L 158 81.58 L 160 80.00 L 162 78.36 L 164 75.99 L 166 72.60 L 168 68.57 L 170 64.92 L 172 63.05 L 174 64.20 L 176 68.95 L 178 76.85 L 180 86.40 L 182 95.47 L 184 101.84 L 186 103.96 L 188 101.42 L 190 95.02 L 192 86.54 L 194 78.10 L 196 71.48 L 198 67.59 L 200 66.31 L 202 66.72 L 204 67.62 L 206 68.16 L 208 68.23 L 210 68.56 L 212 70.32 L 214 74.60 L 216 81.71 L 218 90.85 L 220 100.12 L 222 107.07 L 224 109.45 L 226 106.02 L 228 97.08 L 230 84.46 L 232 71.06 L 234 59.91 L 236 53.35 L 238 52.29 L 240 56.10 L 242 62.96 L 244 70.61 L 246 77.19 L 248 81.84 L 250 84.84 L 252 87.29 L 254 90.36 L 256 94.62 L 258 99.58 L 260 103.69 L 262 104.89 L 264 101.47 L 266 92.81 L 268 79.93 L 270 65.36 L 272 52.47 L 274 44.46 L 276 43.39 L 278 49.44 L 280 60.95 L 282 74.92 L 284 88.01 L 286 97.56 L 288 102.36 L 290 102.78 L 292 100.37 L 294 97.06 L 296 94.29 L 298 92.40 L 300 90.61 L 302 87.51 L 304 81.80 L 306 73.16 L 308 62.65 L 310 52.60 L 312 45.93 L 314 45.14 L 316 51.36 L 318 63.84 L 320 80.00 L 322 96.16 L 324 108.64 L 326 114.86 L 328 114.07 L 330 107.40 L 332 97.35 L 334 86.84 L 336 78.20 L 338 72.49 L 340 69.39 L 342 67.60 L 344 65.71 L 346 62.94 L 348 59.63 L 350 57.22 L 352 57.64 L 354 62.44 L 356 71.99 L 358 85.08 L 360 99.05 L 362 110.56 L 364 116.61 L 366 115.54 L 368 107.53 L 370 94.64 L 372 80.07 L 374 67.19 L 376 58.53 L 378 55.11 L 380 56.31 L 382 60.42 L 384 65.38 L 386 69.64 L 388 72.71 L 390 75.16 L 392 78.16 L 394 82.81 L 396 89.39 L 398 97.04 L 400 103.90 L 402 107.71 L 404 106.65 L 406 100.09 L 408 88.94 L 410 75.54 L 412 62.92 L 414 53.98 L 416 50.55 L 418 52.93 L 420 59.88 L 422 69.15 L 424 78.29 L 426 85.40 L 428 89.68 L 430 91.44 L 432 91.77 L 434 91.84 L 436 92.38 L 438 93.28 L 440 93.69 L 442 92.41 L 444 88.52 L 446 81.90 L 448 73.46 L 450 64.98 L 452 58.58 L 454 56.04 L 456 58.16 L 458 64.53 L 460 73.60 L 462 83.15 L 464 91.05 L 466 95.80 L 468 96.95 L 470 95.08 L 472 91.43 L 474 87.40 L 476 84.01 L 478 81.64 L 480 80.00 L 482 78.42 L 484 76.29 L 486 73.43 L 488 70.24 L 490 67.61 L 492 66.61 L 494 68.01 L 496 71.94 L 498 77.79 L 500 84.31 L 502 90.01 L 504 93.57 L 506 94.30 L 508 92.27 L 510 88.26 L 512 83.45 L 514 79.04 L 516 75.86 L 518 74.22 L 520 73.89 L 522 74.32 L 524 74.93 L 526 75.35 L 528 75.58 L 530 75.89 L 532 76.68 L 534 78.23 L 536 80.54 L 538 83.25 L 540 85.75 L 542 87.37 L 544 87.64 L 546 86.43 L 548 84.02 L 550 81.00 L 552 78.10 L 554 75.95 L 556 74.90 L 558 74.98 L 560 75.90 L 562 77.24 L 564 78.56 L 566 79.59 L 568 80.25 L 570 80.62 L 572 80.88 L 574 81.17 L 576 81.54 L 578 81.93 L 580 82.18 L 582 82.13 L 584 81.71 L 586 80.94 L 588 80.00 L 590 79.08 L 592 78.41 L 594 78.12 L 596 78.24 L 598 78.66 L 600 79.25 L 602 79.82 L 604 80.26 L 606 80.50 L 608 80.56 L 610 80.50 L 612 80.39 L 614 80.28 L 616 80.20 L 618 80.15 L 620 80.10 L 622 80.06 L 624 80.01 L 626 79.97 L 628 79.94 L 630 79.93 L 632 79.95 L 634 79.97 L 636 79.99 L 638 80.00 L 640 80.00"
+        }
+      ],
+      "keyframes": [
+        {
+          "transform": "scaleY(0.65)",
+          "opacity": 0.75
+        },
+        {
+          "transform": "scaleY(1)",
+          "opacity": 1
+        },
+        {
+          "transform": "scaleY(0.65)",
+          "opacity": 0.75
+        }
+      ]
     },
     {
-      "id": "collaboration", "colorToken": "--color-primary1", "accentToken": "--color-secondary1", "detailToken": "--color-primary5", "duration": 12000,
-      "elements": [{"shape":"ring"},{"shape":"ring"},{"shape":"ring"}],
-      "keyframes": [{"transform":"scale(0.94)"},{"transform":"scale(1.04)"},{"transform":"scale(0.94)"}]
+      "id": "release",
+      "colorToken": "--color-primary1",
+      "accentToken": "--color-secondary1",
+      "detailToken": "--color-primary5",
+      "duration": 9000,
+      "elements": [
+        {
+          "shape": "card",
+          "label": "Music"
+        },
+        {
+          "shape": "card",
+          "label": "Credits"
+        },
+        {
+          "shape": "card",
+          "label": "Release"
+        }
+      ],
+      "keyframes": [
+        {
+          "transform": "translateY(0)"
+        },
+        {
+          "transform": "translateY(-5%)"
+        },
+        {
+          "transform": "translateY(0)"
+        }
+      ]
+    },
+    {
+      "id": "collaboration",
+      "colorToken": "--color-primary1",
+      "accentToken": "--color-secondary1",
+      "detailToken": "--color-primary5",
+      "duration": 12000,
+      "elements": [
+        {
+          "shape": "ring"
+        },
+        {
+          "shape": "ring"
+        },
+        {
+          "shape": "ring"
+        }
+      ],
+      "keyframes": [
+        {
+          "transform": "scale(0.94)"
+        },
+        {
+          "transform": "scale(1.04)"
+        },
+        {
+          "transform": "scale(0.94)"
+        }
+      ]
     }
   ]
 }
