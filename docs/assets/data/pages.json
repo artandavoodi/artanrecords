@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "legalPublication": {"effectiveDate":"2026-10-16","lastUpdated":"2026-10-18"},
-  "homeLinks": [{"label":"Explore releases","url":"/releases/"},{"label":"Submit your music","url":"/submit/","emphasis":"primary","excludeOn":["/releases/"]}],
+  "homeLinks": [{"label":"Explore releases","url":"/releases/"},{"label":"Studio","url":"https://studio.artanrecords.com/"},{"label":"Submit your music","url":"/submit/","emphasis":"primary","excludeOn":["/releases/"]}],
   "footerLinks": [{"label":"Services","url":"/services/"},{"label":"Collaborate","url":"/collaborate/"},{"label":"Questions","url":"/faq/"},{"label":"Artan Store","url":"https://store.artandavoodi.com/"},{"label":"Legal information","url":"/legal/"},{"label":"Submission privacy","url":"/submission-privacy/"}],
   "items": [
     {
