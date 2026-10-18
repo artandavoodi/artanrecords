@@ -25,7 +25,7 @@ main[data-fragment="home"] {
 .home-carousel__dots button:focus-visible { outline:var(--border-width-hairline) solid currentColor; outline-offset:var(--spacing-xs); border-radius:var(--radius-circle); }
 @media (prefers-reduced-motion:no-preference) {
   main[data-home-showcase-ready] [data-home-reveal] { transition:opacity var(--home-showcase-motion) var(--ease-standard),transform var(--home-showcase-motion) var(--ease-standard); }
-  main[data-home-showcase-ready] [data-home-reveal]:not([data-home-revealed]) { opacity:0; transform:translateY(var(--spacing-lg)); }
+  main[data-home-showcase-ready] [data-home-reveal]:not([data-home-revealed]) { opacity:0; transform:translateY(calc(var(--spacing-lg) * var(--content-entrance-direction,1))); }
   main[data-home-showcase-ready] h2[data-home-reveal] { transition-duration:var(--duration-slow); }
 }
 @media (max-width:1024px), (hover:none), (pointer:coarse) {

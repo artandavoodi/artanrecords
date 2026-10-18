@@ -1,6 +1,22 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
+// Optional storage remains disabled until a valid, unexpired Allow choice.
+const startup=await readFile(new URL('../docs/assets/js/core/startup.js',import.meta.url),'utf8');
+for(const choice of [null,{choice:'allow',version:1},{choice:'allow',version:1,expires:0},{choice:'skip',version:1,expires:Date.now()+86400000},{choice:'allow',version:1,expires:Date.now()+86400000}]){
+  const values=new Map([['choice',JSON.stringify(choice)],['theme','dark']]);
+  const root={dataset:{}};
+  const window={ArtanRecordsPreferenceConfig:{choiceKey:'choice',themeKey:'theme',version:1,validDays:180},addEventListener(){}};
+  vm.runInNewContext(startup,{document:{documentElement:root},window,localStorage:{getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value),removeItem:key=>values.delete(key)}});
+  assert.equal(root.dataset.themeEffective,choice?.choice==='allow'&&Number.isFinite(choice.expires)&&choice.expires>Date.now()?'dark':'light');
+  window.ArtanRecordsPreferences.choose('skip');
+  assert.equal(values.has('theme'),false);
+  window.ArtanRecordsPreferences.saveTheme('dark');
+  assert.equal(values.has('theme'),false);
+  window.ArtanRecordsPreferences.choose('allow');
+  window.ArtanRecordsPreferences.saveTheme('dark');
+  assert.equal(values.get('theme'),'dark');
+}
 const source=await readFile(new URL('../docs/assets/js/layers/site/home-introduction.js',import.meta.url),'utf8');
 let observed=0,callback,progress;
 const attributes=new Set();

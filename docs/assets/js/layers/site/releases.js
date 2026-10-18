@@ -1,4 +1,5 @@
 /* Enhance server-rendered catalogue cards; JSON remains the content authority. */
+import {observeEntrances} from './entrances.js';
 export function bindReleaseDiscovery() {
   const section = document.querySelector('[data-release-discovery]');
   if (!section||section.hasAttribute('data-release-ready')) return;
@@ -26,11 +27,8 @@ export function bindReleaseDiscovery() {
   form.hidden = false;
   filter();
   if('IntersectionObserver' in window){
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>entry.target.toggleAttribute('data-release-visible',entry.isIntersecting));
-    },{threshold:0.1,rootMargin:'0px 0px -5% 0px'});
     const root=section.closest('.release-discovery');
-    [...cards,...root.querySelectorAll('h1, h2')].forEach(target=>observer.observe(target));
+    observeEntrances([...cards,...root.querySelectorAll('h1, h2')],{attribute:'data-release-visible',threshold:0.1,rootMargin:'0px 0px -5% 0px',mark:false});
     root.setAttribute('data-release-motion-ready','');
   }
 }

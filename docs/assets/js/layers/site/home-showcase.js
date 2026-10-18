@@ -1,4 +1,5 @@
 /* Native scrolling owns slides; enhancement adds selection and content entrances. */
+import {observeEntrances} from './entrances.js';
 export function nearestShowcaseSlide(offsets,left){
   return offsets.reduce((nearest,offset,index)=>Math.abs(offset-left)<Math.abs(offsets[nearest]-left)?index:nearest,0);
 }
@@ -7,10 +8,7 @@ export function bindHomeShowcase(){
   if(!home||home.hasAttribute('data-home-showcase-ready'))return;
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   if('IntersectionObserver' in window){
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>entry.target.toggleAttribute('data-home-revealed',entry.isIntersecting));
-    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
-    home.querySelectorAll('[data-home-reveal]').forEach(element=>observer.observe(element));
+    observeEntrances(home.querySelectorAll('[data-home-reveal]'),{attribute:'data-home-revealed',threshold:0.12,mark:false});
     home.setAttribute('data-home-showcase-ready','');
   }
   home.querySelectorAll('[data-home-carousel]').forEach(carousel=>{

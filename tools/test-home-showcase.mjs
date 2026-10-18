@@ -22,12 +22,13 @@ const slides=[0,400,800].map((offsetLeft,index)=>({offsetLeft,getAttribute(){ret
 const track={children:slides,scrollLeft:0,addEventListener(name,callback){events[name]=callback;},scrollTo(options){this.last=options;this.scrollLeft=options.left;events.scroll();}};
 const controls={hidden:true},status={textContent:''};
 const carousel={ready:false,hasAttribute(){return this.ready;},setAttribute(){this.ready=true;},addEventListener(name,callback){events[`carousel-${name}`]=callback;},querySelector(selector){return ({'[data-carousel-track]':track,'[data-carousel-status]':status,'[data-carousel-dots]':controls})[selector];},querySelectorAll(){return dots;}};
-const reveal={toggleAttribute(name,value){this.visible=value;}};
+const reveal={hasAttribute(){return this.visible;},style:{setProperty(){}},toggleAttribute(name,value){this.visible=value;}};
 const home={hasAttribute(name){return attributes.has(name);},setAttribute(name){attributes.add(name);},querySelectorAll(selector){return selector==='[data-home-reveal]'?[reveal]:[carousel];}};
 const reduced={matches:false};
 let intersection;
 const context=vm.createContext({document:{querySelector(){return home;}},window:{IntersectionObserver:true},matchMedia(){return reduced;},addEventListener(){},requestAnimationFrame(callback){frames.push(callback);return frames.length;},IntersectionObserver:class{constructor(callback){intersection=callback;}observe(){}}});
-vm.runInContext(source.replace(/export /g,''),context);
+vm.runInContext((await readFile(new URL('../docs/assets/js/layers/site/entrances.js',import.meta.url),'utf8')).replace(/export /g,''),context);
+vm.runInContext(source.replace(/^import .*;\n/m,'').replace(/export /g,''),context);
 vm.runInContext('bindHomeShowcase()',context);
 assert.equal(controls.hidden,false);
 dots[1].click();frames.shift()();
@@ -42,5 +43,5 @@ assert.equal(track.last.left,800);
 assert.equal(track.last.behavior,'auto');
 events['carousel-keydown']({key:'ArrowRight',preventDefault(){}});frames.shift()();
 assert.equal(track.last.left,800,'Navigation must stop at the last real slide');
-for(const visible of [true,false,true]){intersection([{target:reveal,isIntersecting:visible}]);assert.equal(reveal.visible,visible);}
+for(const visible of [true,false,true]){intersection([{target:reveal,isIntersecting:visible,intersectionRatio:visible?1:0,boundingClientRect:{bottom:0},rootBounds:{top:0}}]);assert.equal(reveal.visible,visible);}
 console.log('PASS: showcase rendering, native slide selection, dots, keyboard limits, reduced motion and reversible entrances.');

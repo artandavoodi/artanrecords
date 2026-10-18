@@ -1,4 +1,5 @@
 import {initializeTheme,bindTheme} from './theme.js';
+import {initializePreferences} from './preferences.js';
 import {bindNavigation} from '../layers/site/navigation.js';
 import {bindIntake} from '../layers/site/intake.js';
 import {bindArtistPreview} from '../layers/site/artist-preview.js';
@@ -25,6 +26,7 @@ bindHomeIntroduction();
 bindHomeShowcase();
 bindReleaseDiscovery();
 bindInformationTabs();
+initializePreferences().catch(console.error);
 bindJourneyScenes().catch(console.error);
 function reveal(){
   const element=document.getElementById(decodeURIComponent(location.hash.slice(1)));

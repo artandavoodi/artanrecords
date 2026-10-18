@@ -7,6 +7,40 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--preference-presentation-only')){
+  const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const file='docs/assets/css/core/04-systems/preferences-presentation.css';
+  const bytes=execFileSync('git',['-C',source,'show',`${revision}:${file}`]);
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  await writeFile(path.join(root,file),bytes);manifest.files=manifest.files.filter(record=>record.file!==file);
+  manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/artandavoodi',sourceCommit:revision});
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
+if(args.includes('--content-motion-only')){
+  const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const file='docs/assets/js/layers/site/entrances.js';
+  const bytes=execFileSync('git',['-C',source,'show',`${revision}:${file}`]);
+  const manifestPath=path.join(root,'planning/source-manifest.json');
+  const manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  await writeFile(path.join(root,file),bytes);
+  manifest.files=manifest.files.filter(record=>record.file!==file);
+  manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/artandavoodi',sourceCommit:revision});
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
+if(args.includes('--preference-icons-only')){
+  const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const registryPath=path.join(root,'docs/assets/data/icons.json'),registry=JSON.parse(await readFile(registryPath,'utf8'));
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  for(const [name,relative] of Object.entries({cookies:'core/interface/cookies/cookies.svg',check:'core/actions/check/check.svg',close:'core/actions/close/close.svg'})){
+    const sourceFile='registry/icons/source/'+relative;
+    const bytes=execFileSync('git',['-C',source,'show',`${revision}:${sourceFile}`]);
+    const file=`docs/assets/icons/actions/${name}.svg`;
+    await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+    manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/control-center',sourceCommit:revision,sourceFile});
+    if(!registry.items.some(item=>item.id===name))registry.items.push({id:name,src:file.slice(5),alt:'',monochrome:true});
+  }
+  await writeFile(registryPath,JSON.stringify(registry,null,2)+'\n');await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 const read=async p=>JSON.parse(await readFile(path.join(source,'docs',p),'utf8'));
 const records=[];
 const allowed=['id','title','artistId','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','lyrics','credits','musicalDetails','productionProcess','releaseInformation','links'];

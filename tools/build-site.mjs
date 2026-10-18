@@ -8,6 +8,7 @@ await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles
 const read=p=>readFile(new URL(p,docs),'utf8');
 const json=async p=>JSON.parse(await read(p));
 const [site,registry,catalogue,artists,icons,ui]=await Promise.all(['site','fragments','music/releases','artists/items','icons','music/interface'].map(p=>json('assets/data/'+p+'.json')));
+await writeFile(new URL('assets/js/core/preference-config.js',docs),`window.ArtanRecordsPreferenceConfig=${JSON.stringify(site.preferences.storage)};\n`);
 const roster=await json('assets/data/artists/roster.json');
 const intake=await json('assets/data/artists/intake.json');
 const journeyScenes=await json('assets/data/artists/journey-scenes.json');

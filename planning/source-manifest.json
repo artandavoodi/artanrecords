@@ -221,6 +221,39 @@
     {
       "file": "docs/assets/css/core/04-systems/public-information.css",
       "sha256": "32743cadeb70623bd0e84a4a780041a695a3eee554bf06bf7a2b167ac7445a8a"
+    },
+    {
+      "file": "docs/assets/icons/actions/cookies.svg",
+      "sha256": "2d9260b8fd642aaf72d428eed614ff92aee24a639154214d3fa19d19cc5bc9e7",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "e2b761214e6c929160f9d8fc0d48cd67f3357500",
+      "sourceFile": "registry/icons/source/core/interface/cookies/cookies.svg"
+    },
+    {
+      "file": "docs/assets/icons/actions/check.svg",
+      "sha256": "3d5f11cd561884abb16caa769b551368e55249bfa4305570c533214e669e8ec6",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "e2b761214e6c929160f9d8fc0d48cd67f3357500",
+      "sourceFile": "registry/icons/source/core/actions/check/check.svg"
+    },
+    {
+      "file": "docs/assets/icons/actions/close.svg",
+      "sha256": "bbf01f68e9dbca049099e02ec7a60ca1a5ba73023980cb854c5c4c8173004419",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "e2b761214e6c929160f9d8fc0d48cd67f3357500",
+      "sourceFile": "registry/icons/source/core/actions/close/close.svg"
+    },
+    {
+      "file": "docs/assets/js/layers/site/entrances.js",
+      "sha256": "fa265b04b68d323e2e97982c7e23a692fa3e82138732f98ea5cd977923fd65a9",
+      "sourceRepository": "artandavoodi/artandavoodi",
+      "sourceCommit": "83fb039363840a71fbd61c295a1278a6068fce5d"
+    },
+    {
+      "file": "docs/assets/css/core/04-systems/preferences-presentation.css",
+      "sha256": "45ddb4276f887aac259c1c4383354fe53340a21c891bac71d73ea7849f1ca4ea",
+      "sourceRepository": "artandavoodi/artandavoodi",
+      "sourceCommit": "125b6fcc64cb697ebf4e86d9f5a398e590e897f7"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

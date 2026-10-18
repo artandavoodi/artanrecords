@@ -132,7 +132,7 @@ html:has(main[data-fragment="artist"]) .site-footer > .hub { display: none; }
 }
 @media (prefers-reduced-motion:no-preference) {
   [data-release-motion-ready] :is(.release-card,h1,h2) { transition:opacity var(--label-logo-collapse-duration) var(--ease-standard),transform var(--label-logo-collapse-duration) var(--ease-standard); }
-  [data-release-motion-ready] :is(.release-card,h1,h2):not([data-release-visible]) { opacity:0; transform:translateY(var(--spacing-md)); }
+  [data-release-motion-ready] :is(.release-card,h1,h2):not([data-release-visible]) { opacity:0; transform:translateY(calc(var(--spacing-md) * var(--content-entrance-direction,1))); }
 }
 .release-card[hidden], .release-filters[hidden], [data-release-empty][hidden] { display: none; }
 @media (max-width: 860px) {
