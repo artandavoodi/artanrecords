@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 
 const source=await readFile(new URL('../docs/assets/js/core/menu.js',import.meta.url),'utf8');
-for(const snap of ['none','y mandatory']){
+for(const snap of ['none','y mandatory','y proximity']){
   const attributes=new Set(),events={},clicks={};
   const element={hidden:false,inert:false,offsetWidth:20,clientWidth:350,
     style:{setProperty(){}},setAttribute(){},toggleAttribute(){},
@@ -38,4 +38,7 @@ for(const snap of ['none','y mandatory']){
   window.scrollY=0;events['viewport-resize']();
   assert.equal(attributes.has('data-header-drawer'),false);
 }
+const homeCss=await readFile(new URL('../docs/assets/css/layers/site/label/index.css',import.meta.url),'utf8');
+assert.match(homeCss,/home-motion-ready[^}]*scroll-snap-type:y proximity/);
+assert.match(homeCss,/label-featured-artists\s*\{[^}]*scroll-snap-align:none/);
 console.log('PASS: mobile first-scroll drawer, desktop snap offset, menu close and viewport restoration.');

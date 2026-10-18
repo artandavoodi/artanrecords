@@ -64,7 +64,7 @@ html[data-header-drawer] .label-navigation .site-menu-toggle { animation: label-
 }
 main[data-fragment="home"] > .site-section > h2 { font-weight: var(--font-weight-bold); }
 @media (min-width:1025px) and (hover:hover) and (pointer:fine) {
-  html:has(main[data-fragment="home"][data-home-motion-ready]) { scroll-snap-type:y mandatory; scroll-behavior:smooth; }
+  html:has(main[data-fragment="home"][data-home-motion-ready]) { scroll-snap-type:y proximity; scroll-behavior:smooth; }
 }
 main[data-fragment="home"] > .site-section { min-block-size: calc(var(--section-min-height-stable) - var(--site-header-height)); align-content: center; scroll-snap-align: start; scroll-snap-stop: always; }
 main[data-fragment="home"] > .label-featured-artists { scroll-snap-align:none; scroll-snap-stop:normal; }
