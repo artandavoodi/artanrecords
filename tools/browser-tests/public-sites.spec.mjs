@@ -4,6 +4,22 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+if(key==='records')test('cookie notice stays readable without accepting optional storage',async({page})=>{
+  await page.goto('/');
+  const dialog=page.getByRole('dialog',{name:'Cookies & preferences',exact:true});
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('link',{name:'Legal information',exact:true}).click();
+  await expect(page).toHaveURL(/\/legal\/#cookies$/);
+  await expect(dialog).not.toBeVisible();
+  await expect(page.getByRole('tab',{name:'Cookies and similar technologies',exact:true})).toHaveAttribute('aria-selected','true');
+  const actions=page.locator('.label-actions a');
+  const sizes=await actions.evaluateAll(items=>items.map(item=>getComputedStyle(item).fontSize));
+  expect(new Set(sizes).size).toBe(1);
+  await page.getByRole('button',{name:'Cookies & preferences',exact:true}).click();
+  await expect(dialog).toBeVisible();
+  await dialog.getByRole('button',{name:'Skip',exact:true}).click();
+  await expect(dialog).not.toBeVisible();
+});
 for(const theme of ['light','dark'])test.describe(theme,()=>{
   test.beforeEach(async({page})=>{
     await page.addInitScript(({key,theme,records})=>{

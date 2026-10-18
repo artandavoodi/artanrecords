@@ -13,9 +13,10 @@ export async function initializePreferences(){
   for(const [choice,label,icon] of [['allow',data.allow,'check'],['skip',data.skip,'close']]){
     const button=document.createElement('button');button.type='button';button.className='privacy-preferences__action';button.append(image(icon),document.createTextNode(label));button.addEventListener('click',()=>{state.choose(choice);dialog.close();});actions.append(button);
   }
-  const notice=document.createElement('a');notice.href='/legal/#cookies';notice.textContent=data.notice;
+  const notice=document.createElement('a');notice.href='/legal/#cookies';notice.textContent=data.notice;notice.addEventListener('click',()=>dialog.close());
   dialog.append(brand,title,description,actions,notice);dialog.addEventListener('cancel',()=>state.choose('skip'));document.body.append(dialog);
   const settings=document.createElement('button');settings.type='button';settings.textContent=data.settings;settings.addEventListener('click',()=>{if(!dialog.open)dialog.showModal();});
   document.querySelector('.site-footer .information-links')?.append(settings);
-  if(state.choice()===null)dialog.showModal();
+  // Reading the notice must never be obscured by an undecided-choice prompt.
+  if(state.choice()===null&&location.pathname!==new URL(notice.href).pathname)dialog.showModal();
 }
