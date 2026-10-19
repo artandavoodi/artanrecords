@@ -81,6 +81,7 @@ for(const file of await walk(docs)){
   if(file.endsWith('.js'))execFileSync(process.execPath,['--check',file]);
   if(file.endsWith('.css'))for(const [,target]of text.matchAll(/url\(['"]?([^)'"?]+)(?:\?[^)'" ]*)?['"]?\)/g))await stat(target.startsWith('/')?path.join(docs,target):path.resolve(path.dirname(file),target));
   if(!file.endsWith('.html')||file.includes('/fragments/'))continue;
+  assert.ok(!/Artan\s+Records/i.test(text),'Obsolete public label branding: '+file);
   assert.ok(!text.includes('{{'),'Unresolved template');
   assert.equal((text.match(/<h1\b/g)||[]).length,1,file);
   assert.equal((text.match(/class="label-header-logo"/g)||[]).length,1,'Each page must use one shared label header: '+file);
