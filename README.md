@@ -36,16 +36,15 @@ individually. DNS and GitHub Pages configuration remain a separate launch step.
 > **Official website and digital infrastructure for Artanrecords — releases, catalog, artists, archives, and label operations.**
 
 **Domain:** `artanrecords.com`  
-**Founder / Artist:** Artan Davoodi  
-**Legal Name:** Saeed Davoodi  
-**Primary Artist Identity:** Artan Davoodi  
-**Artist Website:** `artan.live`
+**Founder:** Artan Davoodi  
+**Artist guidance:** `docs.artanrecords.com`  
+**Artist platform:** `studio.artanrecords.com`
 
 ---
 
 ## About Artanrecords
 
-**Artanrecords** is the independent home, label, archive, and digital infrastructure surrounding the music and artistic work of **Artan Davoodi**.
+**Artanrecords** is an independent record label and artist-services platform for selected artists, recordings and creative collaborations.
 
 The project exists to establish a durable, independent structure for music releases, catalog management, artistic presentation, public communication, metadata, archives, distribution, collaborations, and the long-term preservation of the work.
 
@@ -94,11 +93,11 @@ The repository should remain intentionally simple until additional architectural
 
 # Strategic Position
 
-Artanrecords initially functions as:
+Artanrecords functions as:
 
-> **An independent label and artistic infrastructure for Artan Davoodi.**
+> **An independent label and shared release infrastructure for artists.**
 
-Its first responsibility is to create a permanent professional home for the existing and future catalog.
+Its responsibility is to administer agreed release services, present approved artists and recordings, and provide clear guidance. Artist websites are artist-owned destinations, not the identity of the label. Studio account and financial services remain subject to their documented activation gates.
 
 The architecture should nevertheless be capable of expanding over time without requiring the foundation to be rebuilt.
 
