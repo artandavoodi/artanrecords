@@ -254,6 +254,42 @@
     {
       "file": "docs/assets/css/layers/site/site.css",
       "sha256": "1fe324dc08e2a5f4e98b6cf1f0acb5612cd473b25ec1c5b037e0ab4436fe65ce"
+    },
+    {
+      "file": "docs/assets/js/core/02-systems/document-reader.js",
+      "sha256": "e9b7f2b586b103d74efd7c90b4c82dd5357ed21c72fcfd4834dba74cb47cae3b",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "a0c61432ced842bbb93a94f542ec81c1dab4a00a"
+    },
+    {
+      "file": "docs/assets/css/core/04-systems/document-reader.css",
+      "sha256": "be4ca66d63054ffcf0066036d7c0e94c6da781bb1df787f1d0295b007002c59c",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "a0c61432ced842bbb93a94f542ec81c1dab4a00a"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/identity/access/visibility-on.svg",
+      "sha256": "d499bf0b785f4a5910794a4fc77e9a975592d21c022117ad906aeb67b1aad3e7",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "a0c61432ced842bbb93a94f542ec81c1dab4a00a"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/identity/access/visibility-off.svg",
+      "sha256": "655bfe844eb290946a3fb9622fc8ca5433ca261b1c3531346442c6b1b6d7e190",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "a0c61432ced842bbb93a94f542ec81c1dab4a00a"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/navigation/chevron/chevron-down.svg",
+      "sha256": "267f15b40d1f468dd67aa683522be1166bed34488003b70181d9f6ab00da01a6",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "a0c61432ced842bbb93a94f542ec81c1dab4a00a"
+    },
+    {
+      "file": "docs/assets/css/core/01-tokens/document-reader.tokens.css",
+      "sha256": "c29ba952388053888e12ec4ba2a4bfa466f44551bf88347ba127d61e545043d9",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "a0c61432ced842bbb93a94f542ec81c1dab4a00a"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

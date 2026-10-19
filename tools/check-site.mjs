@@ -79,7 +79,7 @@ for(const file of await walk(docs)){
   const text=await readFile(file,'utf8');
   if(file.endsWith('.json'))JSON.parse(text);
   if(file.endsWith('.js'))execFileSync(process.execPath,['--check',file]);
-  if(file.endsWith('.css'))for(const [,target]of text.matchAll(/url\(['"]?([^)'"?]+)(?:\?[^)'" ]*)?['"]?\)/g))await stat(path.resolve(path.dirname(file),target));
+  if(file.endsWith('.css'))for(const [,target]of text.matchAll(/url\(['"]?([^)'"?]+)(?:\?[^)'" ]*)?['"]?\)/g))await stat(target.startsWith('/')?path.join(docs,target):path.resolve(path.dirname(file),target));
   if(!file.endsWith('.html')||file.includes('/fragments/'))continue;
   assert.ok(!text.includes('{{'),'Unresolved template');
   assert.equal((text.match(/<h1\b/g)||[]).length,1,file);

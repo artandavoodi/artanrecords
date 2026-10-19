@@ -22,7 +22,7 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
 }));
 const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
-information.items.push(...partnershipPages(await json('assets/data/partnerships.json')));
+information.items.push(...partnershipPages(await json('assets/data/partnerships.json'),icons));
 const legalDates=()=>`<p class="publication-meta"><span>Effective date: <time datetime="${e(information.legalPublication.effectiveDate)}">${e(information.legalPublication.effectiveDate)}</time></span><span>Last updated: <time datetime="${e(information.legalPublication.lastUpdated)}">${e(information.legalPublication.lastUpdated)}</time></span></p>`;
 const textLinks=items=>(items||[]).map(item=>{
   if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');

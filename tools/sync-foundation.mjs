@@ -7,6 +7,28 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--document-reader-only')) {
+  const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const manifestPath=path.join(root,'planning/source-manifest.json');
+  const manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  const paths=['docs/assets/js/core/02-systems/document-reader.js','docs/assets/css/core/04-systems/document-reader.css',
+    ...['identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down'].map(name=>'docs/registry/icons/public/assets/core/'+name+'.svg')];
+  for(const file of paths) {
+    const bytes=execFileSync('git',['-C',source,'show',`${revision}:${file}`]);
+    await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+    manifest.files=manifest.files.filter(record=>record.file!==file);
+    manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision});
+  }
+  const tokens=execFileSync('git',['-C',source,'show',`${revision}:docs/assets/css/core/01-tokens/layout.tokens.css`],{encoding:'utf8'});
+  const declarations=tokens.split('\n').filter(line=>/^\s*--reader-[a-z-]+:/.test(line));
+  if(declarations.length!==4)throw Error('Document reader token ownership changed');
+  const file='docs/assets/css/core/01-tokens/document-reader.tokens.css';
+  const bytes=Buffer.from('/* Generated from the canonical Neuroartan reader tokens. */\n:root {\n'+declarations.join('\n')+'\n}\n');
+  await writeFile(path.join(root,file),bytes);
+  manifest.files=manifest.files.filter(record=>record.file!==file);
+  manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision});
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--preference-presentation-only')){
   const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
   const file='docs/assets/css/core/04-systems/preferences-presentation.css';
