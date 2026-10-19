@@ -7,6 +7,27 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--docs-search-only')){
+  const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const from=path=>execFileSync('git',['-C',source,'show',`${revision}:${path}`]);
+  const design=JSON.parse(from('app/design-manifest.json'));
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  const mappings={'search.js':'docs/assets/js/core/search.js','dialogs.js':'docs/assets/js/core/dialogs.js','store-surfaces.css':'docs/assets/css/core/04-systems/docs-search.css','close-button.css':'docs/assets/css/core/04-systems/search-close.css'};
+  for(const [name,file] of Object.entries(mappings)){
+    const bytes=from('app/shared/'+name),hash=createHash('sha256').update(bytes).digest('hex');
+    if(hash!==design.files[name])throw Error('Unverified shared search distribution');
+    await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+    manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:hash,sourceRepository:design.source,sourceCommit:design.revision});
+  }
+  const iconManifest=JSON.parse(from('app/icon-manifest.json'));
+  const bytes=from('app/icons/search.svg'),hash=createHash('sha256').update(bytes).digest('hex');
+  if(hash!==iconManifest.files.search)throw Error('Unverified registered search icon');
+  const file='docs/assets/icons/actions/search.svg';await writeFile(path.join(root,file),bytes);
+  manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:hash,sourceRepository:iconManifest.source,sourceCommit:iconManifest.revision});
+  const registryPath=path.join(root,'docs/assets/data/icons.json'),registry=JSON.parse(await readFile(registryPath,'utf8'));
+  if(!registry.items.some(item=>item.id==='search'))registry.items.push({id:'search',src:file.slice(5),alt:'',monochrome:true});
+  await writeFile(registryPath,JSON.stringify(registry,null,2)+'\n');await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--document-reader-only')) {
   const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
   const manifestPath=path.join(root,'planning/source-manifest.json');
