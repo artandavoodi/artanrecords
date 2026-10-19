@@ -23,7 +23,10 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
 const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
 information.items.push(...partnershipPages(await json('assets/data/partnerships.json'),icons));
-const legalDates=()=>`<p class="publication-meta"><span>Effective date: <time datetime="${e(information.legalPublication.effectiveDate)}">${e(information.legalPublication.effectiveDate)}</time></span><span>Last updated: <time datetime="${e(information.legalPublication.lastUpdated)}">${e(information.legalPublication.lastUpdated)}</time></span></p>`;
+const studioLegal=await json('assets/data/studio-legal.json');
+information.items.push(...studioLegal.notices.map(notice=>({...notice,presentation:'tabs',sections:notice.sections.map(section=>({...section,text:section.paragraphs.join('\n\n')}))})));
+information.footerLinks.push(...studioLegal.notices.map(notice=>({label:notice.footerLabel,url:notice.path})),{label:'Artist guidance',url:'https://docs.artanrecords.com/'});
+const legalDates=(publication=information.legalPublication)=>`<p class="publication-meta"><span>Effective date: <time datetime="${e(publication.effectiveDate)}">${e(publication.effectiveDate)}</time></span><span>Last updated: <time datetime="${e(publication.lastUpdated)}">${e(publication.lastUpdated)}</time></span></p>`;
 const textLinks=items=>(items||[]).map(item=>{
   if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');
   if(item.emphasis && item.emphasis!=='primary') throw new Error('Invalid action emphasis');
@@ -158,7 +161,7 @@ for(const item of information.items) {
   }
   await page(item.path,item.title,item.description,'information',{
     title:e(item.title),description:e(item.description),
-    dates:['/legal/','/privacy/'].includes(item.path)?legalDates():'',
+    dates:item.effectiveDate?legalDates(item):['/legal/','/privacy/'].includes(item.path)?legalDates():'',
     tabs:item.presentation==='tabs'?'data-information-tabs':'',
     contents:['accordion','flow'].includes(item.presentation)?'':`<nav class="information-links" aria-label="${e(item.title)}">${item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join('')}</nav>`,
     sections:item.sections.map(section=>item.presentation==='accordion'
