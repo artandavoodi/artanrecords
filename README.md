@@ -1,4 +1,4 @@
-# Artan Records
+# Artanrecords
 
 ## Partnership publication
 
@@ -33,7 +33,7 @@ historical working track names below; Salim includes Nari, Steady and House.
 Public pages are generated from registered fragments and JSON, not hand-authored
 individually. DNS and GitHub Pages configuration remain a separate launch step.
 
-> **Official website and digital infrastructure for Artan Records — releases, catalog, artists, archives, and label operations.**
+> **Official website and digital infrastructure for Artanrecords — releases, catalog, artists, archives, and label operations.**
 
 **Domain:** `artanrecords.com`  
 **Founder / Artist:** Artan Davoodi  
@@ -43,15 +43,15 @@ individually. DNS and GitHub Pages configuration remain a separate launch step.
 
 ---
 
-## About Artan Records
+## About Artanrecords
 
-**Artan Records** is the independent home, label, archive, and digital infrastructure surrounding the music and artistic work of **Artan Davoodi**.
+**Artanrecords** is the independent home, label, archive, and digital infrastructure surrounding the music and artistic work of **Artan Davoodi**.
 
 The project exists to establish a durable, independent structure for music releases, catalog management, artistic presentation, public communication, metadata, archives, distribution, collaborations, and the long-term preservation of the work.
 
 It is not intended to function merely as a record-label website.
 
-Artan Records is being built as an evolving artistic infrastructure capable of supporting the complete lifecycle of a body of work:
+Artanrecords is being built as an evolving artistic infrastructure capable of supporting the complete lifecycle of a body of work:
 
 **creation → documentation → release → distribution → communication → preservation**
 
@@ -67,7 +67,7 @@ This repository is the primary technical home of **artanrecords.com**.
 
 It should progressively support:
 
-- Artan Records identity and positioning
+- Artanrecords identity and positioning
 - official website infrastructure
 - catalog management
 - releases
@@ -94,7 +94,7 @@ The repository should remain intentionally simple until additional architectural
 
 # Strategic Position
 
-Artan Records initially functions as:
+Artanrecords initially functions as:
 
 > **An independent label and artistic infrastructure for Artan Davoodi.**
 
@@ -127,9 +127,9 @@ These capabilities should not be implemented merely because they are possible.
 
 # Identity
 
-## Artan Records
+## Artanrecords
 
-Artan Records is the label and infrastructure identity.
+Artanrecords is the label and infrastructure identity.
 
 **Official domain:**  
 `artanrecords.com`
@@ -142,7 +142,7 @@ The primary public artist identity is:
 
 This spelling should remain consistent across:
 
-- Artan Records
+- Artanrecords
 - Spotify
 - Apple Music
 - TIDAL
@@ -190,7 +190,7 @@ Represents Artan Davoodi directly:
 
 Represents:
 
-- Artan Records
+- Artanrecords
 - releases
 - catalog
 - artists
@@ -210,7 +210,7 @@ The two properties should be deeply connected without becoming redundant copies 
 
 # Contact Architecture
 
-Current official Artan Records email architecture:
+Current official Artanrecords email architecture:
 
 ### Founder / Direct
 
@@ -364,7 +364,7 @@ The working environment has included:
 - guitar
 - vocal recording
 
-These tools are implementation details rather than components of the Artan Records identity.
+These tools are implementation details rather than components of the Artanrecords identity.
 
 ---
 
@@ -682,9 +682,9 @@ Long-term artistic ambitions include:
 - developing independent artistic infrastructure
 - maintaining ownership and coherence around the work
 - creating music where meaning survives without unnecessary ornamentation
-- allowing Artan Records eventually to support aligned collaborations and artistic work
+- allowing Artanrecords eventually to support aligned collaborations and artistic work
 
-Artan Records should not prematurely become a conventional multi-artist commercial label.
+Artanrecords should not prematurely become a conventional multi-artist commercial label.
 
 The foundation comes first.
 
@@ -692,7 +692,7 @@ The foundation comes first.
 
 # Website Principles
 
-The Artan Records website should be:
+The Artanrecords website should be:
 
 - minimal
 - fast
@@ -732,14 +732,14 @@ The website should support:
 - image metadata
 - durable URLs
 
-Artan Records should contribute to a coherent searchable entity surrounding:
+Artanrecords should contribute to a coherent searchable entity surrounding:
 
 **Artan Davoodi**
 
 Search engines should be able to understand relationships between:
 
 - Artan Davoodi
-- Artan Records
+- Artanrecords
 - `artan.live`
 - `artanrecords.com`
 - albums
@@ -785,7 +785,7 @@ Navigation should remain restrained.
 
 # Repository Philosophy
 
-This repository should remain the primary maintainable codebase for the Artan Records website unless technical scale later justifies separation.
+This repository should remain the primary maintainable codebase for the Artanrecords website unless technical scale later justifies separation.
 
 Do not create multiple repositories simply for organizational appearance.
 
@@ -856,7 +856,7 @@ Prefer straightforward systems over unnecessary abstraction.
 
 ### Ownership
 
-Artan Records should retain control of its domain, code, catalog data, metadata, assets, and archival information wherever practical.
+Artanrecords should retain control of its domain, code, catalog data, metadata, assets, and archival information wherever practical.
 
 ---
 
@@ -881,7 +881,7 @@ Avoid generic aesthetics associated with:
 - generic luxury record labels
 - trend-driven creative agencies
 
-Artan Records should feel like an **artistic institution before it feels like a commercial brand**.
+Artanrecords should feel like an **artistic institution before it feels like a commercial brand**.
 
 Individual releases should be allowed to develop their own visual worlds rather than being forced into an excessively rigid master template.
 
@@ -970,7 +970,7 @@ Platform biographies and descriptions should remain consistent in identity while
 
 # Public Relations
 
-Artan Records should maintain authoritative facts and infrastructure from which communication materials can be produced.
+Artanrecords should maintain authoritative facts and infrastructure from which communication materials can be produced.
 
 Public-relations work may include:
 
@@ -1032,7 +1032,7 @@ Communication should always remain appropriate to its recipient and context.
 
 # Archival Strategy
 
-Artan Records should progressively become the authoritative archive of Artan Davoodi's music.
+Artanrecords should progressively become the authoritative archive of Artan Davoodi's music.
 
 Preserve:
 
@@ -1058,7 +1058,7 @@ The archive should make it possible to reconstruct the complete history of a rel
 
 # Source of Truth
 
-Artan Records should progressively become the authoritative source for:
+Artanrecords should progressively become the authoritative source for:
 
 - label identity
 - catalog
@@ -1210,7 +1210,7 @@ Do not rush into visual implementation before the information architecture and t
 
 # Long-Term Vision
 
-Artan Records should become more than a domain, repository, website, or logo.
+Artanrecords should become more than a domain, repository, website, or logo.
 
 It should become the durable structure through which the work survives:
 
@@ -1228,13 +1228,13 @@ The underlying catalog and artistic identity should remain:
 
 **owned, organized, portable, discoverable, and intact.**
 
-That is the strategic reason **Artan Records** exists.
+That is the strategic reason **Artanrecords** exists.
 
 ---
 
-## Artan Records
+## Artanrecords
 
-**Official website and digital infrastructure for Artan Records — releases, catalog, artists, archives, and label operations.**
+**Official website and digital infrastructure for Artanrecords — releases, catalog, artists, archives, and label operations.**
 
 `artanrecords.com`
 

@@ -1,8 +1,8 @@
-# Artan Records foundation
+# Artanrecords foundation
 
 ## Boundaries
 
-Artan Records is the label. artandavoodi.com is the artistic website;
+Artanrecords is the label. artandavoodi.com is the artistic website;
 artan.live remains the broader public hub. The confirmed catalogue preserves
 Salim's Vahed, River, Nari, Steady, House, Silent and Return, plus Solum and Gone.
 Amber is not a public release until its public information is approved.
@@ -74,7 +74,7 @@ light or dark. The label's own wordmark is at
 `docs/assets/brand/logo/artan-records-wordmark.svg`. Approved SVG variants and the
 transparent PNG are registered in site.json under logoAssets; logo owns the
 public favicon and organization identity. These assets are copied from the
-Artan Records design exports and are never overwritten by foundation sync.
+Artanrecords design exports and are never overwritten by foundation sync.
 Detailed processing information lives at `/submission-privacy/`; the form retains
 a short notice, acknowledgement and the visible reCAPTCHA widget.
 

@@ -13,6 +13,14 @@ const unsafe=structuredClone(data); unsafe.publication.percentages=true;
 assert.throws(()=>partnershipPages(unsafe,icons));
 assert.ok(pages[0].comparison.includes('data-inclusion="future"'));
 assert.ok(pages[0].comparison.includes('data-inclusion="excluded"'));
+for(const cell of pages[0].comparison.matchAll(/<td data-inclusion="([^"]+)">([\s\S]*?)<\/td>/g)) {
+  assert.equal(cell[2].includes('<img'),['included','excluded'].includes(cell[1]));
+}
+for(const route of ['referrals','submission-standards']) {
+  const html=await readFile(new URL('../docs/'+route+'/index.html',import.meta.url),'utf8');
+  assert.ok(html.includes('<h1>'));
+  assert.ok(html.includes('https://artanrecords.com/'+route+'/'));
+}
 for(const page of pages) {
   const html=await readFile(new URL('../docs'+page.path+'index.html',import.meta.url),'utf8');
   assert.ok(html.includes('rel="canonical" href="https://artanrecords.com'+page.path+'"'));

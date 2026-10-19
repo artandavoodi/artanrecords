@@ -1,4 +1,4 @@
-/** Artan Records enquiry service. Configuration and secrets live in Script Properties. */
+/** Artanrecords enquiry service. Configuration and secrets live in Script Properties. */
 function config_() {
   const p = PropertiesService.getScriptProperties();
   const config = JSON.parse(p.getProperty('INTAKE_CONFIG') || '{}');
@@ -122,7 +122,7 @@ function response_(message, appearance) {
   const template = HtmlService.createTemplateFromFile('Response');
   template.message = message;
   template.theme = appearance === 'dark' ? 'dark' : 'light';
-  return template.evaluate().setTitle('Artan Records');
+  return template.evaluate().setTitle('Artanrecords');
 }
 
 function doGet() {
@@ -181,7 +181,7 @@ function doPost(event) {
     const notificationColumn = config.fields.length + 5;
     try {
       MailApp.sendEmail({
-        to: config.email, replyTo: data.email, name: 'Artan Records',
+        to: config.email, replyTo: data.email, name: 'Artanrecords',
         subject: config.subject,
         body: 'Reference: ' + reference + '\n\n' + config.fields.map(f => f.label + ':\n' + data[f.name]).join('\n\n') + '\n\nAcknowledgment: yes\nSubmitted links are unverified. Do not open unexpected downloads.'
       });

@@ -5,8 +5,9 @@
   "processLabel": "A considered beginning",
   "conversationTitle": "Let us hear what you are making",
   "conversationDescription": "A listening link. A little context. A conversation about what comes next.",
-  "introduction": "Share your music. Tell us what you want to make next.",
+  "introduction": "Share your human-made music. Fully AI-generated music and masters are not accepted. Artist profile photographs must show the real artist; AI-assisted artwork is reviewed separately.",
   "journeyLinks": [
+    {"label":"Human-made music requirements","url":"/submission-standards/"},
     {"label":"Explore partnerships","url":"/partnerships/"},
     {"label":"Submit a recording","url":"/submit/","emphasis":"primary"},
     {"label":"Propose a creative collaboration","url":"/collaborate/"},

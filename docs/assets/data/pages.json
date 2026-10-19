@@ -2,8 +2,27 @@
   "schemaVersion": 1,
   "legalPublication": {"effectiveDate":"2026-10-16","lastUpdated":"2026-10-18"},
   "homeLinks": [{"label":"Explore releases","url":"/releases/"},{"label":"Studio","url":"https://studio.artanrecords.com/"},{"label":"Submit your music","url":"/submit/","emphasis":"primary","excludeOn":["/releases/"]}],
-  "footerLinks": [{"label":"Partnerships","url":"/partnerships/"},{"label":"Services","url":"/services/"},{"label":"Collaborate","url":"/collaborate/"},{"label":"Questions","url":"/faq/"},{"label":"Artan Store","url":"https://store.artandavoodi.com/"},{"label":"Legal information","url":"/legal/"},{"label":"Submission privacy","url":"/submission-privacy/"}],
+  "footerLinks": [{"label":"Artist referrals","url":"/referrals/"},{"label":"Partnerships","url":"/partnerships/"},{"label":"Services","url":"/services/"},{"label":"Collaborate","url":"/collaborate/"},{"label":"Questions","url":"/faq/"},{"label":"Artan Store","url":"https://store.artandavoodi.com/"},{"label":"Legal information","url":"/legal/"},{"label":"Submission privacy","url":"/submission-privacy/"}],
   "items": [
+    {
+      "path":"/referrals/","title":"Good music brings people together","description":"Introduce an artist to Artanrecords. A referral programme for creative services is being prepared.","presentation":"flow",
+      "sections":[
+        {"id":"introduction","title":"Know an artist we should hear?","text":"Point them toward our submission page. Every artist is considered on their work and the scope of a potential partnership, not on who introduced them. A referral never guarantees acceptance."},
+        {"id":"services","title":"More room for the work","text":"The planned programme would recognise qualifying artist introductions with credits toward approved promotion, artwork or website services. It is not open for earning or spending credits yet. Award values and qualifying milestones will be explained before launch."},
+        {"id":"clear-terms","title":"Clear from the beginning","text":"Programme terms will define eligibility, attribution, awards, redemption, expiry, cancellations and disputes. Service credits are separate from recording royalties and do not change a release agreement. Cash conversion and credit withdrawals are not currently available."},
+        {"id":"next","title":"Start with the music","text":"Artists can explore our partnerships and share a listening link without paying an upfront base distribution fee for an accepted standard release. Additional services require an agreed scope. No one needs to join a referral programme to be considered."}
+      ],"links":[{"label":"Submit your music","url":"/submit/","emphasis":"primary"},{"label":"Explore partnerships","url":"/partnerships/"},{"label":"Referral and payment guidance","url":"https://docs.artanrecords.com/referrals-and-payments/"}]
+    },
+    {
+      "path":"/submission-standards/","title":"Human music. Human artists.","description":"Our requirements for recordings, artwork and artist profile photographs.","presentation":"flow",
+      "sections":[
+        {"id":"music","title":"Human-made recordings","text":"Artanrecords does not accept fully AI-generated music or masters. We work with human-made music and human creative performance. Describe how the recording was made and disclose AI involvement so we can review its role; uncertainty is discussed before a release is accepted."},
+        {"id":"artwork","title":"Artwork is reviewed separately","text":"Using AI in release artwork is not, by itself, a reason for rejection. You must have the necessary rights and permissions, disclose AI-generated elements and meet the artwork requirements of the release and its delivery services. Do not use artwork that misrepresents another person or infringes their rights."},
+        {"id":"portraits","title":"Real people in artist profiles","text":"Artist profile photographs must show the real artist. AI-generated portraits, synthetic identities and face replacements are not accepted as artist profile images. Provide a photograph you are authorised to use; ordinary photographic editing must not misrepresent the person."},
+        {"id":"review","title":"A considered review, not a detector verdict","text":"We review the recording, credits and the creative process. We may ask for contributor confirmation, session information, stems or other relevant provenance through an agreed private process. Automated detection cannot establish authorship on its own and will not be treated as conclusive proof. No automated AI detector is currently connected to the submission form."},
+        {"id":"clarification","title":"If something needs clarification","text":"We may pause a submission and ask questions before proceeding. An artist can explain the tools used and provide supporting information. Do not send private session files or sensitive documents through the public enquiry form."}
+      ],"links":[{"label":"Submit your music","url":"/submit/","emphasis":"primary"},{"label":"Artwork guidance","url":"https://docs.artanrecords.com/artwork/"}]
+    },
     {
       "path":"/privacy/", "title":"Privacy policy", "description":"Draft privacy policy for Artanrecords. Not approved for publication.", "publish":false,
       "sections":[
@@ -33,12 +52,12 @@
       "processLabel":"Three steps to share your work",
       "conversationTitle":"Share the work",
       "conversationDescription":"Introduce yourself, add a listening link if you have one, and tell us what you want to make next. Music submission is already selected in the form.",
-      "notice":"We review enquiries individually. Sending work does not guarantee acceptance, representation or a release.",
+      "notice":"Human-made music only: fully AI-generated music or masters are not accepted. Artist profile photographs must show the real artist, not an AI-generated person. AI-assisted artwork is reviewed separately. Sending work does not guarantee acceptance or a release.",
       "sections":[
         {"id":"share","title":"Let us hear the work","text":"Introduce the artist behind the recording. Share a listening link and tell us whether it is a single, EP or album, who contributed, and what you hope to release.","detail":"A private streaming link is enough. Keep masters and project files with you."},
         {"id":"review","title":"A considered review","text":"We listen and read the context you share. Each enquiry is considered individually, with the recording and your intentions at the centre of the conversation.","detail":"If there is a fit, we can discuss the project. Submission is not acceptance or a release agreement."},
         {"id":"prepare","title":"A clear next step","text":"Open the form below, introduce yourself and tell us what you are looking for. Share only work and links you have permission to send.","detail":"No attachments are needed. Do not include identity documents, bank details or tax information."}
-      ], "links":[{"label":"Compare partnerships","url":"/partnerships/"},{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
+      ], "links":[{"label":"Human-made music requirements","url":"/submission-standards/"},{"label":"Compare partnerships","url":"/partnerships/"},{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
     },
     {
       "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artanrecords about sound, visual work and creative collaboration.", "form":true, "formPurpose":"Collaboration", "presentation":"flow",

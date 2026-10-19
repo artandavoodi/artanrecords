@@ -1,4 +1,4 @@
-# Artan Records Multi-Surface Architecture
+# Artanrecords Multi-Surface Architecture
 
 ## Repository
 
@@ -42,7 +42,7 @@ Repository area:
 
 Purpose:
 
-Public Artan Records documentation, artist guidance, release standards, platform help, and approved policies.
+Public Artanrecords documentation, artist guidance, release standards, platform help, and approved policies.
 
 Private/internal business, security, finance, legal strategy, and operational documentation must not be exposed automatically.
 
@@ -87,7 +87,7 @@ Repository area:
 
 Purpose:
 
-Single reusable Artan Records foundation for all three surfaces.
+Single reusable Artanrecords foundation for all three surfaces.
 
 Potential shared assets include:
 
@@ -160,4 +160,4 @@ Final intended mapping:
 - `docs.artanrecords.com` → documentation
 - `studio.artanrecords.com` → artist platform
 
-All three remain part of one Artan Records repository and should share one controlled brand/design foundation.
+All three remain part of one Artanrecords repository and should share one controlled brand/design foundation.
