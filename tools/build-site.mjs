@@ -25,12 +25,13 @@ const information=await json('assets/data/pages.json');
 information.items.push(...partnershipPages(await json('assets/data/partnerships.json'),icons));
 const studioLegal=await json('assets/data/studio-legal.json');
 information.items.push(...studioLegal.notices.map(notice=>({...notice,presentation:'tabs',sections:notice.sections.map(section=>({...section,text:section.paragraphs.join('\n\n')}))})));
-information.footerLinks.push(...studioLegal.notices.map(notice=>({label:notice.footerLabel,url:notice.path})),{label:'Artist guidance',url:'https://docs.artanrecords.com/'});
+information.footerGroups.find(group=>group.id==='legal').links.push(...studioLegal.notices.map(notice=>({label:notice.footerLabel,url:notice.path})));
 const legalDates=(publication=information.legalPublication)=>`<p class="publication-meta"><span>Effective date: <time datetime="${e(publication.effectiveDate)}">${e(publication.effectiveDate)}</time></span><span>Last updated: <time datetime="${e(publication.lastUpdated)}">${e(publication.lastUpdated)}</time></span></p>`;
-const textLinks=items=>(items||[]).map(item=>{
+const textLinks=(items,path='',placement='body')=>(items||[]).map(item=>{
   if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');
   if(item.emphasis && item.emphasis!=='primary') throw new Error('Invalid action emphasis');
-  return `<a href="${e(item.url)}"${item.emphasis?' data-emphasis="primary"':''}>${e(item.label)}</a>`;
+  const duplicate=placement==='body'&&information.homeLinks.some(link=>link.url===item.url&&link.url!==path&&!link.excludeOn?.includes(path));
+  return `<a href="${e(item.url)}"${duplicate?' data-header-duplicate':''}${item.emphasis?' data-emphasis="primary"':''}>${e(item.label)}</a>`;
 }).join('');
 for(const artist of roster.items) {
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(artist.id)||!artist.name||!artist.biography||artist.approved!==true) throw new Error('Roster must contain only approved, complete public profiles');
@@ -52,8 +53,8 @@ if(!founder||founder.name!==site.founder.name) throw new Error('Founder must mat
 const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
-const navigationFor=path=>fragment('navigation',{...escaped(site.labels),name:e(site.name),actionsClass:'label-home-actions',homeLinks:textLinks(information.homeLinks.filter(item=>item.url!==path&&!item.excludeOn?.includes(path))),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')+textLinks(information.accountLinks||[])});
-const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),links:textLinks(information.footerLinks),social:links(site.social,icons,'streaming','icons-only')});
+const navigationFor=path=>fragment('navigation',{...escaped(site.labels),name:e(site.name),actionsClass:'label-home-actions',homeLinks:textLinks(information.homeLinks.filter(item=>item.url!==path&&!item.excludeOn?.includes(path)),path,'chrome'),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')+textLinks(information.accountLinks||[],path,'chrome')});
+const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),groups:information.footerGroups.map(group=>`<section class="label-footer-group"><h2 id="footer-${e(group.id)}">${e(group.label)}</h2><nav class="information-links label-footer-group-links" aria-labelledby="footer-${e(group.id)}"${group.id==='legal'?' data-footer-preferences':''}>${textLinks(group.links.map(item=>item.social?{...item,url:site.social.find(social=>social.icon===item.social).url}:item),'','chrome')}</nav></section>`).join(''),social:links(site.social,icons,'streaming','icons-only')});
 const navigation=await navigationFor('/404.html');
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
@@ -166,8 +167,8 @@ for(const item of information.items) {
     contents:['accordion','flow'].includes(item.presentation)?'':`<nav class="information-links" aria-label="${e(item.title)}">${item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join('')}</nav>`,
     sections:item.sections.map(section=>item.presentation==='accordion'
       ?`<details class="information-accordion" id="${e(section.id)}"><summary><span>${e(section.title)}</span>${icon('chevron-right',icons)}</summary>${paragraphs(section.text)}${section.links?.length?`<div class="information-links label-actions">${textLinks(section.links)}</div>`:''}</details>`
-      :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}</section>`).join('')+(item.comparison||''),
-    links:textLinks(item.links),form:item.form?intakeForm({...intake.form,defaults:item.formPurpose?{purpose:item.formPurpose}:undefined},icons):''
+      :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}${section.links?.length?`<div class="information-links label-actions">${textLinks(section.links,item.path)}</div>`:''}</section>`).join('')+(item.comparison||''),
+    links:textLinks(item.links,item.path),form:item.form?intakeForm({...intake.form,defaults:item.formPurpose?{purpose:item.formPurpose}:undefined},icons):''
   });
 }
 await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{

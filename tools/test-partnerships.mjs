@@ -29,4 +29,11 @@ for(const page of pages) {
 }
 const sitemap=await readFile(new URL('../docs/sitemap.xml',import.meta.url),'utf8');
 for(const page of pages) assert.ok(sitemap.includes('https://artanrecords.com'+page.path));
+const home=await readFile(new URL('../docs/index.html',import.meta.url),'utf8');
+assert.equal((home.match(/class="label-footer-group"/g)||[]).length,7);
+for(const path of ['https://docs.artanrecords.com/','https://docs.artanrecords.com/developers/','/help/','/partnerships/'])assert.ok(home.includes(`href="${path}"`));
+const about=await readFile(new URL('../docs/about/index.html',import.meta.url),'utf8');
+assert.ok(about.includes('data-header-duplicate'));
+assert.ok(home.includes('data-footer-preferences'));
+const help=await readFile(new URL('../docs/help/index.html',import.meta.url),'utf8');assert.ok(help.includes('href="https://docs.artanrecords.com/getting-started/"'));
 console.log('Partnership publication gates, static content and sitemap verified');

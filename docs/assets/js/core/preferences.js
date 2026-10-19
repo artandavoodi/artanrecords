@@ -16,7 +16,7 @@ export async function initializePreferences(){
   const notice=document.createElement('a');notice.href='/legal/#cookies';notice.textContent=data.notice;notice.addEventListener('click',()=>dialog.close());
   dialog.append(brand,title,description,actions,notice);dialog.addEventListener('cancel',()=>state.choose('skip'));document.body.append(dialog);
   const settings=document.createElement('button');settings.type='button';settings.textContent=data.settings;settings.addEventListener('click',()=>{if(!dialog.open)dialog.showModal();});
-  document.querySelector('.site-footer .information-links')?.append(settings);
+  document.querySelector('[data-footer-preferences]')?.append(settings);
   // Reading the notice must never be obscured by an undecided-choice prompt.
   if(state.choice()===null&&location.pathname!==new URL(notice.href).pathname)dialog.showModal();
 }
