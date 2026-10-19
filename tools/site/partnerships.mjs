@@ -12,7 +12,7 @@ export function partnershipPages(config,icons) {
     return `<tr><th scope="row">${e(row.label)}</th>${row.values.map((value,index)=>{
       const state=config.comparison.states[row.states[index]];
       if(!state) throw Error('Unknown comparison state');
-      return `<td data-inclusion="${e(row.states[index])}"><span class="partnership-cell">${icon(state.icon,icons)}<span><span class="partnership-state">${e(state.label)}</span><span>${e(value)}</span></span></span></td>`;
+      return `<td data-inclusion="${e(row.states[index])}"><span class="partnership-cell">${icon(state.icon,icons)}<span><span class="partnership-state">${e(state.label)}</span>${value===state.label?'':`<span>${e(value)}</span>`}</span></span></td>`;
     }).join('')}</tr>`;
   }).join('')}</tbody></table></div>`;
   return [{path:'/partnerships/',title:config.title,description:config.description,presentation:'flow',sections:config.principles,comparison:table,links:[...config.items.map(item=>({label:item.name+' — '+item.position,url:`/partnerships/${item.id}/`})),...commonLinks]},...config.items.map(item=>({path:`/partnerships/${item.id}/`,title:item.name+' — '+item.position,description:item.description,presentation:'flow',sections:[...item.sections,...config.principles.filter(section=>['costs','rights','next'].includes(section.id)),...config.questions],links:[...commonLinks,{label:'Compare partnerships',url:'/partnerships/'}]}))];
