@@ -38,7 +38,7 @@
         {"id":"share","title":"Let us hear the work","text":"Introduce the artist behind the recording. Share a listening link and tell us whether it is a single, EP or album, who contributed, and what you hope to release.","detail":"A private streaming link is enough. Keep masters and project files with you."},
         {"id":"review","title":"A considered review","text":"We listen and read the context you share. Each enquiry is considered individually, with the recording and your intentions at the centre of the conversation.","detail":"If there is a fit, we can discuss the project. Submission is not acceptance or a release agreement."},
         {"id":"prepare","title":"A clear next step","text":"Open the form below, introduce yourself and tell us what you are looking for. Share only work and links you have permission to send.","detail":"No attachments are needed. Do not include identity documents, bank details or tax information."}
-      ], "links":[{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
+      ], "links":[{"label":"Compare partnerships","url":"/partnerships/"},{"label":"Artist process and support","url":"/for-artists/"},{"label":"Submission questions","url":"/faq/"},{"label":"Creative collaboration instead?","url":"/collaborate/"},{"label":"How enquiries are handled","url":"/submission-privacy/"}]
     },
     {
       "path":"/collaborate/", "title":"Make something together", "description":"Connect with Artanrecords about sound, visual work and creative collaboration.", "form":true, "formPurpose":"Collaboration", "presentation":"flow",
