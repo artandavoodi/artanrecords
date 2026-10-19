@@ -17,7 +17,7 @@ if(args.includes('--document-reader-only')) {
     const bytes=execFileSync('git',['-C',source,'show',`${revision}:${file}`]);
     await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
     manifest.files=manifest.files.filter(record=>record.file!==file);
-    manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision});
+    manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/neuroartan-website',sourceCommit:revision});
   }
   const tokens=execFileSync('git',['-C',source,'show',`${revision}:docs/assets/css/core/01-tokens/layout.tokens.css`],{encoding:'utf8'});
   const declarations=tokens.split('\n').filter(line=>/^\s*--reader-[a-z-]+:/.test(line));
@@ -26,7 +26,7 @@ if(args.includes('--document-reader-only')) {
   const bytes=Buffer.from('/* Generated from the canonical Neuroartan reader tokens. */\n:root {\n'+declarations.join('\n')+'\n}\n');
   await writeFile(path.join(root,file),bytes);
   manifest.files=manifest.files.filter(record=>record.file!==file);
-  manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision});
+  manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/neuroartan-website',sourceCommit:revision});
   await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
 }
 if(args.includes('--preference-presentation-only')){
