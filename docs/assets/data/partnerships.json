@@ -31,6 +31,12 @@
   "comparison": {
     "caption": "Our involvement, at a glance",
     "rows": [
+      {"label":"Upfront base distribution fee","values":["None for accepted standard releases","None for accepted standard releases","None for accepted standard releases"],"states":["included","included","included"]},
+      {"label":"Master ownership stays with the artist","values":["Limited licence agreed separately","Limited licence agreed separately","Limited licence agreed separately"],"states":["included","included","included"]},
+      {"label":"Paid advertising and external PR","values":["Not part of the base scope","Project-specific approval and budget","Project-specific approval and budget"],"states":["optional","optional","optional"]},
+      {"label":"Custom domains and renewals","values":["Separate ownership and funding agreement","Separate ownership and funding agreement","Separate ownership and funding agreement"],"states":["optional","optional","optional"]},
+      {"label":"Publishing administration","values":["Separate rights and terms required","Separate rights and terms required","Separate rights and terms required"],"states":["excluded","excluded","excluded"]},
+      {"label":"Guaranteed streams or placements","values":["Never guaranteed","Never guaranteed","Never guaranteed"],"states":["excluded","excluded","excluded"]},
       {
         "label": "Base release administration",
         "values": [
