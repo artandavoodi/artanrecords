@@ -13,5 +13,6 @@
 .surface-search { max-inline-size: var(--cv-reading-width); }
 .surface-search input { inline-size: 100%; min-inline-size: 0; font: inherit; }
 .surface-search [data-search-results] { display: grid; gap: var(--spacing-lg); }
+.surface-header-actions { display:flex; align-items:center; }
 .surface-search-toggle { display:inline-flex; align-items:center; justify-content:center; border:0; padding:var(--spacing-sm); background:none; color:inherit; cursor:pointer; }
 .surface-search-toggle img { inline-size:var(--icon-size-md); block-size:var(--icon-size-md); }
