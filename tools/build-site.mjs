@@ -1,5 +1,6 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
+import {partnershipPages} from './site/partnerships.mjs';
 import {intakeForm,intakeJourney,journeyScene,submissionJourneySteps} from './site/intake.mjs';
 import {showcaseRelease,showcaseCarousel} from './site/home-showcase.mjs';
 import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist} from './site/render.mjs';
@@ -21,6 +22,7 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
 }));
 const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
+information.items.push(...partnershipPages(await json('assets/data/partnerships.json')));
 const legalDates=()=>`<p class="publication-meta"><span>Effective date: <time datetime="${e(information.legalPublication.effectiveDate)}">${e(information.legalPublication.effectiveDate)}</time></span><span>Last updated: <time datetime="${e(information.legalPublication.lastUpdated)}">${e(information.legalPublication.lastUpdated)}</time></span></p>`;
 const textLinks=items=>(items||[]).map(item=>{
   if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');
@@ -137,7 +139,7 @@ for(const nav of site.navigation) {
 }
 for(const item of information.items) {
   if(item.publish===false) continue;
-  if(!/^\/[a-z0-9-]+\/$/.test(item.path)||paths.includes(item.path)) throw new Error('Invalid or duplicate information route');
+  if(!/^\/(?:[a-z0-9-]+\/)+$/.test(item.path)||paths.includes(item.path)) throw new Error('Invalid or duplicate information route');
   const ids=new Set();
   for(const section of item.sections) {
     if(!/^[a-z0-9-]+$/.test(section.id)||ids.has(section.id)) throw new Error('Invalid or duplicate section identifier');
@@ -161,7 +163,7 @@ for(const item of information.items) {
     contents:['accordion','flow'].includes(item.presentation)?'':`<nav class="information-links" aria-label="${e(item.title)}">${item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join('')}</nav>`,
     sections:item.sections.map(section=>item.presentation==='accordion'
       ?`<details class="information-accordion" id="${e(section.id)}"><summary><span>${e(section.title)}</span>${icon('chevron-right',icons)}</summary>${paragraphs(section.text)}${section.links?.length?`<div class="information-links label-actions">${textLinks(section.links)}</div>`:''}</details>`
-      :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}</section>`).join(''),
+      :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}</section>`).join('')+(item.comparison||''),
     links:textLinks(item.links),form:item.form?intakeForm({...intake.form,defaults:item.formPurpose?{purpose:item.formPurpose}:undefined},icons):''
   });
 }

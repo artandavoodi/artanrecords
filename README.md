@@ -1,5 +1,17 @@
 # Artan Records
 
+## Partnership publication
+
+Public partnership content is owned by `docs/assets/data/partnerships.json` and
+rendered by `tools/site/partnerships.mjs`. Silver, Gold and Platinum describe
+service scope, not artist quality or automatic acceptance. Percentage publication
+remains disabled pending documented legal/accounting review; do not add working
+percentages to public assets or infer agreement terms from a tier name.
+Run `node tools/test-partnerships.mjs` after building. Studio services remain
+unavailable until the isolated backend and access policies are deployed and tested.
+The preferred-partnership intake field still requires coordinated Apps Script
+configuration, sheet-header migration and a verified hosted submission before use.
+
 ## Implementation reference
 
 After each completed and verified requested iteration, commit and push the
