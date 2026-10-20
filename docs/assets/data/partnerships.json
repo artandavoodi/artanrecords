@@ -40,15 +40,18 @@
     "detailsLabel": "Details",
     "closeLabel": "Close details",
     "caption": "Our involvement, at a glance",
+    "scopeNotice":"This comparison explains the intended scope, not an accepted offer or a signed agreement. Availability, responsibilities, timelines, approved expenses and financial terms must be confirmed for your project before work begins. A tier name does not guarantee acceptance, audience growth or income.",
     "rows": [
-      {"label":"Upfront base distribution fee","values":["None for accepted standard releases","None for accepted standard releases","None for accepted standard releases"],"states":["included","included","included"]},
-      {"label":"Master ownership stays with the artist","values":["Limited licence agreed separately","Limited licence agreed separately","Limited licence agreed separately"],"states":["included","included","included"]},
-      {"label":"Paid advertising and external PR","values":["Not part of the base scope","Project-specific approval and budget","Project-specific approval and budget"],"states":["optional","optional","optional"]},
-      {"label":"Custom domains and renewals","values":["Separate ownership and funding agreement","Separate ownership and funding agreement","Separate ownership and funding agreement"],"states":["optional","optional","optional"]},
-      {"label":"Publishing administration","values":["Separate rights and terms required","Separate rights and terms required","Separate rights and terms required"],"states":["excluded","excluded","excluded"]},
-      {"label":"Guaranteed streams or placements","values":["Never guaranteed","Never guaranteed","Never guaranteed"],"states":["excluded","excluded","excluded"]},
+      {"label":"Upfront base distribution fee","details":"Accepted standard releases do not carry an upfront base distribution fee. You supply finished, release-ready masters, artwork, metadata, credits and the necessary rights and clearances. Sending music for review does not itself create an agreement or acceptance.\n\nThis does not mean every service or external expense is free. Additional production, advertising, artwork, websites or other services require an agreed scope and a clear decision about whether costs are included, artist-paid or recoupable. Those decisions belong in the project agreement before costs are incurred.","values":["None for accepted standard releases","None for accepted standard releases","None for accepted standard releases"],"states":["included","included","included"]},
+      {"label":"Master ownership stays with the artist","details":"The partnership model leaves ownership of your master recordings with you. The label's permission to administer or distribute a recording comes from a separately agreed licence, not from uploading a file or choosing a tier.\n\nThe agreement must define the recordings covered, permitted uses, term, territory, responsibilities and financial allocation. Publishing, songwriting, merchandise, live income and unrelated recordings are not automatically included. Review the licence and departure arrangements before accepting an agreement.","values":["Limited licence agreed separately","Limited licence agreed separately","Limited licence agreed separately"],"states":["included","included","included"]},
+      {"label":"Paid advertising and external PR","details":"Media spending and third-party public-relations services are separate from general release guidance. No advertising budget, press campaign or external agency retainer is automatically committed by selecting a partnership.\n\nAny proposed campaign needs a project-specific brief, budget, approval and allocation of costs. The agreement should identify who commissions the work, who pays and whether an approved expense is recoupable. Press coverage, advertising performance and audience growth are not guaranteed.","values":["Not part of the base scope","Project-specific approval and budget","Project-specific approval and budget"],"states":["optional","optional","optional"]},
+      {"label":"Custom domains and renewals","details":"A custom domain has registration, renewal and administration responsibilities separate from designing a website. A partnership does not automatically fund or transfer a domain.\n\nBefore a domain is commissioned, agree its registrant, account access, renewal funding and handover arrangements. Hosting, maintenance and external subscriptions also need a defined owner and budget. Record these decisions so your public identity can continue if the service relationship changes.","values":["Separate ownership and funding agreement","Separate ownership and funding agreement","Separate ownership and funding agreement"],"states":["optional","optional","optional"]},
+      {"label":"Publishing administration","details":"The recording partnership does not automatically administer your compositions or publishing rights. A master recording and the underlying musical work can involve different owners, contributors, registrations and income streams.\n\nAny publishing-administration service requires a separate, expressly agreed mandate and financial terms. Do not assume that recording distribution includes songwriter registration, publishing collection or representation of every contributor. Existing publishing commitments and permissions must be reviewed before a separate service is agreed.","values":["Separate rights and terms required","Separate rights and terms required","Separate rights and terms required"],"states":["excluded","excluded","excluded"]},
+      {"label":"Guaranteed streams or placements","details":"No tier guarantees streams, editorial playlists, press coverage, chart positions or income. Streaming services, editors and listeners make independent decisions, and campaign outcomes depend on factors outside the label's control.\n\nRelease planning and eligible pitching are services, not promises of selection. An agreed campaign must be described through its actual work, responsibilities and approved costs rather than a guaranteed audience result. A higher tier does not change this limitation.","values":["Never guaranteed","Never guaranteed","Never guaranteed"],"states":["excluded","excluded","excluded"]},
       {
         "label": "Base release administration",
+        "preview":"Release preparation and administration",
+        "details":"Base administration provides the agreed operational framework around an accepted release, using the assets and information you supply. It is distinct from creating or finishing the recording itself.\n\nThe release scope should identify required materials, responsibilities and approval steps. Missing rights, incomplete credits or non-compliant assets may need correction before the release can move forward. Choosing a tier does not create an automatic delivery commitment or a guaranteed release date.",
         "values": [
           "Included",
           "Included",
@@ -62,6 +65,8 @@
       },
       {
         "label": "Metadata and technical checks",
+        "preview":"Release information and asset checks",
+        "details":"Checks help review release information and supplied assets against the agreed release requirements. Titles, artist attribution, contributor credits, identifiers and technical asset requirements need to be accurate before delivery.\n\nYou remain responsible for truthful information and the rights and permissions behind your work. A technical check is not a legal clearance, a replacement for mastering or proof that a recording was made without AI. Corrections and unresolved questions should be settled before delivery.",
         "values": [
           "Included",
           "Included",
@@ -75,6 +80,7 @@
       },
       {
         "label": "Artist and release catalogue pages",
+        "details":"Approved artists and releases may receive public catalogue pages within the label's presentation system. Published names, artwork, biographies, credits and listening links require suitable assets and approval.\n\nA catalogue page is not a standalone artist website and is not created automatically by opening a Studio account. The information shown, publication timing and any later changes depend on the accepted release and approved material. Search engines control their own indexing and ranking.",
         "values": [
           "Included after approval",
           "Included after approval",
@@ -88,6 +94,7 @@
       },
       {
         "label": "Release strategy",
+        "details":"Release strategy defines how the agreed work is prepared and presented. Silver centres on a release checklist, Gold on a defined release plan, and Platinum on a label-led project plan within the agreed scope.\n\nThe plan should identify priorities, dependencies, required assets and decisions before a release date is confirmed. Greater label involvement does not guarantee distribution acceptance, a particular audience response or a fixed campaign result. Paid production and external expenses still require approval.",
         "values": [
           "Release checklist",
           "Defined release plan",
@@ -101,6 +108,7 @@
       },
       {
         "label": "Marketing",
+        "details":"Marketing involvement increases with the agreed partnership: basic release guidance in Silver, planning and pitch preparation in Gold, and custom strategy and coordination in Platinum. The actual work must be defined around the project.\n\nGuidance and coordination do not automatically include advertising spend, third-party PR, production services or guaranteed placements. Campaign materials, responsibilities, budgets and approvals should be established before work starts. Audience or financial results are not promised.",
         "values": [
           "Basic release guidance",
           "Planning and pitch preparation",
@@ -114,6 +122,7 @@
       },
       {
         "label": "DSP pitching",
+        "details":"Pitch preparation and submission are considered only where a release is eligible and the relevant service or delivery route makes the opportunity available. Gold includes this consideration; Platinum gives it priority within the agreed project scope.\n\nEligibility, lead times, assets and platform rules can limit what is possible. Editors and platforms make their own decisions. Pitching must never be read as a guaranteed playlist, editorial feature, number of streams or placement date.",
         "values": [
           "Where eligible and available",
           "Where eligible and available",
@@ -127,6 +136,8 @@
       },
       {
         "label": "Standalone website",
+        "preview":"A separately scoped artist website",
+        "details":"A dedicated artist website is separate from a label catalogue page. Silver treats website work as a separately agreed service, Gold considers eligible projects subject to scope, and Platinum gives eligible website work priority.\n\nBefore commissioning, define the pages, content, design, maintenance and handover responsibilities. Domain registration, renewals, hosting and third-party services need their own ownership and funding decisions. A tier does not automatically include unlimited development or permanent third-party subscriptions.",
         "values": [
           "Separately agreed",
           "Eligible, subject to scope",
@@ -140,6 +151,7 @@
       },
       {
         "label": "Reporting",
+        "details":"Reporting starts from the release records and statements actually available to the label. Silver covers available release records, Gold adds interpretation and review, and Platinum adds campaign and catalogue review within the agreed scope.\n\nListening statistics are not the same as royalty statements, reconciled receipts or payable earnings. Sources, periods, currencies and deductions must be explained in the applicable agreement and reports. Studio does not currently provide live royalty or payout reporting.",
         "values": [
           "Available release records",
           "Interpretation and review",
@@ -153,6 +165,8 @@
       },
       {
         "label": "Creative direction",
+        "preview":"Visual and narrative direction",
+        "details":"Creative direction can help align the visual and narrative presentation around a release. It is separately agreed in Silver, considered for eligible Gold projects, and expanded within the agreed Platinum scope.\n\nThe project brief should state the assets, review process, contributor roles and approval responsibilities. Direction does not automatically include every production cost, ownership of external assets or unlimited revisions. Artwork rights and permissions remain subject to review.",
         "values": [
           "Separately agreed",
           "Selected guidance",
@@ -166,6 +180,7 @@
       },
       {
         "label": "Artist development",
+        "details":"Artist development is not a standard Silver inclusion. Gold may receive selected guidance where eligible, while Platinum includes scheduled strategic reviews within the agreed project relationship.\n\nDevelopment priorities should be specific to the artist's work and stage, with the frequency and responsibilities recorded in the scope. This is not a guarantee of representation, an advance, a particular career outcome or access to every label resource. Additional services require separate approval.",
         "values": [
           "Not a standard inclusion",
           "Selected guidance",
@@ -179,6 +194,7 @@
       },
       {
         "label": "Support",
+        "details":"Support relates to the accepted release and agreed services. Silver receives standard coordination, Gold receives priority coordination, and Platinum receives higher-touch coordination within the project scope.\n\nThe practical contact route, responsibilities and any planned reviews should be clear before onboarding. Priority does not mean round-the-clock availability or an unstated response-time guarantee. Questions about rights, payments or additional work still need the appropriate review and agreement.",
         "values": [
           "Standard",
           "Priority coordination",
@@ -192,6 +208,7 @@
       },
       {
         "label": "Opportunities",
+        "details":"An accepted partnership may lead to consideration for suitable opportunities connected to the artist and project. Silver and Gold are considered where appropriate, while Platinum receives priority consideration where an opportunity is available.\n\nConsideration is not a promise of a collaboration, commission, placement, performance or financial return. Availability, eligibility, consent and any separate commercial terms must be assessed for each opportunity. No artist must assume an offer exists solely because it appears in this comparison.",
         "values": [
           "Consideration",
           "Consideration",
@@ -204,7 +221,8 @@
         ]
       },
       {
-        "label": "Studio",
+        "label": "Studio reporting and payouts",
+        "details":"Studio account access and private artist-profile management are available through the shared Artan Store sign-in identity. These account functions are separate from artist approval and from the financial services described by a release agreement.\n\nStreaming reports, royalty statements and payouts are not active in Studio. The table does not promise a live balance, withdrawal facility or payment date. Those functions require separate verified data, access controls and service activation before they can be offered.",
         "values": [
           "When operational",
           "When operational",

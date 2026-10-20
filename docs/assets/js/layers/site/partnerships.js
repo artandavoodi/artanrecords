@@ -13,7 +13,9 @@ export function bindPartnershipComparison(){
     const cell=button.closest('td'),row=cell.closest('tr');
     const tier=comparison.querySelectorAll('thead th')[cell.cellIndex].textContent.trim();
     title.textContent=`${tier} — ${row.querySelector('th').textContent.trim()}`;
-    copy.textContent=cell.querySelector('.partnership-cell-note').textContent;
+    const template=document.getElementById('partnership-explanation-'+button.dataset.partnershipDetail);
+    const preview=document.createElement('p');preview.textContent=cell.querySelector('.partnership-state').textContent+' — '+cell.querySelector('.partnership-cell-note').textContent;
+    copy.replaceChildren(preview,template.content.cloneNode(true));
     button.focus({preventScroll:true});
     openDialog(dialog);
   });

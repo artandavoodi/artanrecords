@@ -21,6 +21,9 @@ assert.deepEqual(pages[0].afterComparison[0].links,data.nextSteps.links);
 assert.ok(pages[0].comparison.includes('/assets/icons/actions/check.svg'));
 assert.ok(pages[0].comparison.includes('data-partnership-dialog'));
 assert.ok(pages[0].comparison.includes('class="partnership-cell-note"'));
+assert.equal((pages[0].comparison.match(/<template /g)||[]).length,data.comparison.rows.length);
+assert.equal((pages[0].comparison.match(/data-partnership-detail="/g)||[]).length,data.comparison.rows.length*3);
+for(const row of data.comparison.rows){assert.ok(row.details.length>100);for(const page of pages.slice(1))assert.ok(page.sections.some(section=>section.text?.includes(row.details)));}
 for(const route of ['referrals','submission-standards']) {
   const html=await readFile(new URL('../docs/'+route+'/index.html',import.meta.url),'utf8');
   assert.ok(html.includes('<h1>'));

@@ -15,18 +15,23 @@ if(key==='records')test('comparison preserves readable columns and accessible co
   await expect(region).toHaveAttribute('data-partnership-enhanced','');
   const heading=page.locator('thead th').first();
   expect(await heading.evaluate(el=>parseFloat(getComputedStyle(el).borderBottomWidth))).toBeGreaterThan(0);
-  if(page.viewportSize().width<=1024){
-    expect(await region.locator('table').evaluate(el=>el.getBoundingClientRect().width)).toBeGreaterThan(500);
-    const trigger=page.locator('[data-partnership-detail]').first();
-    await trigger.click();
-    const dialog=page.locator('[data-partnership-dialog]');
-    await expect(dialog).toBeVisible();
-    await expect(dialog.locator('h2')).toContainText('Silver');
-    await expect(dialog.locator('[data-partnership-detail-copy]')).toHaveText('None for accepted standard releases');
-    await page.getByRole('button',{name:'Close details',exact:true}).click();
-    await expect(dialog).not.toBeVisible();
-    await expect(trigger).toBeFocused();
-  }else await expect(page.locator('.partnership-cell-note').first()).toBeVisible();
+  expect(await region.locator('table').evaluate(el=>el.getBoundingClientRect().width)).toBeGreaterThan(500);
+  const preview=page.locator('.partnership-cell-note').first();
+  if(page.viewportSize().width<=1024)await expect(preview).toBeHidden();else await expect(preview).toBeVisible();
+  await expect(page.locator('[data-partnership-detail]')).toHaveCount(57);
+  const trigger=page.locator('[data-partnership-detail]').first();
+  await trigger.click();
+  const dialog=page.locator('[data-partnership-dialog]');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('h2')).toContainText('Silver');
+  await expect(dialog.locator('[data-partnership-detail-copy]')).toContainText('None for accepted standard releases');
+  expect(await dialog.locator('[data-partnership-detail-copy] p').count()).toBeGreaterThan(2);
+  const appearance=await dialog.evaluate(el=>({border:getComputedStyle(el).borderTopWidth,background:getComputedStyle(el).backgroundColor,blur:getComputedStyle(el,'::backdrop').backdropFilter}));
+  expect(appearance.border).toBe('0px');expect(appearance.background).not.toBe('rgba(0, 0, 0, 0)');expect(appearance.blur).not.toBe('none');
+  await expect(dialog.locator('[data-partnership-close] img')).toHaveAttribute('src','/assets/icons/actions/close.svg');
+  await page.getByRole('button',{name:'Close details',exact:true}).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
 });
 if(key==='records')test('cookie notice stays readable without accepting optional storage',async({page})=>{
   await page.goto('/');
