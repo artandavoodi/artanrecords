@@ -156,15 +156,17 @@ html:has(main[data-fragment="artist"]) .site-footer > .hub { display: none; }
 .information-page section { scroll-margin-block-start: var(--site-header-height); }
 .information-page { overflow-wrap: anywhere; }
 .partnership-comparison { max-inline-size:100%; overflow-x:auto; padding-block:var(--spacing-lg); }
-.partnership-comparison table { inline-size:100%; border-collapse:collapse; text-align:start; border:var(--border-width-hairline) solid var(--cv-border); }
+.partnership-comparison table { inline-size:100%; border-collapse:separate; border-spacing:0; border-radius:var(--radius-md); text-align:start; border:var(--border-width-hairline) solid var(--cv-border); }
 .partnership-comparison caption { text-align:start; padding-block-end:var(--spacing-lg); }
 .partnership-comparison :is(th,td) { text-align:start; vertical-align:top; padding:var(--spacing-md); }
-.partnership-comparison tbody tr + tr { border-block-start:var(--border-width-hairline) solid var(--cv-border); }
+.partnership-comparison tbody tr + tr > * { border-block-start:var(--border-width-hairline) solid var(--cv-border); }
 .partnership-comparison :is(th,td) + :is(th,td) { border-inline-start:var(--border-width-hairline) solid var(--cv-border); }
 .partnership-comparison thead th { vertical-align:bottom; padding-block:var(--spacing-lg); }
 .partnership-cell { display:flex; align-items:flex-start; gap:var(--spacing-sm); }
-.partnership-cell > img { inline-size:var(--icon-size-sm); block-size:var(--icon-size-sm); flex-shrink:0; }
-.partnership-cell > span { display:grid; gap:var(--spacing-xs); }
+.partnership-status-icon { display:block; inline-size:var(--icon-size-sm); block-size:var(--icon-size-sm); flex-shrink:0; background:var(--status-success-color); mask:var(--partnership-status-artwork) center / contain no-repeat; -webkit-mask:var(--partnership-status-artwork) center / contain no-repeat; }
+[data-inclusion="excluded"] .partnership-status-icon { background:var(--status-danger-color); }
+.partnership-cell > span:not(.partnership-status-icon) { display:grid; gap:var(--spacing-xs); }
+.partnership-next-step { margin-block-start:var(--spacing-2xl); padding-block-start:var(--spacing-xl); }
 .partnership-state { font-weight:var(--font-weight-semibold); }
 .partnership-cell > span > span + span { color:var(--cv-text-secondary); }
 .leadership-card { display: grid; gap: var(--spacing-md); min-inline-size: 0; }

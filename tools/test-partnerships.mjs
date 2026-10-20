@@ -14,8 +14,11 @@ assert.throws(()=>partnershipPages(unsafe,icons));
 assert.ok(pages[0].comparison.includes('data-inclusion="future"'));
 assert.ok(pages[0].comparison.includes('data-inclusion="excluded"'));
 for(const cell of pages[0].comparison.matchAll(/<td data-inclusion="([^"]+)">([\s\S]*?)<\/td>/g)) {
-  assert.equal(cell[2].includes('<img'),['included','excluded'].includes(cell[1]));
+  assert.equal(cell[2].includes('class="partnership-status-icon"'),['included','excluded'].includes(cell[1]));
 }
+assert.equal(pages[0].links.length,0);
+assert.deepEqual(pages[0].afterComparison[0].links,data.nextSteps.links);
+assert.ok(pages[0].comparison.includes('/assets/icons/actions/check.svg'));
 for(const route of ['referrals','submission-standards']) {
   const html=await readFile(new URL('../docs/'+route+'/index.html',import.meta.url),'utf8');
   assert.ok(html.includes('<h1>'));

@@ -167,7 +167,7 @@ for(const item of information.items) {
     contents:['accordion','flow'].includes(item.presentation)?'':`<nav class="information-links" aria-label="${e(item.title)}">${item.sections.map(section=>`<a href="#${e(section.id)}">${e(section.title)}</a>`).join('')}</nav>`,
     sections:item.sections.map(section=>item.presentation==='accordion'
       ?`<details class="information-accordion" id="${e(section.id)}"><summary><span>${e(section.title)}</span>${icon('chevron-right',icons)}</summary>${paragraphs(section.text)}${section.links?.length?`<div class="information-links label-actions">${textLinks(section.links)}</div>`:''}</details>`
-      :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}${section.links?.length?`<div class="information-links label-actions">${textLinks(section.links,item.path)}</div>`:''}</section>`).join('')+(item.comparison||''),
+      :`<section id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}${section.links?.length?`<div class="information-links label-actions">${textLinks(section.links,item.path)}</div>`:''}</section>`).join('')+(item.comparison||'')+(item.afterComparison||[]).map(section=>`<section class="partnership-next-step" id="${e(section.id)}"><h2>${e(section.title)}</h2>${paragraphs(section.text)}<div class="information-links label-actions">${textLinks(section.links,item.path)}</div></section>`).join(''),
     links:textLinks(item.links,item.path),form:item.form?intakeForm({...intake.form,defaults:item.formPurpose?{purpose:item.formPurpose}:undefined},icons):''
   });
 }

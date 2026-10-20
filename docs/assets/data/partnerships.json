@@ -6,6 +6,14 @@
   },
   "title": "A partnership around your music",
   "description": "Compare Silver, Gold and Platinum partnerships with Artanrecords: release support, responsibilities, master ownership and agreement-based financial terms.",
+  "nextSteps": {
+    "title": "Find the right partnership",
+    "text": "You do not need to choose a tier before introducing your music. Share your project and what you need; we will review it and discuss a suitable scope with you.",
+    "links": [
+      {"label":"Introduce your music","url":"/submit/","emphasis":"primary"},
+      {"label":"Read partnership guidance","url":"https://docs.artanrecords.com/partnerships/"}
+    ]
+  },
   "principles": [
     {
       "id": "choice",
