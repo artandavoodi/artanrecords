@@ -7,6 +7,21 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--account-icon-only')){
+  const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const from=file=>execFileSync('git',['-C',source,'show',`${revision}:${file}`]);
+  const registry=JSON.parse(from('app/icon-manifest.json'));
+  const bytes=from('app/icons/account.svg'),hash=createHash('sha256').update(bytes).digest('hex');
+  if(hash!==registry.files.account)throw Error('Unverified registered account artwork');
+  const file='docs/assets/icons/actions/account.svg';await writeFile(path.join(root,file),bytes);
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  manifest.files=manifest.files.filter(record=>record.file!==file);
+  manifest.files.push({file,sha256:hash,sourceRepository:registry.source,sourceCommit:registry.revision});
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');
+  const registryPath=path.join(root,'docs/assets/data/icons.json'),icons=JSON.parse(await readFile(registryPath,'utf8'));
+  if(!icons.items.some(item=>item.id==='account'))icons.items.push({id:'account',src:file.slice(5),alt:'',monochrome:true});
+  await writeFile(registryPath,JSON.stringify(icons,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--docs-search-only')){
   const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
   const from=path=>execFileSync('git',['-C',source,'show',`${revision}:${path}`]);

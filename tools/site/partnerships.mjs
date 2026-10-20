@@ -1,4 +1,4 @@
-import {escape as e} from './render.mjs';
+import {escape as e,icon as iconMarkup} from './render.mjs';
 
 // The public projection deliberately excludes unreviewed commercial percentages.
 export function partnershipPages(config,icons) {
@@ -14,8 +14,8 @@ export function partnershipPages(config,icons) {
       if(!state) throw Error('Unknown comparison state');
       const statusIcon=['included','excluded'].includes(row.states[index])?icons.items.find(item=>item.id===state.icon):null;
       if(['included','excluded'].includes(row.states[index])&&!statusIcon) throw Error('Unregistered partnership status icon');
-      return `<td data-inclusion="${e(row.states[index])}"><span class="partnership-cell">${statusIcon?`<span class="partnership-status-icon" aria-hidden="true" style="--partnership-status-artwork:url('/${e(statusIcon.src)}')"></span>`:''}<span><span class="partnership-state">${e(state.label)}</span>${value===state.label?'':`<span>${e(value)}</span>`}</span></span></td>`;
+      return `<td data-inclusion="${e(row.states[index])}"><span class="partnership-cell">${statusIcon?`<span class="partnership-status-icon" aria-hidden="true" style="--partnership-status-artwork:url('/${e(statusIcon.src)}')"></span>`:''}<span><span class="partnership-state">${e(state.label)}</span>${value===state.label?'':`<span class="partnership-cell-note">${e(value)}</span><button class="partnership-detail-trigger" type="button" data-partnership-detail aria-label="${e(config.comparison.detailsLabel+': '+config.items[index].name+' — '+row.label)}">${e(config.comparison.detailsLabel)}</button>`}</span></span></td>`;
     }).join('')}</tr>`;
-  }).join('')}</tbody></table></div>`;
+  }).join('')}</tbody></table></div><dialog class="partnership-detail-dialog" data-partnership-dialog aria-labelledby="partnership-detail-title"><button class="dialog-close global-close-button" type="button" data-partnership-close aria-label="${e(config.comparison.closeLabel)}">${iconMarkup('close',icons)}</button><h2 id="partnership-detail-title"></h2><p data-partnership-detail-copy></p></dialog>`;
   return [{path:'/partnerships/',title:config.title,description:config.description,presentation:'flow',sections:config.principles,comparison:table,afterComparison:[{id:'find-your-partnership',...config.nextSteps}],links:[]},...config.items.map(item=>({path:`/partnerships/${item.id}/`,title:item.name+' — '+item.position,description:item.description,presentation:'flow',sections:[...item.sections,...config.principles.filter(section=>['costs','rights','next'].includes(section.id)),...config.questions],links:[...commonLinks,{label:'Compare partnerships',url:'/partnerships/'}]}))];
 }

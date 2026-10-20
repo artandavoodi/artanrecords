@@ -37,6 +37,8 @@
     }
   ],
   "comparison": {
+    "detailsLabel": "Details",
+    "closeLabel": "Close details",
     "caption": "Our involvement, at a glance",
     "rows": [
       {"label":"Upfront base distribution fee","values":["None for accepted standard releases","None for accepted standard releases","None for accepted standard releases"],"states":["included","included","included"]},

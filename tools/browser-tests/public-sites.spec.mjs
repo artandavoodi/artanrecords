@@ -4,6 +4,30 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+if(key==='records')test('comparison preserves readable columns and accessible contextual details',async({page})=>{
+  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+  await page.goto('/partnerships/');
+  const account=page.locator('.label-account-access');
+  await expect(account).toBeVisible();
+  await expect(account).toHaveAttribute('href','https://studio.artanrecords.com/account/');
+  await expect(page.locator('.site-menu__links')).not.toContainText('Sign in');
+  const region=page.locator('.partnership-comparison');
+  await expect(region).toHaveAttribute('data-partnership-enhanced','');
+  const heading=page.locator('thead th').first();
+  expect(await heading.evaluate(el=>parseFloat(getComputedStyle(el).borderBottomWidth))).toBeGreaterThan(0);
+  if(page.viewportSize().width<=1024){
+    expect(await region.locator('table').evaluate(el=>el.getBoundingClientRect().width)).toBeGreaterThan(500);
+    const trigger=page.locator('[data-partnership-detail]').first();
+    await trigger.click();
+    const dialog=page.locator('[data-partnership-dialog]');
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator('h2')).toContainText('Silver');
+    await expect(dialog.locator('[data-partnership-detail-copy]')).toHaveText('None for accepted standard releases');
+    await page.getByRole('button',{name:'Close details',exact:true}).click();
+    await expect(dialog).not.toBeVisible();
+    await expect(trigger).toBeFocused();
+  }else await expect(page.locator('.partnership-cell-note').first()).toBeVisible();
+});
 if(key==='records')test('cookie notice stays readable without accepting optional storage',async({page})=>{
   await page.goto('/');
   const dialog=page.getByRole('dialog',{name:'Cookies & preferences',exact:true});

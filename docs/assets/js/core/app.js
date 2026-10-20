@@ -9,6 +9,7 @@ import {bindHomeIntroduction} from '../layers/site/home-introduction.js';
 import {bindHomeShowcase} from '../layers/site/home-showcase.js';
 import {bindReleaseDiscovery} from '../layers/site/releases.js';
 import {bindInformationTabs} from '../layers/site/information-tabs.js';
+import {bindPartnershipComparison} from '../layers/site/partnerships.js';
 initializeTheme();
 try {
   const theme=document.querySelector('[data-theme-toggle]');
@@ -26,6 +27,7 @@ bindHomeIntroduction();
 bindHomeShowcase();
 bindReleaseDiscovery();
 bindInformationTabs();
+bindPartnershipComparison();
 initializePreferences().catch(console.error);
 bindJourneyScenes().catch(console.error);
 function reveal(){

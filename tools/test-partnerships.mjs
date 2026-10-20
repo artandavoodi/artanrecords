@@ -19,6 +19,8 @@ for(const cell of pages[0].comparison.matchAll(/<td data-inclusion="([^"]+)">([\
 assert.equal(pages[0].links.length,0);
 assert.deepEqual(pages[0].afterComparison[0].links,data.nextSteps.links);
 assert.ok(pages[0].comparison.includes('/assets/icons/actions/check.svg'));
+assert.ok(pages[0].comparison.includes('data-partnership-dialog'));
+assert.ok(pages[0].comparison.includes('class="partnership-cell-note"'));
 for(const route of ['referrals','submission-standards']) {
   const html=await readFile(new URL('../docs/'+route+'/index.html',import.meta.url),'utf8');
   assert.ok(html.includes('<h1>'));
@@ -38,5 +40,7 @@ for(const path of ['https://docs.artanrecords.com/','https://docs.artanrecords.c
 const about=await readFile(new URL('../docs/about/index.html',import.meta.url),'utf8');
 assert.ok(about.includes('data-header-duplicate'));
 assert.ok(home.includes('data-footer-preferences'));
+assert.ok(home.includes('class="label-account-access"'));
+assert.ok(!home.match(/>Sign in<|>Create account</));
 const help=await readFile(new URL('../docs/help/index.html',import.meta.url),'utf8');assert.ok(help.includes('href="https://docs.artanrecords.com/getting-started/"'));
 console.log('Partnership publication gates, static content and sitemap verified');

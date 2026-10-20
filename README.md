@@ -1,5 +1,15 @@
 # Artanrecords
 
+## Brand exports
+
+The approved Artanrecords symbol and wordmark exports are owned by
+`docs/assets/brand/logo/` in this repository. Run `node tools/sync-brand.mjs`
+to update the registered artist and Artan.live consumers, then run it with
+`--check` to verify exact matches. Differing consumer artwork is preserved
+outside the public repositories under `~/.codex/backups/artanrecords-brand/`
+before replacement. Documentation and Studio use `tools/sync-surfaces.mjs`
+and its checksum manifest; never hand-edit their mirrored brand exports.
+
 ## Partnership publication
 
 Public partnership content is owned by `docs/assets/data/partnerships.json` and

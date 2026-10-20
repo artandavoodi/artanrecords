@@ -320,6 +320,12 @@
       "sha256": "abdb05666a80bc2e391b0b76baa70210d595a5c027ee4b8f451aac6234d883d5",
       "sourceRepository": "artandavoodi/control-center",
       "sourceCommit": "dfe5251682c7a1085518ec85716a7f14d95dc478"
+    },
+    {
+      "file": "docs/assets/icons/actions/account.svg",
+      "sha256": "4913e5db3f1332b04ac0723740225c3a0c229431a74370cd77e95b5df4db880a",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "dfe5251682c7a1085518ec85716a7f14d95dc478"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
