@@ -6,6 +6,7 @@ const site=registry[key];
 if(!site)throw Error('Unknown public site');
 test('open menu uses the shared X to minus hover without scaling the button',async({page})=>{
   test.skip(!test.info().project.name.endsWith('desktop'));
+  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
   await page.goto('/');
   const menu=page.locator('[data-menu-toggle]');
   await menu.click();

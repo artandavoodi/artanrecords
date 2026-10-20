@@ -323,16 +323,16 @@
     },
     {
       "file": "docs/assets/css/core/04-systems/search-close.css",
-      "sha256": "037857a9b15f53327b19580ed94ec33f94f1adbf806535f6c823eaf4bbe78f06",
+      "sha256": "b5ad572ef1c8bad5d0c36107b80d6293bc08c511f68838ec981b9dd1ec38d60e",
       "sourceRepository": "artandavoodi/neuroartan-website",
-      "sourceCommit": "2934945c4e7f6ba32f1ad336364c08db52310bbc",
+      "sourceCommit": "dd328e1c6247eaf199ed52641f9a8f2671613989",
       "sourceFile": "docs/assets/css/core/04-systems/close-button.css"
     },
     {
       "file": "docs/assets/js/core/close-button.js",
       "sha256": "3f5bde8e08d4f1e18cad86394b6d16ac083faa66edb00e0a63e0a8d86f074e01",
       "sourceRepository": "artandavoodi/neuroartan-website",
-      "sourceCommit": "2934945c4e7f6ba32f1ad336364c08db52310bbc",
+      "sourceCommit": "dd328e1c6247eaf199ed52641f9a8f2671613989",
       "sourceFile": "docs/assets/js/core/01-foundation/close-button.js"
     }
   ],
