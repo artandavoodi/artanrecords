@@ -4,6 +4,16 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+test('open menu uses the shared X to minus hover without scaling the button',async({page})=>{
+  test.skip(!test.info().project.name.endsWith('desktop'));
+  await page.goto('/');
+  const menu=page.locator('[data-menu-toggle]');
+  await menu.click();
+  await menu.hover();
+  await expect.poll(()=>menu.locator('span').first().evaluate(el=>getComputedStyle(el).transform)).toBe('matrix(1, 0, 0, 1, 0, 0)');
+  await page.mouse.move(0,0);
+  await expect.poll(()=>menu.locator('span').first().evaluate(el=>getComputedStyle(el).transform)).not.toBe('matrix(1, 0, 0, 1, 0, 0)');
+});
 if(key==='records')test('comparison preserves readable columns and accessible contextual details',async({page})=>{
   await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
   await page.goto('/partnerships/');
@@ -28,7 +38,11 @@ if(key==='records')test('comparison preserves readable columns and accessible co
   expect(await dialog.locator('[data-partnership-detail-copy] p').count()).toBeGreaterThan(2);
   const appearance=await dialog.evaluate(el=>({border:getComputedStyle(el).borderTopWidth,background:getComputedStyle(el).backgroundColor,blur:getComputedStyle(el,'::backdrop').backdropFilter}));
   expect(appearance.border).toBe('0px');expect(appearance.background).not.toBe('rgba(0, 0, 0, 0)');expect(appearance.blur).not.toBe('none');
-  await expect(dialog.locator('[data-partnership-close] img')).toHaveAttribute('src','/assets/icons/actions/close.svg');
+  await expect(dialog.locator('[data-partnership-close] .global-close-button__line')).toHaveCount(2);
+  if(test.info().project.name.endsWith('desktop')){
+    await dialog.locator('[data-partnership-close]').hover();
+    await expect.poll(()=>dialog.locator('.global-close-button__line').first().evaluate(el=>getComputedStyle(el).transform)).toMatch(/^matrix\(1, 0, 0, 1,/);
+  }
   await page.getByRole('button',{name:'Close details',exact:true}).click();
   await expect(dialog).not.toBeVisible();
   await expect(trigger).toBeFocused();

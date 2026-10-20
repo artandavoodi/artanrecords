@@ -7,6 +7,17 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--close-primitive-only')){
+  const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  for(const [from,file] of Object.entries({'docs/assets/css/core/04-systems/close-button.css':'docs/assets/css/core/04-systems/search-close.css','docs/assets/js/core/01-foundation/close-button.js':'docs/assets/js/core/close-button.js'})){
+    const bytes=execFileSync('git',['-C',source,'show',`${revision}:${from}`]);
+    await writeFile(path.join(root,file),bytes);
+    manifest.files=manifest.files.filter(record=>record.file!==file);
+    manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/neuroartan-website',sourceCommit:revision,sourceFile:from});
+  }
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--account-icon-only')){
   const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
   const from=file=>execFileSync('git',['-C',source,'show',`${revision}:${file}`]);

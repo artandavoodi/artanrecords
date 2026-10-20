@@ -316,16 +316,24 @@
       "sourceCommit": "fd39aa6e041b9411f700735b5586e242489803c3"
     },
     {
-      "file": "docs/assets/css/core/04-systems/search-close.css",
-      "sha256": "780627b1bd8280759eca7bd53bb52f9f367e51e85483155f09a392c10af22d44",
-      "sourceRepository": "artandavoodi/artan-store",
-      "sourceCommit": "fd39aa6e041b9411f700735b5586e242489803c3"
-    },
-    {
       "file": "docs/assets/icons/actions/search.svg",
       "sha256": "abdb05666a80bc2e391b0b76baa70210d595a5c027ee4b8f451aac6234d883d5",
       "sourceRepository": "artandavoodi/control-center",
       "sourceCommit": "dfe5251682c7a1085518ec85716a7f14d95dc478"
+    },
+    {
+      "file": "docs/assets/css/core/04-systems/search-close.css",
+      "sha256": "037857a9b15f53327b19580ed94ec33f94f1adbf806535f6c823eaf4bbe78f06",
+      "sourceRepository": "artandavoodi/neuroartan-website",
+      "sourceCommit": "2934945c4e7f6ba32f1ad336364c08db52310bbc",
+      "sourceFile": "docs/assets/css/core/04-systems/close-button.css"
+    },
+    {
+      "file": "docs/assets/js/core/close-button.js",
+      "sha256": "3f5bde8e08d4f1e18cad86394b6d16ac083faa66edb00e0a63e0a8d86f074e01",
+      "sourceRepository": "artandavoodi/neuroartan-website",
+      "sourceCommit": "2934945c4e7f6ba32f1ad336364c08db52310bbc",
+      "sourceFile": "docs/assets/js/core/01-foundation/close-button.js"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

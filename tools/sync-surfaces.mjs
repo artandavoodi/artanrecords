@@ -25,7 +25,7 @@ for(const name of ['css','brand','icons'])await tree('docs/assets/'+name,'assets
 await copy('docs/assets/js/core/02-systems/document-reader.js','assets/js/core/02-systems/document-reader.js');
 await copy('docs/assets/data/studio-legal.json','assets/data/studio-legal.json');
 for(const name of ['identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down'])await copy('docs/registry/icons/public/assets/core/'+name+'.svg','registry/icons/public/assets/core/'+name+'.svg');
-for(const path of ['js/core/theme.js','js/core/menu.js','js/core/search.js','js/core/dialogs.js','js/layers/site/navigation.js','fragments/navigation/index.html','data/site.json','data/icons.json'])await copy('docs/assets/'+path,'assets/'+path);
+for(const path of ['js/core/theme.js','js/core/menu.js','js/core/close-button.js','js/core/search.js','js/core/dialogs.js','js/layers/site/navigation.js','fragments/navigation/index.html','data/site.json','data/icons.json'])await copy('docs/assets/'+path,'assets/'+path);
 for(const name of ['build.mjs','shell.html','surface.css','app.js','search.mjs'])await copy('tools/ecosystem/'+name,'foundation/'+name);
 if(checking) {
   const manifest=JSON.parse(await readFile(resolve(target,'foundation-manifest.json'),'utf8'));
