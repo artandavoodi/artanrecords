@@ -7,6 +7,7 @@
   "release": "assets/fragments/releases/detail/index.html",
   "artists": "assets/fragments/artists/index.html",
   "artist": "assets/fragments/artists/detail/index.html",
+  "artist-platform": "assets/fragments/artists/platform/index.html",
   "about": "assets/fragments/about/index.html",
   "contact": "assets/fragments/contact/index.html",
   "for-artists": "assets/fragments/for-artists/index.html",

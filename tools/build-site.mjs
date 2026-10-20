@@ -81,6 +81,8 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   const head=`<title>${e(title)} · ${e(site.name)}</title><meta name="description" content="${e(description)}"><link rel="canonical" href="${site.domain}${path}"><meta property="og:title" content="${e(title)}"><meta property="og:description" content="${e(description)}"><meta property="og:type" content="website"><meta property="og:url" content="${site.domain}${path}"><meta name="twitter:card" content="${cover?'summary_large_image':'summary'}">${cover?`<meta property="og:image" content="${site.domain}/${e(cover.src)}"><meta name="twitter:image" content="${site.domain}/${e(cover.src)}">`:''}<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':graph}).replace(/</g,'\\u003c')}</script>`;
   await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || '',atmosphere:fragmentName==='artists'?'<canvas class="artist-directory-grain" aria-hidden="true"></canvas>':''}));paths.push(path);
 }
+const artistPlatform=await json('assets/data/artists/platform.json');
+await page('/artists/profile/',artistPlatform.title,artistPlatform.description,'artist-platform',{title:e(artistPlatform.title)});
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
   if(nav.fragment==='home') {
