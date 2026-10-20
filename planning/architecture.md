@@ -49,7 +49,8 @@ Future transfer of catalogue ownership must be explicit, not a two-way sync.
 ## Artist applications and public profiles
 
 The owner reviews applications; only approved profiles are published by the owner.
-There are no artist accounts or automatic publication. `/for-artists/` provides
+Studio accounts and private artist profiles do not grant artist acceptance or
+automatic public publication. `/for-artists/` provides
 one form for artist applications, listening links and collaborations.
 `docs/assets/data/artists/intake.json` owns the inbox, prompts and explanatory copy.
 The native HTML form posts to the public Google Apps Script deployment configured

@@ -17,7 +17,14 @@ for(const cell of pages[0].comparison.matchAll(/<td data-inclusion="([^"]+)">([\
   assert.equal(cell[2].includes('class="partnership-status-icon"'),['included','excluded'].includes(cell[1]));
 }
 assert.equal(pages[0].links.length,0);
-assert.deepEqual(pages[0].afterComparison[0].links,data.nextSteps.links);
+assert.deepEqual(pages[0].afterComparison.at(-1).links,data.nextSteps.links);
+assert.equal(data.serviceSpecifications.categories.length,6);
+for(const tier of data.items){
+  for(const service of data.serviceSpecifications.tiers[tier.id]){
+    for(const field of ['deliverable','evidence','limits'])assert.ok(service[field].length>30);
+    assert.ok(pages.find(page=>page.path===`/partnerships/${tier.id}/`).sections.some(section=>section.text?.includes(service.evidence)));
+  }
+}
 assert.ok(pages[0].comparison.includes('/assets/icons/actions/check.svg'));
 assert.ok(pages[0].comparison.includes('data-partnership-dialog'));
 assert.ok(pages[0].comparison.includes('class="partnership-cell-note"'));
@@ -38,6 +45,20 @@ for(const page of pages) {
 const sitemap=await readFile(new URL('../docs/sitemap.xml',import.meta.url),'utf8');
 for(const page of pages) assert.ok(sitemap.includes('https://artanrecords.com'+page.path));
 const home=await readFile(new URL('../docs/index.html',import.meta.url),'utf8');
+const site=JSON.parse(await readFile(new URL('../docs/assets/data/site.json',import.meta.url),'utf8'));
+assert.ok(home.includes(site.proposition.text));
+assert.ok(home.includes('href="/how-we-work/"'));
+for(const route of ['how-we-work','company','working-together']){
+  const html=await readFile(new URL('../docs/'+route+'/index.html',import.meta.url),'utf8');
+  assert.equal((html.match(/<h1\b/g)||[]).length,1);
+  assert.ok(sitemap.includes('https://artanrecords.com/'+route+'/'));
+}
+const company=await readFile(new URL('../docs/company/index.html',import.meta.url),'utf8');
+assert.ok(company.includes(site.companyDescriptions.short));
+assert.ok(company.includes('financial reporting and payouts are not active'));
+const graphs=[...home.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)].map(match=>JSON.parse(match[1]));
+const organization=graphs.flatMap(graph=>graph['@graph']||[]).find(entity=>entity['@type']==='Organization');
+assert.deepEqual(organization.sameAs,site.social.map(profile=>profile.url));
 assert.equal((home.match(/class="label-footer-group"/g)||[]).length,7);
 for(const path of ['https://docs.artanrecords.com/','https://docs.artanrecords.com/developers/','/help/','/partnerships/'])assert.ok(home.includes(`href="${path}"`));
 const about=await readFile(new URL('../docs/about/index.html',import.meta.url),'utf8');

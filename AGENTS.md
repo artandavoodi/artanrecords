@@ -1,4 +1,4 @@
-# Artan Records ownership
+# Artanrecords ownership
 
 Read README.md and planning/architecture.md before editing.
 This repository is independent of its parent Git repository.

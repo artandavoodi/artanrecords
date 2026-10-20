@@ -5,6 +5,32 @@
     "legalAccountingReview": "pending"
   },
   "title": "A partnership around your music",
+  "serviceSpecifications": {
+    "title":"What we agree before work begins",
+    "introduction":"Each accepted project receives a written service schedule. It identifies the deliverable, owner, artist inputs, approval, target date, revision limit, expense treatment and completion evidence. A target date is not confirmed until both sides agree it. Scope changes need written approval; no tier includes unlimited support or development.",
+    "categories":[
+      {"id":"included","label":"Included","meaning":"Part of the accepted scope; delivery still requires the agreed artist inputs and approvals."},
+      {"id":"eligible","label":"Eligible","meaning":"May be offered after review of project fit, available services and capacity; not an automatic entitlement."},
+      {"id":"priority","label":"Priority","meaning":"Higher coordination priority within an agreed schedule, not immediate access or a guaranteed response time."},
+      {"id":"project-specific","label":"Project-specific","meaning":"Requires its own brief, budget, approvals and written allocation of costs."},
+      {"id":"optional","label":"Optional","meaning":"An additional service that the artist may decline without changing an existing agreement."},
+      {"id":"excluded","label":"Not included","meaning":"Outside the base scope. Any separate engagement must be expressly agreed."}
+    ],
+    "tiers": {
+      "silver":[
+        {"title":"Release intake and quality review","deliverable":"A checked release record covering supplied audio, artwork, metadata, credits and rights information.","evidence":"A dated checklist records missing material, required corrections and artist approval before delivery.","limits":"The artist supplies release-ready material. Production, legal clearances and paid promotion are not included automatically."},
+        {"title":"Catalogue and administration","deliverable":"Agreed catalogue presentation and release-administration tasks for the accepted recording.","evidence":"Approved public page links and delivery or administration confirmations, where the relevant service is available.","limits":"Delivery dates, correction rounds and support channels are specified in the offer. No stream or placement guarantee applies."}
+      ],
+      "gold":[
+        {"title":"Silver foundations plus a release plan","deliverable":"An agreed release brief, asset checklist, responsibilities and campaign calendar.","evidence":"A versioned plan with named owners, agreed milestones and a post-release review of available data.","limits":"The schedule and number of reviews are agreed per project. Paid advertising and external PR require a separate budget."},
+        {"title":"Presentation and website eligibility","deliverable":"Approved positioning and organic campaign guidance; an eligible website receives a separate scope before work starts.","evidence":"Approved copy and asset records; website acceptance checklist and handover if a website is commissioned.","limits":"Website eligibility is not an automatic build. Pages, revisions, hosting, domains, maintenance and renewal costs must be agreed."}
+      ],
+      "platinum":[
+        {"title":"Gold foundations plus project leadership","deliverable":"An agreed project plan coordinating release milestones, creative direction and strategic reviews.","evidence":"A dated milestone record, approval log and review notes identifying completed work and next actions.","limits":"Review frequency, release count, team responsibilities and term are set in the agreement. No unlimited retainer is implied."},
+        {"title":"Campaign and artist development","deliverable":"Scoped campaign coordination and artist-development reviews, with priority website planning where agreed.","evidence":"Approved campaign brief, spending approvals and a completion review against the agreed scope.","limits":"Advances, third-party work and paid media are never automatic. No audience, income or career outcome is guaranteed."}
+      ]
+    }
+  },
   "description": "Compare Silver, Gold and Platinum partnerships with Artanrecords: release support, responsibilities, master ownership and agreement-based financial terms.",
   "nextSteps": {
     "title": "Find the right partnership",

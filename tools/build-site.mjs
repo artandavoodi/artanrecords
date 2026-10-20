@@ -23,6 +23,7 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
 const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
 information.items.push(...partnershipPages(await json('assets/data/partnerships.json'),icons));
+information.items.push({...site.companyPage,description:site.companyDescriptions.short,presentation:'flow',sections:[{id:'company',title:site.name,text:site.companyDescriptions.long},{id:'brand',title:site.companyPage.brandTitle,text:site.companyPage.brandText}]});
 const studioLegal=await json('assets/data/studio-legal.json');
 information.items.push(...studioLegal.notices.map(notice=>({...notice,presentation:'tabs',sections:notice.sections.map(section=>({...section,text:section.paragraphs.join('\n\n')}))})));
 information.footerGroups.find(group=>group.id==='legal').links.push(...studioLegal.notices.map(notice=>({label:notice.footerLabel,url:notice.path})));
@@ -56,7 +57,7 @@ const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>t
 const navigationFor=path=>fragment('navigation',{...escaped(site.labels),name:e(site.name),actionsClass:'label-home-actions',homeLinks:textLinks(information.homeLinks.filter(item=>item.url!==path&&!item.excludeOn?.includes(path)),path,'chrome'),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),accountAccess:`<a class="label-account-access" href="${e(information.accountAccess.url)}" aria-label="${e(information.accountAccess.label)}">${icon(information.accountAccess.icon,icons)}</a>`,links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
 const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),groups:information.footerGroups.map(group=>`<section class="label-footer-group"><h2 id="footer-${e(group.id)}">${e(group.label)}</h2><nav class="information-links label-footer-group-links" aria-labelledby="footer-${e(group.id)}"${group.id==='legal'?' data-footer-preferences':''}>${textLinks(group.links.map(item=>item.social?{...item,url:site.social.find(social=>social.icon===item.social).url}:item),'','chrome')}</nav></section>`).join(''),social:links(site.social,icons,'streaming','icons-only')});
 const navigation=await navigationFor('/404.html');
-const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
+const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',sameAs:site.social.map(profile=>profile.url),logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
 const people=artists.items.map(personFor);
 const leadershipPortrait=leader=>leader.portrait||(leader.artistId?artists.items.find(a=>a.id===leader.artistId)?.portrait:undefined);
 const paths=[];
@@ -83,6 +84,8 @@ async function page(path,title,description,fragmentName,values,entity={}) {
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
   if(nav.fragment==='home') {
+    values.proposition=e(site.proposition.text);
+    values.propositionLinks=textLinks(site.proposition.links);
     values.introduction=site.introduction.map(line=>{
       if(typeof line==='string')return `<p>${e(line)}</p>`;
       if(!line.prefix||!Array.isArray(line.phrases)||line.phrases.length<2||!line.phrases.every(phrase=>typeof phrase==='string'&&phrase))throw Error('Invalid introduction statement');
