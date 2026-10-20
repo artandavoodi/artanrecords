@@ -69,7 +69,7 @@ for(const theme of ['light','dark'])test.describe(theme,()=>{
     await page.addInitScript(({key,theme,records})=>{
       localStorage.setItem(key,theme);
       if(records)localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000}));
-    },{key:site.themeKey,theme,records:key==='records'});
+    },{key:site.themeKey,theme,records:['records','docs'].includes(key)});
   });
   for(const route of site.routes)test(`${route} loads without horizontal overflow`,async({page})=>{
     const response=await page.goto(route);

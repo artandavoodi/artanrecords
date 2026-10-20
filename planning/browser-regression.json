@@ -1,4 +1,5 @@
 {
+  "docs": {"themeKey":"artanrecords-theme","menuName":"Open site menu","menuSelector":"[data-menu-toggle]","routes":["/","/service-specifications/","/master-ownership-and-costs/","/partnerships/","/release-workflow/","/studio/"]},
   "records": {"themeKey":"artanrecords-theme","menuName":"Open site menu","menuSelector":"[data-menu-toggle]","routes":["/","/how-we-work/","/company/","/working-together/","/releases/","/artists/","/for-artists/","/about/","/contact/","/services/","/submit/","/collaborate/","/faq/","/legal/","/submission-privacy/","/artists/artan-davoodi/","/partnerships/","/partnerships/silver/","/partnerships/gold/","/partnerships/platinum/"]},
   "artist": {"themeKey":"artandavoodi-theme","menuName":"Open site menu","menuSelector":"[data-menu-toggle]","routes":["/","/music/","/music/remnant/","/gallery/","/hub/"]},
   "hub": {"themeKey":"artan-live-theme","menuName":"Open site menu","menuSelector":"[data-cv-menu-toggle]","routes":["/","/about/","/projects/","/publications/"]},
