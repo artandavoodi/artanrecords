@@ -9,14 +9,24 @@ const checking=process.argv.includes('--check');
 if(!['artanrecords-docs','artanrecords-studio'].includes(target.split('/').pop()))throw Error('Choose a verified surface repository');
 if(execFileSync('git',['rev-parse','--show-toplevel'],{cwd:target,encoding:'utf8'}).trim()!==target)throw Error('Target is not an independent repository');
 const files={};
+const transfers=[];
+if(!checking){
+  const owned=['docs/assets/css','docs/assets/brand','docs/assets/icons','docs/assets/js','docs/assets/data/site.json','docs/assets/data/icons.json','docs/assets/data/studio-legal.json','docs/assets/fragments/navigation','docs/registry','tools/ecosystem'];
+  const changed=execFileSync('git',['diff','HEAD','--name-only','--',...owned],{cwd:root,encoding:'utf8'})+execFileSync('git',['ls-files','--others','--exclude-standard','--',...owned],{cwd:root,encoding:'utf8'});
+  if(changed.trim())throw Error('Shared source changes must be verified and committed before propagation. No target files were replaced.');
+}
 async function copy(source,destination){
   const data=await readFile(resolve(root,source));
   if(checking) {
     const actual=await readFile(resolve(target,destination));
     if(!actual.equals(data)) throw Error('Shared foundation drift: '+destination);
   } else {
-    await mkdir(dirname(resolve(target,destination)),{recursive:true});
-    await writeFile(resolve(target,destination),data);
+    let actual;try{actual=await readFile(resolve(target,destination));}catch(error){if(error.code!=='ENOENT')throw error;}
+    if(actual&&!actual.equals(data)){
+      let committed;try{committed=execFileSync('git',['show','HEAD:'+destination],{cwd:target,stdio:['ignore','pipe','pipe']});}catch{throw Error('Unregistered target changes require review: '+destination);}
+      if(!actual.equals(committed))throw Error('Edited target differs from its shared source; preserved without replacement: '+destination);
+    }
+    transfers.push({destination,data});
   }
   files[destination]=createHash('sha256').update(data).digest('hex');
 }
@@ -32,6 +42,7 @@ if(checking) {
   for(const [file,hash] of Object.entries(files))if(manifest.files[file]!==hash)throw Error('Manifest drift: '+file);
   console.log('Verified shared foundation: '+relative(root,target));
 } else {
+  for(const {destination,data} of transfers){await mkdir(dirname(resolve(target,destination)),{recursive:true});await writeFile(resolve(target,destination),data);}
   await writeFile(resolve(target,'foundation-manifest.json'),JSON.stringify({source:'artandavoodi/artanrecords',commit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),files},null,2)+'\n');
   console.log('Synchronized approved foundation to '+relative(root,target));
 }
