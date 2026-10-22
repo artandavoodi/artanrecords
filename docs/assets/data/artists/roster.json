@@ -31,7 +31,7 @@
     { "name": "Artist Name", "colorToken": "--color-secondary4" },
     { "name": "Artist Name", "colorToken": "--color-primary5" }
   ],
-  "labels": { "artists": "Artists", "yearsActive": "Years active", "present": "present", "releases": "Releases", "latestRelease": "Latest release", "portfolio": "Selected work" },
+  "labels": { "artists": "Artists", "yearsActive": "Since", "present": "present", "releases": "Releases", "latestRelease": "Latest release", "portfolio": "Selected work" },
   "linkGroups": [
     { "id": "streaming", "label": "Streaming", "presentation": "icons" },
     { "id": "social", "label": "Social", "presentation": "icons" },

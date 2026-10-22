@@ -1,6 +1,5 @@
-<article class="artist-profile hub" data-public-artist data-artist-username="{{username}}">
-  {{latestRelease}}
-  <section class="site-section artist-biography">{{portrait}}<{{artistHeading}} data-artist-name>{{name}}</{{artistHeading}}><p data-artist-status role="status" hidden></p><div data-artist-fields>{{yearsActive}}<p class="reading">{{biography}}</p></div><nav class="information-links label-actions" aria-label="{{name}}">{{contextLinks}}</nav></section>
+<article class="artist-profile hub" data-public-artist data-artist-username="{{username}}" data-latest-cover="{{latestCover}}">
+  <section class="site-section artist-biography"><div data-artist-header></div><div data-artist-portrait aria-label="Artist profile photograph not published"></div><{{artistHeading}} data-artist-name>{{name}}</{{artistHeading}}><p data-artist-status role="status" hidden></p><div data-artist-fields>{{yearsActive}}<p class="reading">{{biography}}</p></div><nav class="information-links label-actions" aria-label="{{name}}">{{contextLinks}}</nav></section>
   <section class="site-section artist-connections" data-artist-links>{{links}}</section>
-  {{portfolio}}{{releases}}
+  {{latestRelease}}{{portfolio}}{{releases}}
 </article>

@@ -61,8 +61,8 @@ assert.ok(intakePage.includes('type="submit" disabled'));
 const artists=[...JSON.parse(await read('docs/assets/data/artists/items.json')).items,...JSON.parse(await read('docs/assets/data/artists/roster.json')).items];
 const roster=JSON.parse(await read('docs/assets/data/artists/roster.json'));
 assert.equal(artistYears({},roster.labels),'');
-assert.ok(artistYears({yearsActive:{start:2020}},roster.labels).includes('2020–present'));
-assert.ok(artistYears({yearsActive:{start:2020,end:2022}},roster.labels).includes('2020–2022'));
+assert.ok(artistYears({yearsActive:{start:2020}},roster.labels).includes('Since 2020'));
+assert.ok(artistYears({yearsActive:{start:2020,end:2022}},roster.labels).includes('Since 2020'));
 assert.ok(!artistLinks({links:[]},roster.linkGroups,icons).includes('<section'));
 for(const artist of artists) {
   const page=await read(`docs${artistPath(artist.id)}index.html`);

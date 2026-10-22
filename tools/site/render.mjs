@@ -36,7 +36,7 @@ export function discoveryCards(items, artists, icons) {
 }
 export function artistYears(artist,labels) {
   if(!artist.yearsActive) return '';
-  return `<dl class="artist-facts"><div><dt>${escape(labels.yearsActive)}</dt><dd>${escape(artist.yearsActive.start)}–${escape(artist.yearsActive.end??labels.present)}</dd></div></dl>`;
+  return `<p class="artist-facts" data-artist-since>${escape(labels.yearsActive)} ${escape(artist.yearsActive.start)}</p>`;
 }
 export const artistCards=(artists,labels)=>artists.map(a=>`<article class="artist-card"><a href="${escape(artistPath(a.id))}">${a.portrait?image(a.portrait,true):''}<h3>${escape(a.name)}</h3></a></article>`).join('');
 export function artistLinks(artist,groups,icons) {
