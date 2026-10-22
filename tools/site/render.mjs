@@ -1,3 +1,9 @@
+import platform from '../../docs/assets/data/artists/platform.json' with {type:'json'};
+export const artistPath=id=>{
+  const slug=platform.routes?.[id]||id;
+  if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))throw Error('Invalid artist route');
+  return '/artists/'+slug+'/';
+};
 export const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function releaseArtist(record,artists) {
   if(!record.artistId) throw new Error(`Missing stable artist ID: ${record.id}`);
@@ -25,14 +31,14 @@ export function discoveryCards(items, artists, icons) {
   return items.map(r=>{
     const artist=releaseArtist(r,artists);
     if(!artist) throw new Error(`Unregistered release artist: ${r.artist}`);
-    return `<article class="release-card" data-release-category="${escape(r.category)}" data-release-artist="${escape(artist.id)}" data-release-search="${escape(r.title+' '+r.artist)}"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><div class="release-card__details"><p class="release-card__meta">${escape(r.type)} · <time datetime="${escape(r.releaseDate)}">${escape(r.releaseDate.slice(0,4))}</time></p><p class="release-card__artist"><a href="/artists/${escape(artist.id)}/">${escape(r.artist)}</a></p></div>${links(r.links,icons)}</article>`;
+    return `<article class="release-card" data-release-category="${escape(r.category)}" data-release-artist="${escape(artist.id)}" data-release-search="${escape(r.title+' '+r.artist)}"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><div class="release-card__details"><p class="release-card__meta">${escape(r.type)} · <time datetime="${escape(r.releaseDate)}">${escape(r.releaseDate.slice(0,4))}</time></p><p class="release-card__artist"><a href="${escape(artistPath(artist.id))}">${escape(r.artist)}</a></p></div>${links(r.links,icons)}</article>`;
   }).join('');
 }
 export function artistYears(artist,labels) {
   if(!artist.yearsActive) return '';
   return `<dl class="artist-facts"><div><dt>${escape(labels.yearsActive)}</dt><dd>${escape(artist.yearsActive.start)}–${escape(artist.yearsActive.end??labels.present)}</dd></div></dl>`;
 }
-export const artistCards=(artists,labels)=>artists.map(a=>`<article class="artist-card"><a href="/artists/${escape(a.id)}/">${a.portrait?image(a.portrait,true):''}<h3>${escape(a.name)}</h3></a></article>`).join('');
+export const artistCards=(artists,labels)=>artists.map(a=>`<article class="artist-card"><a href="${escape(artistPath(a.id))}">${a.portrait?image(a.portrait,true):''}<h3>${escape(a.name)}</h3></a></article>`).join('');
 export function artistLinks(artist,groups,icons) {
   return `<div class="artist-link-groups">${groups.map(group=>{
     const items=(artist.links||[]).filter(link=>link.category===group.id);

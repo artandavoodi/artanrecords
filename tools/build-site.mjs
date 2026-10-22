@@ -3,7 +3,7 @@ import {bundleStyles} from './site/styles.mjs';
 import {partnershipPages} from './site/partnerships.mjs';
 import {intakeForm,intakeJourney,journeyScene,submissionJourneySteps} from './site/intake.mjs';
 import {showcaseRelease,showcaseCarousel} from './site/home-showcase.mjs';
-import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist} from './site/render.mjs';
+import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist,artistPath} from './site/render.mjs';
 const docs=new URL('../docs/',import.meta.url);
 await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
 const read=p=>readFile(new URL(p,docs),'utf8');
@@ -48,7 +48,7 @@ for(const artist of artists.items) {
   }
   for(const item of artist.portfolio||[]) if(new URL(item.url).protocol!=='https:') throw new Error('Portfolio links must use HTTPS');
 }
-const personFor=artist=>({'@type':'Person','@id':site.domain+`/artists/${artist.id}/#artist`,name:artist.name,description:artist.biography,...(artist.portrait?{image:site.domain+'/'+artist.portrait.src}:{}),...(artist.id===site.founder.artistId?{alternateName:site.founder.alternateName}:{}),url:site.domain+`/artists/${artist.id}/`,sameAs:(artist.links||[]).filter(l=>l.category!=='email').map(l=>l.url)});
+const personFor=artist=>({'@type':'Person','@id':site.domain+artistPath(artist.id)+'#artist',name:artist.name,description:artist.biography,...(artist.portrait?{image:site.domain+'/'+artist.portrait.src}:{}),...(artist.id===site.founder.artistId?{alternateName:site.founder.alternateName}:{}),url:site.domain+artistPath(artist.id),sameAs:(artist.links||[]).filter(l=>l.category!=='email').map(l=>l.url)});
 const founder=artists.items.find(a=>a.id===site.founder.artistId);
 if(!founder||founder.name!==site.founder.name) throw new Error('Founder must match a registered artist');
 const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
@@ -68,18 +68,19 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   if(fragmentName==='release') {
     const release=catalogue.items.find(r=>path===`/releases/${r.id}/`);
     const artist=releaseArtist(release,artists.items);
-    values.contextLinks=textLinks([{label:site.labels.artistProfile,url:`/artists/${artist.id}/`},{label:site.labels.allReleases,url:'/releases/'}]);
+    values.contextLinks=textLinks([{label:site.labels.artistProfile,url:artistPath(artist.id)},{label:site.labels.allReleases,url:'/releases/'}]);
   }
   const content=await fragment(fragmentName,values);
-  const cover=(fragmentName==='release'?catalogue.items.find(r=>path===`/releases/${r.id}/`).cover:artists.items.find(a=>path===`/artists/${a.id}/`)?.portrait)||site.shareImage;
+  const cover=(fragmentName==='release'?catalogue.items.find(r=>path===`/releases/${r.id}/`).cover:artists.items.find(a=>path===artistPath(a.id))?.portrait)||site.shareImage;
   const pagePeople=people.map(person=>{
-    const leader=fragmentName==='about'?site.aboutPage.leadership.find(l=>l.artistId&&person['@id']===site.domain+`/artists/${l.artistId}/#artist`):undefined;
+    const leader=fragmentName==='about'?site.aboutPage.leadership.find(l=>l.artistId&&person['@id']===site.domain+artistPath(l.artistId)+'#artist'):undefined;
     const portrait=leader&&leadershipPortrait(leader);
     return leader?{...person,jobTitle:leader.role,...(portrait?{image:{'@type':'ImageObject',contentUrl:site.domain+'/'+portrait.src,width:portrait.width,height:portrait.height,caption:portrait.alt}}:{})}:person;
   });
   const graph=[organization,...pagePeople,{'@type':'WebSite','@id':site.domain+'/#website',name:site.name,url:site.domain+'/'},{'@type':'WebPage','@id':site.domain+path,url:site.domain+path,name:title,description,isPartOf:{'@id':site.domain+'/#website'},...(cover?{primaryImageOfPage:{'@type':'ImageObject',contentUrl:site.domain+'/'+cover.src}}:{}),...entity}];
   const head=`<title>${e(title)} · ${e(site.name)}</title><meta name="description" content="${e(description)}"><link rel="canonical" href="${site.domain}${path}"><meta property="og:title" content="${e(title)}"><meta property="og:description" content="${e(description)}"><meta property="og:type" content="website"><meta property="og:url" content="${site.domain}${path}"><meta name="twitter:card" content="${cover?'summary_large_image':'summary'}">${cover?`<meta property="og:image" content="${site.domain}/${e(cover.src)}"><meta name="twitter:image" content="${site.domain}/${e(cover.src)}">`:''}<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':graph}).replace(/</g,'\\u003c')}</script>`;
-  await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || '',atmosphere:fragmentName==='artists'?'<canvas class="artist-directory-grain" aria-hidden="true"></canvas>':''}));paths.push(path);
+  const pageFooter=['artist','artist-platform'].includes(fragmentName)?await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),groups:'',social:''}):footer;
+  await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer:pageFooter,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || '',atmosphere:fragmentName==='artists'?'<canvas class="artist-directory-grain" aria-hidden="true"></canvas>':''}));paths.push(path);
 }
 const artistPlatform=await json('assets/data/artists/platform.json');
 await page('/artists/profile/',artistPlatform.title,artistPlatform.description,'artist-platform',{title:e(artistPlatform.title)});
@@ -187,7 +188,8 @@ for(const artist of artists.items) {
   artist.artistHeading = latest ? 'h2' : 'h1';
   artist.backgroundStyle = latest?.cover ? `--artist-cover: url('/${latest.cover.src}')` : '';
   const latestRelease = latest ? `<section class="site-section artist-latest-release" aria-label="${e(roster.labels.latestRelease)}"><h1>${e(latest.title)}</h1><p>${e(artist.name)}</p><a href="/releases/${e(latest.id)}/">${image(latest.cover)}</a><p class="reading">${e(latest.description)}</p><div class="hub__group" data-presentation="icons">${links(latest.links,icons,'hub__group-links')}</div></section>` : '';
-  await page(`/artists/${artist.id}/`,artist.name,artist.biography,'artist',{...escaped(artist),latestRelease,yearsActive:artistYears(artist,roster.labels),portrait:artist.portrait?image(artist.portrait):'',releases:releases.length?`<section><h2>${e(roster.labels.releases)}</h2><div class="catalogue">${cards(releases)}</div></section>`:'',portfolio:artist.portfolio?.length?`<section><h2>${e(roster.labels.portfolio)}</h2>${artist.portfolio.map(p=>`<article><h3><a href="${e(p.url)}">${e(p.title)}</a></h3><p>${e(p.description)}</p></article>`).join('')}</section>`:'',links:artistLinks(artist,roster.linkGroups,icons)},{'@type':'ProfilePage',mainEntity:{'@id':personFor(artist)['@id']}});
+  await page(artistPath(artist.id),artist.name,artist.biography,'artist',{...escaped(artist),latestRelease,yearsActive:artistYears(artist,roster.labels),portrait:artist.portrait?image(artist.portrait):'',releases:releases.length?`<section><h2>${e(roster.labels.releases)}</h2><div class="catalogue">${cards(releases)}</div></section>`:'',portfolio:artist.portfolio?.length?`<section><h2>${e(roster.labels.portfolio)}</h2>${artist.portfolio.map(p=>`<article><h3><a href="${e(p.url)}">${e(p.title)}</a></h3><p>${e(p.description)}</p></article>`).join('')}</section>`:'',links:artistLinks(artist,roster.linkGroups,icons)},{'@type':'ProfilePage',mainEntity:{'@id':personFor(artist)['@id']}});
+  if(artistPath(artist.id)!==`/artists/${artist.id}/`)await output(`artists/${artist.id}/index.html`,`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${e(site.domain+artistPath(artist.id))}"><meta http-equiv="refresh" content="0;url=${e(artistPath(artist.id))}"><title>${e(artist.name)} · Artanrecords</title></head><body><a href="${e(artistPath(artist.id))}">Open ${e(artist.name)} artist profile</a></body></html>`);
 }
 for(const r of catalogue.items) {
   const artist=releaseArtist(r,artists.items);
@@ -198,8 +200,8 @@ for(const r of catalogue.items) {
   await page(`/releases/${r.id}/`,r.title,r.description,'release',{...escaped(r),back:e(site.labels.back),backIcon:icon('back',icons),cover:image(r.cover),metadata:metadata(r,ui),links:links(r.links,icons),sections:sections(r,ui,icons),tracks:recordings.length?`<section><h2>${e(site.labels.tracks)}</h2><ol>${r.tracks.map(t=>`<li id="track-${e(t.id)}"><details><summary>${e(t.title)} <span>${e(t.duration)}</span>${icon('chevron-right',icons)}</summary>${sections(t,ui,icons)}${links(t.links,icons)}</details></li>`).join('')}</ol></section>`:''},{mainEntity:entity});
 }
 await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${paths.map(p=>{
-  const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===`/artists/${a.id}/`&&r.artistId===a.id)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
-  const portrait=artists.items.find(a=>p===`/artists/${a.id}/`)?.portrait;
+  const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===artistPath(a.id)&&r.artistId===a.id)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
+  const portrait=artists.items.find(a=>p===artistPath(a.id))?.portrait;
   if(portrait) images.push(portrait.src);
   if(p==='/about/') images.push(...site.aboutPage.leadership.map(l=>leadershipPortrait(l)?.src).filter(Boolean));
   if(p==='/'||p==='/artists/') images.push(...artists.items.filter(a=>a.portrait).map(a=>a.portrait.src));

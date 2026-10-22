@@ -2,7 +2,7 @@ import {readFile,readdir,stat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-import {artistYears,artistLinks,escape,sections,releaseArtist} from './site/render.mjs';
+import {artistPath,artistYears,artistLinks,escape,sections,releaseArtist} from './site/render.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url)),docs=path.join(root,'docs');
@@ -65,8 +65,9 @@ assert.ok(artistYears({yearsActive:{start:2020}},roster.labels).includes('2020â€
 assert.ok(artistYears({yearsActive:{start:2020,end:2022}},roster.labels).includes('2020â€“2022'));
 assert.ok(!artistLinks({links:[]},roster.linkGroups,icons).includes('<section'));
 for(const artist of artists) {
-  const page=await read(`docs/artists/${artist.id}/index.html`);
-  assert.ok(page.includes(`/artists/${artist.id}/#artist`),'Missing artist schema');
+  const page=await read(`docs${artistPath(artist.id)}index.html`);
+  assert.ok(page.includes(`${artistPath(artist.id)}#artist`),'Missing artist schema');
+  if(artistPath(artist.id)!==`/artists/${artist.id}/`)assert.ok((await read(`docs/artists/${artist.id}/index.html`)).includes('noindex,follow'),'Legacy artist route must redirect, not duplicate the profile');
   if(artist.portrait) await stat(path.join(docs,artist.portrait.src));
   for(const group of roster.linkGroups) {
     const hasLinks=artist.links.some(link=>link.category===group.id);
@@ -83,6 +84,14 @@ for(const file of await walk(docs)){
   if(!file.endsWith('.html')||file.includes('/fragments/'))continue;
   assert.ok(!/Artan\s+Records/i.test(text),'Obsolete public label branding: '+file);
   assert.ok(!text.includes('{{'),'Unresolved template');
+  if(text.includes('http-equiv="refresh"')){
+    const artist=artists.find(artist=>file===path.join(docs,`artists/${artist.id}/index.html`)&&artistPath(artist.id)!==`/artists/${artist.id}/`);
+    assert.ok(artist,'Only registered legacy artist routes may redirect');
+    assert.ok(text.includes('noindex,follow'));
+    assert.ok(text.includes(`content="0;url=${artistPath(artist.id)}"`));
+    assert.ok(text.includes(`href="${site.domain}${artistPath(artist.id)}"`));
+    continue;
+  }
   assert.equal((text.match(/<h1\b/g)||[]).length,1,file);
   assert.equal((text.match(/class="label-header-logo"/g)||[]).length,1,'Each page must use one shared label header: '+file);
   if(!file.endsWith('/404.html')) {

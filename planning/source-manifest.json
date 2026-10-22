@@ -337,6 +337,7 @@
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
   "mediaSourceCommit": "e7ff5445a0eb41447553f965f20196360c16607e",
-  "catalogueSourceCommit": "b5da9e71aa431329033accd4550ca96ec8a0c7a9",
-  "siteStyleSourceCommit": "addffa8487e3b5076fe53d0a3400d246e7927e07"
+  "catalogueSourceCommit": "75e55ba8ad7ae4f5226387f636614093cf832240",
+  "siteStyleSourceCommit": "addffa8487e3b5076fe53d0a3400d246e7927e07",
+  "artistSourceCommit": "75e55ba8ad7ae4f5226387f636614093cf832240"
 }

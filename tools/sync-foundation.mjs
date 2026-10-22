@@ -112,7 +112,7 @@ if(args.includes('--preference-icons-only')){
 }
 const read=async p=>JSON.parse(await readFile(path.join(source,'docs',p),'utf8'));
 const records=[];
-const allowed=['id','title','artistId','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','lyrics','credits','musicalDetails','productionProcess','releaseInformation','links'];
+const allowed=['id','title','artistId','artist','type','category','cover','releaseDate','duration','status','format','genre','label','upc','isrc','description','story','lyrics','credits','musicalDetails','productionProcess','releaseInformation','key','tempo','structure','musicSheet','links'];
 function publicRecord(record) {
   const result=Object.fromEntries(allowed.filter(key=>record[key]!==undefined && record.editorial?.[key]!=='draft').map(key=>[key,record[key]]));
   if(record.tracks) result.tracks=record.tracks.map(publicRecord);
@@ -130,6 +130,19 @@ async function json(file,value) {
   await writeFile(path.join(root,file),JSON.stringify(value,null,2)+'\n');
 }
 // Refresh approved catalogue fields without replacing label-owned controls or assets.
+if(args.includes('--artist-only')) {
+  const artist=await read('assets/data/artist/profile.json'),hub=await read('assets/data/hub.json');
+  const file='docs/assets/data/artists/items.json',artists=JSON.parse(await readFile(path.join(root,file),'utf8'));
+  const identity=artists.items.find(item=>item.id==='artan-davoodi');
+  if(!identity||identity.name!==artist.name)throw Error('Artist identity mismatch');
+  identity.biography=artist.biography;identity.yearsActive=artist.yearsActive;
+  const sourceLinks=[...hub.links.filter(link=>link.url&&['streaming','social','email'].includes(link.category)),...(artist.links||[])];
+  identity.links=[...sourceLinks,...identity.links.filter(link=>!sourceLinks.some(source=>source.url===link.url)&&!['streaming','social','email'].includes(link.category))].map((link,index)=>({...link,order:index+1}));
+  await json(file,artists);
+  const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
+  manifest.artistSourceCommit=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();await json('planning/source-manifest.json',manifest);
+  console.log('Synchronized public artist biography and links only; accounts and private drafts unchanged.');process.exit(0);
+}
 if(args.includes('--site-style-only')) {
   await copy('docs/assets/css/layers/site/site.css');
   const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
