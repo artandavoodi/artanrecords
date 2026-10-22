@@ -4,6 +4,16 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+if(key==='records')test('approved artist snapshot replaces only artist-selected public fields',async({page})=>{
+ await page.route('https://hahtbepdrjkjluhespbs.supabase.co/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',fields:{artist_name:'Artan Davoodi',biography:'Approved Studio biography',spotify:'https://open.spotify.com/artist/test'}}])}));
+ await page.goto('/artists/artandavoodi/');
+ await expect(page.locator('[data-artist-fields]')).toContainText('Approved Studio biography');
+ await expect(page.locator('[data-artist-links] a')).toHaveCount(1);
+ await expect(page.locator('[data-artist-links] a')).toHaveAttribute('href','https://open.spotify.com/artist/test');
+ await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/artists\/artandavoodi\/$/);
+ await expect(page.locator('.label-footer-group')).toHaveCount(0);
+ await expect(page.getByRole('heading',{name:'Releases',exact:true})).toBeVisible();
+});
 test('open menu uses the shared X to minus hover without scaling the button',async({page})=>{
   test.skip(!test.info().project.name.endsWith('desktop'));
   await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
