@@ -1,3 +1,4 @@
+import {renderConcerts} from './artist-concerts.js';
 let refreshInFlight=false;
 const mediaSources=new Map();
 async function renderArtistMedia(root,record,config){
@@ -24,6 +25,7 @@ export async function bindPublicArtist(){
  refreshInFlight=true;
  try{
   const config=await fetch('/assets/data/artists/platform.json').then(response=>{if(!response.ok)throw Error();return response.json();});
+  const icons=await fetch(config.icons).then(response=>response.ok?response.json():{items:[]}).catch(()=>({items:[]}));
   const endpoint=new URL('/rest/v1/studio_artist_pages',config.backend);endpoint.searchParams.set('select','username,fields,updated_at');endpoint.searchParams.set('username','eq.'+username);
   const response=await fetch(endpoint,{headers:{apikey:config.publishableKey},credentials:'omit',cache:'no-store'});if(!response.ok)throw Error();const [record]=await response.json();
   let unavailable=document.querySelector('[data-artist-unavailable]');
@@ -40,6 +42,19 @@ export async function bindPublicArtist(){
   await renderArtistMedia(root,record,config);
   if(background==='Profile image')document.body.style.setProperty('--artist-cover',mediaSources.get(root.querySelector('[data-artist-portrait]'))?'url("'+mediaSources.get(root.querySelector('[data-artist-portrait]')).url+'")':'none');
   const body=root.querySelector('[data-artist-fields]');body.replaceChildren();for(const field of config.fields){const value=record.fields[field.key];if(!value)continue;if(field.inline){const line=document.createElement('p');line.dataset.artistSince='';line.textContent=field.label+' '+value;body.append(line);continue;}const section=document.createElement('section'),heading=document.createElement('h2'),text=document.createElement('p');heading.textContent=field.label;text.textContent=value;section.append(heading,text);body.append(section);}
-  const links=root.querySelector('[data-artist-links]'),existing=new Map([...links.querySelectorAll('a')].map(link=>[link.getAttribute('aria-label')||link.textContent.trim(),link.cloneNode(true)]));links.replaceChildren();links.classList.add('information-links','hub__group');links.dataset.presentation='icons';for(const field of config.links){const value=record.fields[field.key];if(!value)continue;let href;try{if(field.email){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))continue;href='mailto:'+value;}else{const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)continue;href=url.href;}}catch{continue;}const link=existing.get(field.label)||document.createElement('a');link.href=href;if(!link.childNodes.length)link.textContent=field.label;link.rel='noopener';links.append(link);}
+  const links=root.querySelector('[data-artist-links]'),existing=new Map([...links.querySelectorAll('a')].map(link=>[link.getAttribute('aria-label')||link.textContent.trim(),link.cloneNode(true)]));links.replaceChildren();
+  for(const group of config.linkGroups){
+   const section=document.createElement('section'),heading=document.createElement('h2'),list=document.createElement('div');
+   section.className='artist-link-group hub__group';section.dataset.presentation=group.presentation;heading.textContent=group.label;list.className='hub__group-links';
+   for(const field of config.links.filter(field=>group.keys.includes(field.key))){
+    const value=record.fields[field.key];if(!value)continue;let href;
+    try{if(field.email){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))continue;href='mailto:'+value;}else{const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)continue;href=url.href;}}catch{continue;}
+    const link=existing.get(field.label)||document.createElement('a');link.href=href;link.setAttribute('aria-label',field.label);
+    if(!link.childNodes.length){const source=icons.items.find(item=>item.id===config.linkIcons[field.key]);link.className='hub__link';if(source){const image=document.createElement('img');image.src='/'+source.src.replace(/^\//,'');image.alt='';image.className=source.monochrome?'icon-monochrome':'';link.append(image);}const label=document.createElement('span');label.className='hub__tooltip';label.textContent=field.label;link.append(label);}
+    link.rel='noopener';list.append(link);
+   }
+   if(list.childNodes.length){section.append(heading,list);links.append(section);}
+  }
+  void renderConcerts(root,record.username,config);
  }catch{if(!embedded)status.textContent='This artist page could not be loaded. Please try again.';}finally{refreshInFlight=false;}
 }
