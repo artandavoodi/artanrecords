@@ -143,6 +143,15 @@ if(args.includes('--artist-only')) {
   manifest.artistSourceCommit=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();await json('planning/source-manifest.json',manifest);
   console.log('Synchronized public artist biography and links only; accounts and private drafts unchanged.');process.exit(0);
 }
+if(args.includes('--hub-style-only')) {
+  await copy('docs/assets/css/layers/site/hub/index.css');
+  const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));
+  const replaced=new Set(records.map(record=>record.file));
+  manifest.files=[...manifest.files.filter(record=>!replaced.has(record.file)),...records];
+  await json('planning/source-manifest.json',manifest);
+  console.log('Synchronized shared connection presentation only.');
+  process.exit(0);
+}
 if(args.includes('--site-style-only')) {
   await copy('docs/assets/css/layers/site/site.css');
   const manifest=JSON.parse(await readFile(path.join(root,'planning/source-manifest.json'),'utf8'));

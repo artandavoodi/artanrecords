@@ -15,7 +15,7 @@ if(key==='records')test('selected artist media refreshes and desktop link labels
  const image=page.locator('[data-artist-portrait] img');await expect(image).toBeVisible();await expect.poll(()=>image.evaluate(el=>el.naturalWidth)).toBe(1);expect(downloads).toBe(1);
  await expect(page.locator('[data-artist-header] img')).toBeVisible();await expect(page.locator('[data-artist-header]')).toHaveCSS('position','absolute');
  const link=page.locator('[data-artist-links] a[aria-label="Spotify"]'),label=link.locator('.hub__tooltip');
- if(test.info().project.name.endsWith('desktop')){await expect(label).toHaveCSS('opacity','0');await link.hover();await expect(label).toHaveCSS('opacity','1');}else await expect(label).toBeVisible();
+ await expect(label).toBeVisible();await expect(label).toHaveCSS('opacity','1');await expect(page.locator('.artist-destination-tabs')).toHaveCSS('border-bottom-width','0px');
  version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 2');expect(downloads).toBe(2);
  shared=false;version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(image).toHaveCount(0);await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 3');
  published=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-public-artist]')).toBeHidden();await expect(page.locator('[data-artist-unavailable]')).toHaveText('This artist page is not public.');

@@ -43,10 +43,6 @@
       "sha256": "73f7e032ac2c67869379cee0efcc0c7c87883cd85cef379c256522d95bab31cc"
     },
     {
-      "file": "docs/assets/css/layers/site/hub/index.css",
-      "sha256": "1e56134c5c3aa52017f455a3ed6e281f2e31c9ba8215325dc24f72c519f5a36f"
-    },
-    {
       "file": "docs/assets/icons/social/platforms/youtube.svg",
       "sha256": "94f7062f3106f4379a3ab1de21e71afc2900792e0f7eb68b8d877eb799c8bd3b"
     },
@@ -333,6 +329,10 @@
       "sha256": "abdb05666a80bc2e391b0b76baa70210d595a5c027ee4b8f451aac6234d883d5",
       "sourceRepository": "artandavoodi/control-center",
       "sourceCommit": "dfe5251682c7a1085518ec85716a7f14d95dc478"
+    },
+    {
+      "file": "docs/assets/css/layers/site/hub/index.css",
+      "sha256": "ff59cee8904b774f20e8ce6dadbba8f51e6f85e830c375fa614ebe2e9304ca9f"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
