@@ -4,6 +4,19 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+ const portrait='96000000-0000-0000-0000-000000000001/avatar';let published=true,version=1,shared=true,downloads=0;
+ await page.route('https://hahtbepdrjkjluhespbs.supabase.co/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(published?[{username:'artandavoodi',updated_at:'2026-10-23T10:00:0'+version+'Z',fields:{artist_name:'Test artist',biography:'Saved biography '+version,spotify:'https://open.spotify.com/artist/test',...(shared?{portrait_path:portrait}:{})}}]:[])}));
+ await page.route('**/storage/v1/object/authenticated/studio-avatars/**',route=>{downloads++;return route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
+ await page.goto('/artists/artandavoodi/');
+ const image=page.locator('[data-artist-portrait] img');await expect(image).toBeVisible();await expect.poll(()=>image.evaluate(el=>el.naturalWidth)).toBe(1);expect(downloads).toBe(1);
+ const link=page.locator('[data-artist-links] a[aria-label="Spotify"]'),label=link.locator('.hub__tooltip');
+ if(test.info().project.name.endsWith('desktop')){await expect(label).toHaveCSS('opacity','0');await link.hover();await expect(label).toHaveCSS('opacity','1');}else await expect(label).toBeVisible();
+ version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 2');expect(downloads).toBe(2);
+ shared=false;version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(image).toHaveCount(0);await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 3');
+ published=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-public-artist]')).toBeHidden();await expect(page.locator('[data-artist-unavailable]')).toHaveText('This artist page is not public.');
+});
 if(key==='records')test('approved artist snapshot replaces only artist-selected public fields',async({page})=>{
  await page.route('https://hahtbepdrjkjluhespbs.supabase.co/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',fields:{artist_name:'Artan Davoodi',biography:'Approved Studio biography',spotify:'https://open.spotify.com/artist/test'}}])}));
  await page.goto('/artists/artandavoodi/');
