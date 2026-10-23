@@ -30,6 +30,9 @@ bindReleaseDiscovery();
 bindInformationTabs();
 bindPartnershipComparison();
 bindPublicArtist();
+// Re-read the published snapshot when returning from Studio, without reloading the catalogue.
+window.addEventListener('focus',()=>bindPublicArtist());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)bindPublicArtist();});
 initializePreferences().catch(console.error);
 bindJourneyScenes().catch(console.error);
 function reveal(){

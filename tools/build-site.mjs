@@ -54,7 +54,7 @@ if(!founder||founder.name!==site.founder.name) throw new Error('Founder must mat
 const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
-const navigationFor=path=>fragment('navigation',{...escaped(site.labels),name:e(site.name),actionsClass:'label-home-actions',homeLinks:textLinks(information.homeLinks.filter(item=>item.url!==path&&!item.excludeOn?.includes(path)),path,'chrome'),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),accountAccess:`<a class="label-account-access" href="${e(information.accountAccess.url)}" aria-label="${e(information.accountAccess.label)}">${icon(information.accountAccess.icon,icons)}</a>`,links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
+const navigationFor=(path,{artistShowcase=false}={})=>fragment('navigation',{...escaped(site.labels),name:e(site.name),actionsClass:'label-home-actions',homeLinks:artistShowcase?'':textLinks(information.homeLinks.filter(item=>item.url!==path&&!item.excludeOn?.includes(path)),path,'chrome'),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),accountAccess:`<a class="label-account-access" href="${e(information.accountAccess.url)}" aria-label="${e(information.accountAccess.label)}">${icon(information.accountAccess.icon,icons)}</a>`,links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
 const footer=await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),groups:information.footerGroups.map(group=>`<section class="label-footer-group"><h2 id="footer-${e(group.id)}">${e(group.label)}</h2><nav class="information-links label-footer-group-links" aria-labelledby="footer-${e(group.id)}"${group.id==='legal'?' data-footer-preferences':''}>${textLinks(group.links.map(item=>item.social?{...item,url:site.social.find(social=>social.icon===item.social).url}:item),'','chrome')}</nav></section>`).join(''),social:links(site.social,icons,'streaming','icons-only')});
 const navigation=await navigationFor('/404.html');
 const organization={'@type':'Organization','@id':site.domain+'/#label',name:site.name,url:site.domain+'/',sameAs:site.social.map(profile=>profile.url),logo:site.domain+'/'+site.logoAssets.wordmark,foundingDate:site.foundingDate,description:site.description,founder:{'@id':personFor(founder)['@id']}};
@@ -63,7 +63,8 @@ const leadershipPortrait=leader=>leader.portrait||(leader.artistId?artists.items
 const paths=[];
 async function output(file,value){await mkdir(new URL('./',new URL(file,docs)),{recursive:true});await writeFile(new URL(file,docs),value);}
 async function page(path,title,description,fragmentName,values,entity={}) {
-  const navigation=await navigationFor(path);
+  const artistShowcase=['artist','artist-platform'].includes(fragmentName);
+  const navigation=await navigationFor(path,{artistShowcase});
   if(fragmentName==='artist') values.contextLinks=textLinks([{label:site.labels.allArtists,url:'/artists/'},{label:site.labels.allReleases,url:'/releases/'}]);
   if(fragmentName==='release') {
     const release=catalogue.items.find(r=>path===`/releases/${r.id}/`);
