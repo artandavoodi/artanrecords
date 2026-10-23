@@ -2,12 +2,12 @@ import {renderConcerts} from './artist-concerts.js';
 let refreshInFlight=false;
 const mediaSources=new Map();
 async function renderArtistMedia(root,record,config){
- for(const [field,bucket,selector] of [['portrait_path','studio-avatars','[data-artist-portrait]'],['header_path','studio-headers','[data-artist-header]']]){
+ for(const [field,bucket,selector] of [['portrait_path','studio-avatars','[data-artist-portrait]'],['header_path','studio-headers','[data-artist-header]'],['logo_path','studio-logos','[data-artist-logo]']]){
   const mount=root.querySelector(selector);if(!mount)continue;
   const key=record.fields[field],previous=mediaSources.get(mount),version=key?key+'?v='+record.updated_at:'';
   if(previous?.version===version)continue;
   if(previous)URL.revokeObjectURL(previous.url);mediaSources.delete(mount);mount.replaceChildren();
-  if(!key||!/^\b[0-9a-f-]{36}\/(avatar|header)$/.test(key))continue;
+  if(!key||!/^\b[0-9a-f-]{36}\/(avatar|header|logo)$/.test(key))continue;
   try{
    const url=new URL('/storage/v1/object/authenticated/'+bucket+'/'+key,config.backend);url.searchParams.set('v',record.updated_at);
    const response=await fetch(url,{headers:{apikey:config.publishableKey},cache:'no-store',credentials:'omit'});if(!response.ok)throw Error();
@@ -39,6 +39,10 @@ export async function bindPublicArtist(){
   const routed=Object.values(config.routes||{}).includes(record.username);
   const canonical=new URL(routed?'/artists/'+record.username+'/':'/artists/profile/',location.origin);if(!routed)canonical.searchParams.set('username',record.username);document.querySelector('link[rel=canonical]')?.setAttribute('href',canonical.href);
   for(const [property,value] of [['og:title',document.title],['og:url',canonical.href]])document.querySelector(`meta[property="${property}"]`)?.setAttribute('content',value);
+  let graphics=root.querySelector('[data-artist-graphics]');
+  if(!graphics){graphics=document.createElement('div');graphics.dataset.artistGraphics='';const logo=document.createElement('div');logo.dataset.artistLogo='';const palette=document.createElement('div');palette.dataset.artistPalette='';palette.setAttribute('aria-label','Artist colours');graphics.append(logo,palette);root.querySelector('[data-artist-name]').after(graphics);}
+  const palette=graphics.querySelector('[data-artist-palette]');palette.replaceChildren();
+  for(const color of (Array.isArray(record.fields.palette)?record.fields.palette:[]).slice(0,5)){if(!/^#[0-9a-f]{6}$/i.test(color))continue;const swatch=document.createElement('span');swatch.style.backgroundColor=color;swatch.title=color;swatch.setAttribute('aria-label',color);palette.append(swatch);}
   await renderArtistMedia(root,record,config);
   if(background==='Profile image')document.body.style.setProperty('--artist-cover',mediaSources.get(root.querySelector('[data-artist-portrait]'))?'url("'+mediaSources.get(root.querySelector('[data-artist-portrait]')).url+'")':'none');
   const body=root.querySelector('[data-artist-fields]');body.replaceChildren();for(const field of config.fields){const value=record.fields[field.key];if(!value)continue;if(field.inline){const line=document.createElement('p');line.dataset.artistSince='';line.textContent=field.label+' '+value;body.append(line);continue;}const section=document.createElement('section'),heading=document.createElement('h2'),text=document.createElement('p');heading.textContent=field.label;text.textContent=value;section.append(heading,text);body.append(section);}
@@ -50,7 +54,7 @@ export async function bindPublicArtist(){
     const value=record.fields[field.key];if(!value)continue;let href;
     try{if(field.email){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))continue;href='mailto:'+value;}else{const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)continue;href=url.href;}}catch{continue;}
     const link=existing.get(field.label)||document.createElement('a');link.href=href;link.setAttribute('aria-label',field.label);
-    if(!link.childNodes.length){const source=icons.items.find(item=>item.id===config.linkIcons[field.key]);link.className='hub__link';if(source){const image=document.createElement('img');image.src='/'+source.src.replace(/^\//,'');image.alt='';image.className=source.monochrome?'icon-monochrome':'';link.append(image);}const label=document.createElement('span');label.className='hub__tooltip';label.textContent=field.label;link.append(label);}
+    if(!link.childNodes.length){const source=icons.items.find(item=>item.id===config.linkIcons[field.key]);link.className='hub__link';if(source){const image=document.createElement('img');image.src='/'+source.src.replace(/^\//,'');image.alt='';if(source.monochrome)image.dataset.monochrome='true';link.append(image);}const label=document.createElement('span');label.className='hub__tooltip';label.textContent=field.label;link.append(label);}
     link.rel='noopener';list.append(link);
    }
    if(list.childNodes.length){section.append(heading,list);links.append(section);}
