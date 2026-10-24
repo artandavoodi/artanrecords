@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="/assets/js/core/preference-config.js"></script>
+  <script src="/assets/js/core/02-systems/page-loading.js"></script>
   <script src="/assets/js/core/startup.js"></script>
   <meta name="robots" content="max-image-preview:large">
   {{head}}
@@ -17,5 +18,6 @@
   <div data-fragment="navigation">{{navigation}}</div>
   <main id="main-content" tabindex="-1" data-fragment="{{fragment}}">{{content}}</main>
   <div data-fragment="footer">{{footer}}</div>
+  <div class="ui-loading-surface" role="status" aria-label="Loading Artanrecords"><span class="ui-loader-circle" aria-hidden="true"></span></div>
 </body>
 </html>

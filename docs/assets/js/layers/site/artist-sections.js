@@ -10,6 +10,8 @@ export function bindArtistSections(root,mount,tabs){
   document.documentElement.style.setProperty('--artist-header-height',height+'px');
   const active=desktop.matches&&rect.top<=height+1&&rect.bottom>height+1;
   root.dataset.artistSectionMode=desktop.matches?'desktop':'natural';
+  root.dataset.artistMotion='';
+  for(const section of root.children){const bounds=section.getBoundingClientRect();section.toggleAttribute('data-artist-visible',bounds.bottom>height&&bounds.top<innerHeight*0.9);}
   if(active){leaving=false;delete tabs.dataset.leaving;tabs.hidden=false;logo.hidden=true;if(!tabs.hasAttribute('data-in-header')){tabs.dataset.inHeader='';if(tabs.parentElement!==header)header.append(tabs);}}
   else if(tabs.hasAttribute('data-in-header')&&desktop.matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches){if(!leaving){leaving=true;tabs.dataset.leaving='';}}
   else restore();

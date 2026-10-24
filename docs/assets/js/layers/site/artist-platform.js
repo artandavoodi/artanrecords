@@ -1,7 +1,7 @@
 import {renderConcerts} from './artist-concerts.js';
 import {renderArtistTabs} from './artist-tabs.js';
 import {renderArtistContent} from './artist-content.js';
-let refreshInFlight=false;
+let refreshInFlight=false,refreshQueued=false;
 const mediaSources=new Map();
 async function renderArtistMedia(root,record,config){
  for(const [field,bucket,selector] of [['portrait_path','studio-avatars','[data-artist-portrait]'],['header_path','studio-headers','[data-artist-header]'],['logo_path','studio-logos','[data-artist-logo]']]){
@@ -15,12 +15,13 @@ async function renderArtistMedia(root,record,config){
    const response=await fetch(url,{headers:{apikey:config.publishableKey},cache:'no-store',credentials:'omit'});if(!response.ok)throw Error();
    const blob=await response.blob();if(!['image/jpeg','image/png','image/webp'].includes(blob.type))throw Error();
    const source=URL.createObjectURL(blob),image=document.createElement('img');image.src=source;image.alt=field==='portrait_path'?(record.fields.portrait_alt||record.fields.artist_name):'';
+   try{await image.decode();}catch{URL.revokeObjectURL(source);continue;}
    mount.removeAttribute('aria-label');mount.append(image);mediaSources.set(mount,{version,url:source});
   }catch{/* Never substitute another artist's image or expose a private URL. */}
  }
 }
 export async function bindPublicArtist(){
- if(refreshInFlight)return;
+ if(refreshInFlight){refreshQueued=true;return;}
  const root=document.querySelector('[data-public-artist]');if(!root)return;
  const embedded=Boolean(root.dataset.artistUsername),status=root.querySelector('[data-artist-status]'),username=root.dataset.artistUsername||new URL(location.href).searchParams.get('username');
  if(!username||!/^[a-z0-9][a-z0-9.]{1,30}[a-z0-9]$/.test(username)||username.includes('..')){status.textContent='Choose an artist profile from a shared artist link.';return;}
@@ -63,7 +64,6 @@ export async function bindPublicArtist(){
    if(list.childNodes.length||group.id==='concerts'){section.append(heading,list);links.append(section);}
   }
   renderArtistTabs(links,config.linkGroups,concerts);
-  void renderArtistContent(root,record,config);
-  void renderConcerts(root,record.username,config);
- }catch{if(!embedded)status.textContent='This artist page could not be loaded. Please try again.';}finally{refreshInFlight=false;}
+  await Promise.allSettled([renderArtistContent(root,record,config),renderConcerts(root,record.username,config)]);
+ }catch{if(!embedded)status.textContent='This artist page could not be loaded. Please try again.';}finally{refreshInFlight=false;if(refreshQueued){refreshQueued=false;queueMicrotask(()=>bindPublicArtist());}}
 }

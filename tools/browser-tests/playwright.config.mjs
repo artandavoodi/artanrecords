@@ -8,6 +8,8 @@ export default defineConfig({
   projects:[
     {name:'chromium-desktop',use:{...devices['Desktop Chrome']}},
     {name:'webkit-desktop',use:{...devices['Desktop Safari']}},
+    {name:'chromium-tablet',use:{browserName:'chromium',viewport:{width:820,height:1180}}},
+    {name:'webkit-tablet',use:{browserName:'webkit',viewport:{width:820,height:1180}}},
     {name:'chromium-mobile',use:{...devices['Pixel 5']}},
     {name:'webkit-mobile',use:{...devices['iPhone 13']}}
   ],

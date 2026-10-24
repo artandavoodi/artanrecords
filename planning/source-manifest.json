@@ -333,6 +333,20 @@
     {
       "file": "docs/assets/css/layers/site/hub/index.css",
       "sha256": "ff59cee8904b774f20e8ce6dadbba8f51e6f85e830c375fa614ebe2e9304ca9f"
+    },
+    {
+      "file": "docs/assets/css/core/03-primitives/loaders.css",
+      "sha256": "ed634b772b8f1ef3f1c4bbd7a46858fd59dd12a18d95170cc98aec450d9711ee",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "418e197cb0ca0e199e68cc33339560f05be6d216",
+      "sourceFile": "docs/assets/css/core/03-primitives/loaders.css"
+    },
+    {
+      "file": "docs/assets/js/core/02-systems/page-loading.js",
+      "sha256": "aa689d15d8fd95639386de3df4f722a46384901066f3e7621ec881b6caaf0745",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "418e197cb0ca0e199e68cc33339560f05be6d216",
+      "sourceFile": "docs/assets/js/core/02-systems/page-loading.js"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

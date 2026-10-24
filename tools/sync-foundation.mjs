@@ -7,6 +7,18 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--loading-only')){
+  const owner=path.resolve(root,'../website');
+  const revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  for(const file of ['docs/assets/css/core/03-primitives/loaders.css','docs/assets/js/core/02-systems/page-loading.js']){
+    const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${file}`]);
+    await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+    manifest.files=manifest.files.filter(record=>record.file!==file);
+    manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision,sourceFile:file});
+  }
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--close-primitive-only')){
   const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
   const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));

@@ -5,6 +5,23 @@ const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
 test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));});
+if(key==='records')test('artist readiness waits for media and desktop wheel scrolling centers destination content',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',updated_at:'2026-10-24T12:00:00Z',fields:{artist_name:'Test artist',biography:'An artist story.',spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',header_path:'96000000-0000-0000-0000-000000000001/header'}}])}));
+ let releaseHeader;const headerReady=new Promise(resolve=>releaseHeader=resolve);
+ await page.route('**/storage/v1/object/authenticated/studio-headers/**',async route=>{await headerReady;await route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
+ await page.goto('/artists/artandavoodi/');await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeVisible();await expect(page.locator('main')).toHaveJSProperty('inert',true);
+ releaseHeader();await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeHidden();await expect(page.locator('main')).toHaveJSProperty('inert',false);
+ const desktop=test.info().project.name.endsWith('desktop');await expect(page.locator('html')).toHaveCSS('scroll-snap-type',desktop?'y mandatory':'none');
+ if(!desktop){await expect(page.locator('.artist-destination-tabs')).toBeVisible();return;}
+ const intro=await page.locator('.artist-biography').boundingBox();await page.mouse.wheel(0,Math.ceil(intro.height*0.7));
+ await expect.poll(()=>page.locator('.artist-connections').evaluate(el=>Math.abs(el.getBoundingClientRect().top-document.querySelector('.label-navigation').getBoundingClientRect().height))).toBeLessThan(2);
+ await expect(page.locator('.label-navigation .artist-destination-tabs')).toBeVisible();
+ const panel=page.locator('[data-artist-group=streaming]');expect(await panel.evaluate(el=>{const rect=el.getBoundingClientRect(),header=document.querySelector('.label-navigation').getBoundingClientRect().height;return Math.abs(rect.top+rect.height/2-(innerHeight+header)/2);})).toBeLessThan(4);
+ const label=panel.locator('.hub__tooltip');await page.mouse.move(0,0);await expect(label).toHaveCSS('opacity','0');await panel.getByRole('link',{name:'Spotify'}).hover();await expect(label).toHaveCSS('opacity','1');
+ if(test.info().project.name==='chromium-desktop')await page.screenshot({path:'/tmp/artist-catalogue-centered.png'});
+});
 if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
@@ -25,7 +42,7 @@ if(key==='records')test('selected artist media refreshes and desktop link labels
   await expect(page.locator('.artist-destination-tabs')).toBeHidden();
  }
  const link=page.locator('[data-artist-links] a[aria-label="Spotify"]'),label=link.locator('.hub__tooltip');
- await expect(label).toBeVisible();await expect(label).toHaveCSS('opacity','1');await expect(page.locator('.artist-destination-tabs')).toHaveCSS('border-bottom-width','0px');
+ await expect(label).toHaveCSS('opacity',test.info().project.name.endsWith('desktop')?'0':'1');await expect(page.locator('.artist-destination-tabs')).toHaveCSS('border-bottom-width','0px');
  version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 2');expect(downloads).toBe(2);
  shared=false;version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(image).toHaveCount(0);await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 3');
  published=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-public-artist]')).toBeHidden();await expect(page.locator('[data-artist-unavailable]')).toHaveText('This artist page is not public.');

@@ -19,7 +19,6 @@ try {
   bindNavigation({menuOpen:menu.getAttribute('aria-label'),menuClose:menu.dataset.closeLabel});
   document.documentElement.dataset.enhanced='true';
 } catch(error) { console.error(error); }
-finally { window.dispatchEvent(new Event('site:ready')); }
 bindIntake().catch(console.error);
 bindArtistPreview().catch(console.error);
 bindArtistGrain().catch(console.error);
@@ -29,7 +28,11 @@ bindHomeShowcase();
 bindReleaseDiscovery();
 bindInformationTabs();
 bindPartnershipComparison();
-bindPublicArtist();
+try{
+ await bindPublicArtist();
+ await document.fonts?.ready;
+ await window.NeuroartanPageLoading?.images(document.body);
+}finally{window.NeuroartanPageLoading?.finish();window.dispatchEvent(new Event('site:ready'));}
 // Re-read the published snapshot when returning from Studio, without reloading the catalogue.
 window.addEventListener('focus',()=>bindPublicArtist());
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)bindPublicArtist();});
