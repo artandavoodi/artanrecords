@@ -8,17 +8,20 @@ test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/
 if(key==='records')test('shared primary colours tint destinations and withdraw cleanly',async({page})=>{
  let shared=true;
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
- await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',updated_at:new Date().toISOString(),fields:{artist_name:'Test artist',spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',...(shared?{palette:['#123456','#654321','#abcdef','#112233','#445566']}: {})}}]}));
+ await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')}));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',updated_at:new Date().toISOString(),fields:{artist_name:'Test artist',header_path:'96000000-0000-0000-0000-000000000001/header',spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',...(shared?{palette:['#123456','#654321','#abcdef','#112233','#445566']}: {})}}]}));
  await page.goto('/artists/artandavoodi/');
  const root=page.locator('[data-public-artist]'),icon=root.locator('[data-artist-group=streaming] .artist-colour-icon');
  await expect(icon).toHaveCSS('background-color','rgb(18, 52, 86)');
  expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('#654321');
  expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-5'))).toBe('#445566');
+ await expect.poll(()=>root.locator('[data-artist-header]').evaluate(el=>getComputedStyle(el,'::after').backgroundImage)).toContain('rgb(101, 67, 33)');
  await expect(root.locator('[data-artist-group=social] .artist-colour-icon')).toHaveCSS('background-color','rgb(18, 52, 86)');
  shared=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
  await expect(root.locator('.artist-colour-icon')).toHaveCount(0);
  await expect(root.locator('[data-artist-group=streaming] img')).toHaveCount(1);
  expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('');
+ expect(await root.locator('[data-artist-header]').evaluate(el=>getComputedStyle(el,'::after').backgroundImage)).not.toContain('rgb(101, 67, 33)');
  shared=true;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
  await expect(icon).toHaveCSS('background-color','rgb(18, 52, 86)');
 });
