@@ -5,6 +5,23 @@ const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
 test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));});
+if(key==='records')test('shared primary colours tint destinations and withdraw cleanly',async({page})=>{
+ let shared=true;
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',updated_at:new Date().toISOString(),fields:{artist_name:'Test artist',spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',...(shared?{palette:['#123456','#654321','#abcdef','#112233','#445566']}: {})}}]}));
+ await page.goto('/artists/artandavoodi/');
+ const root=page.locator('[data-public-artist]'),icon=root.locator('[data-artist-group=streaming] .artist-colour-icon');
+ await expect(icon).toHaveCSS('background-color','rgb(18, 52, 86)');
+ expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('#654321');
+ expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-5'))).toBe('#445566');
+ await expect(root.locator('[data-artist-group=social] .artist-colour-icon')).toHaveCSS('background-color','rgb(18, 52, 86)');
+ shared=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+ await expect(root.locator('.artist-colour-icon')).toHaveCount(0);
+ await expect(root.locator('[data-artist-group=streaming] img')).toHaveCount(1);
+ expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('');
+ shared=true;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+ await expect(icon).toHaveCSS('background-color','rgb(18, 52, 86)');
+});
 if(key==='records')test('artist readiness waits for media and desktop wheel scrolling centers destination content',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));

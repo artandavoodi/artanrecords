@@ -4,6 +4,26 @@ import {renderArtistContent} from './artist-content.js';
 let refreshInFlight=false,refreshQueued=false;
 const mediaSources=new Map();
 let companyHeader;
+function renderArtistColours(root,fields){
+ const palette=Array.isArray(fields.palette)?fields.palette.slice(0,5):[];
+ for(let index=0;index<5;index++){
+  const value=palette[index],property='--artist-primary-'+(index+1);
+  if(typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value))root.style.setProperty(property,value);
+  else root.style.removeProperty(property);
+ }
+ // The public snapshot includes palette only when the artist shares it.
+ for(const icon of root.querySelectorAll('[data-artist-colour-icon]')){
+  const image=document.createElement('img');image.src=icon.dataset.artistColourIcon;image.alt='';
+  if(icon.dataset.monochrome)image.dataset.monochrome=icon.dataset.monochrome;
+  icon.replaceWith(image);
+ }
+ if(!root.style.getPropertyValue('--artist-primary-1'))return;
+ for(const image of root.querySelectorAll('.hub__link img')){
+  const icon=document.createElement('span');icon.className='artist-colour-icon';icon.setAttribute('aria-hidden','true');
+  icon.dataset.artistColourIcon=image.src;if(image.dataset.monochrome)icon.dataset.monochrome=image.dataset.monochrome;
+  icon.style.setProperty('--artist-icon-artwork','url("'+image.src.replace(/["\\\n\r]/g,'')+'")');image.replaceWith(icon);
+ }
+}
 function artistHeader(){
  const mount=document.querySelector('.label-header-logo');if(!mount)return null;
  if(companyHeader?.mount!==mount)companyHeader={mount,nodes:[...mount.childNodes],label:mount.getAttribute('aria-label')};
@@ -77,5 +97,6 @@ export async function bindPublicArtist(){
   }
   renderArtistTabs(links,config.linkGroups,concerts);
   await Promise.allSettled([renderArtistContent(root,record,config),renderConcerts(root,record.username,config)]);
+  renderArtistColours(root,record.fields);
  }catch{const header=artistHeader();if(header)clearArtistMedia(header,'logo_path');if(!embedded)status.textContent='This artist page could not be loaded. Please try again.';}finally{refreshInFlight=false;if(refreshQueued){refreshQueued=false;queueMicrotask(()=>bindPublicArtist());}}
 }

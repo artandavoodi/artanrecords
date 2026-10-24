@@ -7,6 +7,17 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--brand-header-only')){
+  const owner=path.resolve(root,'../website');
+  const revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const file='docs/assets/css/core/01-tokens/brand-header.tokens.css';
+  const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${file}`]);
+  await writeFile(path.join(root,file),bytes);
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  manifest.files=manifest.files.filter(record=>record.file!==file);
+  manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision,sourceFile:file});
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--loading-only')){
   const owner=path.resolve(root,'../website');
   const revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
