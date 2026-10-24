@@ -8,11 +8,12 @@ test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/
 if(key==='records')test('artist readiness waits for media and desktop wheel scrolling centers destination content',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
- await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',updated_at:'2026-10-24T12:00:00Z',fields:{artist_name:'Test artist',biography:'An artist story.',spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',header_path:'96000000-0000-0000-0000-000000000001/header'}}])}));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',updated_at:'2026-10-24T12:00:00Z',fields:{artist_name:'Test artist',biography:'An artist story.',palette:['#123456','#000000'],spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',header_path:'96000000-0000-0000-0000-000000000001/header'}}])}));
  let releaseHeader;const headerReady=new Promise(resolve=>releaseHeader=resolve);
  await page.route('**/storage/v1/object/authenticated/studio-headers/**',async route=>{await headerReady;await route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
  await page.goto('/artists/artandavoodi/');await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeVisible();await expect(page.locator('main')).toHaveJSProperty('inert',true);
  releaseHeader();await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeHidden();await expect(page.locator('main')).toHaveJSProperty('inert',false);
+ await expect(page.locator('[data-artist-palette]')).toHaveCount(0);
  const desktop=test.info().project.name.endsWith('desktop');await expect(page.locator('html')).toHaveCSS('scroll-snap-type',desktop?'y mandatory':'none');
  if(!desktop){await expect(page.locator('.artist-destination-tabs')).toBeVisible();return;}
  const intro=await page.locator('.artist-biography').boundingBox();await page.mouse.wheel(0,Math.ceil(intro.height*0.7));
