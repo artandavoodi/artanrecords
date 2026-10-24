@@ -85,7 +85,7 @@ for(const file of await walk(docs)){
   assert.ok(!/Artan\s+Records/i.test(text),'Obsolete public label branding: '+file);
   assert.ok(!text.includes('{{'),'Unresolved template');
   if(text.includes('http-equiv="refresh"')){
-    const artist=artists.find(artist=>file===path.join(docs,`artists/${artist.id}/index.html`)&&artistPath(artist.id)!==`/artists/${artist.id}/`);
+    const artist=artists.find(artist=>[artist.id,artistPath(artist.id).split('/')[1]].some(slug=>file===path.join(docs,`artists/${slug}/index.html`)));
     assert.ok(artist,'Only registered legacy artist routes may redirect');
     assert.ok(text.includes('noindex,follow'));
     assert.ok(text.includes(`content="0;url=${artistPath(artist.id)}"`));

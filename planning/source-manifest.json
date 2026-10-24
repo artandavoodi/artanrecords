@@ -354,6 +354,48 @@
       "sourceRepository": "artandavoodi/website",
       "sourceCommit": "8e377ee7c0aa65fd211b614a98e81ec2f7ffe410",
       "sourceFile": "docs/assets/css/core/01-tokens/brand-header.tokens.css"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/navigation/primary/home.svg",
+      "sha256": "5abaf339b91ac798b78d8da01b696f0a2b398d5247eee307c1d63b53c30cc3bb",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "e6331dc6a1fc77ac3344a38cc9be5f45d842f991",
+      "sourceFile": "docs/registry/icons/public/assets/core/navigation/primary/home.svg"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/navigation/direction/back.svg",
+      "sha256": "78d015c37800e318e22b1afbafdc0f0d5a561e90646ad55d9475898f08cb43d6",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "e6331dc6a1fc77ac3344a38cc9be5f45d842f991",
+      "sourceFile": "docs/registry/icons/public/assets/core/navigation/direction/back.svg"
+    },
+    {
+      "file": "docs/assets/css/layers/site/not-found.css",
+      "sha256": "c51474c208784714eecfaedf2bcb277fd1a8321184e7abef844e07564b573422",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "e6331dc6a1fc77ac3344a38cc9be5f45d842f991",
+      "sourceFile": "docs/assets/css/layers/website/pages/404/404.css"
+    },
+    {
+      "file": "docs/assets/js/layers/website/ui/effects/404-hero-shader.js",
+      "sha256": "a9073a54ef9068aab66f4ff8a480f7ae733d058ed91c6fb84763ede07ddcbc3c",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "e6331dc6a1fc77ac3344a38cc9be5f45d842f991",
+      "sourceFile": "docs/assets/js/layers/website/ui/effects/404-hero-shader.js"
+    },
+    {
+      "file": "docs/assets/fragments/layers/website/system/404-hero-shader.html",
+      "sha256": "6f4bc12fa2bd7eb2d1468a1cc54870c4ccd6422acf44e6bfd80590a63778260c",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "e6331dc6a1fc77ac3344a38cc9be5f45d842f991",
+      "sourceFile": "docs/assets/fragments/layers/website/system/404-hero-shader.html"
+    },
+    {
+      "file": "docs/assets/fragments/not-found/index.html",
+      "sha256": "c89e0d4c44b74ce5c4520f6a8ada384949af8afb8b92bc2b1b4254dd69667d2a",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "e6331dc6a1fc77ac3344a38cc9be5f45d842f991",
+      "sourceFile": "docs/404.html"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

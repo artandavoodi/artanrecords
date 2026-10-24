@@ -1,4 +1,5 @@
 {
+  "not-found": "assets/fragments/not-found/index.html",
   "navigation": "assets/fragments/navigation/index.html",
   "footer": "assets/fragments/footer/index.html",
   "home": "assets/fragments/home/index.html",

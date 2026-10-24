@@ -1,6 +1,7 @@
 import {renderConcerts} from './artist-concerts.js';
 import {renderArtistTabs} from './artist-tabs.js';
 import {renderArtistContent} from './artist-content.js';
+import {showNotFound} from './not-found.js';
 let refreshInFlight=false,refreshQueued=false;
 const mediaSources=new Map();
 let companyHeader;
@@ -71,15 +72,14 @@ export async function bindPublicArtist(){
   const response=await fetch(endpoint,{headers:{apikey:config.publishableKey},credentials:'omit',cache:'no-store'});if(!response.ok)throw Error();const [record]=await response.json();
   let unavailable=document.querySelector('[data-artist-unavailable]');
   if(!unavailable){unavailable=document.createElement('p');unavailable.dataset.artistUnavailable='';unavailable.setAttribute('role','status');unavailable.hidden=true;root.before(unavailable);}
-  if(!record)renderArtistColours(root,{});
+  if(!record){renderArtistColours(root,{});await showNotFound();}
   if(!record){root.hidden=true;unavailable.hidden=false;unavailable.textContent='This artist page is not public.';for(const mount of root.querySelectorAll('[data-artist-portrait],[data-artist-header]'))clearArtistMedia(mount);const header=artistHeader();if(header)clearArtistMedia(header,'logo_path');document.body.style.setProperty('--artist-cover','none');return;}
   root.hidden=false;unavailable.hidden=true;
   root.querySelector('[data-artist-name]').textContent=record.fields.artist_name;document.title=record.fields.artist_name+' · Artanrecords';status.textContent='@'+record.username;
   const background=record.fields.catalogue_background||'Latest release';
   if(background==='Latest release'&&root.dataset.latestCover)document.body.style.setProperty('--artist-cover','url("'+root.dataset.latestCover.replace(/["\\\n\r]/g,'')+'")');
   else document.body.style.setProperty('--artist-cover','none');
-  const routed=Object.values(config.routes||{}).includes(record.username);
-  const canonical=new URL(routed?'/artists/'+record.username+'/':'/artists/profile/',location.origin);if(!routed)canonical.searchParams.set('username',record.username);document.querySelector('link[rel=canonical]')?.setAttribute('href',canonical.href);
+  const canonical=new URL('/'+record.username+'/',location.origin);document.querySelector('link[rel=canonical]')?.setAttribute('href',canonical.href);
   for(const [property,value] of [['og:title',document.title],['og:url',canonical.href]])document.querySelector(`meta[property="${property}"]`)?.setAttribute('content',value);
   await renderArtistMedia(root,record,config);
   if(background==='Profile image')document.body.style.setProperty('--artist-cover',mediaSources.get(root.querySelector('[data-artist-portrait]'))?'url("'+mediaSources.get(root.querySelector('[data-artist-portrait]')).url+'")':'none');

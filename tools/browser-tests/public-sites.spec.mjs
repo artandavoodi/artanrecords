@@ -5,12 +5,38 @@ const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
 test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));});
+if(key==='records')test('legacy artist addresses redirect to the root-level canonical profile',async({page})=>{
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist'}}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ for(const path of ['/artists/artandavoodi/','/artists/artan-davoodi/']){
+  await page.goto(path);await expect(page).toHaveURL(/\/artandavoodi\/$/);
+  await expect(page.locator('[data-artist-name]')).toHaveText('Test artist');
+ }
+});
+if(key==='records')test('missing usernames and invalid paths use the shared not-found graphic',async({page})=>{
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[]}));
+ for(const path of ['/missingartist/','/invalid/path/','/artandavoodi/']){
+  await page.goto(path);await expect(page.getByRole('heading',{name:'This page does not exist.',exact:true})).toBeVisible();
+  await expect(page.locator('[data-404-hero-shader-canvas]')).toBeAttached();
+  await expect(page.locator('meta[name=robots]')).toHaveAttribute('content','noindex,follow');
+  await expect(page.getByRole('link',{name:'Home',exact:true})).toBeVisible();
+  expect(await page.locator('body').evaluate(el=>el.scrollWidth<=innerWidth)).toBe(true);
+ }
+});
+if(key==='records')test('new approved public usernames render at root without a query string',async({page})=>{
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'newartist',fields:{artist_name:'New artist',biography:'A public biography.'}}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.goto('/newartist/');await expect(page.locator('[data-artist-name]')).toHaveText('New artist');
+ await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/newartist\/$/);
+ await expect(page.locator('[data-404-title]')).toHaveCount(0);expect(new URL(page.url()).search).toBe('');
+});
 if(key==='records')test('shared primary colours tint destinations and withdraw cleanly',async({page})=>{
  let shared=true;
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
  await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')}));
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',updated_at:new Date().toISOString(),fields:{artist_name:'Test artist',header_path:'96000000-0000-0000-0000-000000000001/header',spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',...(shared?{palette:['#123456','#654321','#abcdef','#112233','#445566']}: {})}}]}));
- await page.goto('/artists/artandavoodi/');
+ await page.goto('/artandavoodi/');
+ await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/artandavoodi\/$/);
  const root=page.locator('[data-public-artist]'),icon=root.locator('[data-artist-group=streaming] .artist-colour-icon');
  await expect(icon).toHaveCSS('background-color','rgb(18, 52, 86)');
  expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('#654321');
@@ -38,7 +64,7 @@ if(key==='records')test('artist readiness waits for media and desktop wheel scro
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',updated_at:'2026-10-24T12:00:00Z',fields:{artist_name:'Test artist',biography:'An artist story.',palette:['#123456','#000000'],spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',header_path:'96000000-0000-0000-0000-000000000001/header'}}])}));
  let releaseHeader;const headerReady=new Promise(resolve=>releaseHeader=resolve);
  await page.route('**/storage/v1/object/authenticated/studio-headers/**',async route=>{await headerReady;await route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
- await page.goto('/artists/artandavoodi/');await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeVisible();await expect(page.locator('main')).toHaveJSProperty('inert',true);
+ await page.goto('/artandavoodi/');await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeVisible();await expect(page.locator('main')).toHaveJSProperty('inert',true);
  releaseHeader();await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeHidden();await expect(page.locator('main')).toHaveJSProperty('inert',false);
  await expect(page.locator('[data-artist-palette]')).toHaveCount(0);
  const desktop=test.info().project.name.endsWith('desktop');await expect(page.locator('html')).toHaveCSS('scroll-snap-type',desktop?'y mandatory':'none');
@@ -61,7 +87,7 @@ if(key==='records')test('selected artist media refreshes and desktop link labels
  await page.route('https://hahtbepdrjkjluhespbs.supabase.co/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(published?[{username:'artandavoodi',updated_at:'2026-10-23T10:00:0'+version+'Z',fields:{artist_name:'Test artist',biography:'Saved biography '+version,spotify:'https://open.spotify.com/artist/test',...(shared?{portrait_path:portrait,header_path:portrait.replace('/avatar','/header')}:{})}}]:[])}));
  await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')}));
  await page.route('**/storage/v1/object/authenticated/studio-avatars/**',route=>{downloads++;return route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
- await page.goto('/artists/artandavoodi/');
+ await page.goto('/artandavoodi/');
  const image=page.locator('[data-artist-portrait] img');await expect(image).toBeVisible();await expect.poll(()=>image.evaluate(el=>el.naturalWidth)).toBe(1);expect(downloads).toBe(1);
  await expect(page.locator('[data-artist-header] img')).toBeVisible();await expect(page.locator('[data-artist-header]')).toHaveCSS('position','absolute');
  if(test.info().project.name.endsWith('desktop')){
@@ -77,7 +103,7 @@ if(key==='records')test('selected artist media refreshes and desktop link labels
  await expect(label).toHaveCSS('opacity',test.info().project.name.endsWith('desktop')?'0':'1');await expect(page.locator('.artist-destination-tabs')).toHaveCSS('border-bottom-width','0px');
  version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 2');expect(downloads).toBe(2);
  shared=false;version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(image).toHaveCount(0);await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 3');
- published=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-public-artist]')).toBeHidden();await expect(page.locator('[data-artist-unavailable]')).toHaveText('This artist page is not public.');
+ published=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-public-artist]')).toBeHidden();await expect(page.locator('[data-404-title]')).toHaveText('This page does not exist.');
 });
 if(key==='records')test('shared artist logo replaces only catalogue header imagery and restores company identity on withdrawal',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
@@ -86,7 +112,7 @@ if(key==='records')test('shared artist logo replaces only catalogue header image
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(published?[{username:'artandavoodi',updated_at:'2026-10-24T12:00:0'+version+'Z',fields:{artist_name:'Test artist',biography:'Artist biography.',spotify:'https://open.spotify.com/artist/test',...(shared?{logo_path:path}:{})}}]:[])}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await page.route('**/storage/v1/object/authenticated/studio-logos/**',async route=>{downloads++;await ready;await route.fulfill(fail?{status:404,contentType:'application/json',body:'{}'}:{status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
- await page.goto('/artists/artandavoodi/');await expect(page.locator('html')).not.toHaveAttribute('data-page-loading');
+ await page.goto('/artandavoodi/');await expect(page.locator('html')).not.toHaveAttribute('data-page-loading');
  const header=page.locator('.label-header-logo'),company=header.locator('.label-wordmark');await expect(company).toHaveCount(2);const height=await page.locator('.label-navigation').evaluate(el=>el.getBoundingClientRect().height),motion=await header.evaluate(el=>getComputedStyle(el).transitionDuration);
  shared=true;version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect.poll(()=>downloads).toBe(1);await expect(company).toHaveCount(2);releaseImage();
  await expect(header).toHaveAttribute('data-artist-logo','');await expect(header.locator('img')).toHaveCount(1);await expect(company).toHaveCount(0);await expect(header).toHaveAttribute('href','/');await expect(header).toHaveAttribute('aria-label','Test artist · Artanrecords');await expect(page.locator('main [data-artist-logo]')).toHaveCount(0);expect(await header.evaluate(el=>getComputedStyle(el).transitionDuration)).toBe(motion);expect(Math.abs(await page.locator('.label-navigation').evaluate(el=>el.getBoundingClientRect().height)-height)).toBeLessThanOrEqual(1);
@@ -100,7 +126,7 @@ if(key==='records')test('artist concerts show event-local time and suppress tick
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',updated_at:'2026-10-23T12:00:00Z',fields:{artist_name:'Test artist',biography:'A saved story.',website:'https://example.test',spotify:'https://open.spotify.com/artist/test'}}])}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{id:'test-event',title:'Piano night',starts_at:'2027-01-01T19:00:00Z',timezone:'Europe/Berlin',venue:'Concert hall',city:'Berlin',country:'DE',status:'published',ticket_url:'https://tickets.example/show',ticket_price:20,currency:'EUR',announcement:'An acoustic evening.'},{id:'cancelled-event',title:'Cancelled show',starts_at:'2027-02-01T19:00:00Z',timezone:'Europe/Berlin',venue:'Concert hall',city:'Berlin',country:'DE',status:'cancelled',ticket_url:'https://tickets.example/cancelled',ticket_price:20,currency:'EUR'}])}));
- await page.goto('/artists/artandavoodi/');await expect(page.locator('[data-public-artist]')).toHaveAttribute('data-artist-section-mode',/desktop|natural/);await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());
+ await page.goto('/artandavoodi/');await expect(page.locator('[data-public-artist]')).toHaveAttribute('data-artist-section-mode',/desktop|natural/);await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());
  const live=page.getByRole('tab',{name:'Live',exact:true});await expect(live).toBeVisible();
  if(test.info().project.name.endsWith('desktop')){const box=await live.boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height/2);}else await live.click();
  const concerts=page.locator('[data-artist-concerts]');await expect(concerts.getByRole('heading',{name:'Piano night'})).toBeVisible();await expect(concerts).toContainText('Europe/Berlin');await expect(concerts.getByRole('link',{name:'Tickets & details'})).toHaveCount(1);await expect(concerts).toContainText('Cancelled');
@@ -112,11 +138,11 @@ if(key==='records')test('artist concerts show event-local time and suppress tick
 });
 if(key==='records')test('approved artist snapshot replaces only artist-selected public fields',async({page})=>{
  await page.route('https://hahtbepdrjkjluhespbs.supabase.co/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',fields:{artist_name:'Artan Davoodi',biography:'Approved Studio biography',spotify:'https://open.spotify.com/artist/test'}}])}));
- await page.goto('/artists/artandavoodi/');
+ await page.goto('/artandavoodi/');
  await expect(page.locator('[data-artist-fields]')).toContainText('Approved Studio biography');
  await expect(page.locator('[data-artist-links] a')).toHaveCount(1);
  await expect(page.locator('[data-artist-links] a')).toHaveAttribute('href','https://open.spotify.com/artist/test');
- await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/artists\/artandavoodi\/$/);
+ await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/artandavoodi\/$/);
  await expect(page.locator('.label-footer-group')).toHaveCount(0);
  await expect(page.getByRole('heading',{name:'Releases',exact:true})).toBeVisible();
 });

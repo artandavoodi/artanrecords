@@ -7,6 +7,27 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--not-found-only')){
+  const owner=path.resolve(root,'../website'),revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  const mappings={
+    'docs/registry/icons/public/assets/core/navigation/primary/home.svg':'docs/registry/icons/public/assets/core/navigation/primary/home.svg',
+    'docs/registry/icons/public/assets/core/navigation/direction/back.svg':'docs/registry/icons/public/assets/core/navigation/direction/back.svg',
+    'docs/assets/css/layers/website/pages/404/404.css':'docs/assets/css/layers/site/not-found.css',
+    'docs/assets/js/layers/website/ui/effects/404-hero-shader.js':'docs/assets/js/layers/website/ui/effects/404-hero-shader.js',
+    'docs/assets/fragments/layers/website/system/404-hero-shader.html':'docs/assets/fragments/layers/website/system/404-hero-shader.html'
+  };
+  for(const [from,file] of Object.entries(mappings)){
+    const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${from}`]);await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+    manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision,sourceFile:from});
+  }
+  const page=execFileSync('git',['-C',owner,'show',`${revision}:docs/404.html`],{encoding:'utf8'});
+  const match=page.match(/<main class="page-404-content"[^>]*>([\s\S]*?)<\/main>/);if(!match)throw Error('Canonical not-found shell was not found');
+  const file='docs/assets/fragments/not-found/index.html',bytes=Buffer.from(match[1].replaceAll('Neuroartan','{{name}}'));
+  await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+  manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision,sourceFile:'docs/404.html'});
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--brand-header-only')){
   const owner=path.resolve(root,'../website');
   const revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();

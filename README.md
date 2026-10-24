@@ -4,7 +4,26 @@
 
 Every major and minor development change must follow the canonical [Control Center development-registration policy](https://github.com/artandavoodi/control-center/blob/main/docs/development-registration.md). Commit in the owning repository; never copy code, tokens or vectors to register a change. Private repository history remains private until its authorized connector is available.
 
-## Brand exports
+## Artist addresses and hosting boundary
+
+Canonical artist addresses use `/{username}/`. Stable artist IDs and approval
+records do not change. Registered `/artists/{id}/` and `/artists/{username}/`
+addresses redirect to their canonical root address and stay out of the sitemap.
+Root usernames must never overwrite an institutional route; the build rejects
+collisions and publishes the reserved route list for the browser resolver.
+Only the anonymous, published artist snapshot may resolve a public artist page.
+Missing, hidden and unpublished profiles use the same shared not-found view.
+
+GitHub Pages serves prebuilt profiles normally. Its custom-404 fallback can
+render newly published profiles without rebuilding, but cannot change the HTTP
+404 response to 200. Before broad artist onboarding, deploy a server-side route
+resolver that returns 200 for published profiles, 404 for unavailable profiles,
+503 for backend failures and permanent redirects for legacy addresses. Do not
+describe the browser fallback as server rendering or complete SEO readiness.
+The shared 404 CSS, graphic and shell are pinned from the public Neuroartan
+owners through `tools/sync-foundation.mjs --not-found-only`.
+
+## Brand export ownership
 
 The approved Artanrecords symbol and wordmark exports are owned by
 `docs/assets/brand/logo/` in this repository. Run `node tools/sync-brand.mjs`

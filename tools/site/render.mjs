@@ -1,8 +1,8 @@
 import platform from '../../docs/assets/data/artists/platform.json' with {type:'json'};
 export const artistPath=id=>{
   const slug=platform.routes?.[id]||id;
-  if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug))throw Error('Invalid artist route');
-  return '/artists/'+slug+'/';
+  if(!/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(slug))throw Error('Invalid artist route');
+  return '/'+slug+'/';
 };
 export const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function releaseArtist(record,artists) {

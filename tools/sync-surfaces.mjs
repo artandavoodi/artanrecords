@@ -34,7 +34,7 @@ async function tree(path,destination){for(const item of await readdir(resolve(ro
 for(const name of ['css','brand','icons'])await tree('docs/assets/'+name,'assets/'+name);
 await copy('docs/assets/js/core/02-systems/document-reader.js','assets/js/core/02-systems/document-reader.js');
 await copy('docs/assets/data/studio-legal.json','assets/data/studio-legal.json');
-for(const name of ['identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down'])await copy('docs/registry/icons/public/assets/core/'+name+'.svg','registry/icons/public/assets/core/'+name+'.svg');
+for(const name of ['identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down','navigation/primary/home','navigation/direction/back'])await copy('docs/registry/icons/public/assets/core/'+name+'.svg','registry/icons/public/assets/core/'+name+'.svg');
 for(const path of ['js/core/theme.js','js/core/menu.js','js/core/close-button.js','js/core/search.js','js/core/dialogs.js','js/core/startup.js','js/core/preference-config.js','js/layers/site/navigation.js','fragments/navigation/index.html','data/site.json','data/icons.json'])await copy('docs/assets/'+path,'assets/'+path);
 for(const name of ['build.mjs','shell.html','surface.css','app.js','search.mjs'])await copy('tools/ecosystem/'+name,'foundation/'+name);
 if(checking) {

@@ -187,13 +187,14 @@ for(const artist of artists.items) {
   const releases=catalogue.items.filter(r=>r.artistId===artist.id);
   const latest = releases.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];
   artist.artistHeading = latest ? 'h2' : 'h1';
-  artist.username=artistPath(artist.id).split('/')[2];
+  if(paths.includes(artistPath(artist.id)))throw Error('Artist username conflicts with an existing website route: '+artist.id);
+  artist.username=artistPath(artist.id).split('/')[1];
   artist.latestCover=latest?.cover?'/'+latest.cover.src:'';
   artist.backgroundStyle = latest?.cover ? `--artist-cover: url('/${latest.cover.src}')` : '';
   const latestRelease = latest ? `<section class="site-section artist-latest-release" aria-label="${e(roster.labels.latestRelease)}"><h2>${e(latest.title)}</h2><p>${e(artist.name)}</p><a href="/releases/${e(latest.id)}/">${image(latest.cover)}</a><p class="reading">${e(latest.description)}</p><div class="hub__group" data-presentation="icons">${links(latest.links,icons,'hub__group-links')}</div></section>` : '';
   artist.artistHeading='h1';
   await page(artistPath(artist.id),artist.name,artist.biography,'artist',{...escaped(artist),latestRelease,yearsActive:artistYears(artist,roster.labels),portrait:artist.portrait?image(artist.portrait):'',releases:releases.length?`<section data-artist-archive><h2>${e(roster.labels.releases)}</h2><div class="catalogue">${cards(releases)}</div></section>`:'',portfolio:artist.portfolio?.length?`<section><h2>${e(roster.labels.portfolio)}</h2>${artist.portfolio.map(p=>`<article><h3><a href="${e(p.url)}">${e(p.title)}</a></h3><p>${e(p.description)}</p></article>`).join('')}</section>`:'',links:artistLinks(artist,roster.linkGroups,icons)},{'@type':'ProfilePage',mainEntity:{'@id':personFor(artist)['@id']}});
-  if(artistPath(artist.id)!==`/artists/${artist.id}/`)await output(`artists/${artist.id}/index.html`,`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${e(site.domain+artistPath(artist.id))}"><meta http-equiv="refresh" content="0;url=${e(artistPath(artist.id))}"><title>${e(artist.name)} · Artanrecords</title></head><body><a href="${e(artistPath(artist.id))}">Open ${e(artist.name)} artist profile</a></body></html>`);
+  for(const legacy of new Set([artist.id,artist.username]))await output(`artists/${legacy}/index.html`,`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${e(site.domain+artistPath(artist.id))}"><meta http-equiv="refresh" content="0;url=${e(artistPath(artist.id))}"><title>${e(artist.name)} · Artanrecords</title></head><body><a href="${e(artistPath(artist.id))}">Open ${e(artist.name)} artist profile</a></body></html>`);
 }
 for(const r of catalogue.items) {
   const artist=releaseArtist(r,artists.items);
@@ -212,5 +213,7 @@ await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns=
   return `<url><loc>${site.domain}${p}</loc>${[...new Set(images)].map(src=>`<image:image><image:loc>${e(site.domain+'/'+src)}</image:loc></image:image>`).join('')}</url>`;
 }).join('')}</urlset>`);
 await output('robots.txt',`User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
-await output('404.html',fill(shell,{head:`<title>${e(site.labels.notFound)}</title><meta name="robots" content="noindex">`,navigation,footer,fragment:'home',backgroundStyle:'',atmosphere:'',content:`<section class="site-section"><h1>${e(site.labels.notFound)}</h1><a href="/">${e(site.labels.returnHome)}</a></section>`}));
+await output('assets/data/artists/reserved-routes.json',JSON.stringify([...new Set(paths.map(route=>route.split('/')[1]).filter(Boolean))].filter(route=>!artists.items.some(artist=>artistPath(artist.id)==='/'+route+'/'))));
+const notFound=fill(shell,{head:`<title>${e(site.labels.notFound)} · ${e(site.name)}</title><link rel="canonical" href="${site.domain}/404.html">`,navigation,footer:'',fragment:'not-found',backgroundStyle:'',atmosphere:'',content:await fragment('not-found',{name:e(site.name)})}).replace('content="max-image-preview:large"','content="noindex,follow"');
+await output('404.html',notFound.replace('<body style="">','<body class="page-404" style="">').replace('tabindex="-1" data-fragment="not-found"','tabindex="-1" class="page-404-content" data-fragment="not-found"').replace('<div data-fragment="navigation">','<div data-fragment="navigation" hidden>'));
 console.log(`Generated ${paths.length} public documents, 404, sitemap and robots.`);

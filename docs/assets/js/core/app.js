@@ -11,7 +11,9 @@ import {bindReleaseDiscovery} from '../layers/site/releases.js';
 import {bindInformationTabs} from '../layers/site/information-tabs.js';
 import {bindPartnershipComparison} from '../layers/site/partnerships.js';
 import {bindPublicArtist} from '../layers/site/artist-platform.js';
+import {routeArtistRequest,bindNotFound} from '../layers/site/not-found.js';
 initializeTheme();
+await routeArtistRequest().catch(console.error);
 try {
   const theme=document.querySelector('[data-theme-toggle]');
   const menu=document.querySelector('[data-menu-toggle]');
@@ -30,6 +32,7 @@ bindInformationTabs();
 bindPartnershipComparison();
 try{
  await bindPublicArtist();
+ await bindNotFound();
  await document.fonts?.ready;
  await window.NeuroartanPageLoading?.images(document.body);
 }finally{window.NeuroartanPageLoading?.finish();window.dispatchEvent(new Event('site:ready'));}
