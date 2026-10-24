@@ -3,6 +3,7 @@ export function bindArtistSections(root,mount,tabs){
  current?.();
  const header=document.querySelector('.label-navigation'),logo=header?.querySelector('.label-header-logo');if(!header||!logo)return;
  const desktop=matchMedia('(min-width:1025px) and (hover:hover) and (pointer:fine)');
+ const archive=root.querySelector('[data-artist-archive]'),intro=root.querySelector('.artist-biography'),directory=root.querySelector('[data-artist-directory]');
  let frame,leaving=false;
  const restore=()=>{leaving=false;delete tabs.dataset.leaving;delete tabs.dataset.inHeader;tabs.hidden=desktop.matches;if(desktop.matches)header.append(tabs);else mount.prepend(tabs);logo.hidden=false;};
  const update=()=>{
@@ -10,6 +11,10 @@ export function bindArtistSections(root,mount,tabs){
   document.documentElement.style.setProperty('--artist-header-height',height+'px');
   const active=desktop.matches&&rect.top<=height+1&&rect.bottom>height+1;
   root.dataset.artistSectionMode=desktop.matches?'desktop':'natural';
+  root.toggleAttribute('data-artist-free-scroll',desktop.matches&&Boolean(archive)&&archive.getBoundingClientRect().top<innerHeight-1);
+  const progress=desktop.matches&&intro?Math.max(0,Math.min(1,(height-intro.getBoundingClientRect().top)/(intro.offsetHeight*0.35))):0;
+  root.style.setProperty('--artist-directory-progress',String(progress));
+  if(directory)directory.inert=progress>=1;
   root.dataset.artistMotion='';
   for(const section of root.children){const bounds=section.getBoundingClientRect();section.toggleAttribute('data-artist-visible',bounds.bottom>height&&bounds.top<innerHeight*0.9);}
   if(active){leaving=false;delete tabs.dataset.leaving;tabs.hidden=false;logo.hidden=true;if(!tabs.hasAttribute('data-in-header')){tabs.dataset.inHeader='';if(tabs.parentElement!==header)header.append(tabs);}}

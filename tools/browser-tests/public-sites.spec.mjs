@@ -20,6 +20,10 @@ if(key==='records')test('artist readiness waits for media and desktop wheel scro
  await expect(page.locator('.label-navigation .artist-destination-tabs')).toBeVisible();
  const panel=page.locator('[data-artist-group=streaming]');expect(await panel.evaluate(el=>{const rect=el.getBoundingClientRect(),header=document.querySelector('.label-navigation').getBoundingClientRect().height;return Math.abs(rect.top+rect.height/2-(innerHeight+header)/2);})).toBeLessThan(4);
  const label=panel.locator('.hub__tooltip');await page.mouse.move(0,0);await expect(label).toHaveCSS('opacity','0');await panel.getByRole('link',{name:'Spotify'}).hover();await expect(label).toHaveCSS('opacity','1');
+ await expect(page.locator('[data-artist-directory]')).toHaveJSProperty('inert',true);
+ await page.locator('[data-artist-archive]').evaluate(el=>el.scrollIntoView());await expect(page.locator('html')).toHaveCSS('scroll-snap-type','none');await expect(page.locator('[data-artist-archive]')).toHaveCSS('scroll-snap-align','none');
+ const before=await page.evaluate(()=>scrollY);await page.mouse.wheel(0,83);await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(before+70);const natural=await page.evaluate(()=>scrollY);await page.waitForTimeout(350);expect(Math.abs(await page.evaluate(()=>scrollY)-natural)).toBeLessThan(2);
+ await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());await expect(page.locator('html')).toHaveCSS('scroll-snap-type','y mandatory');
  if(test.info().project.name==='chromium-desktop')await page.screenshot({path:'/tmp/artist-catalogue-centered.png'});
 });
 if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{
