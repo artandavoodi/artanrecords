@@ -6,11 +6,13 @@ const mediaSources=new Map();
 let companyHeader;
 function renderArtistColours(root,fields){
  const palette=Array.isArray(fields.palette)?fields.palette.slice(0,5):[];
+ const navigation=document.querySelector('[data-fragment="navigation"]');
  for(let index=0;index<5;index++){
   const value=palette[index],property='--artist-primary-'+(index+1);
   if(typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value))root.style.setProperty(property,value);
   else root.style.removeProperty(property);
  }
+ if(navigation){const colour=root.style.getPropertyValue('--artist-primary-2');if(colour)navigation.style.setProperty('--artist-primary-2',colour);else navigation.style.removeProperty('--artist-primary-2');}
  // The public snapshot includes palette only when the artist shares it.
  for(const icon of root.querySelectorAll('[data-artist-colour-icon]')){
   const image=document.createElement('img');image.src=icon.dataset.artistColourIcon;image.alt='';
@@ -69,6 +71,7 @@ export async function bindPublicArtist(){
   const response=await fetch(endpoint,{headers:{apikey:config.publishableKey},credentials:'omit',cache:'no-store'});if(!response.ok)throw Error();const [record]=await response.json();
   let unavailable=document.querySelector('[data-artist-unavailable]');
   if(!unavailable){unavailable=document.createElement('p');unavailable.dataset.artistUnavailable='';unavailable.setAttribute('role','status');unavailable.hidden=true;root.before(unavailable);}
+  if(!record)renderArtistColours(root,{});
   if(!record){root.hidden=true;unavailable.hidden=false;unavailable.textContent='This artist page is not public.';for(const mount of root.querySelectorAll('[data-artist-portrait],[data-artist-header]'))clearArtistMedia(mount);const header=artistHeader();if(header)clearArtistMedia(header,'logo_path');document.body.style.setProperty('--artist-cover','none');return;}
   root.hidden=false;unavailable.hidden=true;
   root.querySelector('[data-artist-name]').textContent=record.fields.artist_name;document.title=record.fields.artist_name+' · Artanrecords';status.textContent='@'+record.username;

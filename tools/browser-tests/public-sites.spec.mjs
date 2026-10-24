@@ -17,10 +17,17 @@ if(key==='records')test('shared primary colours tint destinations and withdraw c
  expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-5'))).toBe('#445566');
  await expect.poll(()=>root.locator('[data-artist-header]').evaluate(el=>getComputedStyle(el,'::after').backgroundImage)).toContain('rgb(101, 67, 33)');
  await expect(root.locator('[data-artist-group=social] .artist-colour-icon')).toHaveCSS('background-color','rgb(18, 52, 86)');
+ const navigation=page.locator('[data-fragment=navigation]');
+ if(test.info().project.name.endsWith('desktop')){
+  await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());
+  await expect(navigation.locator('.artist-destination-tabs[data-in-header]')).toBeVisible();
+  await expect(navigation).toHaveCSS('background-color','rgb(101, 67, 33)');
+ }
  shared=false;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
  await expect(root.locator('.artist-colour-icon')).toHaveCount(0);
  await expect(root.locator('[data-artist-group=streaming] img')).toHaveCount(1);
  expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('');
+ expect(await navigation.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('');
  expect(await root.locator('[data-artist-header]').evaluate(el=>getComputedStyle(el,'::after').backgroundImage)).not.toContain('rgb(101, 67, 33)');
  shared=true;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
  await expect(icon).toHaveCSS('background-color','rgb(18, 52, 86)');
