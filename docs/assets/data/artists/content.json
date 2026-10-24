@@ -1,0 +1,5 @@
+{
+ "fields":[{"key":"other_names","label":"Other names"},{"key":"from","label":"From"},{"key":"born","label":"Born"},{"key":"about","label":"About"},{"key":"early_memory","label":"An early musical memory"},{"key":"favorite_albums","label":"Favourite albums"},{"key":"favorite_song","label":"A song that matters"},{"key":"career_moment","label":"A memorable career moment"},{"key":"ambitions","label":"What comes next"},{"key":"influences","label":"Musical influences"},{"key":"collaborations","label":"Collaborations"}],
+ "spotlightTitle":"Artist Spotlight",
+ "releases":"/assets/data/music/releases.json"
+}

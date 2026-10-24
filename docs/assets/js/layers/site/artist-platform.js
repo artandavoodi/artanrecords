@@ -1,5 +1,6 @@
 import {renderConcerts} from './artist-concerts.js';
 import {renderArtistTabs} from './artist-tabs.js';
+import {renderArtistContent} from './artist-content.js';
 let refreshInFlight=false;
 const mediaSources=new Map();
 async function renderArtistMedia(root,record,config){
@@ -62,6 +63,7 @@ export async function bindPublicArtist(){
    if(list.childNodes.length||group.id==='concerts'){section.append(heading,list);links.append(section);}
   }
   renderArtistTabs(links,config.linkGroups,concerts);
+  void renderArtistContent(root,record,config);
   void renderConcerts(root,record.username,config);
  }catch{if(!embedded)status.textContent='This artist page could not be loaded. Please try again.';}finally{refreshInFlight=false;}
 }

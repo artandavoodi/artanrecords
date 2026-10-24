@@ -4,6 +4,7 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));});
 if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
@@ -14,6 +15,15 @@ if(key==='records')test('selected artist media refreshes and desktop link labels
  await page.goto('/artists/artandavoodi/');
  const image=page.locator('[data-artist-portrait] img');await expect(image).toBeVisible();await expect.poll(()=>image.evaluate(el=>el.naturalWidth)).toBe(1);expect(downloads).toBe(1);
  await expect(page.locator('[data-artist-header] img')).toBeVisible();await expect(page.locator('[data-artist-header]')).toHaveCSS('position','absolute');
+ if(test.info().project.name.endsWith('desktop')){
+  expect(Math.abs((await page.locator('[data-artist-header]').boundingBox()).y)).toBeLessThanOrEqual(1);
+  await expect(page.locator('.artist-destination-tabs')).toBeHidden();
+  await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());
+  await expect(page.locator('.label-navigation .artist-destination-tabs')).toBeVisible();
+  await expect(page.locator('.label-header-logo')).toBeHidden();
+  await page.locator('.artist-latest-release').evaluate(el=>el.scrollIntoView());
+  await expect(page.locator('.artist-destination-tabs')).toBeHidden();
+ }
  const link=page.locator('[data-artist-links] a[aria-label="Spotify"]'),label=link.locator('.hub__tooltip');
  await expect(label).toBeVisible();await expect(label).toHaveCSS('opacity','1');await expect(page.locator('.artist-destination-tabs')).toHaveCSS('border-bottom-width','0px');
  version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.locator('[data-artist-fields]')).toContainText('Saved biography 2');expect(downloads).toBe(2);
@@ -24,10 +34,15 @@ if(key==='records')test('artist concerts show event-local time and suppress tick
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',updated_at:'2026-10-23T12:00:00Z',fields:{artist_name:'Test artist',biography:'A saved story.',website:'https://example.test',spotify:'https://open.spotify.com/artist/test'}}])}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{id:'test-event',title:'Piano night',starts_at:'2027-01-01T19:00:00Z',timezone:'Europe/Berlin',venue:'Concert hall',city:'Berlin',country:'DE',status:'published',ticket_url:'https://tickets.example/show',ticket_price:20,currency:'EUR',announcement:'An acoustic evening.'},{id:'cancelled-event',title:'Cancelled show',starts_at:'2027-02-01T19:00:00Z',timezone:'Europe/Berlin',venue:'Concert hall',city:'Berlin',country:'DE',status:'cancelled',ticket_url:'https://tickets.example/cancelled',ticket_price:20,currency:'EUR'}])}));
- await page.goto('/artists/artandavoodi/');await page.getByRole('tab',{name:'Live',exact:true}).click();const concerts=page.locator('[data-artist-concerts]');await expect(concerts.getByRole('heading',{name:'Piano night'})).toBeVisible();await expect(concerts).toContainText('Europe/Berlin');await expect(concerts.getByRole('link',{name:'Tickets & details'})).toHaveCount(1);await expect(concerts).toContainText('Cancelled');
- await page.getByRole('tab',{name:'Explore',exact:true}).click();await expect(concerts).toBeHidden();await expect(page.getByRole('link',{name:'Website',exact:true})).toBeVisible();
+ await page.goto('/artists/artandavoodi/');await expect(page.locator('[data-public-artist]')).toHaveAttribute('data-artist-section-mode',/desktop|natural/);await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());
+ const live=page.getByRole('tab',{name:'Live',exact:true});await expect(live).toBeVisible();
+ if(test.info().project.name.endsWith('desktop')){const box=await live.boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height/2);}else await live.click();
+ const concerts=page.locator('[data-artist-concerts]');await expect(concerts.getByRole('heading',{name:'Piano night'})).toBeVisible();await expect(concerts).toContainText('Europe/Berlin');await expect(concerts.getByRole('link',{name:'Tickets & details'})).toHaveCount(1);await expect(concerts).toContainText('Cancelled');
+ const explore=page.getByRole('tab',{name:'Explore',exact:true});await expect(explore).toBeVisible();
+ if(test.info().project.name.endsWith('desktop')){const box=await explore.boundingBox();await page.mouse.click(box.x+box.width/2,box.y+box.height/2);}else await explore.click();
+ await expect(concerts).toBeHidden();await expect(page.getByRole('link',{name:'Website',exact:true})).toBeVisible();
  await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect(page.getByRole('tab',{name:'Explore',exact:true})).toHaveAttribute('aria-selected','true');await expect(concerts).toBeHidden();
- await expect(page.locator('[data-artist-links]')).toContainText('Listen');await expect(page.locator('[data-artist-links]')).toContainText('Explore');
+ await expect(page.locator('.artist-destination-tabs')).toContainText('Listen');await expect(page.locator('.artist-destination-tabs')).toContainText('Explore');
 });
 if(key==='records')test('approved artist snapshot replaces only artist-selected public fields',async({page})=>{
  await page.route('https://hahtbepdrjkjluhespbs.supabase.co/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',fields:{artist_name:'Artan Davoodi',biography:'Approved Studio biography',spotify:'https://open.spotify.com/artist/test'}}])}));
