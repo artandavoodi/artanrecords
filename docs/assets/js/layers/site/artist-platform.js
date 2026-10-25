@@ -2,25 +2,24 @@ import {renderConcerts} from './artist-concerts.js';
 import {renderArtistTabs} from './artist-tabs.js';
 import {renderArtistContent} from './artist-content.js';
 import {showNotFound} from './not-found.js';
+import {artistColourProperties} from './artist-colours.js';
 let refreshInFlight=false,refreshQueued=false;
 const mediaSources=new Map();
 let companyHeader;
 function renderArtistColours(root,fields){
- const palette=Array.isArray(fields.palette)?fields.palette.slice(0,5):[];
  const navigation=document.querySelector('[data-fragment="navigation"]');
- for(let index=0;index<5;index++){
-  const value=palette[index],property='--artist-primary-'+(index+1);
-  if(typeof value==='string'&&/^#[0-9a-f]{6}$/i.test(value))root.style.setProperty(property,value);
+ for(const [property,value] of Object.entries(artistColourProperties(fields))){
+  if(value)root.style.setProperty(property,value);
   else root.style.removeProperty(property);
  }
- if(navigation){const colour=root.style.getPropertyValue('--artist-primary-2');if(colour)navigation.style.setProperty('--artist-primary-2',colour);else navigation.style.removeProperty('--artist-primary-2');}
+ if(navigation){const colour=root.style.getPropertyValue('--artist-header-ribbon');if(colour)navigation.style.setProperty('--artist-header-ribbon',colour);else navigation.style.removeProperty('--artist-header-ribbon');}
  // The public snapshot includes palette only when the artist shares it.
  for(const icon of root.querySelectorAll('[data-artist-colour-icon]')){
   const image=document.createElement('img');image.src=icon.dataset.artistColourIcon;image.alt='';
   if(icon.dataset.monochrome)image.dataset.monochrome=icon.dataset.monochrome;
   icon.replaceWith(image);
  }
- if(!root.style.getPropertyValue('--artist-primary-1'))return;
+ if(!root.style.getPropertyValue('--artist-icon-colour'))return;
  for(const image of root.querySelectorAll('.hub__link img')){
   const icon=document.createElement('span');icon.className='artist-colour-icon';icon.setAttribute('aria-hidden','true');
   icon.dataset.artistColourIcon=image.src;if(image.dataset.monochrome)icon.dataset.monochrome=image.dataset.monochrome;

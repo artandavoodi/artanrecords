@@ -53,7 +53,7 @@ if(key==='records')test('shared primary colours tint destinations and withdraw c
  await expect(root.locator('.artist-colour-icon')).toHaveCount(0);
  await expect(root.locator('[data-artist-group=streaming] img')).toHaveCount(1);
  expect(await root.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('');
- expect(await navigation.evaluate(el=>el.style.getPropertyValue('--artist-primary-2'))).toBe('');
+ expect(await navigation.evaluate(el=>el.style.getPropertyValue('--artist-header-ribbon'))).toBe('');
  expect(await root.locator('[data-artist-header]').evaluate(el=>getComputedStyle(el,'::after').backgroundImage)).not.toContain('rgb(101, 67, 33)');
  shared=true;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
  await expect(icon).toHaveCSS('background-color','rgb(18, 52, 86)');
