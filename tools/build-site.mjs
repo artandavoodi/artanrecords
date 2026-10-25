@@ -8,6 +8,8 @@ const docs=new URL('../docs/',import.meta.url);
 await writeFile(new URL('assets/css/site.generated.css',docs),await bundleStyles(new URL('assets/css/core/00-orchestrator/style.css',docs),docs));
 const read=p=>readFile(new URL(p,docs),'utf8');
 const json=async p=>JSON.parse(await read(p));
+const commerce=await json('assets/data/commerce.json');
+if(Object.values(commerce.activation).some(Boolean))throw Error('Commerce activation requires an approved server runtime and reviewed financial/domain controls');
 const [site,registry,catalogue,artists,icons,ui]=await Promise.all(['site','fragments','music/releases','artists/items','icons','music/interface'].map(p=>json('assets/data/'+p+'.json')));
 await writeFile(new URL('assets/js/core/preference-config.js',docs),`window.ArtanRecordsPreferenceConfig=${JSON.stringify(site.preferences.storage)};\n`);
 const roster=await json('assets/data/artists/roster.json');
@@ -187,7 +189,7 @@ for(const artist of artists.items) {
   const releases=catalogue.items.filter(r=>r.artistId===artist.id);
   const latest = releases.filter(r=>r.status==='Released').sort((a,b)=>Date.parse(b.releaseDate)-Date.parse(a.releaseDate))[0];
   artist.artistHeading = latest ? 'h2' : 'h1';
-  if(paths.includes(artistPath(artist.id)))throw Error('Artist username conflicts with an existing website route: '+artist.id);
+  if(paths.includes(artistPath(artist.id))||commerce.routes.reservedRoots.includes(artistPath(artist.id).split('/')[1]))throw Error('Artist username conflicts with an existing website route: '+artist.id);
   artist.username=artistPath(artist.id).split('/')[1];
   artist.latestCover=latest?.cover?'/'+latest.cover.src:'';
   artist.backgroundStyle = latest?.cover ? `--artist-cover: url('/${latest.cover.src}')` : '';
@@ -213,7 +215,7 @@ await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns=
   return `<url><loc>${site.domain}${p}</loc>${[...new Set(images)].map(src=>`<image:image><image:loc>${e(site.domain+'/'+src)}</image:loc></image:image>`).join('')}</url>`;
 }).join('')}</urlset>`);
 await output('robots.txt',`User-agent: *\nAllow: /\nSitemap: ${site.domain}/sitemap.xml\n`);
-await output('assets/data/artists/reserved-routes.json',JSON.stringify([...new Set(paths.map(route=>route.split('/')[1]).filter(Boolean))].filter(route=>!artists.items.some(artist=>artistPath(artist.id)==='/'+route+'/'))));
+await output('assets/data/artists/reserved-routes.json',JSON.stringify([...new Set([...commerce.routes.reservedRoots,...paths.map(route=>route.split('/')[1]).filter(Boolean)])].filter(route=>!artists.items.some(artist=>artistPath(artist.id)==='/'+route+'/'))));
 const notFound=fill(shell,{head:`<title>${e(site.labels.notFound)} · ${e(site.name)}</title><link rel="canonical" href="${site.domain}/404.html">`,navigation,footer:'',fragment:'not-found',backgroundStyle:'',atmosphere:'',content:await fragment('not-found',{name:e(site.name)})}).replace('content="max-image-preview:large"','content="noindex,follow"');
 await output('404.html',notFound.replace('<body style="">','<body class="page-404" style="">').replace('tabindex="-1" data-fragment="not-found"','tabindex="-1" class="page-404-content" data-fragment="not-found"').replace('<div data-fragment="navigation">','<div data-fragment="navigation" hidden>'));
 console.log(`Generated ${paths.length} public documents, 404, sitemap and robots.`);

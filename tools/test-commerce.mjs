@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {creatorPath,creatorShopRoute} from '../docs/assets/js/layers/site/creator-routes.js';
+const config=JSON.parse(await readFile(new URL('../docs/assets/data/commerce.json',import.meta.url)));
+const reserved=JSON.parse(await readFile(new URL('../docs/assets/data/artists/reserved-routes.json',import.meta.url)));
+assert.equal(creatorPath('artandavoodi',config,reserved),'/artandavoodi/shop/');
+assert.equal(creatorPath('anothercreator',config,reserved,'signed-print'),'/anothercreator/shop/signed-print/');
+for(const name of ['shop','releases','../artist','artist/other','Artist','a..b'])assert.throws(()=>creatorPath(name,config,reserved));
+for(const path of ['/shop/artandavoodi/','/releases/shop/','/artandavoodi/shop/../','/artandavoodi/shop/product/extra/'])assert.equal(creatorShopRoute(path,config,reserved),null);
+assert.equal(creatorShopRoute('/artandavoodi/shop/signed-print/',config,reserved).slug,'signed-print');
+assert.ok(Object.values(config.activation).every(value=>value===false));
+assert.equal(config.finance.recordingSharesApplyToCommerce,false);assert.equal(config.finance.commission,null);
+assert.ok(reserved.includes('shop'));
+console.log('PASS: creator-first shop contracts, reserved roots and inactive commerce gates. No storefront is published.');
