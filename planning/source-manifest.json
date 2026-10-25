@@ -44,67 +44,99 @@
     },
     {
       "file": "docs/assets/icons/social/platforms/youtube.svg",
-      "sha256": "94f7062f3106f4379a3ab1de21e71afc2900792e0f7eb68b8d877eb799c8bd3b"
+      "sha256": "94f7062f3106f4379a3ab1de21e71afc2900792e0f7eb68b8d877eb799c8bd3b",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/youtube.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/tiktok.svg",
-      "sha256": "6b0add3deed8bd8e774bb84c39d837e5f761136eca83a927cd49a5da37d46edb"
+      "sha256": "6b0add3deed8bd8e774bb84c39d837e5f761136eca83a927cd49a5da37d46edb",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/tiktok.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/facebook.svg",
-      "sha256": "4299ed3adc9014ed27b6f9b49a47a5de9af0f46d12aad9d9e483951204f33c90"
+      "sha256": "4299ed3adc9014ed27b6f9b49a47a5de9af0f46d12aad9d9e483951204f33c90",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/facebook.svg"
     },
     {
       "file": "docs/assets/icons/navigation/home.svg",
-      "sha256": "5abaf339b91ac798b78d8da01b696f0a2b398d5247eee307c1d63b53c30cc3bb"
+      "sha256": "5abaf339b91ac798b78d8da01b696f0a2b398d5247eee307c1d63b53c30cc3bb",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/core/navigation/primary/home.svg"
     },
     {
       "file": "docs/assets/icons/navigation/back.svg",
-      "sha256": "78d015c37800e318e22b1afbafdc0f0d5a561e90646ad55d9475898f08cb43d6"
+      "sha256": "78d015c37800e318e22b1afbafdc0f0d5a561e90646ad55d9475898f08cb43d6",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/core/navigation/direction/back.svg"
     },
     {
       "file": "docs/assets/icons/navigation/chevron-right.svg",
-      "sha256": "106303fa2bd5611f1082ff4149083307a7ead325911770effad6c9470f6341fe"
+      "sha256": "106303fa2bd5611f1082ff4149083307a7ead325911770effad6c9470f6341fe",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/core/navigation/chevron/chevron-right.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/instagram.svg",
-      "sha256": "7e4b0ad497c7afdbec799228d72ea8e32f851adf56d04598bf93cfa333cec0c7"
+      "sha256": "7e4b0ad497c7afdbec799228d72ea8e32f851adf56d04598bf93cfa333cec0c7",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/system/social/instagram.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/x.svg",
-      "sha256": "ed85ee2736e27b70222d13216facc668fc545fb962d01468a460d8c2248ffba5"
+      "sha256": "ed85ee2736e27b70222d13216facc668fc545fb962d01468a460d8c2248ffba5",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/system/social/x.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/email.svg",
-      "sha256": "cf2c19b26e0f7313cc851db282bbf6c08c115a41854c7fe9f0a910809f9e161c"
+      "sha256": "cf2c19b26e0f7313cc851db282bbf6c08c115a41854c7fe9f0a910809f9e161c",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/system/social/email.svg"
     },
     {
       "file": "docs/assets/icons/navigation/globe.svg",
-      "sha256": "b4693a9829c4d5915df2546696c3fd0afffe41717b913651970e5fe758036b94"
+      "sha256": "b4693a9829c4d5915df2546696c3fd0afffe41717b913651970e5fe758036b94",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/core/navigation/global/globe.svg"
     },
     {
       "file": "docs/assets/icons/commerce/platforms/amazon/amazon.svg",
-      "sha256": "08e5de4782296c6e724a6e8caf655a2d66998e70a8c75f548fcdc2c96ac487d9"
+      "sha256": "08e5de4782296c6e724a6e8caf655a2d66998e70a8c75f548fcdc2c96ac487d9",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/core/commerce/marketplaces/amazon/amazon.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/apple-music.svg",
-      "sha256": "365264bcf032a1acb6f18554cf7d34b1b2a75f7e571848629173bbfd0e1cadbb"
+      "sha256": "365264bcf032a1acb6f18554cf7d34b1b2a75f7e571848629173bbfd0e1cadbb",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/apple-music.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/spotify.svg",
-      "sha256": "bd1ca6cb3af69550651f91f674dfcfc381edf9e9f636b86378cbfe5793c33033"
+      "sha256": "bd1ca6cb3af69550651f91f674dfcfc381edf9e9f636b86378cbfe5793c33033",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/spotify.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/youtube-music.svg",
-      "sha256": "f96c8a67f93717df8f9f57b0e96638b19e8fd80a165ddf83598592b5342612f5"
+      "sha256": "f96c8a67f93717df8f9f57b0e96638b19e8fd80a165ddf83598592b5342612f5",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/youtube-music.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/deezer.svg",
-      "sha256": "4b8809e689e9ed3b9393b244c08ef6bb95f8cc398082a4506777a752cfca269a"
+      "sha256": "4b8809e689e9ed3b9393b244c08ef6bb95f8cc398082a4506777a752cfca269a",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/deezer.svg"
     },
     {
       "file": "docs/assets/icons/social/platforms/tidal.svg",
-      "sha256": "e857cb228d1eaf91f6f624a25c2f12291e9af9008b60c37b2426c50ea1b57637"
+      "sha256": "e857cb228d1eaf91f6f624a25c2f12291e9af9008b60c37b2426c50ea1b57637",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceFile": "registry/icons/source/layers/website/social/platforms/tidal.svg"
     },
     {
       "file": "docs/assets/media/music/singles/still-live-acoustic/cover/still-live-acoustic-cover.jpg",
@@ -218,21 +250,18 @@
       "file": "docs/assets/icons/actions/cookies.svg",
       "sha256": "2d9260b8fd642aaf72d428eed614ff92aee24a639154214d3fa19d19cc5bc9e7",
       "sourceRepository": "artandavoodi/control-center",
-      "sourceCommit": "e2b761214e6c929160f9d8fc0d48cd67f3357500",
       "sourceFile": "registry/icons/source/core/interface/cookies/cookies.svg"
     },
     {
       "file": "docs/assets/icons/actions/check.svg",
-      "sha256": "3d5f11cd561884abb16caa769b551368e55249bfa4305570c533214e669e8ec6",
+      "sha256": "ee2070bd7306eae4e561d26c72fbd521f5e85ad92b77dabc36c9ae59b6f6a0f9",
       "sourceRepository": "artandavoodi/control-center",
-      "sourceCommit": "e2b761214e6c929160f9d8fc0d48cd67f3357500",
       "sourceFile": "registry/icons/source/core/actions/check/check.svg"
     },
     {
       "file": "docs/assets/icons/actions/close.svg",
       "sha256": "bbf01f68e9dbca049099e02ec7a60ca1a5ba73023980cb854c5c4c8173004419",
       "sourceRepository": "artandavoodi/control-center",
-      "sourceCommit": "e2b761214e6c929160f9d8fc0d48cd67f3357500",
       "sourceFile": "registry/icons/source/core/actions/close/close.svg"
     },
     {
@@ -291,7 +320,7 @@
       "file": "docs/assets/icons/actions/account.svg",
       "sha256": "4913e5db3f1332b04ac0723740225c3a0c229431a74370cd77e95b5df4db880a",
       "sourceRepository": "artandavoodi/control-center",
-      "sourceCommit": "dfe5251682c7a1085518ec85716a7f14d95dc478"
+      "sourceFile": "registry/icons/source/core/identity/account/account.svg"
     },
     {
       "file": "docs/assets/js/core/close-button.js",
@@ -328,7 +357,7 @@
       "file": "docs/assets/icons/actions/search.svg",
       "sha256": "abdb05666a80bc2e391b0b76baa70210d595a5c027ee4b8f451aac6234d883d5",
       "sourceRepository": "artandavoodi/control-center",
-      "sourceCommit": "dfe5251682c7a1085518ec85716a7f14d95dc478"
+      "sourceFile": "registry/icons/source/core/actions/search/search.svg"
     },
     {
       "file": "docs/assets/css/layers/site/hub/index.css",
