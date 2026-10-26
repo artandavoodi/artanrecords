@@ -45,6 +45,12 @@ and absence of recording fields in commerce configuration. General build checks
 verify deterministic HTML, metadata and sitemap. Actual signed agreement intake,
 financial reporting and public legal/accounting clearance remain separate gates.
 
+Verification completed: Artanrecords build and full source check passed; Studio
+passed its deterministic build and 49 source tests; Docs deterministic checks
+passed. All 54 focused public comparison/tier browser cases and all 6 Studio
+agreement-preview cases passed across Chromium/WebKit desktop, tablet and mobile.
+No production agreement, financial record, commerce fee or subscription was changed.
+
 Affected owners: partnerships.json; tools/site/partnerships.mjs;
 tools/ecosystem/partnerships.mjs; tools/ecosystem/build.mjs;
 tools/sync-surfaces.mjs; tools/test-partnerships.mjs; Studio agreements-render.mjs;
