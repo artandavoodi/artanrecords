@@ -116,3 +116,4 @@ const before=await Promise.all((await walk(docs)).filter(p=>p.endsWith('.html'))
 execFileSync(process.execPath,['tools/build-site.mjs'],{cwd:root});
 for(const [file,content]of before)assert.equal(await readFile(file,'utf8'),content,'Non-deterministic build');
 console.log('PASS: shared checksums, fragments, icons, JSON, JavaScript, CSS imports, internal links, schema, identity and deterministic build.');
+await import('./audit-indexing.mjs');

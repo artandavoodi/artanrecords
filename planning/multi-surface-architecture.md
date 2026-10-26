@@ -235,3 +235,39 @@ Platinum approval; do not invent a fee, revenue share or withdrawal minimum.
 Artist payout applications remain inside Studio. CEO review does not substitute
 for provider verification, and cannot activate funds movement. Secure financial
 intake and provider-evidence ingestion are outstanding implementation gates.
+
+## Studio subscriptions and presentation - 2026-10-26
+
+The renewed Creator Commerce Architecture directive preserves the existing
+creator-first routing, private Store drafts, domain-request model, capabilities
+and tenant isolation. No public shop, domain cutover or marketplace is activated.
+Studio remains creator management; Control Center remains staff review.
+
+Subscription access is a separate concern from recording/commerce earnings,
+partnership approval and payout applications. Provider evidence is held in
+`store_private.studio_subscriptions`; authenticated users can read only their own
+safe status through `studio_subscription_status()`. Clients cannot insert,
+extend or approve subscriptions. An active/trialing, unexpired verified record
+can display Pro, but does not grant artist acceptance or commerce permissions.
+No production subscription record, checkout or charge is created by this work.
+
+Public comparison content is owned by `docs/assets/data/studio-plans.json` and
+reuses the partnership comparison renderer at `/studio-plans/`. Commercial terms
+remain null: none of the supplied commerce directives specifies the monthly
+price, currency, trial duration or paid-only benefits. Secure embedded card
+collection, signed/idempotent billing webhooks, cancellation, refunds, invoicing
+and the approved subscription terms remain required before purchase activation.
+
+Artist palette assignments now support logo, icons, header fade and ribbon.
+Studio disables targets already selected on another palette row and retains the
+five-colour maximum. Publication still requires explicit palette/logo sharing;
+private originals are unchanged. Public artist wordmarks use a theme-aware
+monochrome display, optionally overridden by the selected shared logo colour.
+
+Search publication adds consistent one-word Artanrecords site-name metadata and
+excludes the generic profile resolver from indexing and the sitemap. The repeatable
+`audit:seo` and `audit:seo:live` checks cover canonical sitemap pages, HTTP status,
+robots, descriptions, headings and website identity. Search Console reported nine
+indexed pages and 22 discovered-but-not-indexed pages in its October 19 snapshot;
+submission, crawl eligibility and a successful audit do not guarantee indexing or
+ranking. The previously documented dynamic-tenant HTTP/SEO hosting gate remains.

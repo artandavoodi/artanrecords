@@ -13,6 +13,7 @@ function renderArtistColours(root,fields){
   else root.style.removeProperty(property);
  }
  if(navigation){const colour=root.style.getPropertyValue('--artist-header-ribbon');if(colour)navigation.style.setProperty('--artist-header-ribbon',colour);else navigation.style.removeProperty('--artist-header-ribbon');}
+ if(navigation){const colour=root.style.getPropertyValue('--artist-logo-colour');if(colour)navigation.style.setProperty('--artist-logo-colour',colour);else navigation.style.removeProperty('--artist-logo-colour');}
  // The public snapshot includes palette only when the artist shares it.
  for(const icon of root.querySelectorAll('[data-artist-colour-icon]')){
   const image=document.createElement('img');image.src=icon.dataset.artistColourIcon;image.alt='';
@@ -34,7 +35,7 @@ function artistHeader(){
 function clearArtistMedia(mount,field){
  const previous=mediaSources.get(mount);mediaSources.delete(mount);
  if(field==='logo_path'){
-  mount.replaceChildren(...companyHeader.nodes);mount.setAttribute('aria-label',companyHeader.label);delete mount.dataset.artistLogo;
+  mount.replaceChildren(...companyHeader.nodes);mount.setAttribute('aria-label',companyHeader.label);delete mount.dataset.artistLogo;mount.style.removeProperty('--artist-logo-artwork');
  }else mount.replaceChildren();
  if(previous)URL.revokeObjectURL(previous.url);
 }
@@ -52,7 +53,7 @@ async function renderArtistMedia(root,record,config){
    try{await image.decode();}catch{URL.revokeObjectURL(source);throw Error('Artist image could not be decoded');}
    // Swap only a decoded image into the existing mount; its scroll lifecycle stays unchanged.
    mount.replaceChildren(image);mediaSources.set(mount,{version,url:source});
-   if(field==='logo_path'){mount.dataset.artistLogo='';mount.setAttribute('aria-label',record.fields.artist_name+' · '+companyHeader.label);}
+   if(field==='logo_path'){mount.dataset.artistLogo='';mount.style.setProperty('--artist-logo-artwork','url("'+source+'")');mount.setAttribute('aria-label',record.fields.artist_name+' · '+companyHeader.label);}
    else mount.removeAttribute('aria-label');
    if(previous)URL.revokeObjectURL(previous.url);
   }catch{clearArtistMedia(mount,field);/* Never substitute another artist's image or expose a private URL. */}

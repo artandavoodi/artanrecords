@@ -1,6 +1,6 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
-import {partnershipPages} from './site/partnerships.mjs';
+import {partnershipPages,comparisonTable} from './site/partnerships.mjs';
 import {intakeForm,intakeJourney,journeyScene,submissionJourneySteps} from './site/intake.mjs';
 import {showcaseRelease,showcaseCarousel} from './site/home-showcase.mjs';
 import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist,artistPath} from './site/render.mjs';
@@ -25,6 +25,9 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
 const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
 information.items.push(...partnershipPages(await json('assets/data/partnerships.json'),icons));
+const studioPlans=await json('assets/data/studio-plans.json');
+if(studioPlans.checkoutEnabled||studioPlans.monthlyPrice!==null||studioPlans.trialDays!==null)throw Error('Subscription commercial terms require a separately reviewed billing implementation');
+information.items.push({path:'/studio-plans/',title:'Studio and Studio Pro',description:'Compare current Studio access with the planned free trial and Studio Pro subscription. Paid billing is not yet available.',presentation:'flow',sections:[{id:'introduction',title:'One workspace for your work',text:'Studio brings your artist profile, release preparation and store drafts together. Explore what is available today and what is still being prepared. Studio subscriptions are separate from a label partnership.'}],comparison:comparisonTable(studioPlans,icons),afterComparison:studioPlans.items.map(item=>({id:item.id,title:item.name,text:item.id==='studio'?'The current artist workspace is available. No paid subscription is active.':'Not launched. Pricing, trial terms and plan-specific benefits are awaiting confirmation.',links:[]})),links:[{label:'Open Studio',url:'https://studio.artanrecords.com/'},{label:'Your artist website and store',url:'/artist-websites/'}]});
 information.items.push({...site.companyPage,description:site.companyDescriptions.short,presentation:'flow',sections:[{id:'company',title:site.name,text:site.companyDescriptions.long},{id:'brand',title:site.companyPage.brandTitle,text:site.companyPage.brandText}]});
 const studioLegal=await json('assets/data/studio-legal.json');
 information.items.push(...studioLegal.notices.map(notice=>({...notice,presentation:'tabs',sections:notice.sections.map(section=>({...section,text:section.paragraphs.join('\n\n')}))})));
@@ -83,7 +86,10 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   const graph=[organization,...pagePeople,{'@type':'WebSite','@id':site.domain+'/#website',name:site.name,url:site.domain+'/'},{'@type':'WebPage','@id':site.domain+path,url:site.domain+path,name:title,description,isPartOf:{'@id':site.domain+'/#website'},...(cover?{primaryImageOfPage:{'@type':'ImageObject',contentUrl:site.domain+'/'+cover.src}}:{}),...entity}];
   const head=`<title>${e(title)} · ${e(site.name)}</title><meta name="description" content="${e(description)}"><link rel="canonical" href="${site.domain}${path}"><meta property="og:title" content="${e(title)}"><meta property="og:description" content="${e(description)}"><meta property="og:type" content="website"><meta property="og:url" content="${site.domain}${path}"><meta name="twitter:card" content="${cover?'summary_large_image':'summary'}">${cover?`<meta property="og:image" content="${site.domain}/${e(cover.src)}"><meta name="twitter:image" content="${site.domain}/${e(cover.src)}">`:''}<script type="application/ld+json">${JSON.stringify({'@context':'https://schema.org','@graph':graph}).replace(/</g,'\\u003c')}</script>`;
   const pageFooter=['artist','artist-platform'].includes(fragmentName)?await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),groups:'',social:''}):footer;
-  await output(path.slice(1)+'index.html',fill(shell,{head,navigation,footer:pageFooter,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || '',atmosphere:fragmentName==='artists'?'<canvas class="artist-directory-grain" aria-hidden="true"></canvas>':''}));paths.push(path);
+  const brandMetadata=`<meta property="og:site_name" content="${e(site.name)}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(description)}">`;
+  let html=fill(shell,{head:head+brandMetadata,navigation,footer:pageFooter,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || '',atmosphere:fragmentName==='artists'?'<canvas class="artist-directory-grain" aria-hidden="true"></canvas>':''});
+  if(fragmentName==='artist-platform')html=html.replace('content="max-image-preview:large"','content="noindex,follow"');
+  await output(path.slice(1)+'index.html',html);paths.push(path);
 }
 const artistPlatform=await json('assets/data/artists/platform.json');
 await page('/artists/profile/',artistPlatform.title,artistPlatform.description,'artist-platform',{title:e(artistPlatform.title)});
@@ -206,7 +212,7 @@ for(const r of catalogue.items) {
   const entity={'@type':r.type==='Single'?'MusicRecording':'MusicAlbum',name:r.title,byArtist:{'@id':person['@id']},datePublished:r.releaseDate,creativeWorkStatus:r.status,image:r.cover?site.domain+'/'+r.cover.src:undefined,...(recordings.length?{track:recordings,numTracks:recordings.length}:{isrcCode:r.isrc})};
   await page(`/releases/${r.id}/`,r.title,r.description,'release',{...escaped(r),back:e(site.labels.back),backIcon:icon('back',icons),cover:image(r.cover),metadata:metadata(r,ui),links:links(r.links,icons),sections:sections(r,ui,icons),tracks:recordings.length?`<section><h2>${e(site.labels.tracks)}</h2><ol>${r.tracks.map(t=>`<li id="track-${e(t.id)}"><details><summary>${e(t.title)} <span>${e(t.duration)}</span>${icon('chevron-right',icons)}</summary>${sections(t,ui,icons)}${links(t.links,icons)}</details></li>`).join('')}</ol></section>`:''},{mainEntity:entity});
 }
-await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${paths.map(p=>{
+await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${paths.filter(p=>p!=='/artists/profile/').map(p=>{
   const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===artistPath(a.id)&&r.artistId===a.id)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
   const portrait=artists.items.find(a=>p===artistPath(a.id))?.portrait;
   if(portrait) images.push(portrait.src);

@@ -4,6 +4,17 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+if(key==='records')test('Studio plans reuse the partnership details dialog without activating a paid offer',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+ await page.goto('/studio-plans/');
+ await expect(page.getByRole('heading',{name:'Studio and Studio Pro',exact:true})).toBeVisible();
+ await page.locator('[data-partnership-detail]').first().click();
+ const dialog=page.locator('[data-partnership-dialog]');await expect(dialog).toBeVisible();
+ await expect(dialog).toContainText('not active subscriptions');
+ await expect(dialog.getByRole('heading')).toContainText('Free trial');
+ await dialog.getByRole('button',{name:'Close plan details',exact:true}).click();await expect(dialog).toBeHidden();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
 if(key==='records')test('public website and store guidance separates current features from planned services',async({page})=>{
  await page.goto('/artist-websites/');
  await expect(page.getByRole('heading',{name:'Your artist website and store',exact:true})).toBeVisible();
