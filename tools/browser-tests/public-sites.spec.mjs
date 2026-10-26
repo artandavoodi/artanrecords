@@ -8,7 +8,12 @@ if(key==='records')test('Studio plans reuse the partnership details dialog witho
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.goto('/studio-plans/');
  await expect(page.getByRole('heading',{name:'Studio and Studio Pro',exact:true})).toBeVisible();
- for(const price of ['€9.99 / month','€19.99 / month','€99 / year','€199 / year'])await expect(page.getByText(price,{exact:true})).toBeVisible();
+ for(const price of ['€9.99 / month','€19.99 / month'])await expect(page.getByText(price,{exact:true})).toBeVisible();
+ await expect(page.getByText('€99 / year',{exact:true})).toBeHidden();
+ await page.getByRole('tab',{name:'Annual',exact:true}).click();
+ for(const price of ['€99 / year','€199 / year'])await expect(page.getByText(price,{exact:true})).toBeVisible();
+ await expect(page.getByText('€9.99 / month',{exact:true})).toBeHidden();
+ await page.getByRole('tab',{name:'Monthly',exact:true}).click();
  await page.locator('[data-partnership-detail]').first().click();
  const dialog=page.locator('[data-partnership-dialog]');await expect(dialog).toBeVisible();
  await expect(dialog).toContainText('Checkout is not active');

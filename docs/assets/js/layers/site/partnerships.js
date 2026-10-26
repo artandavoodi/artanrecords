@@ -21,4 +21,11 @@ export function bindPartnershipComparison(){
     openDialog(dialog);
   });
   comparison.setAttribute('data-partnership-enhanced','');
+  const periodTabs=[...document.querySelectorAll('[data-pricing-period]')];
+  const selectPeriod=selected=>{
+    periodTabs.forEach(tab=>{const active=tab===selected;tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;});
+    comparison.querySelectorAll('[data-billing-interval]').forEach(row=>row.hidden=row.dataset.billingInterval!==selected.dataset.pricingPeriod);
+  };
+  periodTabs.forEach((tab,index)=>{tab.addEventListener('click',()=>selectPeriod(tab));tab.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?periodTabs[0]:event.key==='End'?periodTabs.at(-1):periodTabs[(index+(event.key==='ArrowRight'?1:-1)+periodTabs.length)%periodTabs.length];selectPeriod(next);next.focus();});});
+  if(periodTabs.length)selectPeriod(periodTabs[0]);
 }

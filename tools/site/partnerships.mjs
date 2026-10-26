@@ -5,11 +5,12 @@ import {validateStudioPlans} from '../ecosystem/studio-plans.mjs';
 // Shared comparison markup preserves the same responsive cells and details dialog.
 export function comparisonTable(config,icons) {
   const ids=config.items.map(item=>item.id);
-  const table=`<div class="partnership-comparison" role="region" aria-label="${e(config.comparison.caption)}" tabindex="0"><table><caption>${e(config.comparison.caption)}</caption><thead><tr><th scope="col">${e(config.comparison.featureLabel||'Our role')}</th>${config.items.map(item=>`<th scope="col"><a href="${e(item.url||'/partnerships/'+item.id+'/')}">${e(item.name)}</a></th>`).join('')}</tr></thead><tbody>${config.comparison.rows.map((row,rowIndex)=>{
+  const periodTabs=config.comparison.billingPeriods?`<div class="pricing-period-tabs" role="tablist" aria-label="Billing period">${config.comparison.billingPeriods.map((period,index)=>`<button type="button" role="tab" aria-selected="${index===0}" tabindex="${index===0?0:-1}" data-pricing-period="${e(period.id)}">${e(period.label)}</button>`).join('')}</div>`:'';
+  const table=`${periodTabs}<div class="partnership-comparison" role="region" aria-label="${e(config.comparison.caption)}" tabindex="0"><table><caption>${e(config.comparison.caption)}</caption><thead><tr><th scope="col">${e(config.comparison.featureLabel||'Our role')}</th>${config.items.map(item=>`<th scope="col"><a href="${e(item.url||'/partnerships/'+item.id+'/')}">${e(item.name)}</a></th>`).join('')}</tr></thead><tbody>${config.comparison.rows.map((row,rowIndex)=>{
     if(row.values.length!==ids.length) throw Error('Incomplete partnership comparison');
     if(!row.states || row.states.length!==ids.length) throw Error('Missing explicit comparison states');
     if(typeof row.details!=='string'||row.details.length<100)throw Error('Missing full partnership explanation');
-    return `<tr><th scope="row">${e(row.label)}</th>${row.values.map((value,index)=>{
+    return `<tr${row.billingInterval?` data-billing-interval="${e(row.billingInterval)}"`:''}><th scope="row">${e(row.label)}</th>${row.values.map((value,index)=>{
       const state=config.comparison.states[row.states[index]];
       if(!state) throw Error('Unknown comparison state');
       const statusIcon=['included','excluded'].includes(row.states[index])?icons.items.find(item=>item.id===state.icon):null;
