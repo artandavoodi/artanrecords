@@ -11,4 +11,12 @@ assert.equal(creatorShopRoute('/artandavoodi/shop/signed-print/',config,reserved
 assert.ok(Object.values(config.activation).every(value=>value===false));
 assert.equal(config.finance.recordingSharesApplyToCommerce,false);assert.equal(config.finance.commission,null);
 assert.ok(reserved.includes('shop'));
+const pages=JSON.parse(await readFile(new URL('../docs/assets/data/pages.json',import.meta.url)));
+const guide=pages.items.find(page=>page.path==='/artist-websites/');
+assert.ok(guide,'Public artist website/store guidance must be registered');
+assert.ok(guide.sections.some(section=>section.id==='availability'&&section.text.includes('not yet available')));
+assert.ok(guide.sections.some(section=>section.id==='one-store'&&section.text.includes('artanrecords.com/{username}/shop/')));
+const html=await readFile(new URL('../docs/artist-websites/index.html',import.meta.url),'utf8');
+for(const section of guide.sections)assert.ok(html.includes(section.title),'Guidance must render in initial HTML: '+section.id);
+assert.ok(!html.includes('/Users/'),'Public guidance must not expose local paths');
 console.log('PASS: creator-first shop contracts, reserved roots and inactive commerce gates. No storefront is published.');

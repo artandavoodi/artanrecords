@@ -4,6 +4,15 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+if(key==='records')test('public website and store guidance separates current features from planned services',async({page})=>{
+ await page.goto('/artist-websites/');
+ await expect(page.getByRole('heading',{name:'Your artist website and store',exact:true})).toBeVisible();
+ await expect(page.locator('#availability')).toContainText('not yet available');
+ await expect(page.locator('#one-store')).toContainText('artanrecords.com/{username}/shop/');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.goto('/for-artists/');
+ await expect(page.getByRole('link',{name:'Your artist website and store',exact:true})).toHaveAttribute('href',/artist-websites/);
+});
 test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));});
 if(key==='records')test('legacy artist addresses redirect to the root-level canonical profile',async({page})=>{
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist'}}]}));
