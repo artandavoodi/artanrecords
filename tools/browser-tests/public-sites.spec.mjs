@@ -16,7 +16,7 @@ if(key==='records')test('Studio plans reuse the partnership details dialog witho
  await page.getByRole('tab',{name:'Monthly',exact:true}).click();
  await page.locator('[data-partnership-detail]').first().click();
  const dialog=page.locator('[data-partnership-dialog]');await expect(dialog).toBeVisible();
- await expect(dialog).toContainText('Checkout is not active');
+ await expect(dialog).toContainText('does not start a subscription or charge');
  await expect(dialog.getByRole('heading')).toContainText('Studio');
  await dialog.getByRole('button',{name:'Close plan details',exact:true}).click();await expect(dialog).toBeHidden();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
