@@ -57,3 +57,15 @@ duration remains inactive; no trial column is sold as a third plan. No VAT
 included/excluded claim is made. Tax treatment, commercial cancellation,
 retention/grace policies, verified provider billing and server-owned partnership
 entitlement provisioning remain unresolved. No existing user data is removed.
+
+## Verification results
+
+Public build and full source checks passed, including exact price values,
+independent annual amounts, invalid monetary values, inclusion mapping, expiry,
+and signed-evidence requirements. Six public pricing browser cases and twelve
+Studio billing/browser cases passed across Chromium/WebKit desktop, tablet and
+mobile. Studio's 49 source tests and Docs deterministic checks passed. The local
+Studio billing page visibly shows all four corrected prices. A targeted audit
+found no old active EUR 12/120 or free-Studio pricing copy in public pricing
+data, generated pricing/partnership pages or source renderers. Historical logs
+remain historical rather than being rewritten.
