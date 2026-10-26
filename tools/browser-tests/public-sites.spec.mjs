@@ -8,6 +8,7 @@ if(key==='records')test('Studio plans reuse the partnership details dialog witho
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.goto('/studio-plans/');
  await expect(page.getByRole('heading',{name:'Studio and Studio Pro',exact:true})).toBeVisible();
+ await expect(page.getByText('€12 / month',{exact:true})).toBeVisible();await expect(page.getByText('€120 / year',{exact:true})).toBeVisible();
  await page.locator('[data-partnership-detail]').first().click();
  const dialog=page.locator('[data-partnership-dialog]');await expect(dialog).toBeVisible();
  await expect(dialog).toContainText('not active subscriptions');
@@ -24,7 +25,7 @@ if(key==='records')test('public website and store guidance separates current fea
  await page.goto('/for-artists/');
  await expect(page.getByRole('link',{name:'Your artist website and store',exact:true})).toHaveAttribute('href',/artist-websites/);
 });
-test.beforeEach(async({page})=>{if(key==='records')await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));});
+test.beforeEach(async({page})=>{if(key==='records'){await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));await page.route('**/rest/v1/studio_public_artist_portfolio*',route=>route.fulfill({json:[]}));}});
 if(key==='records')test('legacy artist addresses redirect to the root-level canonical profile',async({page})=>{
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist'}}]}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
