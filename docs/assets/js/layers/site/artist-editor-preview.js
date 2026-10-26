@@ -3,6 +3,14 @@ let bound=false;
 export function bindArtistEditorPreview(root,config){
  if(bound||window.parent===window||new URL(location.href).searchParams.get('editor-preview')!=='1')return;
  bound=true;
+ const style=document.createElement('link');style.rel='stylesheet';style.href='/assets/css/layers/site/artist-editor-preview.css';document.head.append(style);
+ const targets=[{id:'name',label:'Artist name',selector:'[data-artist-name]'},...config.sections];
+ for(const target of targets){
+  const node=root.querySelector(target.selector);if(!node)continue;
+  node.dataset.artistEditTarget=target.id;
+  const button=document.createElement('button'),image=document.createElement('img');button.type='button';button.className='artist-canvas-edit';button.setAttribute('aria-label','Edit '+target.label);button.title='Edit '+target.label;image.src=config.editIcon;image.alt='';image.dataset.monochrome='true';button.append(image);
+  button.addEventListener('click',()=>{for(const origin of config.studioOrigins)window.parent.postMessage({type:'artanrecords:artist-preview-select',target:target.id},origin);});node.append(button);
+ }
  const receive=event=>{
   if(event.source!==window.parent||!config.studioOrigins.includes(event.origin)||event.data?.type!=='artanrecords:artist-preview')return;
   const draft=event.data.draft;
