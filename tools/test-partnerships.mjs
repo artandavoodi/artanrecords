@@ -2,9 +2,33 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {partnershipPages} from './site/partnerships.mjs';
 import {validatePartnerships,agreementAllocation,recordingReference} from './ecosystem/partnerships.mjs';
+import {validateStudioPlans,studioComparison,resolveStudioEntitlement,formatPlanPrice} from './ecosystem/studio-plans.mjs';
 const data=JSON.parse(await readFile(new URL('../docs/assets/data/partnerships.json',import.meta.url)));
 const icons=JSON.parse(await readFile(new URL('../docs/assets/data/icons.json',import.meta.url)));
 const pages=partnershipPages(data,icons);
+const plans=JSON.parse(await readFile(new URL('../docs/assets/data/studio-plans.json',import.meta.url),'utf8'));
+validateStudioPlans(plans);
+assert.deepEqual(plans.items.map(plan=>[plan.monthlyPrice,plan.annualPrice]),[[999,9900],[1999,19900]]);
+const annualIndependent=structuredClone(plans);annualIndependent.items[0].monthlyPrice=1099;
+assert.equal(studioComparison(annualIndependent).comparison.rows[1].values[0],'€99 / year');
+const badPrice=structuredClone(plans);badPrice.items[0].monthlyPrice=9.99;assert.throws(()=>validateStudioPlans(badPrice));
+const withPlans=partnershipPages(data,icons,plans);
+assert.ok(withPlans[0].comparison.includes('Studio Pro included while the partnership is active'));
+assert.ok(withPlans[0].comparison.includes('Studio included while the partnership is active'));
+for(const price of ['€9.99 / month','€19.99 / month','€99 / year','€199 / year']){
+ const html=await readFile(new URL('../docs/studio-plans/index.html',import.meta.url),'utf8');assert.ok(html.includes(price));
+}
+assert.equal(formatPlanPrice(999),'€9.99');assert.equal(formatPlanPrice(19900),'€199');
+assert.deepEqual(studioComparison(plans).comparison.rows[0].values,['€9.99 / month','€19.99 / month']);
+const evidence={entitlement_source:'PARTNERSHIP_INCLUDED',status:'active',agreement_status:'signed',agreement_id:'fixture',partnership_id:'fixture',entitlement_start:'2026-01-01',entitlement_end:'2027-01-01'};
+for(const [tier,plan] of Object.entries(plans.partnershipInclusion)){
+ const entitlement=resolveStudioEntitlement(plans,{...evidence,partnership:tier},Date.parse('2026-10-26'));
+ assert.equal(entitlement.plan,plan);assert.equal(entitlement.separateChargeAllowed,false);assert.equal(entitlement.amount_charged_minor,0);
+ assert.equal(entitlement.list_prices.MONTHLY,plans.items.find(item=>item.plan===plan).monthlyPrice);
+}
+assert.equal(resolveStudioEntitlement(plans,{...evidence,partnership:'gold',agreement_status:'draft'}),null);
+assert.equal(resolveStudioEntitlement(plans,{...evidence,partnership:'gold'},Date.parse('2028-01-01')),null);
+assert.deepEqual(plans.items.map(plan=>[plan.monthlyPrice,plan.annualPrice]),[[999,9900],[1999,19900]]);
 assert.equal(pages.length,4);
 assert.equal(new Set(pages.map(page=>page.path)).size,4);
 assert.equal(pages[0].comparison.match(/<tr>/g).length,data.comparison.rows.length+1);

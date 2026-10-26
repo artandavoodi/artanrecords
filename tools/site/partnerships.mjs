@@ -1,5 +1,6 @@
 import {escape as e,icon as iconMarkup,paragraphs} from './render.mjs';
 import {validatePartnerships,recordingReference} from '../ecosystem/partnerships.mjs';
+import {validateStudioPlans} from '../ecosystem/studio-plans.mjs';
 
 // Shared comparison markup preserves the same responsive cells and details dialog.
 export function comparisonTable(config,icons) {
@@ -20,8 +21,13 @@ export function comparisonTable(config,icons) {
 }
 
 // Partnership terms retain their own publication gate, independent of Studio plans.
-export function partnershipPages(config,icons) {
+export function partnershipPages(config,icons,plans=null) {
   validatePartnerships(config);
+  if(plans){
+    validateStudioPlans(plans);
+    const row={label:'Studio access',presentation:'price',values:config.items.map(tier=>plans.items.find(plan=>plan.plan===plans.partnershipInclusion[tier.id]).name+' included while the partnership is active'),states:config.items.map(()=>'included'),details:'Included platform access is a benefit of a verified active partnership, not the price of that recording partnership. It does not change public software list prices or authorize a separate subscription charge. A requested or approved tier alone is not a signed agreement, and continuation after expiry requires an approved policy.'};
+    config={...config,comparison:{...config.comparison,rows:[...config.comparison.rows.filter(item=>item.label!=='Studio access'),row]}};
+  }
   const reference=recordingReference(config).map(section=>({id:section.id,title:section.title,text:section.paragraphs.join('\n\n')}));
   if(config.publication.percentages){
     const financialRows=[['Artist keeps','artistShare'],['Artanrecords share','labelShare']].map(([label,field])=>({label,presentation:'price',values:config.items.map(item=>item[field]+'%'),states:config.items.map(()=>'included'),details:config.commercialNotice+' The allocation applies only to '+config.recordingScope+'.'}));

@@ -8,11 +8,11 @@ if(key==='records')test('Studio plans reuse the partnership details dialog witho
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.goto('/studio-plans/');
  await expect(page.getByRole('heading',{name:'Studio and Studio Pro',exact:true})).toBeVisible();
- await expect(page.getByText('€12 / month',{exact:true})).toBeVisible();await expect(page.getByText('€120 / year',{exact:true})).toBeVisible();
+ for(const price of ['€9.99 / month','€19.99 / month','€99 / year','€199 / year'])await expect(page.getByText(price,{exact:true})).toBeVisible();
  await page.locator('[data-partnership-detail]').first().click();
  const dialog=page.locator('[data-partnership-dialog]');await expect(dialog).toBeVisible();
- await expect(dialog).toContainText('not active subscriptions');
- await expect(dialog.getByRole('heading')).toContainText('Free trial');
+ await expect(dialog).toContainText('Checkout is not active');
+ await expect(dialog.getByRole('heading')).toContainText('Studio');
  await dialog.getByRole('button',{name:'Close plan details',exact:true}).click();await expect(dialog).toBeHidden();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });

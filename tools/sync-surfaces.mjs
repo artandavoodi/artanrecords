@@ -40,6 +40,7 @@ await copy('docs/assets/data/artists/editor.json','assets/data/artists/editor.js
 await copy('docs/assets/data/studio-plans.json','assets/data/studio-plans.json');
 await copy('docs/assets/data/partnerships.json','assets/data/partnerships.json');
 await copy('tools/ecosystem/partnerships.mjs','foundation/partnerships.mjs');
+await copy('tools/ecosystem/studio-plans.mjs','foundation/studio-plans.mjs');
 await copy('docs/assets/js/layers/site/artist-editor-preview.js','assets/js/layers/site/artist-editor-preview.js');
 await copy('docs/assets/js/layers/site/creator-routes.js','assets/js/layers/site/creator-routes.js');
 for(const name of ['actions/edit/edit','identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down','navigation/primary/home','navigation/direction/back'])await copy('docs/registry/icons/public/assets/core/'+name+'.svg','registry/icons/public/assets/core/'+name+'.svg');

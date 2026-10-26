@@ -1,6 +1,7 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
 import {partnershipPages,comparisonTable} from './site/partnerships.mjs';
+import {validateStudioPlans,studioComparison,studioPricingSections} from './ecosystem/studio-plans.mjs';
 import {intakeForm,intakeJourney,journeyScene,submissionJourneySteps} from './site/intake.mjs';
 import {showcaseRelease,showcaseCarousel} from './site/home-showcase.mjs';
 import {escape as e,fill,image,icon,links,cards,discoveryCards,sections,metadata,artistCards,artistYears,artistLinks,paragraphs,releaseArtist,artistPath} from './site/render.mjs';
@@ -24,11 +25,10 @@ await writeFile(new URL('site/enquiry-response.html',import.meta.url),fill(respo
 }));
 const discovery=await json('assets/data/discovery.json');
 const information=await json('assets/data/pages.json');
-information.items.push(...partnershipPages(await json('assets/data/partnerships.json'),icons));
 const studioPlans=await json('assets/data/studio-plans.json');
-if(studioPlans.checkoutEnabled)throw Error('Subscription checkout requires a separately verified billing implementation');
-if(!studioPlans.termsApproved||studioPlans.currency!=='EUR'||!Number.isInteger(studioPlans.monthlyPrice)||studioPlans.monthlyPrice<=0||!Number.isInteger(studioPlans.annualPrice)||studioPlans.annualPrice<=0||!Number.isInteger(studioPlans.trialDays)||studioPlans.trialDays<1||studioPlans.trialDays>30||studioPlans.renewalConsentRequired!==true)throw Error('Check approved subscription terms');
-information.items.push({path:'/studio-plans/',title:'Studio and Studio Pro',description:'Compare Studio and Studio Pro pricing. Paid billing is not yet available.',presentation:'flow',sections:[{id:'introduction',title:'One workspace for your work',text:'Studio brings your artist profile, release preparation and store drafts together. Explore what is available today and what is still being prepared. Studio subscriptions are separate from a label partnership.'}],comparison:comparisonTable(studioPlans,icons),afterComparison:studioPlans.items.map(item=>({id:item.id,title:item.name,text:item.description,links:[]})),links:[{label:'Open Studio',url:'https://studio.artanrecords.com/'},{label:'Your artist website and store',url:'/artist-websites/'}]});
+validateStudioPlans(studioPlans);
+information.items.push(...partnershipPages(await json('assets/data/partnerships.json'),icons,studioPlans));
+information.items.push({path:'/studio-plans/',title:'Studio and Studio Pro',description:'Compare Studio and Studio Pro pricing. Paid billing is not yet available.',presentation:'flow',sections:[{id:'introduction',title:'One workspace for your work',text:'Studio brings your artist profile, release preparation and store drafts together. Explore what is available today and what is still being prepared. Studio subscriptions are separate from a label partnership.'}],comparison:comparisonTable(studioComparison(studioPlans),icons),afterComparison:studioPricingSections(studioPlans).map(section=>({id:section.id,title:section.title,text:section.paragraphs.join('\n\n'),links:[]})),links:[{label:'Open Studio',url:'https://studio.artanrecords.com/'},{label:'Your artist website and store',url:'/artist-websites/'}]});
 information.items.push({...site.companyPage,description:site.companyDescriptions.short,presentation:'flow',sections:[{id:'company',title:site.name,text:site.companyDescriptions.long},{id:'brand',title:site.companyPage.brandTitle,text:site.companyPage.brandText}]});
 const studioLegal=await json('assets/data/studio-legal.json');
 information.items.push(...studioLegal.notices.map(notice=>({...notice,presentation:'tabs',sections:notice.sections.map(section=>({...section,text:section.paragraphs.join('\n\n')}))})));
