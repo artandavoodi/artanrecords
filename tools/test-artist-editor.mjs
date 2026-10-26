@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const config=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/editor.json',import.meta.url),'utf8'));
 const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-editor-preview.js',import.meta.url),'utf8').replace('export function','function');
-const node=()=>({style:{},dataset:{},append(){},setAttribute(){},addEventListener(){}});
+const node=()=>({style:{},dataset:{},querySelector(){return null;},append(){},setAttribute(){},addEventListener(){}});
 const heading=node(),sections=new Map(config.sections.map(item=>[item.selector,{...node(),hidden:false}]));let receive;
 const parent={postMessage(){}},window={parent},root={querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
 vm.runInNewContext(source+';bindArtistEditorPreview(root,config);',{window,root,config,URL,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null,createElement:node,head:{append(){}}}});
