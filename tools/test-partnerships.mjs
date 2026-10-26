@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {partnershipPages} from './site/partnerships.mjs';
+import {validatePartnerships,agreementAllocation,recordingReference} from './ecosystem/partnerships.mjs';
 const data=JSON.parse(await readFile(new URL('../docs/assets/data/partnerships.json',import.meta.url)));
 const icons=JSON.parse(await readFile(new URL('../docs/assets/data/icons.json',import.meta.url)));
 const pages=partnershipPages(data,icons);
@@ -11,6 +12,25 @@ assert.ok(pages.every(page=>page.sections.length>=4));
 assert.ok(!JSON.stringify(pages).match(/\b(?:85|80|70|15|20|30)%/));
 const unsafe=structuredClone(data); unsafe.publication.percentages=true;
 assert.throws(()=>partnershipPages(unsafe,icons));
+assert.deepEqual(data.items.map(item=>[item.artistShare,item.labelShare]),[[85,15],[80,20],[70,30]]);
+assert.equal(data.commercialTermsVersion,1);
+for(const values of [[-1,101],[85,20],[101,-1],[85.5,14.5]]){
+ const invalid=structuredClone(data);[invalid.items[0].artistShare,invalid.items[0].labelShare]=values;assert.throws(()=>validatePartnerships(invalid));
+}
+const reviewed=structuredClone(data);reviewed.publication={percentages:true,legalAccountingReview:'approved'};
+const disclosed=partnershipPages(reviewed,icons);
+for(const item of data.items){
+ assert.ok(disclosed[0].comparison.includes(item.artistShare+'%'));
+ const tier=disclosed.find(page=>page.path===`/partnerships/${item.id}/`);
+ assert.ok(tier.sections.some(section=>section.text?.includes(`Artist keeps ${item.artistShare}%. Artanrecords share ${item.labelShare}%.`)));
+}
+assert.ok(!JSON.stringify(recordingReference(data)).match(/\b(?:85|80|70|15|20|30)%/));
+const signed={status:'signed',agreementId:'fixture-agreement',version:1,effectiveDate:'2026-10-26',artistShare:90,labelShare:10};
+assert.equal(agreementAllocation(data,'silver',signed).artistShare,90);
+assert.equal(agreementAllocation(data,'silver').source,'default-reference');
+assert.throws(()=>agreementAllocation(data,'silver',{...signed,status:'draft'}));
+const commerce=JSON.parse(await readFile(new URL('../docs/assets/data/commerce.json',import.meta.url),'utf8'));
+assert.ok(!JSON.stringify(commerce).match(/artistShare|labelShare/));
 assert.ok(pages[0].comparison.includes('data-inclusion="future"'));
 assert.ok(pages[0].comparison.includes('data-inclusion="excluded"'));
 for(const cell of pages[0].comparison.matchAll(/<td data-inclusion="([^"]+)">([\s\S]*?)<\/td>/g)) {

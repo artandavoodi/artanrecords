@@ -1,5 +1,9 @@
 {
   "schemaVersion": 1,
+  "commercialTermsVersion": 1,
+  "commercialApproval": "approved",
+  "recordingScope": "eligible recording-side Net Receipts as defined by the applicable signed agreement",
+  "commercialNotice": "These are default recording-partnership terms, not subscriptions or store commissions. Signed agreement terms take precedence. Publishing, live income, merchandise and unrelated income remain separate. Accepted standard releases have no upfront base distribution fee; additional expenses require explicit agreement.",
   "publication": {
     "percentages": false,
     "legalAccountingReview": "pending"
@@ -287,6 +291,8 @@
   "items": [
     {
       "id": "silver",
+      "artistShare": 85,
+      "labelShare": 15,
       "name": "Silver",
       "position": "Essential label infrastructure",
       "description": "For artists with finished music who want a considered, professionally administered release.",
@@ -315,6 +321,8 @@
     },
     {
       "id": "gold",
+      "artistShare": 80,
+      "labelShare": 20,
       "name": "Gold",
       "position": "A closer release partnership",
       "description": "For artists who want help shaping how a release is positioned, presented and developed.",
@@ -343,6 +351,8 @@
     },
     {
       "id": "platinum",
+      "artistShare": 70,
+      "labelShare": 30,
       "name": "Platinum",
       "position": "Our most involved artist partnership",
       "description": "For selected projects where Artanrecords takes a deeper role in release leadership, presentation and artist development.",

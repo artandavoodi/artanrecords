@@ -1,4 +1,5 @@
 import {escape as e,icon as iconMarkup,paragraphs} from './render.mjs';
+import {validatePartnerships,recordingReference} from '../ecosystem/partnerships.mjs';
 
 // Shared comparison markup preserves the same responsive cells and details dialog.
 export function comparisonTable(config,icons) {
@@ -20,7 +21,13 @@ export function comparisonTable(config,icons) {
 
 // Partnership terms retain their own publication gate, independent of Studio plans.
 export function partnershipPages(config,icons) {
-  if(config.schemaVersion!==1 || config.publication.percentages!==false || config.publication.legalAccountingReview!=='pending') throw Error('Partnership publication requires an explicitly reviewed implementation');
+  validatePartnerships(config);
+  const reference=recordingReference(config).map(section=>({id:section.id,title:section.title,text:section.paragraphs.join('\n\n')}));
+  if(config.publication.percentages){
+    const financialRows=[['Artist keeps','artistShare'],['Artanrecords share','labelShare']].map(([label,field])=>({label,presentation:'price',values:config.items.map(item=>item[field]+'%'),states:config.items.map(()=>'included'),details:config.commercialNotice+' The allocation applies only to '+config.recordingScope+'.'}));
+    config={...config,comparison:{...config.comparison,rows:[...financialRows,...config.comparison.rows]}};
+  }
+  config={...config,principles:[...config.principles,...reference],items:config.items.map(item=>({...item,sections:[...reference.filter(section=>!section.id.startsWith('recording-')||['recording-terms','recording-publication','recording-'+item.id].includes(section.id)),...item.sections]}))};
   const ids=config.items.map(item=>item.id);
   const specification=config.serviceSpecifications;
   if(!specification||ids.some(id=>!specification.tiers[id]?.length))throw Error('Missing service specifications');
