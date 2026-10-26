@@ -26,6 +26,11 @@ if(key==='records')test('public website and store guidance separates current fea
  await expect(page.getByRole('link',{name:'Your artist website and store',exact:true})).toHaveAttribute('href',/artist-websites/);
 });
 test.beforeEach(async({page})=>{if(key==='records'){await page.route('**/rest/v1/studio_public_artist_content*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));await page.route('**/rest/v1/studio_public_artist_portfolio*',route=>route.fulfill({json:[]}));}});
+if(key==='records')test('artist portfolio shows only published gallery and project snapshots',async({page})=>{
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Portfolio artist'}}]}));await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.route('**/rest/v1/studio_public_artist_portfolio*',route=>route.fulfill({json:[{id:'98100000-0000-0000-0000-000000000011',kind:'gallery',details:{title:'Selected portrait',collection:'Portraits',description:'Published image caption',credits:'Photographer credit'}},{id:'98100000-0000-0000-0000-000000000012',kind:'project',details:{title:'Piano project',description:'Published project story',project_url:'https://example.test/project'}}]}));
+ await page.goto('/artandavoodi/');await expect(page.locator('[data-artist-portfolio=gallery]')).toContainText('Selected portrait');await expect(page.locator('[data-artist-portfolio=project]')).toContainText('Piano project');await expect(page.locator('[data-artist-portfolio=project] a')).toHaveAttribute('href','https://example.test/project');
+});
 if(key==='records')test('legacy artist addresses redirect to the root-level canonical profile',async({page})=>{
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist'}}]}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
