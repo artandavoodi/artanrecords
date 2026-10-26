@@ -14,7 +14,8 @@ export function bindPartnershipComparison(){
     const tier=comparison.querySelectorAll('thead th')[cell.cellIndex].textContent.trim();
     title.textContent=`${tier} — ${row.querySelector('th').textContent.trim()}`;
     const template=document.getElementById('partnership-explanation-'+button.dataset.partnershipDetail);
-    const preview=document.createElement('p');preview.textContent=cell.querySelector('.partnership-state').textContent+' — '+cell.querySelector('.partnership-cell-note').textContent;
+    const detail=cell.querySelector('.partnership-cell-note, .partnership-price');
+    const preview=document.createElement('p');preview.textContent=cell.querySelector('.partnership-state').textContent+(detail?' — '+detail.textContent:'');
     copy.replaceChildren(preview,template.content.cloneNode(true));
     button.focus({preventScroll:true});
     openDialog(dialog);
