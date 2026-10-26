@@ -190,3 +190,48 @@ verification infrastructure, team delegation, merchant-of-record, commerce
 shares, fee/tax definitions, protected media migration, release-to-product
 delivery, payable-ledger implementation and live withdrawals remain gated.
 Neither Artan.com ownership nor a new Artana brand is required.
+
+## Reference migration comparison - 2026-10-26
+
+The new creator-commerce directive extends this existing map; it does not
+authorize DNS cutover or duplication of the reference implementations. The
+approved first tenant remains `artandavoodi`, owned through the verified artist
+account, not through an inferred display-name or legacy dashed identifier.
+
+| Layer | Existing reference | Shared platform now | Required before migration |
+| --- | --- | --- | --- |
+| Artist content | Artist website release stories, credits, tracks and concepts | Studio profile/content and private release drafts | Field-by-field import dry run, ownership verification and rendered parity |
+| Catalogue | Artist website structured music data | Published artist profile and catalogue projections | Reconcile stable release/track IDs, media and public visibility without replacing authored content |
+| Store | Independent Store product, collection and checkout implementation | Private creator product/collection/store drafts | Tenant-scoped publication, variants, stock, order snapshots and fulfilment |
+| Domains | Existing artist website and Store custom domains | Private domain requests | Ownership proof, TLS, canonical routing, real HTTP responses and rollback rehearsal |
+| Finance | Separate Store provider integration | Internal payout application and CEO review | Secure bank/tax intake, provider evidence, payable ledger, reconciliation and legal readiness |
+| Plans | Existing artist tier application model | No newly approved commerce prices or commissions | Approve plan names, prices, entitlements and share definitions before public comparison claims |
+
+Source owners checked: artist `docs/assets/data/music/releases.json`, Store
+`web/config.json`, Studio `content/commerce.json`, and Artanrecords
+`docs/assets/data/commerce.json`. Reference code remains a learning source, not
+a second management authority. Existing Store checkout stays independent and
+unchanged; private creator drafts do not imply a working public shop.
+
+### Proposed comparison structure, pending commercial approval
+
+The future plans table should compare website/profile publication, catalogue
+authoring, shop publication, custom domains, product types, analytics and staff
+support. Each cell must come from approved capability data, not a hardcoded
+marketing promise. Do not infer shop/payment entitlements from Silver, Gold or
+Platinum approval; do not invent a fee, revenue share or withdrawal minimum.
+
+### First-tenant acceptance sequence
+
+1. Export a read-only inventory of existing profile, release, product and media
+   identifiers; reconcile every mapping against the authenticated artist owner.
+2. Import only into private drafts and compare desktop, tablet and mobile
+   previews, including empty/private fields and missing media.
+3. Implement and test tenant isolation, publication, delivery and finance gates
+   before inviting another artist or making a shop public.
+4. Present the visual/data comparison and domain rollback plan for approval;
+   only then schedule either existing custom-domain cutover.
+
+Artist payout applications remain inside Studio. CEO review does not substitute
+for provider verification, and cannot activate funds movement. Secure financial
+intake and provider-evidence ingestion are outstanding implementation gates.
