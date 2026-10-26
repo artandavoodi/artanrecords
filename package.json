@@ -11,7 +11,7 @@
     "audit:seo:live":"node tools/audit-indexing.mjs --live",
     "sync": "node tools/sync-foundation.mjs",
     "build": "node tools/build-site.mjs",
-    "check": "node tools/check-site.mjs && node tools/test-partnerships.mjs && node tools/test-enquiries.mjs && node tools/test-artist-journey.mjs && node tools/test-home-motion.mjs && node tools/test-menu.mjs && node tools/test-home-showcase.mjs && node tools/test-release-discovery.mjs && node tools/test-commerce.mjs && node tools/test-artist-colours.mjs",
+    "check": "node tools/check-site.mjs && node tools/test-partnerships.mjs && node tools/test-enquiries.mjs && node tools/test-artist-journey.mjs && node tools/test-home-motion.mjs && node tools/test-menu.mjs && node tools/test-home-showcase.mjs && node tools/test-release-discovery.mjs && node tools/test-commerce.mjs && node tools/test-artist-colours.mjs && node tools/test-artist-editor.mjs",
     "test:browser": "playwright test --config tools/browser-tests/playwright.config.mjs",
     "dev": "node tools/serve.mjs",
     "build:web": "node tools/build-site.mjs",
