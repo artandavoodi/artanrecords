@@ -63,6 +63,7 @@ async function renderArtistMedia(root,record,config){
 export async function bindPublicArtist(){
  if(refreshInFlight){refreshQueued=true;return;}
  const root=document.querySelector('[data-public-artist]');if(!root)return;
+ root.toggleAttribute('data-artist-editor-preview',window.parent!==window&&new URL(location.href).searchParams.get('editor-preview')==='1');
  const embedded=Boolean(root.dataset.artistUsername),status=root.querySelector('[data-artist-status]'),username=root.dataset.artistUsername||new URL(location.href).searchParams.get('username');
  if(!username||!/^[a-z0-9][a-z0-9.]{1,30}[a-z0-9]$/.test(username)||username.includes('..')){status.textContent='Choose an artist profile from a shared artist link.';return;}
  refreshInFlight=true;

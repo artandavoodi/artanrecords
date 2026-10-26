@@ -140,6 +140,15 @@ if(args.includes('--content-motion-only')){
   manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/artandavoodi',sourceCommit:revision});
   await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
 }
+if(args.includes('--editor-icon-only')){
+  const owner=path.resolve(root,'../control-center'),revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const sourceFile='registry/icons/source/core/actions/edit/edit.svg',file='docs/registry/icons/public/assets/core/actions/edit/edit.svg';
+  const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${sourceFile}`]);
+  await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+  manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/control-center',sourceCommit:revision,sourceFile});
+  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--preference-icons-only')){
   const revision=execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
   const registryPath=path.join(root,'docs/assets/data/icons.json'),registry=JSON.parse(await readFile(registryPath,'utf8'));

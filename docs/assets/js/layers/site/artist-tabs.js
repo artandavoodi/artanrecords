@@ -19,5 +19,6 @@ export function renderArtistTabs(mount,groups,concerts){
  tabs.addEventListener('click',event=>{const tab=event.target.closest('[data-artist-tab]');if(tab)select(tab.dataset.artistTab);});
  tabs.addEventListener('keydown',event=>{const buttons=[...tabs.children],index=buttons.indexOf(document.activeElement);if(index<0)return;let next;if(event.key==='ArrowRight')next=(index+1)%buttons.length;else if(event.key==='ArrowLeft')next=(index+buttons.length-1)%buttons.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=buttons.length-1;else return;event.preventDefault();activate(buttons[next].dataset.artistTab);buttons[next].focus();});
  const first=[...tabs.children].find(tab=>tab.dataset.artistTab===selected)||tabs.firstElementChild;if(first)activate(first.dataset.artistTab);
- bindArtistSections(mount.closest('[data-public-artist]'),mount,tabs);
+ const root=mount.closest('[data-public-artist]');
+ if(!root.hasAttribute('data-artist-editor-preview'))bindArtistSections(root,mount,tabs);
 }

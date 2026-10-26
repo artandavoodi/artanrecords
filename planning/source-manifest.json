@@ -425,6 +425,13 @@
       "sourceRepository": "artandavoodi/website",
       "sourceCommit": "e6331dc6a1fc77ac3344a38cc9be5f45d842f991",
       "sourceFile": "docs/404.html"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/actions/edit/edit.svg",
+      "sha256": "7e159858f866fb171948cffa2155e3a9cea3dc6669c3523e4c7ce4327dfd73d2",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "da06e2017803d9cce7e879d6937b06515aa693ab",
+      "sourceFile": "registry/icons/source/core/actions/edit/edit.svg"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
