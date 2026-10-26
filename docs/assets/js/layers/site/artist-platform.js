@@ -3,6 +3,7 @@ import {renderArtistTabs} from './artist-tabs.js';
 import {renderArtistContent} from './artist-content.js';
 import {showNotFound} from './not-found.js';
 import {artistColourProperties} from './artist-colours.js';
+import {bindArtistEditorPreview} from './artist-editor-preview.js';
 let refreshInFlight=false,refreshQueued=false;
 const mediaSources=new Map();
 let companyHeader;
@@ -101,5 +102,9 @@ export async function bindPublicArtist(){
   renderArtistTabs(links,config.linkGroups,concerts);
   await Promise.allSettled([renderArtistContent(root,record,config),renderConcerts(root,record.username,config)]);
   renderArtistColours(root,record.fields);
+  if(new URL(location.href).searchParams.get('editor-preview')==='1'){
+   const editor=await fetch('/assets/data/artists/editor.json').then(response=>{if(!response.ok)throw Error();return response.json();});
+   bindArtistEditorPreview(root,editor);
+  }
  }catch{const header=artistHeader();if(header)clearArtistMedia(header,'logo_path');if(!embedded)status.textContent='This artist page could not be loaded. Please try again.';}finally{refreshInFlight=false;if(refreshQueued){refreshQueued=false;queueMicrotask(()=>bindPublicArtist());}}
 }

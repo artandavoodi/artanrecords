@@ -1,0 +1,17 @@
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const config=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/editor.json',import.meta.url),'utf8'));
+const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-editor-preview.js',import.meta.url),'utf8').replace('export function','function');
+const heading={style:{}},sections=new Map(config.sections.map(item=>[item.selector,{hidden:false}]));let receive;
+const parent={postMessage(){}},window={parent},root={querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
+vm.runInNewContext(source+';bindArtistEditorPreview(root,config);',{window,root,config,URL,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null}});
+const draft={font:'mono',size:'large',ribbon:'#123456',sections:['biography']};
+const send=(origin,data=draft,source=parent)=>receive({source,origin,data:{type:'artanrecords:artist-preview',draft:data}});
+send('https://untrusted.example');assert.equal(heading.style.fontFamily,undefined);
+send(config.studioOrigins[0],draft,{});assert.equal(heading.style.fontFamily,undefined);
+send(config.studioOrigins[0],{...draft,font:'url(javascript:alert(1))'});assert.equal(heading.style.fontFamily,undefined);
+send(config.studioOrigins[0]);assert.equal(heading.style.fontFamily,'var(--font-mono)');assert.equal(sections.get('[data-artist-links]').hidden,true);
+send(config.studioOrigins[0],{...draft,sections:['biography','arbitrary-html']});assert.equal(sections.get('[data-artist-fields]').hidden,false);
+assert.equal(config.publicationEnabled,false);
+console.log('PASS: artist preview accepts only allowlisted parent origins and registered design values; no publication enabled.');
