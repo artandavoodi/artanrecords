@@ -6,7 +6,15 @@ const site=registry[key];
 if(!site)throw Error('Unknown public site');
 test.beforeEach(async({page})=>{
  // Keep optional artist projections isolated from the hosted database; individual tests override these routes.
- for(const name of ['studio_public_artist_designs','studio_public_artist_navigation'])await page.route('**/rest/v1/'+name+'*',route=>route.fulfill({json:[]}));
+ for(const name of ['studio_public_artist_designs','studio_public_artist_navigation','studio_public_artist_site_pages'])await page.route('**/rest/v1/'+name+'*',route=>route.fulfill({json:[]}));
+});
+if(key==='records')test('artist custom pages resolve only published text and retain canonical paths',async({page})=>{
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'newartist',fields:{artist_name:'New artist'}}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.route('**/rest/v1/studio_public_artist_site_pages*',route=>route.fulfill({json:[{slug:'hub',title:'My Hub',body:'<script>alert(1)</script>\n\nWelcome to my page.'}]}));
+ await page.goto('/newartist/hub/');await expect(page.locator('[data-artist-subpage=hub] h1')).toHaveText('My Hub');await expect(page.locator('.artist-page-copy')).toContainText('<script>alert(1)</script>');await expect(page.locator('.artist-page-copy script')).toHaveCount(0);await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/newartist\/hub\/$/);
+ await page.route('**/rest/v1/studio_public_artist_site_pages*',route=>route.fulfill({json:[]}));await page.goto('/newartist/missing/');await expect(page.locator('body')).toHaveClass(/page-404/);
+ await page.goto('/newartist/concerts/');await expect(page.locator('[data-artist-subpage=concerts] > header h1')).toHaveText('Concerts');
 });
 if(key==='records')test('Studio plans reuse the partnership details dialog without activating a paid offer',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));

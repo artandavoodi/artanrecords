@@ -104,7 +104,7 @@ export async function bindPublicArtist(){
    }
    if(list.childNodes.length||group.id==='concerts'){section.append(heading,list);links.append(section);}
   }
-  renderArtistTabs(links,config.linkGroups,concerts);
+  if(!root.dataset.artistSubpage)renderArtistTabs(links,config.linkGroups,concerts);
   await Promise.allSettled([renderArtistContent(root,record,config),renderConcerts(root,record.username,config),renderArtistPortfolio(root,record,config)]);
   renderArtistColours(root,record.fields);
   await renderArtistChrome(root,record,config);
