@@ -5,6 +5,7 @@ import {showNotFound} from './not-found.js';
 import {artistColourProperties} from './artist-colours.js';
 import {bindArtistEditorPreview} from './artist-editor-preview.js';
 import {renderArtistPortfolio} from './artist-portfolio.js';
+import {renderArtistChrome} from './artist-chrome.js';
 let refreshInFlight=false,refreshQueued=false;
 const mediaSources=new Map();
 let companyHeader;
@@ -104,6 +105,7 @@ export async function bindPublicArtist(){
   renderArtistTabs(links,config.linkGroups,concerts);
   await Promise.allSettled([renderArtistContent(root,record,config),renderConcerts(root,record.username,config),renderArtistPortfolio(root,record,config)]);
   renderArtistColours(root,record.fields);
+  await renderArtistChrome(root,record,config);
   if(new URL(location.href).searchParams.get('editor-preview')==='1'){
    const editor=await fetch('/assets/data/artists/editor.json').then(response=>{if(!response.ok)throw Error();return response.json();});
    bindArtistEditorPreview(root,editor);

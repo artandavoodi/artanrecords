@@ -7,7 +7,7 @@ if(!site)throw Error('Unknown public site');
 if(key==='records')test('Studio plans reuse the partnership details dialog without activating a paid offer',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.goto('/studio-plans/');
- await expect(page.getByRole('heading',{name:'Studio and Studio Pro',exact:true})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Studio Plans',exact:true})).toBeVisible();
  for(const price of ['€9.99 / month','€19.99 / month'])await expect(page.getByText(price,{exact:true})).toBeVisible();
  await expect(page.getByText('€99 / year',{exact:true})).toBeHidden();
  await page.getByRole('tab',{name:'Annual',exact:true}).click();
@@ -53,6 +53,12 @@ if(key==='records')test('missing usernames and invalid paths use the shared not-
   await expect(page.getByRole('link',{name:'Home',exact:true})).toBeVisible();
   expect(await page.locator('body').evaluate(el=>el.scrollWidth<=innerWidth)).toBe(true);
  }
+});
+if(key==='records')test('artist-owned menus and footers replace company navigation without injecting markup',async({page})=>{
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'newartist',fields:{artist_name:'New artist',biography:'A public biography.'}}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.route('**/rest/v1/studio_public_artist_navigation*',route=>route.fulfill({json:[{menu:[{label:'My music',url:'https://example.test/music'},{label:'Unsafe',url:'javascript:alert(1)'}],footer:[{label:'Contact artist',url:'https://example.test/contact'}],footer_text:'Artist-owned footer'}]}));
+ await page.goto('/newartist/');await expect(page.locator('.site-menu__links a')).toHaveCount(1);await expect(page.locator('.site-menu__links a')).toHaveText('My music');await expect(page.locator('.site-footer')).toContainText('Artist-owned footer');await expect(page.locator('.site-footer a')).toHaveAttribute('href','https://example.test/contact');
 });
 if(key==='records')test('new approved public usernames render at root without a query string',async({page})=>{
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'newartist',fields:{artist_name:'New artist',biography:'A public biography.'}}]}));
