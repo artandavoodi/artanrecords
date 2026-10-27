@@ -1,5 +1,5 @@
 // Keep the artist's selected destination when public metadata refreshes.
-import {bindArtistSections} from './artist-sections.js';
+import {bindArtistHeader,bindArtistSections} from './artist-sections.js';
 export function renderArtistTabs(mount,groups,concerts){
  const selected=mount.dataset.selectedTab;
  const tabs=document.createElement('nav');tabs.className='artist-destination-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Explore this artist');
@@ -20,5 +20,6 @@ export function renderArtistTabs(mount,groups,concerts){
  tabs.addEventListener('keydown',event=>{const buttons=[...tabs.children],index=buttons.indexOf(document.activeElement);if(index<0)return;let next;if(event.key==='ArrowRight')next=(index+1)%buttons.length;else if(event.key==='ArrowLeft')next=(index+buttons.length-1)%buttons.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=buttons.length-1;else return;event.preventDefault();activate(buttons[next].dataset.artistTab);buttons[next].focus();});
  const first=[...tabs.children].find(tab=>tab.dataset.artistTab===selected)||tabs.firstElementChild;if(first)activate(first.dataset.artistTab);
  const root=mount.closest('[data-public-artist]');
+ bindArtistHeader();
  if(!root.hasAttribute('data-artist-editor-preview'))bindArtistSections(root,mount,tabs);
 }

@@ -109,6 +109,9 @@ if(key==='records')test('artist readiness waits for media and desktop wheel scro
  const intro=await page.locator('.artist-biography').boundingBox();await page.mouse.wheel(0,Math.ceil(intro.height*0.7));
  await expect.poll(()=>page.locator('.artist-connections').evaluate(el=>Math.abs(el.getBoundingClientRect().top-document.querySelector('.label-navigation').getBoundingClientRect().height))).toBeLessThan(2);
  await expect(page.locator('.label-navigation .artist-destination-tabs')).toBeVisible();
+ const tabs=page.locator('.label-navigation .artist-destination-tabs');
+ await page.evaluate(()=>dispatchEvent(new WheelEvent('wheel',{deltaY:12})));
+ await expect(tabs).not.toHaveAttribute('data-leaving','');
  const panel=page.locator('[data-artist-group=streaming]');expect(await panel.evaluate(el=>{const rect=el.getBoundingClientRect(),header=document.querySelector('.label-navigation').getBoundingClientRect().height;return Math.abs(rect.top+rect.height/2-(innerHeight+header)/2);})).toBeLessThan(4);
  const label=panel.locator('.hub__tooltip');await page.mouse.move(0,0);await expect(label).toHaveCSS('opacity','0');await panel.getByRole('link',{name:'Spotify'}).hover();await expect(label).toHaveCSS('opacity','1');
  await expect(page.locator('[data-artist-directory]')).toHaveJSProperty('inert',true);
@@ -116,6 +119,22 @@ if(key==='records')test('artist readiness waits for media and desktop wheel scro
  const before=await page.evaluate(()=>scrollY);await page.mouse.wheel(0,83);await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(before+70);const natural=await page.evaluate(()=>scrollY);await page.waitForTimeout(350);expect(Math.abs(await page.evaluate(()=>scrollY)-natural)).toBeLessThan(2);
  await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());await expect(page.locator('html')).toHaveCSS('scroll-snap-type','y mandatory');
  if(test.info().project.name==='chromium-desktop')await page.screenshot({path:'/tmp/artist-catalogue-centered.png'});
+});
+if(key==='records')test('embedded artist header artwork starts at the preview edge without section snapping',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',fields:{artist_name:'Test artist',header_path:'96000000-0000-0000-0000-000000000001/header',spotify:'https://open.spotify.com/artist/test'}}])}));
+ await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64')}));
+ await page.goto('/');
+ await page.evaluate(()=>{const frame=document.createElement('iframe');frame.title='Artist preview test';frame.src='/artandavoodi/?editor-preview=1';frame.style.cssText='position:fixed;inset:0;width:100%;height:100%;border:0';document.body.replaceChildren(frame);});
+ const frame=page.frameLocator('iframe');
+ await expect(frame.locator('[data-public-artist]')).toHaveAttribute('data-artist-editor-preview','');
+ await expect(frame.locator('[data-artist-header] img')).toBeVisible();
+ const gap=()=>frame.locator('[data-artist-header]').evaluate(el=>Math.abs(el.getBoundingClientRect().top));
+ await expect.poll(gap).toBeLessThan(1);
+ await expect(frame.locator('[data-public-artist]')).not.toHaveAttribute('data-artist-section-mode','desktop');
+ const viewport=page.viewportSize();await page.setViewportSize({width:viewport.width-100,height:viewport.height});
+ await expect.poll(gap).toBeLessThan(1);
 });
 if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
