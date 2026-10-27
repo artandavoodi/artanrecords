@@ -3,7 +3,7 @@ export async function renderArtistSubpage(root,record,config){
  const slug=root.dataset.artistSubpage;if(!slug)return;
  const pages=await fetch('/assets/data/artists/site-pages.json').then(response=>response.json());
  const builtin=pages.builtins.find(item=>item.slug===slug);let title,body,sections=[];
- if(builtin){title=builtin.title;sections=builtin.selectors.flatMap(selector=>[...root.querySelectorAll(selector)]);}
+ if(builtin){title=builtin.title;sections=builtin.selectors.flatMap(selector=>[...root.querySelectorAll(selector)]).filter(section=>!section.hidden);}
  else{
   const endpoint=new URL('/rest/v1/studio_public_artist_site_pages',config.backend);endpoint.searchParams.set('select','title,body');endpoint.searchParams.set('username','eq.'+record.username);endpoint.searchParams.set('slug','eq.'+slug);
   const response=await fetch(endpoint,{headers:{apikey:config.publishableKey},credentials:'omit',cache:'no-store'});if(!response.ok){await showNotFound();return;}
