@@ -43,8 +43,9 @@ await copy('tools/ecosystem/partnerships.mjs','foundation/partnerships.mjs');
 await copy('tools/ecosystem/studio-plans.mjs','foundation/studio-plans.mjs');
 await copy('docs/assets/js/layers/site/artist-editor-preview.js','assets/js/layers/site/artist-editor-preview.js');
 await copy('docs/assets/js/layers/site/artist-design.js','assets/js/layers/site/artist-design.js');
+await copy('docs/assets/js/core/02-systems/reorder-list.js','assets/js/core/02-systems/reorder-list.js');
 await copy('docs/assets/js/layers/site/creator-routes.js','assets/js/layers/site/creator-routes.js');
-for(const name of ['actions/edit/edit','identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down','navigation/primary/home','navigation/direction/back'])await copy('docs/registry/icons/public/assets/core/'+name+'.svg','registry/icons/public/assets/core/'+name+'.svg');
+for(const name of ['actions/edit/edit','actions/drag/drag','identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down','navigation/primary/home','navigation/direction/back'])await copy('docs/registry/icons/public/assets/core/'+name+'.svg','registry/icons/public/assets/core/'+name+'.svg');
 for(const path of ['js/core/theme.js','js/core/menu.js','js/core/close-button.js','js/core/search.js','js/core/dialogs.js','js/core/startup.js','js/core/preference-config.js','js/layers/site/navigation.js','fragments/navigation/index.html','data/site.json','data/icons.json'])await copy('docs/assets/'+path,'assets/'+path);
 for(const name of ['build.mjs','shell.html','surface.css','app.js','search.mjs'])await copy('tools/ecosystem/'+name,'foundation/'+name);
 if(checking) {

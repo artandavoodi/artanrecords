@@ -3,7 +3,7 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 const config=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/editor.json',import.meta.url),'utf8'));
 assert.match(readFileSync(new URL('../docs'+config.editIcon,import.meta.url),'utf8'),/<(?:path|circle|rect)\b/,'The canvas edit control must resolve to a registered vector');
-const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-design.js',import.meta.url),'utf8').replaceAll('export ','')+'\n'+readFileSync(new URL('../docs/assets/js/layers/site/artist-editor-preview.js',import.meta.url),'utf8').replace(/^import .*\n/,'').replace('export function','function');
+const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-design.js',import.meta.url),'utf8').replaceAll('export ','')+'\n'+readFileSync(new URL('../docs/assets/js/layers/site/artist-editor-preview.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replace('export function','function');
 const node=()=>({style:{},dataset:{},querySelector(){return null;},append(){},setAttribute(){},toggleAttribute(){},addEventListener(){}});
 const heading=node(),sections=new Map(config.sections.map(item=>[item.selector,{...node(),hidden:false}]));let receive;
 const parent={postMessage(){}},window={parent},root={style:{getPropertyValue:()=>''},querySelectorAll:()=>[],querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
