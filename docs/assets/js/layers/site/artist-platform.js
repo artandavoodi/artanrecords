@@ -19,6 +19,7 @@ function renderArtistColours(root,fields){
  }
  if(navigation){const colour=root.style.getPropertyValue('--artist-header-ribbon');if(colour)navigation.style.setProperty('--artist-header-ribbon',colour);else navigation.style.removeProperty('--artist-header-ribbon');}
  if(navigation){const colour=root.style.getPropertyValue('--artist-logo-colour');if(colour)navigation.style.setProperty('--artist-logo-colour',colour);else navigation.style.removeProperty('--artist-logo-colour');}
+ for(const [mount,property] of [[navigation,'--artist-tab-colour'],[document.querySelector('[data-artist-copyright]'),'--artist-copyright-colour']]){if(!mount)continue;const colour=root.style.getPropertyValue(property);if(colour)mount.style.setProperty(property,colour);else mount.style.removeProperty(property);}
  // The public snapshot includes palette only when the artist shares it.
  for(const icon of root.querySelectorAll('[data-artist-colour-icon]')){
   const image=document.createElement('img');image.src=icon.dataset.artistColourIcon;image.alt='';
@@ -112,7 +113,7 @@ export async function bindPublicArtist(){
   await renderArtistSubpage(root,record,config);
   if(new URL(location.href).searchParams.get('editor-preview')==='1'){
    const editor=await fetch('/assets/data/artists/editor.json').then(response=>{if(!response.ok)throw Error();return response.json();});
-   bindArtistEditorPreview(root,editor);
+   bindArtistEditorPreview(root,editor,fields=>renderArtistColours(root,fields));
   }
  }catch{const header=artistHeader();if(header)clearArtistMedia(header,'logo_path');if(!embedded)status.textContent='This artist page could not be loaded. Please try again.';}finally{refreshInFlight=false;if(refreshQueued){refreshQueued=false;queueMicrotask(()=>bindPublicArtist());}}
 }
