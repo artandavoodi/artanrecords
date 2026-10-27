@@ -136,6 +136,19 @@ if(key==='records')test('embedded artist header artwork starts at the preview ed
  const viewport=page.viewportSize();await page.setViewportSize({width:viewport.width-100,height:viewport.height});
  await expect.poll(gap).toBeLessThan(1);
 });
+if(key==='records')test('published artist design binds buttons, dividers and copyright without changing company pages',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist',biography:'Artist introduction'}}]}));
+ await page.route('**/rest/v1/studio_public_artist_designs*',route=>route.fulfill({json:[{design:{font:'mono',size:'standard',ribbon:'#123456',sections:['biography','connections','latest','archive'],dividers:['biography'],buttons:[{label:'My shop',url:'https://shop.example.test'}],copyright:'© 2026 Example Music'}}]}));
+ await page.goto('/artandavoodi/');
+ await expect(page.locator('[data-artist-directory] a')).toHaveCount(1);
+ await expect(page.locator('[data-artist-directory] a')).toHaveText('My shop');
+ await expect(page.locator('[data-artist-directory] a')).toHaveAttribute('href','https://shop.example.test');
+ await expect(page.locator('[data-artist-fields]')).toHaveAttribute('data-artist-divider','');
+ await expect(page.locator('[data-artist-name]')).toHaveCSS('font-family',/monospace/i);
+ await expect(page.locator('[data-artist-copyright]')).toHaveText('© 2026 Example Music');
+ await page.goto('/about/');await expect(page.locator('[data-artist-copyright]')).toHaveCount(0);
+});
 if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));

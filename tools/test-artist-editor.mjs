@@ -15,5 +15,5 @@ send(config.studioOrigins[0],draft,{});assert.equal(heading.style.fontFamily,und
 send(config.studioOrigins[0],{...draft,font:'url(javascript:alert(1))'});assert.equal(heading.style.fontFamily,undefined);
 send(config.studioOrigins[0]);assert.equal(heading.style.fontFamily,'var(--font-mono)');assert.equal(sections.get('[data-artist-links]').hidden,true);
 send(config.studioOrigins[0],{...draft,sections:['biography','arbitrary-html']});assert.equal(sections.get('[data-artist-fields]').hidden,false);
-assert.equal(config.publicationEnabled,false);
-console.log('PASS: artist preview accepts only allowlisted parent origins and registered design values; no publication enabled.');
+assert.equal(config.publicationEnabled,true);
+console.log('PASS: artist preview accepts only allowlisted parent origins and registered design values; publication uses the isolated design service.');
