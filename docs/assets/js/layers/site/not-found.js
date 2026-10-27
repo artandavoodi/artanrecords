@@ -20,12 +20,12 @@ export async function showNotFound(){
 }
 export async function routeArtistRequest(){
  if(!document.querySelector('main[data-fragment=not-found]'))return;
- const match=location.pathname.match(/^\/([a-z0-9][a-z0-9.]{1,30}[a-z0-9])\/?$/);
+ const match=location.pathname.match(/^\/([a-z0-9][a-z0-9.]{1,30}[a-z0-9])(?:\/([a-z0-9]+(?:-[a-z0-9]+)*))?\/?$/);
  if(!match||match[1].includes('..'))return;
  const response=await fetch('/assets/data/artists/reserved-routes.json');if(!response.ok|| (await response.json()).includes(match[1]))return;
- const template=await fetch('/artists/profile/');if(!template.ok)return;
+ let template=match[2]?await fetch('/'+match[1]+'/'):null;if(!template?.ok)template=await fetch('/artists/profile/');if(!template.ok)return;
  const parsed=new DOMParser().parseFromString(await template.text(),'text/html'),main=parsed.querySelector('main'),artist=main?.querySelector('[data-public-artist]');if(!artist)return;
- artist.dataset.artistUsername=match[1];main.dataset.fragment='artist';
+ artist.dataset.artistUsername=match[1];if(match[2])artist.dataset.artistSubpage=match[2];main.dataset.fragment='artist';
  document.querySelector('main').replaceWith(main);document.body.classList.remove('page-404');
  const navigation=document.querySelector('[data-fragment=navigation]');navigation.hidden=false;navigation.querySelector('.label-home-actions')?.remove();
 }

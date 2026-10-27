@@ -7,6 +7,7 @@ import {bindArtistEditorPreview} from './artist-editor-preview.js';
 import {renderArtistDesign} from './artist-design.js';
 import {renderArtistPortfolio} from './artist-portfolio.js';
 import {renderArtistChrome} from './artist-chrome.js';
+import {renderArtistSubpage} from './artist-site-pages.js';
 let refreshInFlight=false,refreshQueued=false;
 const mediaSources=new Map();
 let companyHeader;
@@ -108,6 +109,7 @@ export async function bindPublicArtist(){
   renderArtistColours(root,record.fields);
   await renderArtistChrome(root,record,config);
   await renderArtistDesign(root,record,config);
+  await renderArtistSubpage(root,record,config);
   if(new URL(location.href).searchParams.get('editor-preview')==='1'){
    const editor=await fetch('/assets/data/artists/editor.json').then(response=>{if(!response.ok)throw Error();return response.json();});
    bindArtistEditorPreview(root,editor);
