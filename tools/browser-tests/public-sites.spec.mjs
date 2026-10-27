@@ -81,6 +81,7 @@ if(key==='records')test('new approved public usernames render at root without a 
 });
 if(key==='records')test('extended artist colours apply to assigned text and ignore retired design ribbon',async({page})=>{
  const fields={artist_name:'Palette artist',biography:'Artist biography',since_year:'2024',spotify:'https://open.spotify.com/artist/test',palette:Array.from({length:12},()=> '#123456'),palette_assignments:{name:11,biography:10,details:9,headings:8,tabs:7,copyright:6,header_ribbon:5}};
+ await page.route('**/rest/v1/studio_public_artist_designs*',route=>route.fulfill({json:[{design:{font:'brand',size:'standard',ribbon:'#abcdef',sections:['biography','connections','latest','archive']}}]}));
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',updated_at:new Date().toISOString(),fields}]}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
  await page.goto('/artandavoodi/');
