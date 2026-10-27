@@ -107,8 +107,8 @@ export async function bindPublicArtist(){
   }
   if(!root.dataset.artistSubpage)renderArtistTabs(links,config.linkGroups,concerts);
   await Promise.allSettled([renderArtistContent(root,record,config),renderConcerts(root,record.username,config),renderArtistPortfolio(root,record,config)]);
-  renderArtistColours(root,record.fields);
   await renderArtistChrome(root,record,config);
+  renderArtistColours(root,record.fields);
   await renderArtistDesign(root,record,config);
   await renderArtistSubpage(root,record,config);
   if(new URL(location.href).searchParams.get('editor-preview')==='1'){

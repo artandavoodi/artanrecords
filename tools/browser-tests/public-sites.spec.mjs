@@ -79,6 +79,16 @@ if(key==='records')test('new approved public usernames render at root without a 
  await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/newartist\/$/);
  await expect(page.locator('[data-404-title]')).toHaveCount(0);expect(new URL(page.url()).search).toBe('');
 });
+if(key==='records')test('extended artist colours apply to assigned text and ignore retired design ribbon',async({page})=>{
+ const fields={artist_name:'Palette artist',biography:'Artist biography',since_year:'2024',spotify:'https://open.spotify.com/artist/test',palette:Array.from({length:12},()=> '#123456'),palette_assignments:{name:11,biography:10,details:9,headings:8,tabs:7,copyright:6,header_ribbon:5}};
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',updated_at:new Date().toISOString(),fields}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.goto('/artandavoodi/');
+ const root=page.locator('[data-public-artist]');
+ for(const selector of ['[data-artist-name]','[data-artist-fields] section p','[data-artist-fields] h2','[data-artist-group=streaming] h2'])await expect(root.locator(selector).first()).toHaveCSS('color','rgb(18, 52, 86)');
+ await expect(page.locator('[data-artist-copyright]')).toHaveCSS('color','rgb(18, 52, 86)');
+ expect(await page.locator('[data-fragment=navigation]').evaluate(el=>el.style.getPropertyValue('--artist-header-ribbon'))).toBe('#123456');
+});
 if(key==='records')test('shared primary colours tint destinations and withdraw cleanly',async({page})=>{
  let shared=true;
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));

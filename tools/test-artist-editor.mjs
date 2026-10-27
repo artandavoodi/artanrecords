@@ -7,7 +7,14 @@ const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-design.j
 const node=()=>({style:{setProperty(key,value){this[key]=value;}},dataset:{},querySelectorAll(){return [];},querySelector(){return null;},append(){},setAttribute(){},toggleAttribute(){},addEventListener(){}});
 const heading=node(),sections=new Map(config.sections.map(item=>[item.selector,{...node(),hidden:false}]));let receive;
 const parent={postMessage(){}},window={parent},root={style:{getPropertyValue:()=>''},querySelectorAll:()=>[],querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
-vm.runInNewContext(source+';bindArtistEditorPreview(root,config);',{window,root,config,URL,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null,createElement:node,head:{append(){}}}});
+let graphics;
+vm.runInNewContext(source+';bindArtistEditorPreview(root,config,previewGraphics);',{window,root,config,previewGraphics:fields=>graphics=fields,URL,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null,createElement:node,head:{append(){}}}});
+const previewGraphics=(origin,fields,source=parent)=>receive({source,origin,data:{type:'artanrecords:artist-graphics-preview',fields}});
+previewGraphics('https://untrusted.example',{palette:['#123456']});assert.equal(graphics,undefined);
+previewGraphics(config.studioOrigins[0],{palette:['url(evil)']});assert.equal(graphics,undefined);
+previewGraphics(config.studioOrigins[0],{palette:Array(13).fill('#123456')});assert.equal(graphics,undefined);
+previewGraphics(config.studioOrigins[0],{palette:['#123456'],palette_assignments:{name:0}});assert.equal(graphics.palette[0],'#123456');
+previewGraphics(config.studioOrigins[0],{});assert.deepEqual(graphics,{});
 const draft={font:'mono',size:'large',ribbon:'#123456',sections:['biography']};
 const send=(origin,data=draft,source=parent)=>receive({source,origin,data:{type:'artanrecords:artist-preview',draft:data}});
 send('https://untrusted.example');assert.equal(heading.style.fontFamily,undefined);
