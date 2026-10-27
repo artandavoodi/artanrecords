@@ -1,0 +1,10 @@
+{
+ "releases":"/assets/data/music/releases.json",
+ "tabs":[{"id":"all","label":"All"},{"id":"albums","label":"Albums"},{"id":"singles","label":"Singles"},{"id":"eps","label":"EPs"},{"id":"released","label":"Released"},{"id":"tracks","label":"Tracks"}],
+ "empty":"No published music in this category.",
+ "unavailable":"Music could not be loaded. Please try again.",
+ "information":"Release information",
+ "label":"Record label",
+ "labels":[{"name":"Artanrecords","url":"https://artanrecords.com/","light":"/assets/brand/logo/artan-records-wordmark-black.svg","dark":"/assets/brand/logo/artan-records-wordmark-white.svg"}],
+ "facts":[{"key":"releaseDate","label":"Release date"},{"key":"duration","label":"Duration"},{"key":"genre","label":"Genre"},{"key":"isrc","label":"ISRC"},{"key":"upc","label":"UPC"},{"key":"story","label":"Story"},{"key":"lyrics","label":"Lyrics"},{"key":"credits","label":"Credits"},{"key":"musicalDetails","label":"Musical details"},{"key":"productionProcess","label":"Production"},{"key":"releaseInformation","label":"Release information"}]
+}

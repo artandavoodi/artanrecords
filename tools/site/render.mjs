@@ -26,7 +26,7 @@ export function links(items,icons,className='streaming',presentation='icons') {
   const content = `<div class="${className==='streaming'?'hub__group-links':escape(className)}">${[...(items||[])].sort((a,b)=>a.order-b.order).map(l=>`<a class="hub__link" href="${escape(l.url)}" aria-label="${escape(l.label)}"${l.url.startsWith('mailto:')?'':' target="_blank" rel="noopener noreferrer"'}>${icon(l.icon,icons)}${presentation==='icons-only'?'':`<span class="hub__tooltip" aria-hidden="true">${escape(l.label)}</span>`}</a>`).join('')}</div>`;
   return className==='streaming' ? `<div class="hub hub__group" data-presentation="${escape(presentation)}">${content}</div>` : content;
 }
-export const cards=items=>items.map(r=>`<article class="release-card"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · ${escape(r.artist)}</p></article>`).join('');
+export const cards=items=>items.map(r=>`<article class="release-card" data-release-id="${escape(r.id)}" data-release-status="${escape(r.status)}" data-release-category="${escape(r.category)}"><a href="/releases/${escape(r.id)}/">${image(r.cover,true)}<h3>${escape(r.title)}</h3></a><p>${escape(r.type)} · ${escape(r.artist)}</p></article>`).join('');
 export function discoveryCards(items, artists, icons) {
   return items.map(r=>{
     const artist=releaseArtist(r,artists);

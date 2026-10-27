@@ -1,9 +1,11 @@
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
+import {validArtistShowcase} from '../docs/assets/js/layers/site/artist-showcase.js';
+import {artistMusicItems,musicCategory} from '../docs/assets/js/layers/site/artist-music.js';
 const config=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/editor.json',import.meta.url),'utf8'));
 assert.match(readFileSync(new URL('../docs'+config.editIcon,import.meta.url),'utf8'),/<(?:path|circle|rect)\b/,'The canvas edit control must resolve to a registered vector');
-const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-design.js',import.meta.url),'utf8').replaceAll('export ','')+'\n'+readFileSync(new URL('../docs/assets/js/layers/site/artist-editor-preview.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replace('export function','function');
+const source=['artist-showcase','artist-design','artist-editor-preview'].map(name=>readFileSync(new URL('../docs/assets/js/layers/site/'+name+'.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('export ','')).join('\n');
 const node=()=>({style:{setProperty(key,value){this[key]=value;}},dataset:{},querySelectorAll(){return [];},querySelector(){return null;},append(){},setAttribute(){},toggleAttribute(){},addEventListener(){}});
 const heading=node(),sections=new Map(config.sections.map(item=>[item.selector,{...node(),hidden:false}]));let receive;
 const parent={postMessage(){}},window={parent},root={style:{getPropertyValue:()=>''},querySelectorAll:()=>[],querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
@@ -23,6 +25,11 @@ send(config.studioOrigins[0],{...draft,font:'url(javascript:alert(1))'});assert.
 send(config.studioOrigins[0]);assert.equal(heading.style.fontFamily,'var(--font-mono)');assert.equal(sections.get('[data-artist-links]').hidden,true);
 send(config.studioOrigins[0],{...draft,sections:['biography','arbitrary-html']});assert.equal(sections.get('[data-artist-fields]').hidden,false);
 assert.equal(config.publicationEnabled,true);
+assert.equal(validArtistShowcase({music:['salim'],gallery:[]},config),true);
+for(const value of [{music:null},{music:['same','same']},{music:['../private']},{unknown:[]},{music:Array.from({length:7},(_,index)=>'release-'+index)},{gallery:Array.from({length:13},(_,index)=>'image-'+index)}])assert.equal(validArtistShowcase(value,config),false);
+const catalogue=[{id:'own',artistId:'owner',status:'Released',category:'albums'},{id:'foreign',artistId:'other'}];
+assert.deepEqual(artistMusicItems(catalogue,'approved',{routes:{owner:'approved',other:'someoneelse'}}).map(item=>item.id),['own']);
+assert.equal(musicCategory(catalogue[0],'albums'),true);assert.equal(musicCategory(catalogue[0],'eps'),false);assert.equal(musicCategory(catalogue[0],'released'),true);
 send(config.studioOrigins[0],{...draft,presentation:{portraitSize:240,portraitAlign:'center',biographyLabel:false,since:true,textSize:'small'}});
 assert.equal(sections.get('[data-artist-fields]').style['--artist-detail-size'],'var(--site-type-caption-size)');
 send(config.studioOrigins[0],{...draft,presentation:{portraitSize:999,portraitAlign:'center',biographyLabel:false,since:true,textSize:'large'}});

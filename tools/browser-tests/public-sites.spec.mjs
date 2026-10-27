@@ -8,6 +8,26 @@ test.beforeEach(async({page})=>{
  // Keep optional artist projections isolated from the hosted database; individual tests override these routes.
  for(const name of ['studio_public_artist_designs','studio_public_artist_navigation','studio_public_artist_site_pages'])await page.route('**/rest/v1/'+name+'*',route=>route.fulfill({json:[]}));
 });
+if(key==='records')test('artist Music categories show owned releases, tracks and accurate label credit',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Artan Davoodi'}}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.goto('/artandavoodi/music/');
+ const music=page.locator('.artist-music');await expect(music.getByRole('tab',{name:'All',exact:true})).toHaveAttribute('aria-selected','true');
+ await expect(music.locator('.release-card')).toHaveCount(5);
+ await music.getByRole('tab',{name:'Albums',exact:true}).click();await expect(music.locator('.release-card:visible')).toHaveCount(2);
+ await music.getByRole('tab',{name:'Singles',exact:true}).click();await expect(music.locator('.release-card:visible')).toHaveCount(3);
+ await music.getByRole('tab',{name:'EPs',exact:true}).click();await expect(music.getByText('No published music in this category.',{exact:true})).toBeVisible();
+ await music.getByRole('tab',{name:'Tracks',exact:true}).click();await expect(music.locator('.artist-track-directory > article')).toHaveCount(19);await expect(music.locator('.artist-track-directory')).toContainText('Vahed');
+ await music.getByRole('tab',{name:'All',exact:true}).click();await expect(music.locator('.artist-release-label a')).toHaveCount(5);await expect(music.locator('.artist-release-label img').first()).toHaveAttribute('src',/wordmark-black\.svg$/);
+ expect(await page.locator('body').evaluate(node=>node.scrollWidth<=innerWidth)).toBe(true);
+});
+if(key==='records')test('artist showcase selects only their released catalogue and drops missing references',async({page})=>{
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Artan Davoodi'}}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.route('**/rest/v1/studio_public_artist_designs*',route=>route.fulfill({json:[{design:{font:'brand',size:'standard',ribbon:null,sections:['biography','selected'],order:['biography','selected'],showcase:{music:['gone','foreign-release','salim'],gallery:[]}}}]}));
+ await page.goto('/artandavoodi/');const section=page.locator('[data-artist-showcase=music]');await expect(section).toBeVisible();await expect(section.locator('[data-release-id]')).toHaveCount(2);await expect(section.locator('[data-release-id]').first()).toHaveAttribute('data-release-id','gone');await expect(section.locator('[data-release-id]').last()).toHaveAttribute('data-release-id','salim');await expect(page.locator('[data-artist-archive]')).toBeHidden();
+});
 if(key==='records')test('artist custom pages resolve only published text and retain canonical paths',async({page})=>{
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'newartist',fields:{artist_name:'New artist'}}]}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));

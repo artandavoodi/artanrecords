@@ -43,6 +43,7 @@ await copy('tools/ecosystem/partnerships.mjs','foundation/partnerships.mjs');
 await copy('tools/ecosystem/studio-plans.mjs','foundation/studio-plans.mjs');
 await copy('docs/assets/js/layers/site/artist-editor-preview.js','assets/js/layers/site/artist-editor-preview.js');
 await copy('docs/assets/js/layers/site/artist-design.js','assets/js/layers/site/artist-design.js');
+await copy('docs/assets/js/layers/site/artist-showcase.js','assets/js/layers/site/artist-showcase.js');
 await copy('docs/assets/data/artists/site-pages.json','assets/data/artists/site-pages.json');
 await copy('docs/assets/js/core/02-systems/reorder-list.js','assets/js/core/02-systems/reorder-list.js');
 await copy('docs/assets/js/layers/site/creator-routes.js','assets/js/layers/site/creator-routes.js');
