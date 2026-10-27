@@ -10,7 +10,8 @@ export async function renderArtistChrome(root,record,config){
  const menu=document.querySelector('.site-menu__links');let footer=document.querySelector('.site-footer');
  if(!footer){footer=document.createElement('footer');footer.className='site-footer';const mount=document.querySelector('[data-fragment="footer"]');if(mount)mount.append(footer);else document.querySelector('main')?.after(footer);}
  const defaults=[];
- for(const [selector,id,label] of [['[data-artist-name]','artist-home',record.fields.artist_name],['.artist-connections','artist-links','Listen & follow'],['[data-artist-releases]','artist-releases','Releases'],['[data-artist-concerts]','artist-live','Live']]){const section=root.querySelector(selector);if(section){if(!section.id)section.id=id;defaults.push({label,url:'#'+section.id});}}
+ for(const [selector,id,label] of [['[data-artist-name]','artist-home',record.fields.artist_name],['.artist-connections','artist-links','Listen & follow'],['[data-artist-archive]','artist-releases','Releases'],['[data-artist-concerts]','artist-live','Live']]){const section=root.querySelector(selector);if(section){if(!section.id)section.id=id;defaults.push({label,url:'#'+section.id});}}
+ if(menu)menu.onclick=event=>{const link=event.target.closest('a');if(!link?.hash||link.origin!==location.origin||link.pathname!==location.pathname)return;const target=document.getElementById(link.hash.slice(1)),panel=target?.closest('[role=tabpanel]');if(panel?.hidden)document.querySelector('[aria-controls="'+panel.id+'"]')?.click();};
  if(menu){menu.setAttribute('aria-label',record.fields.artist_name);links(menu,defaults);}
  if(footer){footer.replaceChildren();const credit=document.createElement('p');credit.textContent='© '+new Date().getUTCFullYear()+' '+record.fields.artist_name;footer.append(credit);}
  try{
