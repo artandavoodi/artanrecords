@@ -4,6 +4,10 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+test.beforeEach(async({page})=>{
+ // Keep optional artist projections isolated from the hosted database; individual tests override these routes.
+ for(const name of ['studio_public_artist_designs','studio_public_artist_navigation'])await page.route('**/rest/v1/'+name+'*',route=>route.fulfill({json:[]}));
+});
 if(key==='records')test('Studio plans reuse the partnership details dialog without activating a paid offer',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.goto('/studio-plans/');

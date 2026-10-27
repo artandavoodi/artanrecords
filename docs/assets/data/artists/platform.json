@@ -1,4 +1,5 @@
 {
+  "designTimeoutMs":1500,
   "backend":"https://hahtbepdrjkjluhespbs.supabase.co",
   "publishableKey":"sb_publishable_1o9cpj-PrPKPt5cmOWSVyQ_pzdLR4Im",
   "title":"Artist profile",
