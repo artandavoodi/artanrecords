@@ -64,7 +64,7 @@ if(key==='records')test('new approved public usernames render at root without a 
 if(key==='records')test('shared primary colours tint destinations and withdraw cleanly',async({page})=>{
  let shared=true;
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
- await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')}));
+ await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64')}));
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',updated_at:new Date().toISOString(),fields:{artist_name:'Test artist',header_path:'96000000-0000-0000-0000-000000000001/header',spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',...(shared?{palette:['#123456','#654321','#abcdef','#112233','#445566']}: {})}}]}));
  await page.goto('/artandavoodi/');
  await expect(page.locator('link[rel=canonical]')).toHaveAttribute('href',/\/artandavoodi\/$/);
@@ -94,7 +94,7 @@ if(key==='records')test('artist readiness waits for media and desktop wheel scro
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify([{username:'artandavoodi',updated_at:'2026-10-24T12:00:00Z',fields:{artist_name:'Test artist',biography:'An artist story.',palette:['#123456','#000000'],spotify:'https://open.spotify.com/artist/test',instagram:'https://instagram.com/test',website:'https://example.test',header_path:'96000000-0000-0000-0000-000000000001/header'}}])}));
  let releaseHeader;const headerReady=new Promise(resolve=>releaseHeader=resolve);
- await page.route('**/storage/v1/object/authenticated/studio-headers/**',async route=>{await headerReady;await route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
+ await page.route('**/storage/v1/object/authenticated/studio-headers/**',async route=>{await headerReady;await route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64')});});
  await page.goto('/artandavoodi/');await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeVisible();await expect(page.locator('main')).toHaveJSProperty('inert',true);
  releaseHeader();await expect(page.getByRole('status',{name:'Loading Artanrecords'})).toBeHidden();await expect(page.locator('main')).toHaveJSProperty('inert',false);
  await expect(page.locator('[data-artist-palette]')).toHaveCount(0);
@@ -116,8 +116,8 @@ if(key==='records')test('selected artist media refreshes and desktop link labels
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  const portrait='96000000-0000-0000-0000-000000000001/avatar';let published=true,version=1,shared=true,downloads=0;
  await page.route('https://hahtbepdrjkjluhespbs.supabase.co/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(published?[{username:'artandavoodi',updated_at:'2026-10-23T10:00:0'+version+'Z',fields:{artist_name:'Test artist',biography:'Saved biography '+version,spotify:'https://open.spotify.com/artist/test',...(shared?{portrait_path:portrait,header_path:portrait.replace('/avatar','/header')}:{})}}]:[])}));
- await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')}));
- await page.route('**/storage/v1/object/authenticated/studio-avatars/**',route=>{downloads++;return route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
+ await page.route('**/storage/v1/object/authenticated/studio-headers/**',route=>route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64')}));
+ await page.route('**/storage/v1/object/authenticated/studio-avatars/**',route=>{downloads++;return route.fulfill({status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64')});});
  await page.goto('/artandavoodi/');
  const image=page.locator('[data-artist-portrait] img');await expect(image).toBeVisible();await expect.poll(()=>image.evaluate(el=>el.naturalWidth)).toBe(1);expect(downloads).toBe(1);
  await expect(page.locator('[data-artist-header] img')).toBeVisible();await expect(page.locator('[data-artist-header]')).toHaveCSS('position','absolute');
@@ -142,7 +142,7 @@ if(key==='records')test('shared artist logo replaces only catalogue header image
  const ready=new Promise(resolve=>releaseImage=resolve);
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(published?[{username:'artandavoodi',updated_at:'2026-10-24T12:00:0'+version+'Z',fields:{artist_name:'Test artist',biography:'Artist biography.',spotify:'https://open.spotify.com/artist/test',...(shared?{logo_path:path}:{})}}]:[])}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
- await page.route('**/storage/v1/object/authenticated/studio-logos/**',async route=>{downloads++;await ready;await route.fulfill(fail?{status:404,contentType:'application/json',body:'{}'}:{status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aDV8AAAAASUVORK5CYII=','base64')});});
+ await page.route('**/storage/v1/object/authenticated/studio-logos/**',async route=>{downloads++;await ready;await route.fulfill(fail?{status:404,contentType:'application/json',body:'{}'}:{status:200,contentType:'image/png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII=','base64')});});
  await page.goto('/artandavoodi/');await expect(page.locator('html')).not.toHaveAttribute('data-page-loading');
  const header=page.locator('.label-header-logo'),company=header.locator('.label-wordmark');await expect(company).toHaveCount(2);const height=await page.locator('.label-navigation').evaluate(el=>el.getBoundingClientRect().height),motion=await header.evaluate(el=>getComputedStyle(el).transitionDuration);
  shared=true;version++;await page.evaluate(()=>window.dispatchEvent(new Event('focus')));await expect.poll(()=>downloads).toBe(1);await expect(company).toHaveCount(2);releaseImage();
@@ -202,7 +202,8 @@ if(key==='records')test('comparison preserves readable columns and accessible co
   expect(await region.locator('table').evaluate(el=>el.getBoundingClientRect().width)).toBeGreaterThan(500);
   const preview=page.locator('.partnership-cell-note').first();
   if(page.viewportSize().width<=1024)await expect(preview).toBeHidden();else await expect(preview).toBeVisible();
-  await expect(page.locator('[data-partnership-detail]')).toHaveCount(57);
+  const comparison=readFileSync(new URL('../../docs/partnerships/index.html',import.meta.url),'utf8');
+  await expect(page.locator('[data-partnership-detail]')).toHaveCount([...comparison.matchAll(/data-partnership-detail="/g)].length);
   const trigger=page.locator('[data-partnership-detail]').first();
   await trigger.click();
   const dialog=page.locator('[data-partnership-dialog]');
