@@ -99,7 +99,7 @@ export async function bindPublicArtist(){
     try{if(field.email){if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))continue;href='mailto:'+value;}else{const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)continue;href=url.href;}}catch{continue;}
     const link=existing.get(field.label)||document.createElement('a');link.href=href;link.setAttribute('aria-label',field.label);
     if(!link.childNodes.length){const source=icons.items.find(item=>item.id===config.linkIcons[field.key]);link.className='hub__link';if(source){const image=document.createElement('img');image.src='/'+source.src.replace(/^\//,'');image.alt='';if(source.monochrome)image.dataset.monochrome='true';link.append(image);}const label=document.createElement('span');label.className='hub__tooltip';label.textContent=field.label;link.append(label);}
-    link.rel='noopener';list.append(link);
+    link.dataset.artistLinkKey=field.key;link.rel='noopener';list.append(link);
    }
    if(list.childNodes.length||group.id==='concerts'){section.append(heading,list);links.append(section);}
   }

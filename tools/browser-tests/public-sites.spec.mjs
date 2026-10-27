@@ -119,6 +119,10 @@ if(key==='records')test('artist readiness waits for media and desktop wheel scro
  const panel=page.locator('[data-artist-group=streaming]');expect(await panel.evaluate(el=>{const rect=el.getBoundingClientRect(),header=document.querySelector('.label-navigation').getBoundingClientRect().height;return Math.abs(rect.top+rect.height/2-(innerHeight+header)/2);})).toBeLessThan(4);
  const label=panel.locator('.hub__tooltip');await page.mouse.move(0,0);await expect(label).toHaveCSS('opacity','0');await panel.getByRole('link',{name:'Spotify'}).hover();await expect(label).toHaveCSS('opacity','1');
  await expect(page.locator('[data-artist-directory]')).toHaveJSProperty('inert',true);
+ const menu=page.locator('[data-menu-toggle]');
+ const menuBox=await menu.boundingBox();await page.mouse.click(menuBox.x+menuBox.width/2,menuBox.y+menuBox.height/2);await expect(tabs).toHaveCSS('visibility','hidden');
+ await page.mouse.click(menuBox.x+menuBox.width/2,menuBox.y+menuBox.height/2);await expect(tabs).toHaveCSS('visibility','visible');
+ await expect.poll(()=>page.locator('.artist-connections').evaluate(el=>Math.abs(el.getBoundingClientRect().top-document.querySelector('.label-navigation').getBoundingClientRect().height))).toBeLessThan(2);
  await page.locator('[data-artist-archive]').evaluate(el=>el.scrollIntoView());await expect(page.locator('html')).toHaveCSS('scroll-snap-type','none');await expect(page.locator('[data-artist-archive]')).toHaveCSS('scroll-snap-align','none');
  const before=await page.evaluate(()=>scrollY);await page.mouse.wheel(0,83);await expect.poll(()=>page.evaluate(()=>scrollY)).toBeGreaterThan(before+70);const natural=await page.evaluate(()=>scrollY);await page.waitForTimeout(350);expect(Math.abs(await page.evaluate(()=>scrollY)-natural)).toBeLessThan(2);
  await page.locator('.artist-connections').evaluate(el=>el.scrollIntoView());await expect(page.locator('html')).toHaveCSS('scroll-snap-type','y mandatory');
@@ -142,8 +146,8 @@ if(key==='records')test('embedded artist header artwork starts at the preview ed
 });
 if(key==='records')test('published artist design binds buttons, dividers and copyright without changing company pages',async({page})=>{
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
- await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist',biography:'Artist introduction'}}]}));
- await page.route('**/rest/v1/studio_public_artist_designs*',route=>route.fulfill({json:[{design:{font:'mono',size:'standard',ribbon:'#123456',sections:['biography','connections','latest','archive'],dividers:['biography'],buttons:[{label:'My shop',url:'https://shop.example.test'}],copyright:'© 2026 Example Music'}}]}));
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist',biography:'Artist introduction',spotify:'https://open.spotify.com/artist/test',amazon_music:'https://music.amazon.com/artists/test'}}]}));
+ await page.route('**/rest/v1/studio_public_artist_designs*',route=>route.fulfill({json:[{design:{font:'mono',size:'standard',ribbon:'#123456',sections:['biography','connections','latest','archive'],order:['latest','biography','connections','archive'],linkOrder:{streaming:['amazon_music','spotify']},dividers:['biography'],buttons:[{label:'My shop',url:'https://shop.example.test'}],copyright:'© 2026 Example Music'}}]}));
  await page.goto('/artandavoodi/');
  await expect(page.locator('[data-artist-directory] a')).toHaveCount(1);
  await expect(page.locator('[data-artist-directory] a')).toHaveText('My shop');
@@ -151,6 +155,8 @@ if(key==='records')test('published artist design binds buttons, dividers and cop
  await expect(page.locator('[data-artist-fields]')).toHaveAttribute('data-artist-divider','');
  await expect(page.locator('[data-artist-name]')).toHaveCSS('font-family',/monospace/i);
  await expect(page.locator('[data-artist-copyright]')).toHaveText('© 2026 Example Music');
+ await expect(page.locator('[data-artist-group=streaming] [data-artist-link-key]').first()).toHaveAttribute('data-artist-link-key','amazon_music');
+ expect(await page.locator('[data-public-artist]').evaluate(root=>{const sections=[...root.children];return sections.indexOf(root.querySelector('.artist-latest-release'))<sections.indexOf(root.querySelector('.artist-biography'));})).toBe(true);
  await page.goto('/about/');await expect(page.locator('[data-artist-copyright]')).toHaveCount(0);
 });
 if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{

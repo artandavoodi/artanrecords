@@ -35,10 +35,6 @@
       "sha256": "b93be75b7d311a733a42b9d22cffea537b9ac10cb8f06c1deb952f7b797c391b"
     },
     {
-      "file": "docs/assets/js/core/menu.js",
-      "sha256": "22521f98c9e38ae5d70ec2ce63ced6127b5cfdb4918d0040d8b634e802645239"
-    },
-    {
       "file": "docs/assets/css/core/04-systems/startup.css",
       "sha256": "73f7e032ac2c67869379cee0efcc0c7c87883cd85cef379c256522d95bab31cc"
     },
@@ -432,6 +428,13 @@
       "sourceRepository": "artandavoodi/control-center",
       "sourceCommit": "da06e2017803d9cce7e879d6937b06515aa693ab",
       "sourceFile": "registry/icons/source/core/actions/edit/edit.svg"
+    },
+    {
+      "file": "docs/assets/js/core/menu.js",
+      "sha256": "22521f98c9e38ae5d70ec2ce63ced6127b5cfdb4918d0040d8b634e802645239",
+      "sourceRepository": "artandavoodi/artandavoodi",
+      "sourceCommit": "2988402e2570e960f436f8b870b5b51a3508e475",
+      "sourceFile": "docs/assets/js/core/menu.js"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

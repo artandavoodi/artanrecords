@@ -6,7 +6,7 @@ assert.match(readFileSync(new URL('../docs'+config.editIcon,import.meta.url),'ut
 const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-design.js',import.meta.url),'utf8').replaceAll('export ','')+'\n'+readFileSync(new URL('../docs/assets/js/layers/site/artist-editor-preview.js',import.meta.url),'utf8').replace(/^import .*\n/,'').replace('export function','function');
 const node=()=>({style:{},dataset:{},querySelector(){return null;},append(){},setAttribute(){},toggleAttribute(){},addEventListener(){}});
 const heading=node(),sections=new Map(config.sections.map(item=>[item.selector,{...node(),hidden:false}]));let receive;
-const parent={postMessage(){}},window={parent},root={querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
+const parent={postMessage(){}},window={parent},root={style:{getPropertyValue:()=>''},querySelectorAll:()=>[],querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
 vm.runInNewContext(source+';bindArtistEditorPreview(root,config);',{window,root,config,URL,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null,createElement:node,head:{append(){}}}});
 const draft={font:'mono',size:'large',ribbon:'#123456',sections:['biography']};
 const send=(origin,data=draft,source=parent)=>receive({source,origin,data:{type:'artanrecords:artist-preview',draft:data}});
