@@ -13,7 +13,8 @@ export async function renderArtistChrome(root,record,config){
  for(const [selector,id,label] of [['[data-artist-name]','artist-home',record.fields.artist_name],['.artist-connections','artist-links','Listen & follow'],['[data-artist-archive]','artist-releases','Releases'],['[data-artist-concerts]','artist-live','Live']]){const section=root.querySelector(selector);if(section){if(!section.id)section.id=id;defaults.push({label,url:'#'+section.id});}}
  if(menu)menu.onclick=event=>{const link=event.target.closest('a');if(!link?.hash||link.origin!==location.origin||link.pathname!==location.pathname)return;const target=document.getElementById(link.hash.slice(1)),panel=target?.closest('[role=tabpanel]');if(panel?.hidden)document.querySelector('[aria-controls="'+panel.id+'"]')?.click();};
  if(menu){menu.setAttribute('aria-label',record.fields.artist_name);links(menu,defaults);}
- if(footer){footer.replaceChildren();const credit=document.createElement('p');credit.textContent='© '+new Date().getUTCFullYear()+' '+record.fields.artist_name;footer.append(credit);}
+ if(footer){footer.replaceChildren();const credit=document.createElement('p');credit.dataset.artistCopyright='© '+new Date().getUTCFullYear()+' '+record.fields.artist_name;credit.textContent=credit.dataset.artistCopyright;footer.append(credit);}
+ const directory=root.querySelector('[data-artist-directory]');if(directory)links(directory,defaults.filter(item=>item.url!=='#artist-home').slice(0,3));
  try{
   const endpoint=new URL('/rest/v1/studio_public_artist_navigation',config.backend);endpoint.searchParams.set('select','menu,footer,footer_text');endpoint.searchParams.set('username','eq.'+record.username);
   const response=await fetch(endpoint,{headers:{apikey:config.publishableKey},credentials:'omit',cache:'no-store'});if(!response.ok)return;
