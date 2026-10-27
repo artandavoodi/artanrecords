@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const config=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/editor.json',import.meta.url),'utf8'));
 assert.match(readFileSync(new URL('../docs'+config.editIcon,import.meta.url),'utf8'),/<(?:path|circle|rect)\b/,'The canvas edit control must resolve to a registered vector');
 const source=readFileSync(new URL('../docs/assets/js/layers/site/artist-design.js',import.meta.url),'utf8').replaceAll('export ','')+'\n'+readFileSync(new URL('../docs/assets/js/layers/site/artist-editor-preview.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replace('export function','function');
-const node=()=>({style:{},dataset:{},querySelector(){return null;},append(){},setAttribute(){},toggleAttribute(){},addEventListener(){}});
+const node=()=>({style:{setProperty(key,value){this[key]=value;}},dataset:{},querySelectorAll(){return [];},querySelector(){return null;},append(){},setAttribute(){},toggleAttribute(){},addEventListener(){}});
 const heading=node(),sections=new Map(config.sections.map(item=>[item.selector,{...node(),hidden:false}]));let receive;
 const parent={postMessage(){}},window={parent},root={style:{getPropertyValue:()=>''},querySelectorAll:()=>[],querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
 vm.runInNewContext(source+';bindArtistEditorPreview(root,config);',{window,root,config,URL,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null,createElement:node,head:{append(){}}}});
@@ -16,4 +16,8 @@ send(config.studioOrigins[0],{...draft,font:'url(javascript:alert(1))'});assert.
 send(config.studioOrigins[0]);assert.equal(heading.style.fontFamily,'var(--font-mono)');assert.equal(sections.get('[data-artist-links]').hidden,true);
 send(config.studioOrigins[0],{...draft,sections:['biography','arbitrary-html']});assert.equal(sections.get('[data-artist-fields]').hidden,false);
 assert.equal(config.publicationEnabled,true);
+send(config.studioOrigins[0],{...draft,presentation:{portraitSize:240,portraitAlign:'center',biographyLabel:false,since:true,textSize:'small'}});
+assert.equal(sections.get('[data-artist-fields]').style['--artist-detail-size'],'var(--site-type-caption-size)');
+send(config.studioOrigins[0],{...draft,presentation:{portraitSize:999,portraitAlign:'center',biographyLabel:false,since:true,textSize:'large'}});
+assert.equal(sections.get('[data-artist-fields]').style['--artist-detail-size'],'var(--site-type-caption-size)');
 console.log('PASS: artist preview accepts only allowlisted parent origins and registered design values; publication uses the isolated design service.');
