@@ -1,6 +1,16 @@
 /* Confirm only an explicit server receipt; never infer acceptance from an opaque request. */
 import {bindArtistDiscovery} from './artist-discovery.js';
 export async function bindIntake() {
+  const confirmation=document.querySelector('[data-submission-confirmation]');
+  if(confirmation){
+    let reference;
+    try{reference=sessionStorage.getItem('artanrecords-submission-reference');}catch{}
+    if(/^[0-9a-f-]{36}$/.test(reference||'')){
+      const field=confirmation.querySelector('[data-enquiry-reference]');
+      field.querySelector('span').textContent=reference;field.hidden=false;
+    }else{location.replace('/submit/');}
+    return;
+  }
   const disclosure=document.querySelector('[data-enquiry]');
   if(!disclosure) return;
   const response=await fetch('/assets/data/artists/intake.json',{cache:'no-store'});
@@ -40,19 +50,24 @@ export async function bindIntake() {
     form.elements.appearance.value=document.documentElement.dataset.themeEffective==='dark'?'dark':'light';
     if(config.submissionEndpoint)event.preventDefault();
     button.disabled=true;
-    status.textContent=config.sendingLabel;
+    status.textContent='';
+    const loading=document.querySelector('.ui-loading-surface');
+    const loadingLabel=loading?.getAttribute('aria-label');
+    loading?.setAttribute('aria-label',config.sendingLabel);
+    window.NeuroartanPageLoading?.start();
     if(!config.submissionEndpoint)return;
+    let navigating=false;
     try{
       const response=await fetch(config.submissionEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(new FormData(form))),credentials:'omit',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(60000)});
       const receipt=await response.json();
       if(!response.ok||receipt.accepted!==true||!/^[0-9a-f-]{36}$/.test(receipt.reference||'')){
         invalidate();window.grecaptcha?.reset();status.textContent=receipt.uncertain?config.uncertainLabel:config.failedLabel;return;
       }
-      const confirmation=document.createElement('section'),heading=document.createElement('h3'),message=document.createElement('p'),reference=document.createElement('p');
-      confirmation.dataset.enquiryReceipt='';confirmation.setAttribute('role','status');confirmation.tabIndex=-1;
-      heading.textContent=config.receivedTitle;message.textContent=config.receivedDescription;reference.textContent=config.referenceLabel+': '+receipt.reference;
-      confirmation.append(heading,message,reference);form.after(confirmation);form.hidden=true;confirmation.focus();
+      sessionStorage.setItem('artanrecords-submission-reference',receipt.reference);
+      location.assign(config.confirmationPath);
+      navigating=true;
     }catch{invalidate();window.grecaptcha?.reset();status.textContent=config.uncertainLabel;}
+    finally{if(!navigating){window.NeuroartanPageLoading?.finish();if(loadingLabel)loading.setAttribute('aria-label',loadingLabel);}}
   });
   window.addEventListener('pageshow',event=>{if(event.persisted){invalidate();window.grecaptcha?.reset();}});
 }

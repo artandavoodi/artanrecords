@@ -90,10 +90,14 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   const pageFooter=['artist','artist-platform'].includes(fragmentName)?await fragment('footer',{name:e(site.name),year:String(new Date().getUTCFullYear()),groups:'',social:''}):footer;
   const brandMetadata=`<meta property="og:site_name" content="${e(site.name)}"><meta name="twitter:title" content="${e(title)}"><meta name="twitter:description" content="${e(description)}">`;
   let html=fill(shell,{head:head+brandMetadata,navigation,footer:pageFooter,fragment:fragmentName,content,backgroundStyle:values.backgroundStyle || '',atmosphere:fragmentName==='artists'?'<canvas class="artist-directory-grain" aria-hidden="true"></canvas>':''});
-  if(fragmentName==='artist-platform')html=html.replace('content="max-image-preview:large"','content="noindex,follow"');
+  if(['artist-platform','submission-receipt'].includes(fragmentName))html=html.replace('content="max-image-preview:large"','content="noindex,follow"');
   await output(path.slice(1)+'index.html',html);paths.push(path);
 }
 const artistPlatform=await json('assets/data/artists/platform.json');
+await page(intake.form.confirmationPath,intake.form.receivedTitle,intake.form.receivedDescription,'submission-receipt',{
+  title:e(intake.form.receivedTitle),description:e(intake.form.receivedDescription),referenceLabel:e(intake.form.referenceLabel),
+  links:textLinks(intake.form.confirmationLinks)
+});
 await page('/artists/profile/',artistPlatform.title,artistPlatform.description,'artist-platform',{title:e(artistPlatform.title)});
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
@@ -214,7 +218,7 @@ for(const r of catalogue.items) {
   const entity={'@type':r.type==='Single'?'MusicRecording':'MusicAlbum',name:r.title,byArtist:{'@id':person['@id']},datePublished:r.releaseDate,creativeWorkStatus:r.status,image:r.cover?site.domain+'/'+r.cover.src:undefined,...(recordings.length?{track:recordings,numTracks:recordings.length}:{isrcCode:r.isrc})};
   await page(`/releases/${r.id}/`,r.title,r.description,'release',{...escaped(r),back:e(site.labels.back),backIcon:icon('back',icons),cover:image(r.cover),metadata:metadata(r,ui),links:links(r.links,icons),sections:sections(r,ui,icons),tracks:recordings.length?`<section><h2>${e(site.labels.tracks)}</h2><ol>${r.tracks.map(t=>`<li id="track-${e(t.id)}"><details><summary>${e(t.title)} <span>${e(t.duration)}</span>${icon('chevron-right',icons)}</summary>${sections(t,ui,icons)}${links(t.links,icons)}</details></li>`).join('')}</ol></section>`:''},{mainEntity:entity});
 }
-await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${paths.filter(p=>p!=='/artists/profile/').map(p=>{
+await output('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">${paths.filter(p=>p!=='/artists/profile/'&&p!==intake.form.confirmationPath).map(p=>{
   const images=catalogue.items.filter(r=>r.cover&&(p==='/'||p==='/releases/'||artists.items.some(a=>p===artistPath(a.id)&&r.artistId===a.id)||p===`/releases/${r.id}/`)).map(r=>r.cover.src);
   const portrait=artists.items.find(a=>p===artistPath(a.id))?.portrait;
   if(portrait) images.push(portrait.src);

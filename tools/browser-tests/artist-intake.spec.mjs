@@ -23,11 +23,16 @@ for(const accepted of [true,false])test('submission stays on Artanrecords and '+
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
  await page.route('https://www.google.com/recaptcha/api.js*',route=>route.fulfill({contentType:'application/javascript',body:'window.grecaptcha={render:(node,options)=>{const input=document.createElement("input");input.type="hidden";input.name="g-recaptcha-response";input.value="fixture-token-not-real";node.append(input);options.callback();},reset:()=>{}};window.artanEnquiryCaptchaReady();'}));
  let received;
- await page.route('**/functions/v1/enquiry-submit',route=>{received=route.request().postDataJSON();return route.fulfill({status:accepted?200:400,json:{accepted,reference:accepted?'98700000-0000-4000-8000-000000000003':null}});});
+ let release;const pending=new Promise(resolve=>{release=resolve;});
+ await page.route('**/functions/v1/enquiry-submit',async route=>{received=route.request().postDataJSON();await pending;return route.fulfill({status:accepted?200:400,json:{accepted,reference:accepted?'98700000-0000-4000-8000-000000000003':null}});});
  await page.goto('/submit/#artist-conversation');const form=page.locator('[data-enquiry] form');if(!await form.isVisible())await page.locator('[data-enquiry] > summary').click();
  for(const [name,value] of Object.entries({name:'Test artist',artist:'Test artist',email:'qa@example.invalid',message:'Integration fixture only'}))await form.locator('[name='+name+']').fill(value);
  await form.locator('[name=processing_acknowledgement]').check();await form.getByRole('button',{name:'Submit',exact:true}).click();
- expect(received.artist).toBe('Test artist');expect(received['g-recaptcha-response']).toBe('fixture-token-not-real');await expect(page).toHaveURL(/\/submit\/#artist-conversation$/);
- if(accepted){await expect(page.locator('[data-enquiry-receipt]')).toContainText('Your submission has been received');await expect(form).toBeHidden();}
- else{await expect(page.locator('[data-enquiry-receipt]')).toHaveCount(0);await expect(form.locator('[name=message]')).toHaveValue('Integration fixture only');await expect(form.locator('[data-enquiry-status]')).toContainText('not accepted');}
+ await expect(page.locator('.ui-loading-surface')).toBeVisible();await expect(form.locator('[data-enquiry-status]')).toBeEmpty();
+ expect(received.artist).toBe('Test artist');expect(received['g-recaptcha-response']).toBe('fixture-token-not-real');release();
+ if(accepted){await expect(page).toHaveURL(/\/submit\/complete\/$/);await expect(page.getByRole('heading',{name:'Your submission has been received'})).toBeVisible();await expect(page.locator('[data-enquiry-reference]')).toContainText('98700000-0000-4000-8000-000000000003');await expect(page.getByRole('link',{name:'Back to home',exact:true})).toHaveAttribute('href','/');}
+ else{await expect(page).toHaveURL(/\/submit\/#artist-conversation$/);await expect(page.locator('.ui-loading-surface')).toBeHidden();await expect(form.locator('[name=message]')).toHaveValue('Integration fixture only');await expect(form.locator('[data-enquiry-status]')).toContainText('not accepted');}
+});
+test('confirmation requires a receipt in this browser session',async({page})=>{
+ await page.goto('/submit/complete/');await expect(page).toHaveURL(/\/submit\/$/);
 });
