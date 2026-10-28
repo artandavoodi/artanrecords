@@ -55,7 +55,7 @@
     "captchaUnavailable": "Verification could not load. Please reload or contact us by email.",
     "sendingLabel": "Submitting your music",
     "confirmationPath": "/submit/complete/",
-    "confirmationLinks": [{"label":"Back to home","url":"/"},{"label":"Back to submissions","url":"/submit/"}],
+    "confirmationLinks": [{"label":"Home","url":"/","icon":"home","emphasis":"primary"},{"label":"Back","url":"/submit/","icon":"back"}],
     "submissionEndpoint": "https://hahtbepdrjkjluhespbs.supabase.co/functions/v1/enquiry-submit",
     "receivedTitle": "Your submission has been received",
     "receivedDescription": "Thank you for sharing your work. We aim to respond within 14 working days. This is a review target, not a guaranteed deadline.",

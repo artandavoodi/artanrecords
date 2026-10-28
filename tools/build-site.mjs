@@ -39,7 +39,7 @@ const textLinks=(items,path='',placement='body')=>(items||[]).map(item=>{
   if(!/^\/(?!\/)|^https:\/\/|^mailto:/.test(item.url)) throw new Error('Invalid information link');
   if(item.emphasis && item.emphasis!=='primary') throw new Error('Invalid action emphasis');
   const duplicate=placement==='body'&&information.homeLinks.some(link=>link.url===item.url&&link.url!==path&&!link.excludeOn?.includes(path));
-  return `<a href="${e(item.url)}"${duplicate?' data-header-duplicate':''}${item.emphasis?' data-emphasis="primary"':''}>${e(item.label)}</a>`;
+  return `<a href="${e(item.url)}"${duplicate?' data-header-duplicate':''}${item.emphasis?' data-emphasis="primary"':''}>${item.icon?icon(item.icon,icons):''}${e(item.label)}</a>`;
 }).join('');
 for(const artist of roster.items) {
   if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(artist.id)||!artist.name||!artist.biography||artist.approved!==true) throw new Error('Roster must contain only approved, complete public profiles');
