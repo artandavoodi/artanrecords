@@ -3,7 +3,7 @@ import {bindArtistDiscovery} from './artist-discovery.js';
 export async function bindIntake() {
   const disclosure=document.querySelector('[data-enquiry]');
   if(!disclosure) return;
-  const response=await fetch('/assets/data/artists/intake.json');
+  const response=await fetch('/assets/data/artists/intake.json',{cache:'no-store'});
   if(!response.ok) return;
   const form=disclosure.querySelector('form');
   const settings=await response.json(),config=form.elements.formtype?{...settings.form,...settings.contact.form,submissionEndpoint:null}:settings.form;

@@ -1,7 +1,7 @@
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
-import {createHmac} from 'node:crypto';
+import {createHmac,createHash} from 'node:crypto';
 import {intakeForm} from './site/intake.mjs';
 
 const source=readFileSync(new URL('./site/enquiries.gs',import.meta.url),'utf8');
@@ -35,6 +35,12 @@ for(const config of [form,{...form,...contact.form}]){
   }
 }
 const submissionPage=readFileSync(new URL('../docs/submit/index.html',import.meta.url),'utf8');
+const runtimeMap=JSON.parse(submissionPage.match(/<script type="importmap">(.*?)<\/script>/)[1]);
+for(const [path,versioned] of Object.entries(runtimeMap.imports)){
+ const hash=createHash('sha256').update(readFileSync(new URL('../docs'+path,import.meta.url))).digest('hex').slice(0,16);
+ assert.equal(versioned,path+'?v='+hash);
+}
+assert.ok(submissionPage.indexOf('type="importmap"')<submissionPage.indexOf('type="module"'));
 assert.ok(submissionPage.includes('14 working days'));
 assert.ok(submissionPage.includes('Read more'));
 assert.ok(submissionPage.includes('data-artist-discovery'));

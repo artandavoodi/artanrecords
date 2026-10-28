@@ -146,6 +146,10 @@ Google confirmation uses the generated `tools/site/enquiry-response.html`,
 not an independently maintained logo/template. Search uses the registered
 theme-aware search icon and shared close primitive. Selecting one artist
 clears the search text and results, never the rest of the application.
+`tools/site/runtime-assets.mjs` fingerprints classic scripts, bundled CSS and
+each modular JavaScript dependency in the generated shell. Its import map avoids
+mixing new HTML with a browser's cached older module graph. Intake configuration
+is fetched without cache; generated content hashes remain deterministic.
 Pending deliveries retry through the owner-installed `syncControlInbox` trigger.
 Review status is reconciled to the Sheet without resending notification emails.
 Daily existing retention also checks expired closed inbox records. No historical

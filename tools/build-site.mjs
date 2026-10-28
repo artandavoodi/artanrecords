@@ -1,5 +1,6 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {bundleStyles} from './site/styles.mjs';
+import {versionRuntimeAssets} from './site/runtime-assets.mjs';
 import {partnershipPages,comparisonTable} from './site/partnerships.mjs';
 import {validateStudioPlans,studioComparison,studioPricingSections} from './ecosystem/studio-plans.mjs';
 import {intakeForm,intakeJourney,journeyScene,submissionJourneySteps} from './site/intake.mjs';
@@ -57,7 +58,7 @@ for(const artist of artists.items) {
 const personFor=artist=>({'@type':'Person','@id':site.domain+artistPath(artist.id)+'#artist',name:artist.name,description:artist.biography,...(artist.portrait?{image:site.domain+'/'+artist.portrait.src}:{}),...(artist.id===site.founder.artistId?{alternateName:site.founder.alternateName}:{}),url:site.domain+artistPath(artist.id),sameAs:(artist.links||[]).filter(l=>l.category!=='email').map(l=>l.url)});
 const founder=artists.items.find(a=>a.id===site.founder.artistId);
 if(!founder||founder.name!==site.founder.name) throw new Error('Founder must match a registered artist');
-const shell=(await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo));
+const shell=await versionRuntimeAssets((await readFile(new URL('site/shell.html',import.meta.url),'utf8')).replace('{{logo}}',e(site.logo)),docs);
 const fragment=async(name,values)=>{if(!registry[name])throw new Error('Unregistered fragment '+name);return fill(await read(registry[name]),values);};
 const escaped=object=>Object.fromEntries(Object.entries(object).filter(([,v])=>typeof v==='string').map(([k,v])=>[k,e(v)]));
 const navigationFor=(path,{artistShowcase=false}={})=>fragment('navigation',{...escaped(site.labels),name:e(site.name),actionsClass:'label-home-actions',homeLinks:artistShowcase?'':textLinks(information.homeLinks.filter(item=>item.url!==path&&!item.excludeOn?.includes(path)),path,'chrome'),wordmarkLight:e(site.logoAssets.wordmarkBlack),wordmarkDark:e(site.logoAssets.wordmarkWhite),accountAccess:`<a class="label-account-access" href="${e(information.accountAccess.url)}" aria-label="${e(information.accountAccess.label)}">${icon(information.accountAccess.icon,icons)}</a>`,links:site.navigation.map(n=>`<a href="${e(n.path)}">${e(n.label)}</a>`).join('')});
