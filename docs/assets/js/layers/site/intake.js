@@ -1,4 +1,5 @@
 /* Native POST preserves a verifiable server response; no opaque fetch success. */
+import {bindArtistDiscovery} from './artist-discovery.js';
 export async function bindIntake() {
   const disclosure=document.querySelector('[data-enquiry]');
   if(!disclosure) return;
@@ -6,6 +7,7 @@ export async function bindIntake() {
   if(!response.ok) return;
   const {form:config}=await response.json();
   const form=disclosure.querySelector('form');
+  bindArtistDiscovery(form,config.artistDiscovery);
   const button=form.querySelector('[type="submit"]');
   const status=form.querySelector('[data-enquiry-status]');
   let started=false, verified=false;

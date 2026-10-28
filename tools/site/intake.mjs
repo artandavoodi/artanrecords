@@ -38,6 +38,7 @@ export function intakeForm(config,icons) {
   if(config.formType && config.formType!=='contact') throw new Error('Unsupported form type');
   if(!config.requiredLabel||!config.requiredHint)throw new Error('Missing shared required-field indicators');
   const requiredMark=` <span class="artist-enquiry__required" aria-hidden="true">${e(config.requiredLabel)}</span>`;
+  const discovery=config.formType?'':artistDiscovery(config.artistDiscovery,icons);
   const fields=(config.formType?`<input type="hidden" name="formtype" value="${e(config.formType)}">`:'')+config.fields.map(field=>{
     if(!/^[a-z]+$/.test(field.name)) throw new Error('Invalid form field name');
     const attributes=`class="ui-field" id="enquiry-${field.name}" name="${field.name}"${field.required?' required':''}${field.maxLength?` maxlength="${Number(field.maxLength)}"`:''}${field.autocomplete?` autocomplete="${e(field.autocomplete)}"`:''}`;
@@ -52,7 +53,14 @@ export function intakeForm(config,icons) {
       if(!['text','email','url'].includes(field.type)) throw new Error('Unsupported form field type');
       control=`<input type="${field.type}" ${attributes}>`;
     }
-    return `<div class="artist-enquiry__field"><label for="enquiry-${field.name}">${e(field.label)}${field.required?requiredMark:''}</label>${control}</div>`;
+    return `<div class="artist-enquiry__field"><label for="enquiry-${field.name}">${e(field.label)}${field.required?requiredMark:''}</label>${control}</div>${field.name==='artist'?discovery:''}`;
   }).join('');
-  return `<details class="artist-enquiry" data-enquiry><summary><span>${e(config.startLabel)}</span>${icon(config.disclosureIcon,icons)}</summary><form action="${e(config.action)}" method="post" aria-describedby="enquiry-required-hint enquiry-privacy"><p id="enquiry-required-hint" class="muted">${e(config.requiredHint)}</p><input type="hidden" name="appearance" value="light">${fields}<div class="artist-enquiry__information"><p id="enquiry-privacy">${e(config.privacy)}</p><a href="${e(config.privacyUrl)}">${e(config.privacyLabel)}</a></div><label class="artist-enquiry__consent"><input type="checkbox" name="processing_acknowledgement" value="yes" required><span>${e(config.acknowledgement)}${requiredMark}</span></label><div data-enquiry-captcha data-sitekey="${e(config.captchaSiteKey)}"></div><p data-enquiry-status role="status" aria-live="polite"></p><button type="submit" disabled>${e(config.submitLabel)}</button><div class="artist-enquiry__information"><p>${e(config.fallbackLabel)}</p><a href="mailto:${e(config.email)}">${e(config.email)}</a></div></form></details>`;
+  const more=config.formType?'':`<details class="artist-enquiry__review"><summary>${e(config.readMoreLabel)}</summary>${(config.reviewInformation||[]).map(section=>`<section><h3>${e(section.title)}</h3><p>${e(section.text)}</p></section>`).join('')}<a href="/partnerships/">Compare partnerships</a></details>`;
+  const email=config.showEmailAlternative?`<div class="artist-enquiry__information"><p>${e(config.fallbackLabel)}</p><a href="mailto:${e(config.email)}">${e(config.email)}</a></div>`:'';
+  return `<details class="artist-enquiry" data-enquiry><summary><span>${e(config.startLabel)}</span>${icon(config.disclosureIcon,icons)}</summary><form action="${e(config.action)}" method="post" aria-describedby="enquiry-required-hint enquiry-privacy"><p id="enquiry-required-hint" class="muted">${e(config.requiredHint)}</p><input type="hidden" name="appearance" value="light">${fields}${more}<div class="artist-enquiry__information"><p id="enquiry-privacy">${e(config.privacy)}</p><a href="${e(config.privacyUrl)}">${e(config.privacyLabel)}</a></div><label class="artist-enquiry__consent"><input type="checkbox" name="processing_acknowledgement" value="yes" required><span>${e(config.acknowledgement)}${requiredMark}</span></label><div data-enquiry-captcha data-sitekey="${e(config.captchaSiteKey)}"></div><p data-enquiry-status role="status" aria-live="polite"></p><button type="submit" disabled>${e(config.submitLabel)}</button>${email}</form></details>`;
+}
+
+function artistDiscovery(config,icons){
+ if(!config)return '';
+ return `<section class="artist-discovery" data-artist-discovery><h3>${e(config.title)}</h3><p>${e(config.description)}</p><div class="artist-discovery__search"><label>Artist name<input class="ui-field" type="search" maxlength="100" autocomplete="off" data-artist-query></label><button type="button" data-artist-search>${icon('search',icons)}Search</button></div><p class="muted">${e(config.privacy)}</p><p role="status" aria-live="polite" data-artist-status></p><div data-artist-results></div><div data-artist-selected aria-label="Selected artist profiles"></div><input type="hidden" name="streaming_profiles" value="[]"></section>`;
 }

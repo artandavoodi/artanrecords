@@ -33,6 +33,7 @@
       "pendingLabel": "Online contact enquiries are being updated. Please email contact@artanrecords.com or collaborate@artanrecords.com for now.",
       "subject": "Artanrecords contact enquiry",
       "email": "contact@artanrecords.com",
+      "showEmailAlternative": true,
       "fields": [
         {"name":"name","label":"Your name","type":"text","required":true,"autocomplete":"name","maxLength":150},
         {"name":"email","label":"Reply email","type":"email","required":true,"autocomplete":"email","maxLength":254},
@@ -56,7 +57,16 @@
     "subject": "Artanrecords artist enquiry",
     "startLabel": "Start a conversation",
     "disclosureIcon": "chevron-right",
-    "submitLabel": "Send enquiry",
+    "submitLabel": "Submit",
+    "showEmailAlternative": false,
+    "readMoreLabel": "Read more",
+    "reviewInformation": [
+      {"title":"When you will hear from us","text":"We aim to respond within 14 working days. This is a review target, not a guaranteed deadline; some projects may take longer."},
+      {"title":"How we review","text":"We listen to the submitted work and consider its context, rights, credits and the support you are seeking. Share links you have permission to send. The first submission does not require masters, identity documents, banking details or a Studio account."},
+      {"title":"Partnerships and Studio","text":"If there is a fit, we discuss Silver, Gold or Platinum based on the agreed scope of support, not an artist ranking. Silver includes Studio; Gold and Platinum include Studio Pro under the partnership terms. An enquiry, streaming-profile selection or proposed tier does not activate a subscription or create an agreement."},
+      {"title":"What happens next","text":"An accepted proposal moves to account verification and a separate partnership review and agreement. Any release, services and commercial terms must be confirmed before work begins. Submitting this form does not publish music, sign a contract or charge a fee."}
+    ],
+    "artistDiscovery": {"endpoint":"https://hahtbepdrjkjluhespbs.supabase.co/functions/v1/artist-discovery","title":"Find your artist profile (optional)","description":"Enter your artist name to search connected music platforms, then select your profile. No releases yet? Continue with your name and any listening link below. Selecting a profile does not verify ownership.","privacy":"Search sends the artist name you enter to connected platforms. Portraits appear only where supplied by the platform; initials indicate that no photo was supplied. No album cover is used as an artist photo.","providers":[{"id":"apple","label":"Apple Music","icon":"apple-music"},{"id":"spotify","label":"Spotify","icon":"spotify"}]},
     "email": "collaborate@artanrecords.com",
     "fallbackLabel": "Prefer email?",
     "privacy": "Artanrecords uses the details you submit to review your work and respond to your enquiry.",
@@ -76,10 +86,12 @@
   },
   "submissionPrivacy": {
     "title": "Submission privacy",
+    "publication": {"effectiveDate":"2026-10-16","lastUpdated":"2026-10-28"},
     "description": "How Artanrecords handles artist enquiries and submitted work.",
     "sections": [
       { "title": "Your enquiry", "text": "Artanrecords uses your name, contact details, introduction and submitted links to review your work and respond. Sending an enquiry does not publish a profile or create an offer of representation." },
-      { "title": "Processing and storage", "text": "The form uses Google Apps Script to store submissions in a private Google Sheet and send a notification to our collaboration inbox, hosted by iCloud. Applications are not added to this website's public repository." },
+      { "title": "Processing and storage", "text": "The form uses Google Apps Script to store submissions in a private Google Sheet and send a notification to our collaboration inbox, hosted by iCloud. A signed server-to-server handoff also records artist enquiries in the shared Artan Supabase backend for authorized Artanrecords reviewers in Control Center. If that handoff temporarily fails, the saved Sheet row remains pending for retry. Applications and review notes are never added to the public website repository." },
+      { "title": "Optional artist search", "text": "Searching sends the artist name you enter to connected streaming platforms through our search service. Search results and selected profile links are listening references, not proof of identity or ownership. Selected platform names, artist names, identifiers and links are included with your submission; provider portraits are displayed only where supplied and are not copied into your artist profile. You can skip search and enter your name and a listening link manually." },
       { "title": "Verification", "text": "Opening the form loads Google reCAPTCHA to help prevent spam and abuse. It processes browser and interaction information and uses a necessary verification cookie. Verification is required before an enquiry can be accepted." },
       { "title": "What to share", "text": "Share listening links, not private masters, project files or sensitive documents. Include only work and information you have permission to share." },
       { "title": "Retention and requests", "text": "Closed enquiries are removed from the active enquiry sheet by a daily cleanup once 30 days have elapsed after their recorded Declined or Closed status. Active conversations and legacy rows without a recorded closure date are not eligible. Notification emails and provider-held history require separate review; this is not a promise of automatic deletion from every provider. You can request access, correction or deletion by contacting collaborate@artanrecords.com. Do not send additional sensitive documents with your request." },

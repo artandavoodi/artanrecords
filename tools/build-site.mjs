@@ -189,7 +189,7 @@ for(const item of information.items) {
 }
 await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{
   title:e(intake.submissionPrivacy.title),
-  dates:legalDates(),
+  dates:legalDates(intake.submissionPrivacy.publication||information.legalPublication),
   sections:intake.submissionPrivacy.sections.map(s=>`<section class="artist-intake__channel"><h2>${e(s.title)}</h2><p>${e(s.text)}</p>${s.links?.length?`<div class="information-links label-actions">${textLinks(s.links)}</div>`:''}</section>`).join('')
 });
 for(const artist of artists.items) {

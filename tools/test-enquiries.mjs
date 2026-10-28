@@ -7,6 +7,14 @@ const source=readFileSync(new URL('./site/enquiries.gs',import.meta.url),'utf8')
 const context=vm.createContext({});
 vm.runInContext(source,context);
 const {form,contact}=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/intake.json',import.meta.url),'utf8'));
+assert.equal(form.submitLabel,'Submit');
+assert.equal(form.showEmailAlternative,false);
+assert.ok(form.reviewInformation.some(section=>section.text.includes('14 working days')));
+assert.deepEqual(Array.from(context.streamingProfiles_('[]')),[]);
+const selectedProfile={provider:'spotify',id:'7zUiATkwf1InOGR2J1NG7t',name:'Artist',url:'https://open.spotify.com/artist/7zUiATkwf1InOGR2J1NG7t'};
+assert.equal(context.streamingProfiles_(JSON.stringify([selectedProfile]))[0].id,selectedProfile.id);
+assert.throws(()=>context.streamingProfiles_(JSON.stringify([{...selectedProfile,url:'https://evil.test/artist'}])));
+assert.throws(()=>context.streamingProfiles_(JSON.stringify([selectedProfile,selectedProfile])));
 const icons=JSON.parse(readFileSync(new URL('../docs/assets/data/icons.json',import.meta.url),'utf8'));
 for(const config of [form,{...form,...contact.form}]){
   const markup=intakeForm(config,icons);
@@ -18,6 +26,10 @@ for(const config of [form,{...form,...contact.form}]){
   }
 }
 const submissionPage=readFileSync(new URL('../docs/submit/index.html',import.meta.url),'utf8');
+assert.ok(submissionPage.includes('14 working days'));
+assert.ok(submissionPage.includes('Read more'));
+assert.ok(submissionPage.includes('data-artist-discovery'));
+assert.ok(!submissionPage.includes('Prefer email?'));
 assert.match(submissionPage,/data-fragment="submission"/);
 assert.doesNotMatch(submissionPage,/data-journey-scene/,'Submission must retain its own composition, not repeat the artist graphics');
 assert.equal((submissionPage.match(/data-journey-step/g)||[]).length,3);

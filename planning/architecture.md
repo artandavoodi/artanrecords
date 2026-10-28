@@ -120,3 +120,29 @@ before launch approval. Preserve MX, SPF, DKIM, DMARC and verification records.
 No DNS, hosting setting or email configuration is changed by these tools.
 Check HTTPS, redirects, production canonical URLs and sitemap after deployment;
 indexing cannot be guaranteed. Follow current official GitHub/Porkbun instructions.
+
+## Public artist discovery and private enquiry review
+
+`artist-discovery.js` owns the optional single-field search in the public intake.
+Its fixed backend endpoint searches Apple Music and the configured Spotify app;
+provider identifiers remain separate even when artist names match. Spotify artist
+portraits retain their original proportions, attribution and link. Missing photos
+use explicitly labelled initials, never album artwork. Selection is not ownership
+verification, consent to public profile publication or proof of an agreement.
+
+The existing Google Apps Script deployment remains the CAPTCHA-validating
+receiver, Sheet owner and notification sender. Its owner-managed properties
+`CONTROL_INBOX_URL` and `CONTROL_INBOX_SECRET` connect a signed server-to-server
+handoff to the private Artan inbox. The matching backend credential is encrypted
+as `ARTANRECORDS_ENQUIRY_BRIDGE_SECRET`; never commit or log either value.
+Pending deliveries retry through the owner-installed `syncControlInbox` trigger.
+Review status is reconciled to the Sheet without resending notification emails.
+Daily existing retention also checks expired closed inbox records. No historical
+Sheet rows are imported unless explicitly marked Pending by the owner.
+
+Control Center owns staff review. Proposed tiers remain provisional until the
+reply email belongs to a confirmed Studio account, a Studio profile exists and
+the existing tier-review procedure completes. Linking does not sign a contract,
+charge a fee or activate an entitlement. Real end-to-end acceptance still requires
+a human-completed CAPTCHA submission, both private records and confirmed email
+receipt; a successful mail API call alone is not proof of inbox delivery.

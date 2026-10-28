@@ -28,6 +28,81 @@ function safeCell_(value) {
   return /^[\s]*[=+@-]/.test(text) ? "'" + text : text;
 }
 
+function streamingProfiles_(raw) {
+  const rows = JSON.parse(raw || '[]');
+  if (!Array.isArray(rows) || rows.length > 2) throw new Error('Invalid artist profiles');
+  const seen = {};
+  return rows.map(function(row) {
+    if (!row || !['apple','spotify'].includes(row.provider) || seen[row.provider] || typeof row.name !== 'string' || !row.name.trim() || row.name.length > 200) throw new Error('Invalid artist profile');
+    seen[row.provider] = true;
+    const id = String(row.id);
+    const pattern = row.provider === 'spotify' ? /^[A-Za-z0-9]{22}$/ : /^\d{1,20}$/;
+    if (!pattern.test(id) || typeof row.url !== 'string') throw new Error('Invalid artist identity');
+    const link = row.provider === 'spotify' ? new RegExp('^https://open\\.spotify\\.com/artist/' + id + '/?(?:\\?[^\\s<>]*)?$') : new RegExp('^https://music\\.apple\\.com/(?:[a-z]{2}/)?artist/(?:[^/?#]+/)?' + id + '/?(?:\\?[^\\s<>]*)?$');
+    if (!link.test(row.url)) throw new Error('Invalid profile link');
+    return {provider:row.provider, id:id, name:row.name.trim(), url:row.url.split('?')[0]};
+  });
+}
+
+/** Server-to-server only. A browser must never receive the bridge credential. */
+function controlInbox_(body) {
+  const properties = PropertiesService.getScriptProperties();
+  const endpoint = properties.getProperty('CONTROL_INBOX_URL');
+  const secret = properties.getProperty('CONTROL_INBOX_SECRET');
+  if (endpoint !== 'https://hahtbepdrjkjluhespbs.supabase.co/functions/v1/enquiry-inbox' || !secret || secret.length < 32) throw new Error('Control inbox not connected');
+  const text = JSON.stringify(body), timestamp = String(Date.now());
+  const signature = Utilities.computeHmacSha256Signature(timestamp + '.' + text, secret).map(function(byte) {return ((byte + 256) % 256).toString(16).padStart(2,'0');}).join('');
+  const result = UrlFetchApp.fetch(endpoint, {method:'post',contentType:'application/json',payload:text,headers:{'x-artan-timestamp':timestamp,'x-artan-signature':signature},muteHttpExceptions:true});
+  if (result.getResponseCode() !== 200) throw new Error('Control inbox handoff failed');
+  return JSON.parse(result.getContentText());
+}
+
+function enquiryColumn_(sheet, label) {
+  const headers = sheet.getRange(1,1,1,sheet.getLastColumn()).getValues()[0];
+  const index = headers.indexOf(label);
+  if (index >= 0) return index + 1;
+  sheet.getRange(1,headers.length + 1).setValue(label);
+  return headers.length + 1;
+}
+
+/** Owner-run retry; idempotent references never create duplicate applications. */
+function syncControlInbox() {
+  const properties = PropertiesService.getScriptProperties();
+  if (!properties.getProperty('RETENTION_OWNER_EMAIL') || Session.getEffectiveUser().getEmail().toLowerCase() !== properties.getProperty('RETENTION_OWNER_EMAIL').toLowerCase()) throw new Error('Owner authorization required');
+  const config = config_(), sheet = SpreadsheetApp.openById(config.spreadsheet).getSheetByName('Enquiries');
+  if (!sheet || sheet.getLastRow() < 2) return;
+  const lock = LockService.getScriptLock();if (!lock.tryLock(10000)) throw new Error('Service busy');
+  try {
+    const delivery = enquiryColumn_(sheet,'Control inbox'), profiles = enquiryColumn_(sheet,'Streaming profiles');
+    const rows = sheet.getDataRange().getValues(), headers = rows.shift();let count = 0;
+    for (let i = 0; i < rows.length && count < 25; i++) {
+      if (rows[i][delivery-1] !== 'Pending') continue;
+      const data = {};for (const field of config.fields) {const index = headers.indexOf(field.label);if(index < 0) throw new Error('Review sheet headers before retrying');const value = String(rows[i][index] || '');data[field.name] = /^'[\s]*[=+@-]/.test(value) ? value.slice(1) : value;}
+      controlInbox_({reference:String(rows[i][headers.indexOf('Reference')]),data:data,profiles:streamingProfiles_(rows[i][profiles-1] || '[]')});
+      sheet.getRange(i+2,delivery).setValue('Synced');count++;
+    }
+    const reviewColumn = enquiryColumn_(sheet,'Review status'), closedColumn = enquiryColumn_(sheet,'Closed UTC');
+    const synced = rows.map(function(row,index) {return {id:String(row[headers.indexOf('Reference')]),row:index+2,ready:row[delivery-1] === 'Synced'};}).filter(function(row) {return row.ready && /^[0-9a-f-]{36}$/.test(row.id);});
+    for (let start = 0; start < synced.length; start += 100) {
+      const batch = synced.slice(start,start+100);
+      const states = controlInbox_({action:'statuses',references:batch.map(function(row) {return row.id;})});
+      for (const state of states.rows || []) {
+        const target = batch.find(function(row) {return row.id === state.id;});if (!target) continue;
+        const names = {new:'New',under_review:'Under review',offered:'Offered',declined:'Declined',closed:'Closed'};if (!names[state.status]) continue;
+        sheet.getRange(target.row,reviewColumn).setValue(names[state.status]);
+        if (state.closed_at) sheet.getRange(target.row,closedColumn).setValue(state.closed_at);
+      }
+    }
+  } finally {lock.releaseLock();}
+}
+
+function installControlInboxTrigger() {
+  const owner = PropertiesService.getScriptProperties().getProperty('RETENTION_OWNER_EMAIL');
+  if (!owner || Session.getActiveUser().getEmail().toLowerCase() !== owner.toLowerCase()) throw new Error('Owner authorization required');
+  controlInbox_({action:'maintenance'});
+  if (!ScriptApp.getProjectTriggers().some(function(trigger) {return trigger.getHandlerFunction() === 'syncControlInbox';})) ScriptApp.newTrigger('syncControlInbox').timeBased().everyMinutes(5).create();
+}
+
 /** Read-only retention review. Never deletes rows or mailbox notifications. */
 function retentionCandidates_(rows, now, days) {
   if (!Number.isInteger(days) || days < 1) throw new Error('Retention period required');
@@ -94,6 +169,7 @@ function removeExpiredClosedEnquiries_() {
       }
     }
   } finally { lock.releaseLock(); }
+  try { controlInbox_({action:'maintenance'}); } catch (error) { /* An unconfigured inbox does not interrupt Sheet retention. */ }
   console.log('Removed expired closed enquiry rows: ' + removed);
 }
 
@@ -143,6 +219,7 @@ function doPost(event) {
       config.subject = contact.subject;
     } else if (event.parameter.formtype) throw new Error('Invalid form');
     const data = validate_(event.parameter, config.fields);
+    const profiles = event.parameter.formtype === 'contact' ? [] : streamingProfiles_(event.parameter.streaming_profiles);
     const token = event.parameter['g-recaptcha-response'];
     if (!token || token.length > 10000) throw new Error('CAPTCHA required');
     const verification = UrlFetchApp.fetch('https://www.google.com/recaptcha/api/siteverify', {
@@ -179,11 +256,17 @@ function doPost(event) {
     properties.setProperty('DAILY_USAGE', JSON.stringify({date: today, count: count + 1}));
     const row = sheet.getLastRow();
     const notificationColumn = config.fields.length + 5;
+    if (sheetName === 'Enquiries') {
+      sheet.getRange(row,enquiryColumn_(sheet,'Streaming profiles')).setValue(JSON.stringify(profiles));
+      const delivery = enquiryColumn_(sheet,'Control inbox');
+      sheet.getRange(row,delivery).setValue('Pending');
+      try {controlInbox_({reference:reference,data:data,profiles:profiles});sheet.getRange(row,delivery).setValue('Synced');} catch (error) { /* Sheet and email remain available; owner retries Pending rows. */ }
+    }
     try {
       MailApp.sendEmail({
         to: config.email, replyTo: data.email, name: 'Artanrecords',
         subject: config.subject,
-        body: 'Reference: ' + reference + '\n\n' + config.fields.map(f => f.label + ':\n' + data[f.name]).join('\n\n') + '\n\nAcknowledgment: yes\nSubmitted links are unverified. Do not open unexpected downloads.'
+        body: 'Reference: ' + reference + '\n\n' + config.fields.map(f => f.label + ':\n' + data[f.name]).join('\n\n') + (profiles.length ? '\n\nSelected streaming profiles (ownership unverified):\n' + profiles.map(function(profile) {return profile.provider + ': ' + profile.name + '\n' + profile.url;}).join('\n\n') : '') + '\n\nAcknowledgment: yes\nSubmitted links are unverified. Do not open unexpected downloads.'
       });
       sheet.getRange(row, notificationColumn).setValue('Sent');
     } catch (error) {
