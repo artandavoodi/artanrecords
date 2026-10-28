@@ -198,6 +198,21 @@ if(key==='records')test('published artist design binds buttons, dividers and cop
  expect(await page.locator('[data-public-artist]').evaluate(root=>{const sections=[...root.children];return sections.indexOf(root.querySelector('.artist-latest-release'))<sections.indexOf(root.querySelector('.artist-biography'));})).toBe(true);
  await page.goto('/about/');await expect(page.locator('[data-artist-copyright]')).toHaveCount(0);
 });
+if(key==='records')test('returning during initial artist rendering queues the latest published snapshot',async({page})=>{
+ let reads=0;
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist',biography:++reads===1?'Initial biography':'Updated biography'}}]}));
+ await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ await page.addInitScript(()=>{
+  const observer=new MutationObserver(()=>{
+   if(!document.querySelector('[data-artist-fields]')?.textContent.includes('Initial biography'))return;
+   observer.disconnect();window.dispatchEvent(new Event('focus'));
+  });
+  observer.observe(document,{childList:true,subtree:true});
+ });
+ await page.goto('/artandavoodi/');
+ await expect(page.locator('[data-artist-fields]')).toContainText('Updated biography');
+ expect(reads).toBeGreaterThanOrEqual(2);
+});
 if(key==='records')test('selected artist media refreshes and desktop link labels remain hover-only',async({page})=>{
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({status:200,contentType:'application/json',body:'[]'}));
  await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));

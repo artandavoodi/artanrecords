@@ -30,15 +30,15 @@ bindHomeShowcase();
 bindReleaseDiscovery();
 bindInformationTabs();
 bindPartnershipComparison();
+// Register before initial readiness waits so returning from Studio cannot lose a refresh.
+window.addEventListener('focus',()=>bindPublicArtist());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)bindPublicArtist();});
 try{
  await bindPublicArtist();
  await bindNotFound();
  await document.fonts?.ready;
  await window.NeuroartanPageLoading?.images(document.body);
 }finally{window.NeuroartanPageLoading?.finish();window.dispatchEvent(new Event('site:ready'));}
-// Re-read the published snapshot when returning from Studio, without reloading the catalogue.
-window.addEventListener('focus',()=>bindPublicArtist());
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)bindPublicArtist();});
 initializePreferences().catch(console.error);
 bindJourneyScenes().catch(console.error);
 function reveal(){
