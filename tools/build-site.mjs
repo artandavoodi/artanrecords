@@ -94,10 +94,6 @@ async function page(path,title,description,fragmentName,values,entity={}) {
   await output(path.slice(1)+'index.html',html);paths.push(path);
 }
 const artistPlatform=await json('assets/data/artists/platform.json');
-await page(intake.form.confirmationPath,intake.form.receivedTitle,intake.form.receivedDescription,'submission-receipt',{
-  title:e(intake.form.receivedTitle),description:e(intake.form.receivedDescription),referenceLabel:e(intake.form.referenceLabel),
-  links:textLinks(intake.form.confirmationLinks)
-});
 await page('/artists/profile/',artistPlatform.title,artistPlatform.description,'artist-platform',{title:e(artistPlatform.title)});
 for(const nav of site.navigation) {
   const values={...escaped(site),title:e(nav.label),homeLinks:textLinks(information.homeLinks),releases:cards(catalogue.items),artistsTitle:e(roster.labels.artists),artists:artistCards(artists.items,roster.labels)};
@@ -192,6 +188,10 @@ for(const item of information.items) {
     links:textLinks(item.links,item.path),form:item.form?intakeForm({...intake.form,defaults:item.formPurpose?{purpose:item.formPurpose}:undefined},icons):''
   });
 }
+await page(intake.form.confirmationPath,intake.form.receivedTitle,intake.form.receivedDescription,'submission-receipt',{
+  title:e(intake.form.receivedTitle),description:e(intake.form.receivedDescription),referenceLabel:e(intake.form.referenceLabel),
+  links:textLinks(intake.form.confirmationLinks)
+});
 await page(intake.form.privacyUrl,intake.submissionPrivacy.title,intake.submissionPrivacy.description,'submission-privacy',{
   title:e(intake.submissionPrivacy.title),
   dates:legalDates(intake.submissionPrivacy.publication||information.legalPublication),
