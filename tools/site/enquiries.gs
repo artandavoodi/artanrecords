@@ -51,9 +51,9 @@ function controlInbox_(body) {
   const secret = properties.getProperty('CONTROL_INBOX_SECRET');
   if (endpoint !== 'https://hahtbepdrjkjluhespbs.supabase.co/functions/v1/enquiry-inbox' || !secret || secret.length < 32) throw new Error('Control inbox not connected');
   const text = JSON.stringify(body), timestamp = String(Date.now());
-  const signature = Utilities.computeHmacSha256Signature(timestamp + '.' + text, secret).map(function(byte) {return ((byte + 256) % 256).toString(16).padStart(2,'0');}).join('');
-  const result = UrlFetchApp.fetch(endpoint, {method:'post',contentType:'application/json',payload:text,headers:{'x-artan-timestamp':timestamp,'x-artan-signature':signature},muteHttpExceptions:true});
-  if (result.getResponseCode() !== 200) throw new Error('Control inbox handoff failed');
+  const signature = Utilities.computeHmacSha256Signature(timestamp + '.' + text, secret, Utilities.Charset.UTF_8).map(function(byte) {return ((byte + 256) % 256).toString(16).padStart(2,'0');}).join('');
+  const result = UrlFetchApp.fetch(endpoint, {method:'post',contentType:'application/json; charset=utf-8',payload:text,headers:{'x-artan-timestamp':timestamp,'x-artan-signature':signature},muteHttpExceptions:true});
+  if (result.getResponseCode() !== 200) throw new Error('Control inbox handoff failed (HTTP ' + result.getResponseCode() + ')');
   return JSON.parse(result.getContentText());
 }
 
@@ -205,10 +205,27 @@ function doGet() {
   return response_('Please send your enquiry through our artist form.');
 }
 
+/** Private website transport; CAPTCHA and the existing receipt/email process stay unchanged. */
+function internalSubmission_(event) {
+  if (!event || event.contentLength > 45000 || !event.postData || event.postData.type.split(';')[0] !== 'application/json') return null;
+  const envelope = JSON.parse(event.postData.contents), secret = PropertiesService.getScriptProperties().getProperty('CONTROL_INBOX_SECRET');
+  if (!secret || secret.length < 32 || envelope.action !== 'submit' || !/^\d{13}$/.test(envelope.timestamp || '') || Math.abs(Date.now()-Number(envelope.timestamp)) > 300000 || !/^[0-9a-f]{64}$/.test(envelope.signature || '') || typeof envelope.payload !== 'string' || envelope.payload.length > 40000) throw new Error('Invalid private submission');
+  const expected = Utilities.computeHmacSha256Signature(envelope.timestamp + '.' + envelope.payload, secret, Utilities.Charset.UTF_8).map(function(byte) {return ((byte+256)%256).toString(16).padStart(2,'0');}).join('');
+  let difference = 0;for (let i=0;i<expected.length;i++) difference |= expected.charCodeAt(i)^envelope.signature.charCodeAt(i);
+  if (difference) throw new Error('Invalid private submission');
+  const parameters = JSON.parse(envelope.payload);if (parameters.formtype) throw new Error('Artist submissions only');return parameters;
+}
+
+function submissionReceipt_(accepted, reference) {
+  return ContentService.createTextOutput(JSON.stringify({accepted:accepted,reference:accepted?reference:null})).setMimeType(ContentService.MimeType.JSON);
+}
+
 function doPost(event) {
   let lock;
-  let saved = false;
+  let saved = false, internal = false, reference;
   try {
+    const parameters = internalSubmission_(event);
+    if (parameters) {internal=true;event={contentLength:JSON.stringify(parameters).length,parameter:parameters};}
     if (!event || event.contentLength > 40000 || !event.parameter) throw new Error('Invalid request');
     const config = config_();
     if (event.parameter.formtype === 'contact') {
@@ -239,7 +256,7 @@ function doPost(event) {
       sheet.setFrozenRows(1);
     }
     const now = new Date();
-    const reference = Utilities.getUuid();
+    reference = Utilities.getUuid();
     const cache = CacheService.getScriptCache();
     const emailKey = 'email-' + digest_(data.email.toLowerCase());
     if (cache.get(emailKey)) throw new Error('Please wait before sending another enquiry');
@@ -272,8 +289,9 @@ function doPost(event) {
     } catch (error) {
       sheet.getRange(row, notificationColumn).setValue('Failed - review spreadsheet');
     }
-    return response_('Your enquiry has been received. Thank you for sharing your work.', event.parameter.appearance);
+    return internal ? submissionReceipt_(true, reference) : response_('Your enquiry has been received. Thank you for sharing your work.', event.parameter.appearance);
   } catch (error) {
+    if (internal) return submissionReceipt_(saved, reference);
     return response_(saved ? 'Your enquiry has been saved. Please do not submit it again.' : 'Your enquiry was not saved. Please return to the form and check your details and CAPTCHA, or contact collaborate@artanrecords.com.', event && event.parameter && event.parameter.appearance);
   } finally {
     if (lock && lock.hasLock()) lock.releaseLock();

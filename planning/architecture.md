@@ -130,11 +130,22 @@ portraits retain their original proportions, attribution and link. Missing photo
 use explicitly labelled initials, never album artwork. Selection is not ownership
 verification, consent to public profile publication or proof of an agreement.
 
-The existing Google Apps Script deployment remains the CAPTCHA-validating
-receiver, Sheet owner and notification sender. Its owner-managed properties
+The website posts artist submissions to the `enquiry-submit` Supabase function,
+which signs a bounded request to the existing Google Apps Script deployment.
+Google remains the CAPTCHA-validating receiver, private Sheet buffer and email
+sender; no new email provider is introduced. Only an explicit signed-service
+receipt shows the same-page confirmation. A transport failure never implies
+acceptance and leaves the artist's fields intact. Contact enquiries keep their
+existing native route. The owner-managed properties
 `CONTROL_INBOX_URL` and `CONTROL_INBOX_SECRET` connect a signed server-to-server
 handoff to the private Artan inbox. The matching backend credential is encrypted
 as `ARTANRECORDS_ENQUIRY_BRIDGE_SECRET`; never commit or log either value.
+`ARTANRECORDS_ENQUIRY_SCRIPT_URL` is the existing deployment address. Request
+signatures and the Google transport both use explicit UTF-8. The fallback
+Google confirmation uses the generated `tools/site/enquiry-response.html`,
+not an independently maintained logo/template. Search uses the registered
+theme-aware search icon and shared close primitive. Selecting one artist
+clears the search text and results, never the rest of the application.
 Pending deliveries retry through the owner-installed `syncControlInbox` trigger.
 Review status is reconciled to the Sheet without resending notification emails.
 Daily existing retention also checks expired closed inbox records. No historical

@@ -1,6 +1,7 @@
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 import assert from 'node:assert/strict';
+import {createHmac} from 'node:crypto';
 import {intakeForm} from './site/intake.mjs';
 
 const source=readFileSync(new URL('./site/enquiries.gs',import.meta.url),'utf8');
@@ -13,6 +14,14 @@ assert.ok(form.reviewInformation.some(section=>section.text.includes('14 working
 assert.deepEqual(Array.from(context.streamingProfiles_('[]')),[]);
 const selectedProfile={provider:'spotify',id:'7zUiATkwf1InOGR2J1NG7t',name:'Artist',url:'https://open.spotify.com/artist/7zUiATkwf1InOGR2J1NG7t'};
 assert.equal(context.streamingProfiles_(JSON.stringify([selectedProfile]))[0].id,selectedProfile.id);
+const connectionSecret='fixture-only-shared-connection-secret';
+context.PropertiesService={getScriptProperties:()=>({getProperty:()=>connectionSecret})};
+context.Utilities={Charset:{UTF_8:'UTF-8'},computeHmacSha256Signature:(body,key)=>[...createHmac('sha256',key).update(body).digest()]};
+const payload=JSON.stringify({name:'Fixture'}),timestamp=String(Date.now()),signature=createHmac('sha256',connectionSecret).update(timestamp+'.'+payload).digest('hex');
+const internalEvent={contentLength:500,postData:{type:'application/json',contents:JSON.stringify({action:'submit',timestamp,signature,payload})}};
+assert.equal(context.internalSubmission_(internalEvent).name,'Fixture');
+assert.throws(()=>context.internalSubmission_({...internalEvent,postData:{type:'application/json',contents:JSON.stringify({action:'submit',timestamp,signature:'0'.repeat(64),payload})}}));
+assert.equal(context.internalSubmission_({postData:{type:'application/x-www-form-urlencoded'}}),null);
 assert.throws(()=>context.streamingProfiles_(JSON.stringify([{...selectedProfile,url:'https://evil.test/artist'}])));
 assert.throws(()=>context.streamingProfiles_(JSON.stringify([selectedProfile,selectedProfile])));
 const icons=JSON.parse(readFileSync(new URL('../docs/assets/data/icons.json',import.meta.url),'utf8'));
