@@ -82,7 +82,8 @@ for(const file of await walk(docs)){
   if(file.endsWith('.js'))execFileSync(process.execPath,['--check',file]);
   if(file.endsWith('.css'))for(const [,target]of text.matchAll(/url\(['"]?([^)'"?]+)(?:\?[^)'" ]*)?['"]?\)/g))await stat(target.startsWith('/')?path.join(docs,target):path.resolve(path.dirname(file),target));
   if(!file.endsWith('.html')||file.includes('/fragments/'))continue;
-  assert.ok(!/Artan\s+Records/i.test(text),'Obsolete public label branding: '+file);
+  const brandedText=text.replaceAll(escape(site.brandIdentity.text),'').replaceAll(JSON.stringify(site.brandIdentity.text).slice(1,-1),'').replaceAll(JSON.stringify(site.brandIdentity.disambiguatingDescription).slice(1,-1),'');
+  assert.ok(!/Artan\s+Records/i.test(brandedText),'Obsolete public label branding: '+file);
   assert.ok(!text.includes('{{'),'Unresolved template');
   if(text.includes('http-equiv="refresh"')){
     const artist=artists.find(artist=>[artist.id,artistPath(artist.id).split('/')[1]].some(slug=>file===path.join(docs,`artists/${slug}/index.html`)));
