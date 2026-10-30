@@ -1,4 +1,21 @@
 /* Preview entries never become public artists, profile routes or structured data. */
+const navigationPreviews=new WeakMap();
+export function registerArtistNavigationPreview(root,config,render){
+ if(window.parent===window||new URLSearchParams(location.search).get('editor-preview')!=='1')return;
+ navigationPreviews.get(root)?.();
+ const receive=event=>{
+  if(event.source!==window.parent||!config.studioOrigins?.includes(event.origin)||event.data?.type!=='artanrecords:artist-navigation-preview')return;
+  const value=event.data.navigation;
+  if(!value||!['menu','footer'].every(key=>Array.isArray(value[key])&&value[key].length<=8&&value[key].every(item=>safeNavigationLink(item)))||typeof value.footer_text!=='string'||value.footer_text.length>500)return;
+  render(value);
+ };
+ addEventListener('message',receive);navigationPreviews.set(root,()=>removeEventListener('message',receive));
+}
+function safeNavigationLink(item){
+ if(!item||typeof item.label!=='string'||!item.label.trim()||item.label.length>60||typeof item.url!=='string'||item.url.length>2000)return false;
+ if(/^#[a-zA-Z][a-zA-Z0-9_-]*$/.test(item.url))return true;
+ try{const url=new URL(item.url);return url.protocol==='https:'&&!url.username&&!url.password;}catch{return false;}
+}
 export async function bindArtistPreview() {
   if (!['localhost', '127.0.0.1', '::1'].includes(location.hostname)) return;
   if (new URLSearchParams(location.search).get('preview') !== 'artist-grid') return;

@@ -68,6 +68,16 @@ if(key==='records')test('artist portfolio shows only published gallery and proje
  await page.route('**/rest/v1/studio_public_artist_portfolio*',route=>route.fulfill({json:[{id:'98100000-0000-0000-0000-000000000011',kind:'gallery',details:{title:'Selected portrait',collection:'Portraits',description:'Published image caption',credits:'Photographer credit'}},{id:'98100000-0000-0000-0000-000000000012',kind:'project',details:{title:'Piano project',description:'Published project story',project_url:'https://example.test/project'}}]}));
  await page.goto('/artandavoodi/');await expect(page.locator('[data-artist-portfolio=gallery]')).toContainText('Selected portrait');await expect(page.locator('[data-artist-portfolio=project]')).toContainText('Piano project');await expect(page.locator('[data-artist-portfolio=project] a')).toHaveAttribute('href','https://example.test/project');
 });
+if(key==='records')test('published gallery photographs open a contained keyboard and filmstrip viewer',async({page})=>{
+ await page.addInitScript(()=>localStorage.setItem('artanrecords-preferences',JSON.stringify({choice:'allow',version:1,expires:Date.now()+86400000})));
+ const owner='98100000-0000-0000-0000-000000000001';
+ await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Gallery artist'}}]}));await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));
+ const rows=[1,2].map(n=>({id:'98100000-0000-0000-0000-00000000001'+n,kind:'gallery',updated_at:'2026-10-30T00:00:00Z',details:{title:'Gallery photo '+n,image_alt:'Gallery photo '+n,collection:'Photography',image_path:owner+'/98100000-0000-0000-0000-00000000001'+n+'/image'}}));
+ await page.route('**/rest/v1/studio_public_artist_portfolio*',route=>route.fulfill({json:rows}));
+ const png=Buffer.from(await page.evaluate(()=>{const canvas=document.createElement('canvas');canvas.width=100;canvas.height=160;const ctx=canvas.getContext('2d');ctx.fillStyle='#917c6f';ctx.fillRect(0,0,100,160);return canvas.toDataURL('image/png').split(',')[1];}),'base64');
+ await page.route('**/storage/v1/object/authenticated/studio-portfolio/**',route=>route.fulfill({contentType:'image/png',body:png}));
+ await page.goto('/artandavoodi/');await page.getByRole('button',{name:'Gallery photo 1',exact:true}).click();const viewer=page.getByRole('dialog',{name:'Gallery image viewer',exact:true});await expect(viewer).toBeVisible();await expect(viewer.locator('.artist-gallery__photo img')).toHaveCSS('object-fit','contain');await expect(viewer.locator('output')).toHaveText('1 / 2');await viewer.getByRole('button',{name:'Next image',exact:true}).click();await expect(viewer.locator('output')).toHaveText('2 / 2');await viewer.press('ArrowLeft');await expect(viewer.locator('output')).toHaveText('1 / 2');await viewer.getByRole('button',{name:'Close image viewer',exact:true}).click();await expect(viewer).toBeHidden();
+});
 if(key==='records')test('legacy artist addresses redirect to the root-level canonical profile',async({page})=>{
  await page.route('**/rest/v1/studio_artist_pages*',route=>route.fulfill({json:[{username:'artandavoodi',fields:{artist_name:'Test artist'}}]}));
  await page.route('**/rest/v1/studio_public_concerts*',route=>route.fulfill({json:[]}));

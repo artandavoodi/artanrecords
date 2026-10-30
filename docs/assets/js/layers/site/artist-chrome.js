@@ -1,3 +1,4 @@
+import {registerArtistNavigationPreview} from './artist-preview.js';
 function safeLink(item){
  if(!item||typeof item.label!=='string'||!item.label.trim()||item.label.length>60||typeof item.url!=='string'||item.url.length>2000)return null;
  if(/^#[a-zA-Z][a-zA-Z0-9_-]*$/.test(item.url))return item;
@@ -17,6 +18,14 @@ export async function renderArtistChrome(root,record,config){
  if(menu){menu.setAttribute('aria-label',record.fields.artist_name);links(menu,pageDefaults);}
  if(footer){footer.replaceChildren();const credit=document.createElement('p');credit.dataset.artistCopyright='© '+new Date().getUTCFullYear()+' '+record.fields.artist_name;credit.textContent=credit.dataset.artistCopyright;footer.append(credit);}
  const directory=root.querySelector('[data-artist-directory]');if(directory)links(directory,defaults.filter(item=>item.url!=='#artist-home').slice(0,3));
+ let menuTemplate;
+ const renderPreview=value=>{
+  if(menu){const edit=menu.querySelector('[data-chrome-edit]');menuTemplate=menu.querySelector('[data-artist-menu-row]')?.cloneNode(true)||menuTemplate;links(menu,value.menu,root.dataset.artistSubpage?base:'');if(menuTemplate)for(const link of menu.querySelectorAll(':scope > a')){const row=menuTemplate.cloneNode(true);row.classList.remove('dragging');row.querySelector('a')?.remove();row.querySelector('[data-reorder-handle]')?.setAttribute('aria-label','Reorder '+link.textContent);link.before(row);row.append(link);}if(edit)menu.append(edit);}
+  if(footer){const credit=footer.querySelector('[data-artist-copyright]'),edit=footer.querySelector('[data-chrome-edit]');footer.replaceChildren();const nav=document.createElement('nav');nav.className='information-links';nav.setAttribute('aria-label','Artist footer');links(nav,value.footer);footer.append(nav);if(credit)footer.append(credit);if(value.footer_text){const text=document.createElement('p');text.textContent=value.footer_text;footer.append(text);}if(edit)footer.append(edit);}
+ };
+ if(window.parent!==window&&new URLSearchParams(location.search).get('editor-preview')==='1'){
+  try{const response=await fetch('/assets/data/artists/editor.json');if(response.ok)registerArtistNavigationPreview(root,await response.json(),renderPreview);}catch{}
+ }
  try{
   const endpoint=new URL('/rest/v1/studio_public_artist_navigation',config.backend);endpoint.searchParams.set('select','menu,footer,footer_text');endpoint.searchParams.set('username','eq.'+record.username);
   const response=await fetch(endpoint,{headers:{apikey:config.publishableKey},credentials:'omit',cache:'no-store'});if(!response.ok)return;

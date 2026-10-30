@@ -3,6 +3,7 @@ import vm from 'node:vm';
 import assert from 'node:assert/strict';
 import {validArtistShowcase} from '../docs/assets/js/layers/site/artist-showcase.js';
 import {artistMusicItems,musicCategory} from '../docs/assets/js/layers/site/artist-music.js';
+import {registerArtistNavigationPreview} from '../docs/assets/js/layers/site/artist-preview.js';
 const config=JSON.parse(readFileSync(new URL('../docs/assets/data/artists/editor.json',import.meta.url),'utf8'));
 assert.match(readFileSync(new URL('../docs'+config.editIcon,import.meta.url),'utf8'),/<(?:path|circle|rect)\b/,'The canvas edit control must resolve to a registered vector');
 const source=['artist-showcase','artist-design','artist-editor-preview'].map(name=>readFileSync(new URL('../docs/assets/js/layers/site/'+name+'.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('export ','')).join('\n');
@@ -34,4 +35,20 @@ send(config.studioOrigins[0],{...draft,presentation:{portraitSize:240,portraitAl
 assert.equal(sections.get('[data-artist-fields]').style['--artist-detail-size'],'var(--site-type-caption-size)');
 send(config.studioOrigins[0],{...draft,presentation:{portraitSize:999,portraitAlign:'center',biographyLabel:false,since:true,textSize:'large'}});
 assert.equal(sections.get('[data-artist-fields]').style['--artist-detail-size'],'var(--site-type-caption-size)');
+const since=node();sections.get('[data-artist-fields]').querySelector=selector=>selector==='[data-artist-since]'?since:null;
+for(const [sinceAlign,expected] of [['left','flex-start'],['center','center'],['right','flex-end']]){send(config.studioOrigins[0],{...draft,presentation:{portraitSize:240,portraitAlign:'left',biographyLabel:true,since:true,textSize:'small',sinceAlign}});assert.equal(since.style.justifyContent,expected);}
+send(config.studioOrigins[0]);assert.equal(since.style.justifyContent,'');
 console.log('PASS: artist preview accepts only allowlisted parent origins and registered design values; publication uses the isolated design service.');
+// Navigation uses the registered renderer only inside an allowlisted parent frame.
+let navigationReceive,rendered;
+Object.assign(globalThis,{window:{parent},location:{search:'?editor-preview=1'},addEventListener:(_,callback)=>navigationReceive=callback,removeEventListener(){}});
+registerArtistNavigationPreview({},config,value=>rendered=value);
+const navigation={menu:[{label:'Music',url:'#music'}],footer:[],footer_text:''};
+const sendNavigation=(origin=config.studioOrigins[0],source=parent,value=navigation)=>navigationReceive({origin,source,data:{type:'artanrecords:artist-navigation-preview',navigation:value}});
+sendNavigation('https://untrusted.example');assert.equal(rendered,undefined);
+sendNavigation(config.studioOrigins[0],{});assert.equal(rendered,undefined);
+for(const url of ['javascript:alert(1)','http://example.test','https://user:pass@example.test']){sendNavigation(config.studioOrigins[0],parent,{...navigation,menu:[{label:'Unsafe',url}]});assert.equal(rendered,undefined);}
+sendNavigation(config.studioOrigins[0],parent,{...navigation,menu:Array(9).fill(navigation.menu[0])});assert.equal(rendered,undefined);
+sendNavigation();assert.equal(rendered,navigation);
+delete globalThis.window;delete globalThis.location;delete globalThis.addEventListener;delete globalThis.removeEventListener;
+console.log('PASS: navigation previews reject unsafe links, excess rows and untrusted message origins/sources.');
