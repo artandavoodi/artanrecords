@@ -1,7 +1,7 @@
 import {openDialog} from '../../core/dialogs.js';
 
 // Entries contain only decoded blobs already authorized by the public portfolio.
-export function createArtistGallery(root,labels,icons){
+export function createArtistGallery(root,labels,icons,galleryPath=null){
  const entries=[];
  let dialog,index=0,items=[],start;
  function button(label){const node=document.createElement('button');node.type='button';node.setAttribute('aria-label',label);return node;}
@@ -24,5 +24,52 @@ export function createArtistGallery(root,labels,icons){
   const observer=typeof ResizeObserver==='function'?new ResizeObserver(reveal):null;observer?.observe(strip);dialog.addEventListener('close',()=>observer?.disconnect(),{once:true});
   show(index);openDialog(dialog);reveal();
  }
- return {dispose,add(card,image,title){const entry={card,src:image.src,alt:image.alt,title};entries.push(entry);const trigger=button(image.alt);trigger.className='artist-gallery-trigger';trigger.append(image);trigger.onclick=()=>open(entry);card.prepend(trigger);}};
+ return {dispose,add(card,image,title){const entry={card,src:image.src,alt:image.alt,title};entries.push(entry);const trigger=galleryPath?document.createElement('a'):button(image.alt);if(galleryPath){trigger.href=galleryPath;trigger.setAttribute('aria-label',image.alt);}else trigger.onclick=()=>open(entry);trigger.className='artist-gallery-trigger';trigger.append(image);card.prepend(trigger);}};
+}
+
+// No provider thumbnails, scripts or embeds: the visitor chooses to leave the site.
+export function publicGalleryVideo(value){
+ try{const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password||url.port)return null;
+  if(['youtube.com','www.youtube.com','m.youtube.com'].includes(url.hostname)){const id=url.pathname==='/watch'?url.searchParams.get('v'):/^\/(?:shorts|embed)\/([\w-]{11})\/?$/.exec(url.pathname)?.[1];return /^[\w-]{11}$/.test(id||'')?'https://www.youtube.com/watch?v='+id:null;}
+  if(url.hostname==='youtu.be'&&/^\/[\w-]{11}\/?$/.test(url.pathname))return 'https://www.youtube.com/watch?v='+url.pathname.split('/')[1];
+  if(['vimeo.com','www.vimeo.com'].includes(url.hostname)&&/^\/\d+\/?$/.test(url.pathname))return 'https://vimeo.com/'+url.pathname.split('/')[1];
+ }catch{}return null;
+}
+
+function galleryIcon(id,icons){const source=icons.items?.find(item=>item.id===id);if(!source)return null;const image=document.createElement('img');image.src='/'+source.src.replace(/^\//,'');image.alt='';image.className='catalogue-icon';if(source.monochrome)image.dataset.monochrome='true';return image;}
+
+export function bindArtistGalleryControls(section,list,records,labels,icons){
+ section.querySelector('.artist-gallery-controls')?.remove();
+ const controls=document.createElement('div'),panels=[],params=new URLSearchParams(location.search),fields=new Map(),cards=new Map([...list.children].map(card=>[card.dataset.portfolioId,card]));controls.className='artist-gallery-controls';
+ function panel(id,label,closeLabel){const details=document.createElement('details'),summary=document.createElement('summary'),icon=galleryIcon(id,icons),close=galleryIcon('close',icons);summary.setAttribute('aria-label',label);summary.setAttribute('aria-expanded','false');if(icon&&close)summary.append(icon,close);else summary.textContent=label;details.append(summary);details.addEventListener('toggle',()=>{summary.setAttribute('aria-expanded',String(details.open));summary.setAttribute('aria-label',details.open?closeLabel:label);if(details.open)panels.filter(other=>other!==details).forEach(other=>{other.open=false;});});panels.push(details);controls.append(details);return details;}
+ const filters=panel(labels.filterIcon,labels.filter,labels.closeFilters),views=panel(labels.viewIcon,labels.view,labels.closeView),filterFields=document.createElement('div'),options=document.createElement('div'),count=document.createElement('output'),empty=document.createElement('p'),reset=document.createElement('button'),active=document.createElement('div');filterFields.className='artist-gallery-filters';options.className='artist-gallery-filters artist-gallery-views';count.setAttribute('aria-live','polite');empty.textContent=labels.empty;empty.className='artist-gallery-empty';reset.type='button';reset.setAttribute('aria-label',labels.clear);const resetIcon=galleryIcon(labels.resetIcon,icons);if(resetIcon)reset.append(resetIcon);else reset.textContent=labels.clear;reset.className='artist-gallery-reset';active.className='artist-gallery-active';active.setAttribute('aria-label',labels.active);
+ function select(key,label,values){const wrapper=document.createElement('label'),input=document.createElement('select');wrapper.textContent=label;input.name=key;for(const value of ['',...values])input.add(new Option(value||labels.all,value));input.value=params.get(key)||'';if(!input.value)params.delete(key);input.onchange=()=>{if(input.value)params.set(key,input.value);else params.delete(key);update();};fields.set(key,input);wrapper.append(input);filterFields.append(wrapper);}
+ select('collection',labels.collection,[...new Set(records.map(item=>item.details.collection).filter(Boolean))]);
+ select('year',labels.year,[...new Set(records.map(item=>String(item.details.year||labels.undated)))].sort().reverse());
+ select('tag',labels.tags,[...new Set(records.flatMap(item=>Array.isArray(item.details.tags)?item.details.tags:[]).filter(tag=>typeof tag==='string'))].sort());
+ const searchLabel=document.createElement('label'),search=document.createElement('input');searchLabel.textContent=labels.search;search.type='search';search.value=params.get('q')||'';search.oninput=()=>{if(search.value.trim())params.set('q',search.value.trim());else params.delete('q');update();};fields.set('q',search);searchLabel.append(search);filterFields.append(searchLabel);filters.append(filterFields);
+ for(const view of labels.views){const button=document.createElement('button');button.type='button';button.textContent=view.label;button.dataset.galleryView=view.id;button.onclick=()=>{params.set('view',view.id);update();views.open=false;views.querySelector('summary').focus();};options.append(button);}views.append(options);
+ reset.onclick=()=>{for(const [key,input] of fields){params.delete(key);input.value='';}update();filters.querySelector('summary').focus();};
+ controls.addEventListener('keydown',event=>{if(event.key==='Escape'){const open=panels.find(panel=>panel.open);if(open){open.open=false;open.querySelector('summary').focus();event.preventDefault();}}});
+ controls.addEventListener('focusout',event=>{if(!controls.contains(event.relatedTarget))panels.forEach(panel=>{panel.open=false;});});
+ controls.append(reset,active,count);section.insertBefore(controls,list);section.append(empty);
+ function update(){let visible=0;const query=(params.get('q')||'').toLocaleLowerCase();for(const item of records){const value=item.details,card=cards.get(item.id);if(!card)continue;card.hidden=Boolean((params.get('collection')&&value.collection!==params.get('collection'))||(params.get('year')&&String(value.year||labels.undated)!==params.get('year'))||(params.get('tag')&&(!Array.isArray(value.tags)||!value.tags.includes(params.get('tag'))))||(query&&![value.title,value.image_alt,...(Array.isArray(value.tags)?value.tags:[])].join(' ').toLocaleLowerCase().includes(query)));if(!card.hidden)visible++;}
+  list.dataset.view=labels.views.some(view=>view.id===params.get('view'))?params.get('view'):labels.views[0].id;for(const button of options.children)button.setAttribute('aria-pressed',String(button.dataset.galleryView===list.dataset.view));count.textContent=visible+' '+labels.items;empty.hidden=visible!==0;
+  const selected=[...fields.keys()].filter(key=>params.get(key));reset.hidden=!selected.length;active.replaceChildren(...selected.map(key=>{const button=document.createElement('button');button.type='button';button.textContent=params.get(key);button.setAttribute('aria-label',labels.remove+': '+params.get(key));const icon=galleryIcon('close',icons);if(icon)button.append(icon);button.onclick=()=>{params.delete(key);fields.get(key).value='';update();filters.querySelector('summary').focus();};return button;}));
+  const queryString=params.toString();history.replaceState(null,'',location.pathname+(queryString?'?'+queryString:''));
+ }update();
+}
+
+/* Reference gallery grain engine: identical pixels, timing and lifecycle. */
+export function bindArtistGalleryGrain(canvas,grain){
+ if(!canvas||!grain)return;
+ const context=canvas.getContext('2d'),tile=document.createElement('canvas');tile.width=tile.height=grain.tileSize;
+ const tileContext=tile.getContext('2d');if(!context||!tileContext)return;
+ canvas.style.setProperty('--gallery-grain-opacity',grain.opacity);
+ const pixels=tileContext.createImageData(tile.width,tile.height),motion=matchMedia('(prefers-reduced-motion: reduce)');let visible=false,timer;
+ function paint(){for(let i=0;i<pixels.data.length;i+=4){const value=Math.random()<0.5?0:255;pixels.data[i]=pixels.data[i+1]=pixels.data[i+2]=value;pixels.data[i+3]=255;}tileContext.putImageData(pixels,0,0);context.fillStyle=context.createPattern(tile,'repeat');context.fillRect(0,0,canvas.width,canvas.height);}
+ function schedule(){clearTimeout(timer);if(!visible||document.hidden||motion.matches)return;timer=setTimeout(()=>{paint();schedule();},1000/grain.framesPerSecond);}
+ const resize=new ResizeObserver(()=>{const bounds=canvas.parentElement.getBoundingClientRect();canvas.width=Math.max(1,Math.round(bounds.width));canvas.height=Math.max(1,Math.round(bounds.height));paint();});resize.observe(canvas.parentElement);
+ const intersection=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;schedule();});intersection.observe(canvas);document.addEventListener('visibilitychange',schedule);motion.addEventListener('change',schedule);
+ return ()=>{clearTimeout(timer);resize.disconnect();intersection.disconnect();document.removeEventListener('visibilitychange',schedule);motion.removeEventListener('change',schedule);};
 }

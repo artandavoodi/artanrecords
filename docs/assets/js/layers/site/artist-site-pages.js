@@ -1,7 +1,10 @@
 import {showNotFound} from './not-found.js';
 import {renderArtistMusic} from './artist-music.js';
+import {bindArtistGalleryGrain} from './artist-gallery.js';
+const galleryGrain=new WeakMap();
 export async function renderArtistSubpage(root,record,config){
  const slug=root.dataset.artistSubpage;if(!slug)return;
+ galleryGrain.get(root)?.();
  const pages=await fetch('/assets/data/artists/site-pages.json').then(response=>response.json());
  const builtin=pages.builtins.find(item=>item.slug===slug);let title,body,sections=[];
  if(builtin){title=builtin.title;sections=builtin.selectors.flatMap(selector=>[...root.querySelectorAll(selector)]).filter(section=>!section.hidden);}
@@ -11,7 +14,12 @@ export async function renderArtistSubpage(root,record,config){
   const [page]=await response.json();if(!page){await showNotFound();return;}title=page.title;body=page.body;
  }
  const header=document.createElement('header'),back=document.createElement('a'),heading=document.createElement('h1');back.href='/'+record.username+'/';back.textContent=record.fields.artist_name;heading.textContent=title;header.append(back,heading);
+ const pagination=slug==='gallery'?root.querySelector('[data-portfolio-pagination]'):null;
  root.replaceChildren(header,...sections);root.dataset.artistSubpage=slug;delete root.dataset.artistSectionMode;
+ if(slug==='gallery'){
+  const labels=await fetch('/assets/data/artists/portfolio.json').then(response=>response.json()),canvas=document.createElement('canvas');canvas.className='artist-gallery-grain';canvas.setAttribute('aria-hidden','true');header.className='artist-gallery-header';header.prepend(canvas);back.setAttribute('aria-label',labels.backToArtist);if(pagination)root.append(pagination);
+  const stop=bindArtistGalleryGrain(canvas,labels.header.grain);if(stop)galleryGrain.set(root,stop);
+ }
  if(slug==='music'){for(const section of sections)section.remove();await renderArtistMusic(root,record,config);sections=[root.querySelector('.artist-music')];}
  if(body!==undefined){const content=document.createElement('div');content.className='artist-page-copy';for(const paragraph of body.split(/\n\s*\n/)){const text=document.createElement('p');text.textContent=paragraph;content.append(text);}root.append(content);}
  if(builtin&&!sections.length){const empty=document.createElement('p');empty.textContent=slug==='shop'?'This artist’s store is not available yet.':'No published '+title.toLowerCase()+' yet.';root.append(empty);}

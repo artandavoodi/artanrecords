@@ -7290,6 +7290,38 @@ html[data-menu-open] [data-menu-theme] {
 .artist-gallery__filmstrip img { display:block; inline-size:100%; block-size:var(--spacing-4xl); object-fit:cover; border-radius:var(--radius-md); }
 @media(prefers-reduced-motion:reduce){.artist-gallery__filmstrip button { transition:none; }}
 
+/* Dedicated Art & Gallery header and reference filter/view composition. */
+[data-artist-subpage=gallery] { --gallery-panel-width:min(var(--reading-width-md),calc(100vw - var(--site-gutter) * 2)); }
+@media(max-width:860px){[data-artist-subpage=gallery] { --gallery-panel-width:min(var(--reading-width-md),calc(100vw - var(--site-mobile-gutter) * 2)); }}
+[data-artist-subpage=gallery] .artist-gallery-header { position:relative; isolation:isolate; overflow:hidden; display:grid; align-items:center; min-block-size:calc(var(--spacing-4xl) * 2); padding-block:calc(var(--site-header-height) + var(--spacing-xl)) var(--spacing-xl); padding-inline:calc((100% - var(--cv-page-width)) / 2); background-color:var(--cv-page-bg); }
+.artist-gallery-grain { position:absolute; inset:0; z-index:-1; pointer-events:none; inline-size:100%; block-size:100%; opacity:var(--gallery-grain-opacity,0); }
+[data-artist-subpage=gallery] [data-artist-portfolio=gallery] > h2 { display:none; }
+.artist-gallery-controls { position:relative; inline-size:var(--cv-page-width); margin-inline:auto; display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:var(--spacing-md); }
+.artist-gallery-controls output { order:-1; margin-inline-end:auto; color:var(--cv-text-secondary); font-size:var(--site-type-caption-size); }
+.artist-gallery-controls summary { position:relative; display:flex; align-items:center; justify-content:center; gap:var(--spacing-sm); min-block-size:var(--control-height-md); min-inline-size:var(--control-height-md); cursor:pointer; list-style:none; }
+.artist-gallery-controls summary::-webkit-details-marker { display:none; }
+.artist-gallery-controls .catalogue-icon { inline-size:var(--icon-size-sm); block-size:var(--icon-size-sm); }
+.artist-gallery-controls summary img { position:absolute; transition:opacity var(--duration-base) var(--ease-standard),transform var(--duration-base) var(--ease-standard); }
+.artist-gallery-controls summary img:last-child { opacity:var(--cv-opacity-none); transform:scale(var(--active-scale)); }
+.artist-gallery-controls details[open] summary img:first-child { opacity:var(--cv-opacity-none); transform:scale(var(--active-scale)); }
+.artist-gallery-controls details[open] summary img:last-child { opacity:var(--cv-opacity-full); transform:none; }
+.artist-gallery-filters { position:absolute; inset-inline-end:0; inset-block-start:100%; z-index:var(--z-header-controls); inline-size:var(--gallery-panel-width,var(--cv-page-width)); display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--featured-card-width)),1fr)); gap:var(--spacing-md); padding:var(--spacing-md); border:var(--border-width-hairline) solid var(--panel-border-unified); border-radius:var(--dialog-radius-unified); background:var(--glass-overlay-drawer-shell-bg); backdrop-filter:blur(var(--glass-overlay-shell-blur)) saturate(var(--glass-overlay-shell-saturate)); -webkit-backdrop-filter:blur(var(--glass-overlay-shell-blur)) saturate(var(--glass-overlay-shell-saturate)); max-block-size:calc(100svh - var(--site-header-height) - var(--spacing-4xl)); overflow-y:auto; }
+.artist-gallery-filters label { display:grid; gap:var(--spacing-sm); }
+.artist-gallery-controls :is(select,input) { max-inline-size:100%; min-block-size:var(--control-height-md); padding:var(--spacing-sm) var(--spacing-md); border:var(--border-width-hairline) solid var(--cv-border); border-radius:var(--shape-control-radius); background:var(--cv-page-bg); color:var(--cv-text-primary); font:inherit; }
+.artist-gallery-views { inline-size:min(var(--gallery-panel-width,var(--cv-page-width)),var(--featured-card-width)); grid-template-columns:1fr; gap:var(--spacing-xs); }
+.artist-gallery-views button { min-block-size:var(--control-height-md); padding:var(--spacing-sm); text-align:start; border:0; background:transparent; color:var(--cv-text-secondary); }
+.artist-gallery-views button:is([aria-pressed=true],:hover) { color:var(--cv-text-primary); }
+.artist-gallery-reset { display:grid; place-items:center; inline-size:var(--control-height-md); block-size:var(--control-height-md); padding:0; background:transparent; border:0; color:var(--cv-text-primary); }
+.artist-gallery-reset[hidden],.artist-gallery-empty[hidden] { display:none; }
+.artist-gallery-active { display:flex; flex-wrap:wrap; gap:var(--spacing-sm); flex-basis:100%; }
+.artist-gallery-active:empty { display:none; }
+.artist-gallery-active button { display:inline-flex; align-items:center; gap:var(--spacing-sm); min-block-size:var(--control-height-md); padding:var(--spacing-xs) var(--spacing-sm); border:var(--border-width-hairline) solid var(--cv-border); border-radius:var(--radius-sm); background:transparent; color:var(--cv-text-primary); }
+.artist-gallery-empty { inline-size:var(--cv-page-width); margin-inline:auto; }
+[data-artist-portfolio=gallery] .artist-portfolio-grid[data-view=compact] { grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--featured-card-width)),1fr)); }
+[data-artist-portfolio=gallery] .artist-portfolio-grid[data-view=natural] { align-items:start; gap:var(--spacing-sm); }
+[data-artist-portfolio=gallery] [data-view=natural] .artist-gallery-trigger img { aspect-ratio:auto; }
+@media(prefers-reduced-motion:reduce){.artist-gallery-controls summary img { transition:none; }}
+
 /* Shared header wordmark frame. Artwork retains its own proportions. */
 :root {
   --brand-wordmark-header-width:15.84rem;

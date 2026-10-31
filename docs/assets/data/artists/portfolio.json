@@ -1,1 +1,8 @@
-{"gallery":"Gallery","project":"Projects","collection":"Collection on this page","all":"All collections on this page","credits":"Credits","visit":"View project","previous":"Previous portfolio page","next":"Next portfolio page","unavailable":"Portfolio could not be loaded.","viewer":"Gallery image viewer","close":"Close image viewer","navigation":"Gallery images","imagePrevious":"Previous image","imageNext":"Next image","previousIcon":"back","nextIcon":"chevron-right"}
+{
+ "gallery":"Art & Gallery","project":"Projects","collection":"Collection on this page","all":"All","credits":"Credits","visit":"View project","previous":"Previous portfolio page","next":"Next portfolio page","unavailable":"Portfolio could not be loaded.",
+ "viewer":"Gallery image viewer","close":"Close image viewer","navigation":"Gallery images","imagePrevious":"Previous image","imageNext":"Next image","previousIcon":"back","nextIcon":"chevron-right",
+ "filter":"Filter","view":"View","closeFilters":"Close filters","closeView":"Close view options","clear":"Clear filters","active":"Active filters","remove":"Remove filter","filterIcon":"filter","viewIcon":"gallery-view","resetIcon":"reset",
+ "year":"Year","tags":"Tags","undated":"Undated","search":"Search art & gallery","items":"items on this page","empty":"No published items match these filters.","watchVideo":"Watch video on its provider’s website","backToArtist":"Back to artist page",
+ "views":[{"id":"tiles","label":"Tiles"},{"id":"compact","label":"Compact"},{"id":"natural","label":"Original proportions"}],
+ "header":{"grain":{"tileSize":200,"framesPerSecond":12,"opacity":0.075}}
+}

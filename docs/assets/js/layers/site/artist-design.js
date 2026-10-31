@@ -3,6 +3,8 @@ import {validArtistShowcase,applyArtistShowcase} from './artist-showcase.js';
 const originalLinkOrders=new WeakMap();
 export function validArtistDesign(draft,config){
  if(!validArtistShowcase(draft?.showcase,config))return false;
+ const gallery=draft?.gallery;
+ if(gallery!==undefined&&(!gallery||typeof gallery!=='object'||Array.isArray(gallery)||Object.keys(gallery).some(key=>!['view','grain','grainStrength'].includes(key))||!config.gallery?.views.some(item=>item.id===gallery.view)||typeof gallery.grain!=='boolean'||!Number.isFinite(gallery.grainStrength)||gallery.grainStrength<config.gallery.grainStrength.min||gallery.grainStrength>config.gallery.grainStrength.max))return false;
  const ids=items=>Array.isArray(items)&&items.length<=config.sections.length&&new Set(items).size===items.length&&items.every(id=>config.sections.some(item=>item.id===id));
  const linkOrder=draft?.linkOrder||{};
  const presentation=draft?.presentation;
@@ -17,6 +19,13 @@ export function validArtistDesign(draft,config){
 export function applyArtistDesign(root,draft,config){
  if(!validArtistDesign(draft,config))return false;
  if(config.showcase)applyArtistShowcase(root,draft.showcase,config);
+ if(config.gallery){
+  const gallery=draft.gallery||{view:config.gallery.defaultView,grain:config.gallery.headerGrain,grainStrength:config.gallery.grainStrength.default};
+  root.dataset.artistGalleryView=gallery.view;
+  root.dataset.artistGalleryGrain=String(gallery.grain);
+  root.style.setProperty('--artist-gallery-grain-strength',String(gallery.grainStrength));
+  root.dispatchEvent(new CustomEvent('artanrecords:artist-gallery-design',{bubbles:true,detail:{...gallery}}));
+ }
  const font=config.fonts.find(item=>item.id===draft.font),heading=root.querySelector('[data-artist-name]');
  let sheet=document.querySelector('[data-artist-font]');
  if(font.google){if(!sheet){sheet=document.createElement('link');sheet.rel='stylesheet';sheet.dataset.artistFont='';sheet.referrerPolicy='no-referrer';document.head.append(sheet);}const url=new URL('https://fonts.googleapis.com/css2');url.searchParams.set('family',font.google);url.searchParams.set('display','swap');if(sheet.href!==url.href)sheet.href=url.href;}else sheet?.remove();
