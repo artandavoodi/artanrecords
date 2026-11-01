@@ -12,7 +12,8 @@ try {
   if(!response.ok)throw Error('Brand configuration unavailable');
   const brand=await response.json();
   if(document.querySelector('[data-theme-toggle]'))bindTheme(brand.labels);
-  bindNavigation(brand.labels);
+  const studioAccountSurface=document.querySelector('[data-account-view]')&&['/account/','/privacy/','/terms/','/cookies/'].includes(location.pathname);
+  if(!studioAccountSurface)bindNavigation(brand.labels);
   document.documentElement.dataset.enhanced='true';
 } catch(error){console.error(error);}
 const searchOpen=document.querySelector('[data-docs-search-open]');
