@@ -7,6 +7,25 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--gallery-icons-only')){
+ const owner=path.resolve(root,'../control-center'),revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8',timeout:10000}).trim();
+ const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+ const registryPath=path.join(root,'docs/assets/data/icons.json'),registry=JSON.parse(await readFile(registryPath,'utf8'));
+ const mappings={filter:'filter','gallery-view':'preview',reset:'reset'};
+ const transfers=[];
+ for(const [id,name] of Object.entries(mappings)){
+  const sourceFile=`registry/icons/source/core/actions/${name}/${name}.svg`,file=`docs/assets/icons/actions/${name}.svg`;
+  const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${sourceFile}`],{timeout:10000});
+  if(!bytes.equals(await readFile(path.join(owner,sourceFile))))throw Error('Uncommitted gallery icon artwork requires review: '+id);
+  transfers.push({id,file,sourceFile,bytes});
+ }
+ for(const {id,file,sourceFile,bytes} of transfers){
+  await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+  manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/control-center',sourceCommit:revision,sourceFile});
+  const item={id,src:file.slice(5),alt:'',monochrome:true},index=registry.items.findIndex(entry=>entry.id===id);if(index<0)registry.items.push(item);else registry.items[index]=item;
+ }
+ await writeFile(registryPath,JSON.stringify(registry,null,2)+'\n');await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--reorder-only')){
  const owner=path.resolve(root,'../website'),revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));

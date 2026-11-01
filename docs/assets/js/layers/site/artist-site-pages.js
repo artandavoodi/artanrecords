@@ -18,7 +18,14 @@ export async function renderArtistSubpage(root,record,config){
  root.replaceChildren(header,...sections);root.dataset.artistSubpage=slug;delete root.dataset.artistSectionMode;
  if(slug==='gallery'){
   const labels=await fetch('/assets/data/artists/portfolio.json').then(response=>response.json()),canvas=document.createElement('canvas');canvas.className='artist-gallery-grain';canvas.setAttribute('aria-hidden','true');header.className='artist-gallery-header';header.prepend(canvas);back.setAttribute('aria-label',labels.backToArtist);if(pagination)root.append(pagination);
-  const stop=bindArtistGalleryGrain(canvas,labels.header.grain);if(stop)galleryGrain.set(root,stop);
+  let stop;
+  const updateGrain=()=>{
+   stop?.();canvas.hidden=root.dataset.artistGalleryGrain==='false';
+   const strength=Number(root.style.getPropertyValue('--artist-gallery-grain-strength')||labels.header.grain.opacity);
+   if(!canvas.hidden)stop=bindArtistGalleryGrain(canvas,{...labels.header.grain,opacity:Math.max(0,Math.min(labels.header.grain.opacity,strength))});
+  };
+  root.addEventListener('artanrecords:artist-gallery-design',updateGrain);updateGrain();
+  galleryGrain.set(root,()=>{stop?.();root.removeEventListener('artanrecords:artist-gallery-design',updateGrain);});
  }
  if(slug==='music'){for(const section of sections)section.remove();await renderArtistMusic(root,record,config);sections=[root.querySelector('.artist-music')];}
  if(body!==undefined){const content=document.createElement('div');content.className='artist-page-copy';for(const paragraph of body.split(/\n\s*\n/)){const text=document.createElement('p');text.textContent=paragraph;content.append(text);}root.append(content);}

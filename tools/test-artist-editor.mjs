@@ -9,9 +9,9 @@ assert.match(readFileSync(new URL('../docs'+config.editIcon,import.meta.url),'ut
 const source=['artist-showcase','artist-design','artist-editor-preview'].map(name=>readFileSync(new URL('../docs/assets/js/layers/site/'+name+'.js',import.meta.url),'utf8').replace(/^import .*\n/gm,'').replaceAll('export ','')).join('\n');
 const node=()=>({style:{setProperty(key,value){this[key]=value;}},dataset:{},querySelectorAll(){return [];},querySelector(){return null;},append(){},setAttribute(){},toggleAttribute(){},addEventListener(){}});
 const heading=node(),sections=new Map(config.sections.map(item=>[item.selector,{...node(),hidden:false}]));let receive;
-const parent={postMessage(){}},window={parent},root={style:{getPropertyValue:()=>''},querySelectorAll:()=>[],querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
+const parent={postMessage(){}},window={parent},root={...node(),dispatchEvent(){},style:{setProperty(key,value){this[key]=value;},getPropertyValue:()=>''},querySelectorAll:()=>[],querySelector:selector=>selector==='[data-artist-name]'?heading:sections.get(selector)};
 let graphics;
-vm.runInNewContext(source+';bindArtistEditorPreview(root,config,previewGraphics);',{window,root,config,previewGraphics:fields=>graphics=fields,URL,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null,createElement:node,head:{append(){}}}});
+vm.runInNewContext(source+';bindArtistEditorPreview(root,config,previewGraphics);',{window,root,config,previewGraphics:fields=>graphics=fields,URL,CustomEvent,location:{href:'https://artanrecords.com/testartist/?editor-preview=1'},addEventListener:(_,fn)=>receive=fn,document:{querySelector:()=>null,createElement:node,head:{append(){}}}});
 const previewGraphics=(origin,fields,source=parent)=>receive({source,origin,data:{type:'artanrecords:artist-graphics-preview',fields}});
 previewGraphics('https://untrusted.example',{palette:['#123456']});assert.equal(graphics,undefined);
 previewGraphics(config.studioOrigins[0],{palette:['url(evil)']});assert.equal(graphics,undefined);
@@ -38,6 +38,9 @@ assert.equal(sections.get('[data-artist-fields]').style['--artist-detail-size'],
 const since=node();sections.get('[data-artist-fields]').querySelector=selector=>selector==='[data-artist-since]'?since:null;
 for(const [sinceAlign,expected] of [['left','flex-start'],['center','center'],['right','flex-end']]){send(config.studioOrigins[0],{...draft,presentation:{portraitSize:240,portraitAlign:'left',biographyLabel:true,since:true,textSize:'small',sinceAlign}});assert.equal(since.style.justifyContent,expected);}
 send(config.studioOrigins[0]);assert.equal(since.style.justifyContent,'');
+const gallery={view:'compact',grain:false,grainStrength:0.025};
+send(config.studioOrigins[0],{...draft,gallery});assert.equal(root.dataset.artistGalleryView,'compact');assert.equal(root.dataset.artistGalleryGrain,'false');assert.equal(root.style['--artist-gallery-grain-strength'],'0.025');
+for(const invalid of [{...gallery,view:'arbitrary'},{...gallery,grain:'false'},{...gallery,grainStrength:1},{...gallery,unknown:true}]){send(config.studioOrigins[0],{...draft,gallery:invalid});assert.equal(root.dataset.artistGalleryView,'compact');}
 console.log('PASS: artist preview accepts only allowlisted parent origins and registered design values; publication uses the isolated design service.');
 // Navigation uses the registered renderer only inside an allowlisted parent frame.
 let navigationReceive,rendered;

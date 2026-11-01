@@ -15,7 +15,7 @@ export async function renderArtistPortfolio(root,record,config,offset=0){
   if(turns.get(root)!==turn)return;
   const icons=await fetch(config.icons).then(response=>response.ok?response.json():{items:[]}).catch(()=>({items:[]}));
   if(turns.get(root)!==turn)return;
-  const gallery=createArtistGallery(root,labels,icons,dedicated?null:galleryPath);galleries.set(root,gallery);
+  const gallery=createArtistGallery(root,labels,icons);galleries.set(root,gallery);
   for(const kind of dedicated?['gallery']:['gallery','project']){
    let section=root.querySelector('[data-artist-portfolio="'+kind+'"]');if(!section){section=document.createElement('section');section.className='site-section artist-portfolio';section.dataset.artistPortfolio=kind;root.append(section);}section.replaceChildren();section.hidden=true;
    const items=rows.filter(item=>item.kind===kind);if(!items.length)continue;

@@ -456,6 +456,27 @@
       "sourceRepository": "artandavoodi/website",
       "sourceCommit": "1a584fd2c2ad4fcbc7243065c316b5b14809d5b9",
       "sourceFile": "docs/assets/js/core/02-systems/page-loading.js"
+    },
+    {
+      "file": "docs/assets/icons/actions/filter.svg",
+      "sha256": "b3163da10765c1b47c1f3907aa15172ac313598976aba0b2ed77ccba4706687f",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "461916cc399d105c3d7dcacf621b3418f212e347",
+      "sourceFile": "registry/icons/source/core/actions/filter/filter.svg"
+    },
+    {
+      "file": "docs/assets/icons/actions/preview.svg",
+      "sha256": "c5625b0258dfdb78cc0cf86e7b5048dbcfabebc48c66c2ce5ab8cfb4e31277fe",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "461916cc399d105c3d7dcacf621b3418f212e347",
+      "sourceFile": "registry/icons/source/core/actions/preview/preview.svg"
+    },
+    {
+      "file": "docs/assets/icons/actions/reset.svg",
+      "sha256": "668c7abdf4726e2d1ff4572db11569ea4b5dc21718579bba1acaa9f9d9850433",
+      "sourceRepository": "artandavoodi/control-center",
+      "sourceCommit": "461916cc399d105c3d7dcacf621b3418f212e347",
+      "sourceFile": "registry/icons/source/core/actions/reset/reset.svg"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
