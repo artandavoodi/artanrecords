@@ -3,8 +3,10 @@ import {bindNavigation} from '../assets/js/layers/site/navigation.js';
 import {bindDocumentReaders} from '../assets/js/core/02-systems/document-reader.js';
 import {bindStoreSearch} from '../assets/js/core/search.js';
 import {openDialog} from '../assets/js/core/dialogs.js';
+import {initializePreferences} from '../assets/js/core/preferences.js';
 bindDocumentReaders();
 initializeTheme();
+if(!document.querySelector('[data-account-view]'))await initializePreferences();
 try {
   const response=await fetch('/assets/data/site.json');
   if(!response.ok)throw Error('Brand configuration unavailable');

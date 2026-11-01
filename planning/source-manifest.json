@@ -477,6 +477,13 @@
       "sourceRepository": "artandavoodi/control-center",
       "sourceCommit": "461916cc399d105c3d7dcacf621b3418f212e347",
       "sourceFile": "registry/icons/source/core/actions/reset/reset.svg"
+    },
+    {
+      "file": "docs/assets/js/core/privacy-preferences.js",
+      "sha256": "9c2934ff280b0ddf424402c5165af152f0fee9c463e84809cd31abb0f1d693aa",
+      "sourceRepository": "artandavoodi/artan-store",
+      "sourceCommit": "210efa6f8bdc7be9cbedab00b29b59f25bebca4e",
+      "sourceFile": "web/shared/privacy-preferences.js"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",
