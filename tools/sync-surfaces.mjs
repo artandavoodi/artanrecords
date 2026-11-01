@@ -24,7 +24,13 @@ async function copy(source,destination){
     let actual;try{actual=await readFile(resolve(target,destination));}catch(error){if(error.code!=='ENOENT')throw error;}
     if(actual&&!actual.equals(data)){
       let committed;try{committed=execFileSync('git',['show','HEAD:'+destination],{cwd:target,stdio:['ignore','pipe','pipe']});}catch{throw Error('Unregistered target changes require review: '+destination);}
-      if(!actual.equals(committed))throw Error('Edited target differs from its shared source; preserved without replacement: '+destination);
+      if(!actual.equals(committed)){
+        const previous=JSON.parse(await readFile(resolve(target,'foundation-manifest.json'),'utf8'));
+        const hash=createHash('sha256').update(actual).digest('hex');
+        if(previous.source!=='artandavoodi/artanrecords'||!(/^[0-9a-f]{40}$/).test(previous.commit)||previous.files[destination]!==hash)throw Error('Edited target differs from its shared source; preserved without replacement: '+destination);
+        const approved=execFileSync('git',['show',`${previous.commit}:${source}`],{cwd:root,stdio:['ignore','pipe','pipe']});
+        if(!actual.equals(approved))throw Error('Previous foundation provenance could not be verified; preserved without replacement: '+destination);
+      }
     }
     transfers.push({destination,data});
   }
