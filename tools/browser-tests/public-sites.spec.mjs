@@ -4,6 +4,14 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
+if(['records','docs'].includes(key))test('Store consent persists Allow and Skip across public visits',async({page})=>{
+ await page.goto('/');const dialog=page.getByRole('dialog',{name:'Cookies & preferences',exact:true});await expect(dialog).toBeVisible();
+ await page.keyboard.press('Escape');await expect(dialog).toBeVisible();
+ await dialog.getByRole('button',{name:'Skip',exact:true}).click();await expect(dialog).toBeHidden();await page.reload();await expect(dialog).toBeHidden();
+ await page.getByRole('button',{name:'Cookies & preferences',exact:true}).click();await expect(dialog).toBeVisible();
+ await dialog.getByRole('button',{name:'Allow',exact:true}).click();await page.reload();await expect(dialog).toBeHidden();
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('artanrecords-preferences')).choice)).toBe('allow');
+});
 test.beforeEach(async({page})=>{
  // Keep optional artist projections isolated from the hosted database; individual tests override these routes.
  for(const name of ['studio_public_artist_designs','studio_public_artist_navigation','studio_public_artist_site_pages'])await page.route('**/rest/v1/'+name+'*',route=>route.fulfill({json:[]}));

@@ -6,7 +6,7 @@ import {openDialog} from '../assets/js/core/dialogs.js';
 import {initializePreferences} from '../assets/js/core/preferences.js';
 bindDocumentReaders();
 initializeTheme();
-if(!document.querySelector('[data-account-view]'))await initializePreferences();
+if(!document.querySelector('[data-account-view]'))await initializePreferences({noticeUrl:'https://artanrecords.com/legal/#cookies'});
 try {
   const response=await fetch('/assets/data/site.json');
   if(!response.ok)throw Error('Brand configuration unavailable');
