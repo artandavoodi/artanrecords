@@ -176,7 +176,10 @@ if(key==='records')test('artist readiness waits for media and desktop wheel scro
  await expect(page.locator('[data-artist-palette]')).toHaveCount(0);
  const desktop=test.info().project.name.endsWith('desktop');await expect(page.locator('html')).toHaveCSS('scroll-snap-type',desktop?'y mandatory':'none');
  if(!desktop){await expect(page.locator('.artist-destination-tabs')).toBeVisible();return;}
- const intro=await page.locator('.artist-biography').boundingBox();await page.mouse.wheel(0,Math.ceil(intro.height*0.7));
+ const intro=await page.locator('.artist-biography').boundingBox();
+ // Aim the wheel at the page, not the fixed header at Playwright's default (0,0).
+ await page.mouse.move(intro.x+intro.width/2,Math.min(page.viewportSize().height-1,intro.y+intro.height/2));
+ await page.mouse.wheel(0,Math.ceil(intro.height*0.7));
  await expect.poll(()=>page.locator('.artist-connections').evaluate(el=>Math.abs(el.getBoundingClientRect().top-document.querySelector('.label-navigation').getBoundingClientRect().height))).toBeLessThan(2);
  await expect(page.locator('.label-navigation .artist-destination-tabs')).toBeVisible();
  const tabs=page.locator('.label-navigation .artist-destination-tabs');
