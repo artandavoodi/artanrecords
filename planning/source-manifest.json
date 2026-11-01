@@ -482,8 +482,15 @@
       "file": "docs/assets/js/core/privacy-preferences.js",
       "sha256": "9c2934ff280b0ddf424402c5165af152f0fee9c463e84809cd31abb0f1d693aa",
       "sourceRepository": "artandavoodi/artan-store",
-      "sourceCommit": "210efa6f8bdc7be9cbedab00b29b59f25bebca4e",
+      "sourceCommit": "939c40da784fff875ea877ab6ced7ccf45f387a8",
       "sourceFile": "web/shared/privacy-preferences.js"
+    },
+    {
+      "file": "docs/assets/css/core/04-systems/privacy-preferences.css",
+      "sha256": "283427e397a60a5ef54a94a1af1526959cda2b8cce6da286c836a5ebbdbfb8e7",
+      "sourceRepository": "artandavoodi/artan-store",
+      "sourceCommit": "939c40da784fff875ea877ab6ced7ccf45f387a8",
+      "sourceFile": "web/shared/privacy-preferences.css"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

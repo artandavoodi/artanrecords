@@ -9,12 +9,13 @@ const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
 if(args.includes('--preferences-only')){
  const owner=path.resolve(root,'../artan-store'),revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
- const sourceFile='web/shared/privacy-preferences.js',file='docs/assets/js/core/privacy-preferences.js';
- const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${sourceFile}`]);
- if(!bytes.equals(await readFile(path.join(owner,sourceFile))))throw Error('Commit verified consent source before synchronization');
- await writeFile(path.join(root,file),bytes);
  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
- manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/artan-store',sourceCommit:revision,sourceFile});
+ for(const [sourceFile,file] of [['web/shared/privacy-preferences.js','docs/assets/js/core/privacy-preferences.js'],['web/shared/privacy-preferences.css','docs/assets/css/core/04-systems/privacy-preferences.css']]){
+  const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${sourceFile}`]);
+  if(!bytes.equals(await readFile(path.join(owner,sourceFile))))throw Error('Commit verified consent source before synchronization');
+  await writeFile(path.join(root,file),bytes);
+  manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/artan-store',sourceCommit:revision,sourceFile});
+ }
  await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
 }
 if(args.includes('--gallery-icons-only')){
