@@ -55,6 +55,9 @@ await copy('docs/assets/js/core/02-systems/reorder-list.js','assets/js/core/02-s
 await copy('docs/assets/js/layers/site/creator-routes.js','assets/js/layers/site/creator-routes.js');
 for(const name of ['actions/edit/edit','actions/drag/drag','identity/access/visibility-on','identity/access/visibility-off','navigation/chevron/chevron-down','navigation/primary/home','navigation/direction/back'])await copy('docs/registry/icons/public/assets/core/'+name+'.svg','registry/icons/public/assets/core/'+name+'.svg');
 for(const path of ['js/core/theme.js','js/core/menu.js','js/core/close-button.js','js/core/search.js','js/core/dialogs.js','js/core/startup.js','js/core/preference-config.js','js/core/preferences.js','js/core/privacy-preferences.js','js/layers/site/navigation.js','fragments/navigation/index.html','data/site.json','data/icons.json'])await copy('docs/assets/'+path,'assets/'+path);
+for(const path of ['js/core/01-foundation/toggle.js','js/layers/website/overlays/cookie/cookie-consent.js','fragments/layers/website/cookie/cookie-consent.html','fragments/layers/website/cookie/cookie-learning-overlay.html'])await copy('docs/assets/'+path,'assets/'+path);
+const cookieFragment=await readFile(resolve(root,'docs/assets/fragments/layers/website/cookie/cookie-consent.html'),'utf8');
+for(const path of new Set([...cookieFragment.matchAll(/src="\/(registry\/[^"?#]+)"/g)].map(match=>match[1])))await copy('docs/'+path,path);
 for(const name of ['build.mjs','shell.html','surface.css','app.js','search.mjs'])await copy('tools/ecosystem/'+name,'foundation/'+name);
 if(checking) {
   const manifest=JSON.parse(await readFile(resolve(target,'foundation-manifest.json'),'utf8'));

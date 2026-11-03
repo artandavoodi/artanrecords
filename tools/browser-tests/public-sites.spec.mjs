@@ -4,12 +4,14 @@ const registry=JSON.parse(readFileSync(new URL('../../planning/browser-regressio
 const key=process.env.BROWSER_SITE_KEY||'records';
 const site=registry[key];
 if(!site)throw Error('Unknown public site');
-if(['records','docs'].includes(key))test('Store consent persists Allow and Skip across public visits',async({page})=>{
- await page.goto('/');const dialog=page.getByRole('dialog',{name:'Cookies & preferences',exact:true});await expect(dialog).toBeVisible();
- await page.keyboard.press('Escape');await expect(dialog).toBeVisible();
- await dialog.getByRole('button',{name:'Skip',exact:true}).click();await expect(dialog).toBeHidden();await page.reload();await expect(dialog).toBeHidden();
+if(['records','docs'].includes(key))test('granular consent persists choices and uses equal semantic actions',async({page})=>{
+ await page.goto('/');const dialog=page.locator('[data-cookie-consent="panel"]');await expect(dialog).toBeVisible();
+ await dialog.getByRole('button',{name:'Decline optional',exact:true}).click();await expect(dialog).toBeHidden();await page.reload();await expect(dialog).toBeHidden();
  await page.getByRole('button',{name:'Cookies & preferences',exact:true}).click();await expect(dialog).toBeVisible();
- await dialog.getByRole('button',{name:'Allow',exact:true}).click();await page.reload();await expect(dialog).toBeHidden();
+ const buttons=dialog.locator('.cookie-consent-action');const sizes=await buttons.evaluateAll(nodes=>nodes.map(node=>({width:node.getBoundingClientRect().width,height:node.getBoundingClientRect().height})));expect(Math.max(...sizes.map(size=>size.width))-Math.min(...sizes.map(size=>size.width))).toBeLessThanOrEqual(1);expect(Math.max(...sizes.map(size=>size.height))-Math.min(...sizes.map(size=>size.height))).toBeLessThanOrEqual(1);
+ await expect(dialog.getByRole('button',{name:'Allow all',exact:true})).toHaveCSS('color','rgb(255, 255, 255)');await expect(dialog.getByRole('button',{name:'Decline optional',exact:true})).toHaveCSS('color','rgb(255, 255, 255)');
+ await dialog.getByRole('button',{name:'Open what are cookies panel',exact:true}).click();const back=dialog.getByRole('button',{name:'Return to cookie settings',exact:true});await expect(back).toBeVisible();await expect(back).toHaveCSS('background-color','rgba(0, 0, 0, 0)');for(const theme of ['light','dark']){await page.evaluate(theme=>document.documentElement.dataset.themeEffective=theme,theme);await expect(back.locator('img')).toHaveCSS('filter',theme==='dark'?'brightness(0) invert(1)':'none');}await back.click();
+ await dialog.getByRole('button',{name:'Allow all',exact:true}).click();await page.reload();await expect(dialog).toBeHidden();
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('artanrecords-preferences')).choice)).toBe('allow');
 });
 test.beforeEach(async({page})=>{

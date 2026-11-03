@@ -458,13 +458,6 @@
       "sourceFile": "docs/registry/icons/public/assets/core/navigation/primary/home.svg"
     },
     {
-      "file": "docs/registry/icons/public/assets/core/navigation/direction/back.svg",
-      "sha256": "78d015c37800e318e22b1afbafdc0f0d5a561e90646ad55d9475898f08cb43d6",
-      "sourceRepository": "artandavoodi/website",
-      "sourceCommit": "ed08070224f327e7d2c91660d7a2f4e0556fd719",
-      "sourceFile": "docs/registry/icons/public/assets/core/navigation/direction/back.svg"
-    },
-    {
       "file": "docs/assets/css/layers/site/not-found.css",
       "sha256": "c51474c208784714eecfaedf2bcb277fd1a8321184e7abef844e07564b573422",
       "sourceRepository": "artandavoodi/website",
@@ -491,6 +484,104 @@
       "sourceRepository": "artandavoodi/website",
       "sourceCommit": "ed08070224f327e7d2c91660d7a2f4e0556fd719",
       "sourceFile": "docs/404.html"
+    },
+    {
+      "file": "docs/assets/fragments/layers/website/cookie/cookie-consent.html",
+      "sha256": "dba80690331a379c767c24e578cfab682f388931e33c97c1605960777e79901b",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/assets/fragments/layers/website/cookie/cookie-consent.html"
+    },
+    {
+      "file": "docs/assets/fragments/layers/website/cookie/cookie-learning-overlay.html",
+      "sha256": "ebd631371b721b39f494fd58a971f7c270e110fd175fc2ac6254b412252461c7",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/assets/fragments/layers/website/cookie/cookie-learning-overlay.html"
+    },
+    {
+      "file": "docs/assets/js/core/01-foundation/toggle.js",
+      "sha256": "6097773948c6265680bb2e25a8698d1146deeb3853a6e8e45eb0294a5044ca7a",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/assets/js/core/01-foundation/toggle.js"
+    },
+    {
+      "file": "docs/assets/js/layers/website/overlays/cookie/cookie-consent.js",
+      "sha256": "ae91c9e70e76d559e1b33728b044f8432111bf28e6a0e8d362b7e4842e431052",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/assets/js/layers/website/overlays/cookie/cookie-consent.js"
+    },
+    {
+      "file": "docs/assets/css/core/03-primitives/toggle.css",
+      "sha256": "612aa8b0cc31c9554db52d7761b272c68f29840c5aae5ad2c7f5069e9517e541",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/assets/css/core/03-primitives/toggle.css"
+    },
+    {
+      "file": "docs/assets/css/layers/website/overlays/cookie/cookie-consent.css",
+      "sha256": "82ca2b5f8ee0ab166eb2d19ea882b7a76f9f4d777c515936bc6fbdc914fcbabd",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/assets/css/layers/website/overlays/cookie/cookie-consent.css"
+    },
+    {
+      "file": "docs/assets/css/layers/website/overlays/cookie/cookie-learning-overlay.css",
+      "sha256": "a7681306dbcbc8403873c6cd2690466d59dab1bf78b35ecff17272ff88e92f52",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/assets/css/layers/website/overlays/cookie/cookie-learning-overlay.css"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/interface/cookies/cookies.svg",
+      "sha256": "2d9260b8fd642aaf72d428eed614ff92aee24a639154214d3fa19d19cc5bc9e7",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/registry/icons/public/assets/core/interface/cookies/cookies.svg"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/navigation/global/globe.svg",
+      "sha256": "b4693a9829c4d5915df2546696c3fd0afffe41717b913651970e5fe758036b94",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/registry/icons/public/assets/core/navigation/global/globe.svg"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/navigation/direction/back.svg",
+      "sha256": "78d015c37800e318e22b1afbafdc0f0d5a561e90646ad55d9475898f08cb43d6",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/registry/icons/public/assets/core/navigation/direction/back.svg"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/interface/status/essential.svg",
+      "sha256": "0c44d091d0e18c0b0d02b6b43ddae591cb38fa87528c5c694445c912a93ed406",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/registry/icons/public/assets/core/interface/status/essential.svg"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/core/interface/navigation/drop-down.svg",
+      "sha256": "1aa34a52ef2e911b2aac3083a2b1f6931ccf3e0ba62d87e71fba3eeedcf3a1b9",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/registry/icons/public/assets/core/interface/navigation/drop-down.svg"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/layers/website/cookie/categories/cookie-analytics.svg",
+      "sha256": "28980d3377240defd2a33ac3afdcc464a3aa3fefb8d0f615927c10b0c2b0e6e5",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/registry/icons/public/assets/layers/website/cookie/categories/cookie-analytics.svg"
+    },
+    {
+      "file": "docs/registry/icons/public/assets/layers/website/cookie/categories/cookie-experience.svg",
+      "sha256": "f305bf026bd84f0047d481c2c37a805151af0fb58c7bffda32b5f49b11857ec9",
+      "sourceRepository": "artandavoodi/website",
+      "sourceCommit": "ab69970efbd70731c21b7220f1c15c0b3495026a",
+      "sourceFile": "docs/registry/icons/public/assets/layers/website/cookie/categories/cookie-experience.svg"
     }
   ],
   "controlsSourceCommit": "3d2f3b4e46d6086a4cd7a497a163087b605138a2",

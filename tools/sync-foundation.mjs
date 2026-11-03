@@ -7,6 +7,20 @@ import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const args=process.argv.slice(2);
 const source=path.resolve(args.find(arg=>!arg.startsWith('--')) || path.join(root,'../artandavoodi'));
+if(args.includes('--cookie-panel-only')){
+ const owner=path.resolve(root,'../website'),revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+ const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
+ const fragment='docs/assets/fragments/layers/website/cookie/cookie-consent.html';
+ const markup=execFileSync('git',['-C',owner,'show',`${revision}:${fragment}`],{encoding:'utf8'});
+ const files=[fragment,'docs/assets/fragments/layers/website/cookie/cookie-learning-overlay.html','docs/assets/js/core/01-foundation/toggle.js','docs/assets/js/layers/website/overlays/cookie/cookie-consent.js','docs/assets/css/core/03-primitives/toggle.css','docs/assets/css/layers/website/overlays/cookie/cookie-consent.css','docs/assets/css/layers/website/overlays/cookie/cookie-learning-overlay.css',...[...markup.matchAll(/src="\/(registry\/[^"?#]+)"/g)].map(match=>'docs/'+match[1])];
+ for(const file of new Set(files)){
+  const bytes=execFileSync('git',['-C',owner,'show',`${revision}:${file}`]);
+  if(!bytes.equals(await readFile(path.join(owner,file))))throw Error('Commit the canonical cookie owner before synchronization: '+file);
+  await mkdir(path.dirname(path.join(root,file)),{recursive:true});await writeFile(path.join(root,file),bytes);
+  manifest.files=manifest.files.filter(record=>record.file!==file);manifest.files.push({file,sha256:createHash('sha256').update(bytes).digest('hex'),sourceRepository:'artandavoodi/website',sourceCommit:revision,sourceFile:file});
+ }
+ await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');process.exit(0);
+}
 if(args.includes('--preferences-only')){
  const owner=path.resolve(root,'../artan-store'),revision=execFileSync('git',['-C',owner,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
  const manifestPath=path.join(root,'planning/source-manifest.json'),manifest=JSON.parse(await readFile(manifestPath,'utf8'));
