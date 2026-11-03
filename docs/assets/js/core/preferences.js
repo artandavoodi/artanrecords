@@ -9,7 +9,7 @@ export async function initializePreferences(options={}){
   const panel=mount.querySelector('[data-cookie-consent="root"]');panel.dataset.cookieConsentAutoprompt='false';panel.dataset.cookieConsentAssetBase='/assets/fragments/layers/website/cookie';panel.dataset.cookieConsentValidDays=String(window.ArtanRecordsPreferenceConfig.validDays);
   mount.querySelector('.cookie-consent-copy').textContent=data.description;
   for(const node of mount.querySelectorAll('[data-cookie-consent-language],.cookie-consent-language-status'))node.remove();
-  for(const link of mount.querySelectorAll('.cookie-consent-footer-link')){const kind=link.href.includes('terms')?'terms':link.href.includes('privacy')?'privacy':'cookies';link.href='https://artanrecords.com/legal/#'+kind;}
+  for(const link of mount.querySelectorAll('.cookie-consent-footer-link')){const kind=link.href.includes('terms')?'terms':link.href.includes('privacy')?'privacy':'cookies',url=new URL(options.noticeUrl||'/legal/',location.href);url.hash=kind;link.href=url.href;}
   for(const key of data.unavailableCategories){for(const node of mount.querySelectorAll(`[data-cookie-consent-toggle="${key}"],[data-cookie-consent-subtoggle="${key}"],[data-cookie-consent-category="${key}"],[data-cookie-consent-subcategory="${key}"]`)){node.disabled=true;node.checked=false;node.setAttribute('aria-checked','false');}}
   mount.querySelector('[data-i18n-key="cookieConsent.analytics.detail"]').textContent=data.analyticsNotice;
   document.body.append(mount);

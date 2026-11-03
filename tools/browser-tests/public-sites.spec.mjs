@@ -358,9 +358,9 @@ if(key==='records')test('comparison preserves readable columns and accessible co
 });
 if(key==='records')test('cookie notice stays readable without accepting optional storage',async({page})=>{
   await page.goto('/');
-  const dialog=page.getByRole('dialog',{name:'Cookies & preferences',exact:true});
+  const dialog=page.locator('[data-cookie-consent="panel"]');
   await expect(dialog).toBeVisible();
-  await dialog.getByRole('link',{name:'Legal information',exact:true}).click();
+  await page.locator('.cookie-consent-footer-link').filter({hasText:'Cookie Policy'}).click();
   await expect(page).toHaveURL(/\/legal\/#cookies$/);
   await expect(dialog).not.toBeVisible();
   await expect(page.getByRole('tab',{name:'Cookies and similar technologies',exact:true})).toHaveAttribute('aria-selected','true');
@@ -369,7 +369,7 @@ if(key==='records')test('cookie notice stays readable without accepting optional
   expect(new Set(sizes).size).toBe(1);
   await page.getByRole('button',{name:'Cookies & preferences',exact:true}).click();
   await expect(dialog).toBeVisible();
-  await dialog.getByRole('button',{name:'Skip',exact:true}).click();
+  await dialog.getByRole('button',{name:'Decline optional',exact:true}).click();
   await expect(dialog).not.toBeVisible();
 });
 for(const theme of ['light','dark'])test.describe(theme,()=>{
